@@ -81,6 +81,8 @@
                                             <div>
                                                 <h5 class="text-primary">Register Account</h5>
                                                 <p class="text-muted">Get your Free Velzon account now.</p>
+
+                                               
                                             </div>
     
                                             <div class="mt-4">
@@ -98,7 +100,7 @@
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
-                                                        <input type="text" autocomplete="off" class="form-control" id="username" placeholder="Enter username" >
+                                                        <input type="text" autocomplete="off" class="form-control" id="username" placeholder="Enter username" name="username" >
                                                        
                                                         @error("username")
                                                         <div class="text-danger">
@@ -110,10 +112,10 @@
                                                     <div class="mb-3">
                                                         <label class="form-label" for="password-input">Password</label>
                                                         <div class="position-relative auth-pass-inputgroup">
-                                                            <input type="password" class="form-control pe-5 password-input" onpaste="return false" placeholder="Enter password" id="password-input" aria-describedby="passwordInput" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" >
+                                                            <input type="password" class="form-control pe-5 password-input" onpaste="return false" placeholder="Enter password" id="password-input" aria-describedby="passwordInput" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="password" >
                                                             <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                                            
-                                                            @error("username")
+                                                            @error("password")
                                                             <div class="text-danger">
                                                                 {{$message}}
                                                             </div>

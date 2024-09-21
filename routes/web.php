@@ -23,8 +23,16 @@ Route::middleware("guest")->prefix("/")->group(function(){
         Route::get("/register","showRegister")->name("showRegister");
         Route::post("/login/store","login")->name("login");
         Route::post("/login/register","register")->name("register");
+        Route::get("/confirm_email","showConfirmEmail")->name("showConfirmEmail");
+        Route::post("/confirm_email","sendResetLinkEmail")->name("confirmEmail");
+        Route::post("/create-password","createPassword")->name("createPassword");
     });
 });
+
+Route::get('/password/reset/{token}', function (string $token) {
+    return view('auths.reset_password', ['token' => $token]);
+})->middleware('guest')->name('password.reset');
+
 Route::middleware("auth")->prefix("/admin")->group(function(){
     Route::get("/dashboard",[DasboardController::class,"index"])->name("dashboard");
     Route::get("/logout",[AuthController::class,"logout"])->name("logout");

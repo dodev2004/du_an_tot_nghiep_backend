@@ -114,7 +114,7 @@
 
                                                 <div class="mb-3">
                                                     <div class="float-end">
-                                                        <a href="auth-pass-reset-cover.html" class="text-muted">Forgot
+                                                        <a href="{{route("showConfirmEmail")}}" class="text-muted">Forgot
                                                             password?</a>
                                                     </div>
                                                     <label class="form-label" for="password-input">Password</label>
