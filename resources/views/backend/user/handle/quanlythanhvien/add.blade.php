@@ -1,0 +1,49 @@
+
+<script>
+    $(document).ready(function(){
+        $("form").submit(function(){
+            event.preventDefault();
+            const uploadfile = document.querySelector('#upload-file');
+            let _token = $("input[name='_token'").val()
+            let data =  new FormData();
+           const inputs = Array.from(this.querySelectorAll(".form-control"));
+           inputs.shift();
+           inputs.forEach(function(input){
+                data.append(input.name,input.value);
+           })
+          
+          data.append("_token",_token);
+          data.append("avatar",uploadfile.files[0] || ""); 
+         
+           $.ajax({
+            url : '{{route('admin.users.store')}}',
+            type: "POST",
+            dataType: "json",
+            data : data,
+            contentType: false,
+            processData: false,
+            success : function(res){
+          
+                toastMessage(res[1],res[0],"http://127.0.0.1:8000/admin/users/list")
+               
+            },
+            error : function(error){
+              let errors =  error.responseJSON.errors;
+                Object.keys(errors).forEach(function(error){
+                    const input = document.querySelector(`input[name="${error}"]`);
+                    const select = document.querySelector(`select[name="${error}"]`)
+                    if(input){
+                       const message = input.parentElement.querySelector("p");
+                        message.innerText = errors[error]
+
+                    }
+                    if(select){
+                        const message = select.parentElement.querySelector("p");
+                        message.innerText = errors[error]
+                    }
+                })
+            }
+           })
+        })
+    })
+</script>

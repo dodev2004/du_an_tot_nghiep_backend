@@ -1,0 +1,48 @@
+.ibox-content_top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+.form_seach{
+    display: flex;
+    column-gap: 5px;
+}
+.form-control{
+    max-width: 200px;
+    height: 30px;
+}
+.form_seach .btn{
+    height: 30px;
+    font-size: 12px;
+}
+.ibox-content .dataTables_paginate{
+    display: flex;
+    justify-content: end;
+}
+.select2-container--default .select2-selection--single {
+    background-color: #fff !important;
+    border: 1px solid #aaa !important;
+    border-radius: 4px !important;
+    height: 35px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #444 !important;
+    line-height: 35px !important;
+    height: 100% !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 100% !important;
+    position: absolute !important;
+    top: 1px !important;
+    right: 1px !important;
+    width: 20px !important;
+}
+.form-user_create .row .col-md-6{
+    flex: 0 0 auto !important;
+    margin-bottom: 4px;
+
+}
+.form-user_create .row .col-md-6 > p{
+    margin: 0;
+}

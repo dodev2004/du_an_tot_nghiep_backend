@@ -1,0 +1,20 @@
+.upload{
+    margin-top: 10px;
+}
+.upload label{
+    text-decoration: underline;
+    color: blue;
+    cursor: pointer;
+}
+.upload input{
+    width: 0;
+    height: 0;
+    padding: 0;
+
+}
+.show-image{
+    display: none;
+}
+.show-image.active{
+    display: block;
+}
