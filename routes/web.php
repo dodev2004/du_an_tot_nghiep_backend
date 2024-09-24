@@ -46,7 +46,7 @@ Route::get('/password/reset/{token}', function (string $token) {
 })->middleware('guest')->name('password.reset');
 
 Route::middleware("auth")->prefix("/admin")->group(function(){
-    Route::get("/dashboard",[DasboardController::class,"index"])->name("dashboard");
+    Route::get("/dashboard",[DashBoardController::class,"index"])->name("admin.dashboard");
     Route::get("/logout",[AuthController::class,"logout"])->name("logout");
     Route::get("/showMessage",function(){
         return view("auths.showMessage");
