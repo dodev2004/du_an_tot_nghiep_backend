@@ -22,6 +22,7 @@ class UserCatelogueController extends Controller
             "url"=> route("admin.users"),
             "name"=>"Quản lý nhóm thành viên"
          ];
+         $table = "Danh sách nhóm thành viên";
         $breadcrumbs = $this->breadcrumbs;
         $data = $this->userCatelogue->getAll();
         $table = "user_catelogues";
@@ -41,6 +42,7 @@ class UserCatelogueController extends Controller
          ]);   
          $title = "Quản lý nhóm thành viên";
          $breadcrumbs = $this->breadcrumbs;
+        
         return view("backend.user.templates.quanlynhomthanhvien.create",compact("breadcrumbs","title"));
     }
     public function store(UserCatelogueRequest $request){

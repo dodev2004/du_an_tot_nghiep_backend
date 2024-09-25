@@ -11,10 +11,7 @@
         console.log(textUrl);  
         const id = this.querySelector("input[name=user_id]").value;
         const _token = this.querySelector("input[name=_token]").value;
-        
         const url =  window.location.origin + "/admin/" + textUrl  + "/delete";
-       
-        
         
         const element = this.parentElement.parentElement;
         const tbodyElement  = element.parentElement;

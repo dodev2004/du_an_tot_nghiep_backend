@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\BaseRespository;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 /**
  * Class UserService
@@ -28,6 +29,7 @@ class UserCatelogueRespository extends BaseRespository  implements UserCatelogue
         return false;
     }
    
+
   }
   public function findUserCatelogueId($id){
       return $this->findId($id);

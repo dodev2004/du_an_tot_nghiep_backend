@@ -116,6 +116,7 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::put("{id}/update",[AttributeValueController::class,"update"])->name("admin.variant.update");
         Route::delete("/delete",[AttributeValueController::class,"destroy"])->name("admin.variant.delete");
     });
+   
 });
                     
 Route::get("/",function(){

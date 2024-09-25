@@ -21,7 +21,7 @@ class UserRepository extends BaseRespository  implements UserRepositoryInterface
   public function pagination()
   {
     $query  = $this->model;
- 
+
     $query = $this->model::where(function(Builder $query){
               if(request()->has(["name"])){
                 $query->where("full_name","like",'%'.request()->name . '%') ;
