@@ -15,8 +15,6 @@
         const data = {
             id,_token
         }
-        console.log(url);
-        
         alertleDelete(data,element,tbodyElement,url);
        }
     }
