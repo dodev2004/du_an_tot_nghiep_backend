@@ -21,24 +21,10 @@ class UserRepository extends BaseRespository  implements UserRepositoryInterface
   public function pagination()
   {
     $query  = $this->model;
-    //  if(request()->has(["name"]) || request()->has("rule_id")){
-    //   $name = request()->name ? request()->name : "";
-    //   $rule = request()->rule_id ? request()->rule_id : "" ;  
-    //   dd($rule);
-    // if(!empty($name) && !empty($rule)){
-    //    $query =  $this->model::where("Fullname","like",'%'.$name.'%')->where('rule_id',$rule)->orderBy("id","desc");
-    // }
-    // else if(empty($name) && !empty($rule)){
-    //    $query =  $this->model::where("rule_id",$rule)->orderBy("id","desc");
-    // }
-    // else if(!empty($name) && empty($rule)){
-
-    //  $query =  $this->model::where("Fullname","like",'%'.$name.'%')->orderBy("id","desc") ;
-    // }
-    //  }
+ 
     $query = $this->model::where(function(Builder $query){
               if(request()->has(["name"])){
-                $query->where("Fullname","like",'%'.request()->name . '%') ;
+                $query->where("full_name","like",'%'.request()->name . '%') ;
                 $query->orWhere("email","like",'%'.request()->name.'%');
                 $query->orWhere("phone","like",'%'.request()->name. '%');
                 $query->orWhere("address","like",'%'.request()->name. '%');

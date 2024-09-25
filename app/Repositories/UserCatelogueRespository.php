@@ -19,7 +19,15 @@ class UserCatelogueRespository extends BaseRespository  implements UserCatelogue
     $this->model = $user;
   }
   public function create($data){
-    $this->model::create($data);
+    try{
+      $this->model::create([...$data,"status" => 1]);
+      return true;
+    }
+    catch(\Exception $e){
+      dd($e);
+        return false;
+    }
+   
   }
   public function findUserCatelogueId($id){
       return $this->findId($id);

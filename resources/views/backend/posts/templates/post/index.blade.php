@@ -35,6 +35,7 @@
             </div>
             <div class="ibox-content">
                 <div class="table-responsive">
+                    <a style="margin-bottom: 20px" href="{{route("admin.post.create")}}" class="btn btn-success">Thêm mới <i class="fa fa-plus"></i> </a>
                     @include("backend.posts.components.post.table")
                 </div>
             </div>

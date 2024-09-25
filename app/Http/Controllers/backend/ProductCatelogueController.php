@@ -112,6 +112,6 @@ class ProductCatelogueController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        
     }
 }

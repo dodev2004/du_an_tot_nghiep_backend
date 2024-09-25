@@ -24,9 +24,10 @@ class UserCatelogueController extends Controller
          ];
         $breadcrumbs = $this->breadcrumbs;
         $data = $this->userCatelogue->getAll();
+        $table = "user_catelogues";
        
        
-        return  view("backend.user.templates.quanlynhomthanhvien.list",compact('data',"breadcrumbs","title"));
+        return  view("backend.user.templates.quanlynhomthanhvien.list",compact('data',"breadcrumbs","title","table"));
     }
     public function create(){
         array_push($this->breadcrumbs,[
@@ -48,7 +49,7 @@ class UserCatelogueController extends Controller
         return response()->json(["success","Thêm mới thành công"]);
        }
        else {
-        return response()->json(["success","Thêm mới thất bại"]);
+        return response()->json(["errors","Thêm mới thất bại"]);
        }
     }
     public function edit($id){

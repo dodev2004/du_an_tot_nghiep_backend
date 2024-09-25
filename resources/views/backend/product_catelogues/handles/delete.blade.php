@@ -11,7 +11,8 @@
         const textUrl = this.dataset.url.trim();
         const id = this.querySelector(`input[name=id]`).value;
         const _token = document.querySelector("input[name=_token]").value;
-        const url = '{{env('APP_URL')}}'+ "admin/" + textUrl  + "/delete";
+        const url =  window.location.origin + "/admin/" + textUrl  + "/delete";
+       
         const element = this.parentElement.parentElement;
         const tbodyElement  = element.parentElement;
         const data = {

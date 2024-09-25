@@ -12,7 +12,6 @@ class UserCatelogue extends Model
         "name",
         "description",
         "status",
-
     ];
 
 }
