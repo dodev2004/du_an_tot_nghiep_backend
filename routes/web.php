@@ -46,7 +46,7 @@ Route::get('/password/reset/{token}', function (string $token) {
 })->middleware('guest')->name('password.reset');
 
 Route::middleware("auth")->prefix("/admin")->group(function(){
-    Route::get("/dashboard",[DasboardController::class,"index"])->name("dashboard");
+    Route::get("/dashboard",[DashBoardController::class,"index"])->name("admin.dashboard");
     Route::get("/logout",[AuthController::class,"logout"])->name("logout");
     Route::get("/showMessage",function(){
         return view("auths.showMessage");
@@ -116,10 +116,11 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::put("{id}/update",[AttributeValueController::class,"update"])->name("admin.variant.update");
         Route::delete("/delete",[AttributeValueController::class,"destroy"])->name("admin.variant.delete");
     });
+   
 });
                     
 Route::get("/",function(){
-    return redirect()->route("dashboard");
+    return redirect()->route("admin.dashboard");
 });
 Route::get("ajax/getLocaion/index",[GetLocaitonAjax::class,"index"])->name("ajax.getLocation");
 Route::put("ajax/change_status",[ChangeStatusAjax::class,"change_status"])->name("ajax.changeStatus");

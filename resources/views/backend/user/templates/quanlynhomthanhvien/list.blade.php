@@ -47,5 +47,5 @@
 @include('backend.components.scripts');
 @include("backend.user.handle.switchery")
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
-@include("backend.user.handle.delete");
+@include("backend.components.handles.delete");
 @endpush

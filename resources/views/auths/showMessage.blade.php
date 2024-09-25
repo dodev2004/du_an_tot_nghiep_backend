@@ -86,7 +86,7 @@
                                             <h4>Well done !</h4>
                                             <p class="text-muted mx-4">Aww yeah, you successfully read this important message.</p>
                                             <div class="mt-4">
-                                                <a href="{{route("dashboard")}}" class="btn btn-success w-100">Back to Dashboard</a>
+                                                <a href="{{route("admin.dashboard")}}" class="btn btn-success w-100">Back to Dashboard</a>
                                             </div>
                                         </div>
                                     </div>

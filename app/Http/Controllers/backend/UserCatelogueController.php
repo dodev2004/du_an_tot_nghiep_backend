@@ -22,11 +22,12 @@ class UserCatelogueController extends Controller
             "url"=> route("admin.users"),
             "name"=>"Quản lý nhóm thành viên"
          ];
+         $table = "Danh sách nhóm thành viên";
         $breadcrumbs = $this->breadcrumbs;
         $data = $this->userCatelogue->getAll();
        
        
-        return  view("backend.user.templates.quanlynhomthanhvien.list",compact('data',"breadcrumbs","title"));
+        return  view("backend.user.templates.quanlynhomthanhvien.list",compact('data',"breadcrumbs","title","table"));
     }
     public function create(){
         array_push($this->breadcrumbs,[
@@ -40,6 +41,7 @@ class UserCatelogueController extends Controller
          ]);   
          $title = "Quản lý nhóm thành viên";
          $breadcrumbs = $this->breadcrumbs;
+        
         return view("backend.user.templates.quanlynhomthanhvien.create",compact("breadcrumbs","title"));
     }
     public function store(UserCatelogueRequest $request){

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class DashBoardController extends Controller
 {
     public function index(){
-    
+
         return view('backend.dasboard.home');
     }
 }
