@@ -17,4 +17,7 @@ class PaymentMethods extends Model
         $paymentMethods = DB::tabel('payment_methods')->get();
         return $paymentMethods;
     }
+    public function createPttt($data){
+        DB::table('payment_methods')->insert($data);
+    }
 }

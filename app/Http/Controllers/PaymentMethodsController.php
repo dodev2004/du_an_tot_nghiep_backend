@@ -33,7 +33,9 @@ class PaymentMethodsController extends Controller
      */
     public function create()
     {
-        //
+        $title = "Thêm mới phương thức thanh toán";
+        return view('backend.payment_methods.templates.create',compact('title'));
+
     }
 
     /**
@@ -41,7 +43,11 @@ class PaymentMethodsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->isMethod('POST')){
+            $params = $request->except('_token');
+            $this->paymentMethods->createPttt($params);
+            return redirect()->route('admin.payment_methods');
+        }
     }
 
     /**
