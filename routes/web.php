@@ -13,7 +13,7 @@ use App\Http\Controllers\backend\PostController;
 use App\Http\Controllers\backend\ProductCatelogueController;
 use App\Http\Controllers\Backend\UserCatelogueController;
 use App\Http\Controllers\Backend\UserController;
-
+use App\Http\Controllers\PaymentMethodsController;
 use App\Http\Controllers\PostCatelogueController;
 
 /*
@@ -115,6 +115,14 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::get("{id}/edit",[AttributeValueController::class,"edit"])->name("admin.variant.edit");
         Route::put("{id}/update",[AttributeValueController::class,"update"])->name("admin.variant.update");
         Route::delete("/delete",[AttributeValueController::class,"destroy"])->name("admin.variant.delete");
+    });
+    Route::prefix("payment_methods")->group(function(){
+        Route::get("list",[PaymentMethodsController::class,"index"])->name("admin.payment_methods");
+        Route::get("create",[PaymentMethodsController::class,"create"])->name("admin.payment_methods.create");
+        Route::post("postStore",[PaymentMethodsController::class,"store"])->name("admin.payment_methods.store");
+        Route::get("{id}/edit",[PaymentMethodsController::class,"edit"])->name("admin.payment_methods.edit");
+        Route::put("{id}/update",[PaymentMethodsController::class,"update"])->name("admin.payment_methods.update");
+        Route::delete("/delete",[PaymentMethodsController::class,"destroy"])->name("admin.payment_methods.delete");
     });
    
 });
