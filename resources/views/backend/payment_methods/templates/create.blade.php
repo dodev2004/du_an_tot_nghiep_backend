@@ -73,8 +73,10 @@
 
                                     <div class="form-group col-md-12">
                                         <label for="">Tên phương thức thanh toán *</label>
-                                        <input type="text" name="name" value="" class="form-control">
-                                        <p class=" text-danger"></p>
+                                        <input type="text" name="name" value="{{ old('name') }}" class="form-control">
+                                        @if ($errors->has('name'))
+                                            <p class="text-danger">{{ $errors->first('name') }}</p>
+                                        @endif
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label for="">Mô tả</label>

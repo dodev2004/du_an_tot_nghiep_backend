@@ -1,7 +1,7 @@
 
 <script>
     $(document).ready(function(){
-        $(".form-update").submit(function(){
+        $(".form-seo").submit(function(){
             event.preventDefault();
             let _token = $("input[name='_token'").val()
             let data =  new FormData();
@@ -12,7 +12,7 @@
           data.append("_token",_token);
           console.log(data);
            $.ajax({
-            url : '{{route('admin.variant.update',$id)}}',
+            url : '{{route('admin.payment_methods.update',$paymentMethods->id)}}',
             type: "POST",
             dataType: "json",
             data : data,
@@ -23,7 +23,7 @@
             },
             success : function(res){
           
-                toastMessage(res[1],res[0],'{{route('admin.variant')}}')
+                toastMessage(res[1],res[0],'{{route('admin.payment_methods')}}')
                
             },
             error : function(error){
@@ -32,7 +32,7 @@
                     const input = document.querySelector(`input[name="${error}"]`);
                     const select = document.querySelector(`select[name="${error}"]`)
                     if(input){
-                    const message = input.parentElement.querySelector("p");
+                    const message = input.parentElement.querySelector("span");
                         message.innerText = errors[error]
 
                     }

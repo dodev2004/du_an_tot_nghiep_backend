@@ -20,4 +20,11 @@ class PaymentMethods extends Model
     public function createPttt($data){
         DB::table('payment_methods')->insert($data);
     }
+    public function getDetailPaymentMethods($id){
+        $paymentMethods=DB::table('payment_methods')->where('id',$id)->first();
+    return $paymentMethods;
+    }
+    public function updatePaymentMethods($id,$params){
+        DB::table('payment_methods')->where('id',$id)->update($params);
+    }
 }

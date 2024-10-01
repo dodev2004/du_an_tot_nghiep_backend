@@ -9,7 +9,7 @@
 @section('content')
     <div class="wrapper wrapper-content animated fadeInRight" style="margin-top: -40px;">
         <div class="row">
-            <div class="wrapper border-bottom white-bg page-heading" style="height: 90px; transform: translateX(-10px);" >
+            <div class="wrapper border-bottom white-bg page-heading" style="height: 90px; transform: translateX(-10px);">
                 <div class="col">
                     <h2 style="line-height: 3;">{{ $title }}</h2>
                 </div>
@@ -18,7 +18,7 @@
                 <div class="wrapper wrapper-content animated fadeInRight">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>{{ $title }}</h5><br/>
+                            <h5>{{ $title }}</h5><br />
                             <div class="ibox-content">
                                 <div class="form_seach">
                                     <a href="{{ route('admin.payment_methods.create') }}" class="btn btn-success">
@@ -52,9 +52,10 @@
 
                                             <th class="text-center">
                                                 <a class="btn btn-sm btn-info"
-                                                    href="{{ route('admin.variant.edit', $item->id) }}"><i
+                                                    href="{{ route('admin.payment_methods.edit', $item->id) }}"><i
                                                         class="fa fa-paste"></i> Edit</a>
-                                                <form action="" method="POST" data-url="variant" class="form-delete">
+                                                <form action="" method="POST" data-url="payment_methods"
+                                                    class="form-delete">
                                                     @method('DELETE')
                                                     @csrf
                                                     <input type="hidden" value="{{ $item->id }}" name="id">
@@ -75,8 +76,8 @@
 @endsection
 @push('scripts')
     @include('backend.components.scripts');
-    @include('backend.posts.handle.switchery')
+    @include('backend.payment_methods.handles.switchery')
     @include('backend.components.toastmsg');
     <script src="{{ asset('backend/js/framework/delete2.js') }}"></script>
-    @include('backend.variants.handles.delete');
+    {{-- @include('backend.variants.handles.delete'); --}}
 @endpush

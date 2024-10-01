@@ -43,6 +43,7 @@ class PaymentMethodsController extends Controller
      */
     public function store(Request $request)
     {
+
         if($request->isMethod('POST')){
             $params = $request->except('_token');
             $this->paymentMethods->createPttt($params);
@@ -63,7 +64,9 @@ class PaymentMethodsController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $title = "Sửa phương thức thanh toán";
+        $paymentMethods= $this->paymentMethods->getDetailPaymentMethods($id);
+       return view('backend.payment_methods.templates.edit',compact('title','paymentMethods'));
     }
 
     /**
@@ -71,7 +74,11 @@ class PaymentMethodsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        if($request->isMethod('PUT')){
+            $params = $request->except('_token', '_method');
+            $this->paymentMethods->updatePaymentMethods($id,$params);
+            return redirect()->route('admin.payment_methods');
+        }
     }
 
     /**
