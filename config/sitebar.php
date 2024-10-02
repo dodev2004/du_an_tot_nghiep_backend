@@ -81,5 +81,20 @@ return [
         ]
 
     ],
+    [
+        "childrenlevel" => true,
+        "name" => "Quản lý mã giảm giá",
+        "route" => "",
+        'children' =>
+        [
+            
+            
+            [
+                "name" => "QL mã giảm giá",
+                "route" => "admin.promotions"
+            ],
+        ]
+
+    ]
 ];
 //    Parent : 

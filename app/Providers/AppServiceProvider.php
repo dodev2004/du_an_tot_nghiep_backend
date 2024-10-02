@@ -71,6 +71,10 @@ class AppServiceProvider extends ServiceProvider
         foreach($this->binding as $interface => $intance){
             $this->app->bind($interface, $intance);
         }
+        $this->app->bind(
+            \App\Repositories\Interfaces\PromotionRepositoryInterface::class,
+            \App\Repositories\PromotionRepository::class
+        );
     }
 
     /**
