@@ -71,8 +71,7 @@
                     <div class="form-group col-md-12">
                         <label for="">Mô tả</label>
                         <textarea name="description" cols="30" class="form-control" rows="10"
-                            value="{{ $paymentMethods->description }}">
-
+                       > {{$paymentMethods->description}}
                         </textarea>
 
                         <p class=" text-danger"></p>

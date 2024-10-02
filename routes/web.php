@@ -122,8 +122,9 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::post("postStore",[PaymentMethodsController::class,"store"])->name("admin.payment_methods.store");
         Route::get("{id}/edit",[PaymentMethodsController::class,"edit"])->name("admin.payment_methods.edit");
         Route::put("{id}/update",[PaymentMethodsController::class,"update"])->name("admin.payment_methods.update");
-        Route::delete("/delete",[PaymentMethodsController::class,"destroy"])->name("admin.payment_methods.delete");
+        Route::delete('payment_methods/{id}', [PaymentMethodsController::class, 'destroy'])->name('admin.payment_methods.delete');
     });
+    
    
 });
                     
