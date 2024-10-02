@@ -66,5 +66,20 @@ return [
         ]
 
     ],
+    [
+        "childrenlevel" => true,
+        "name" => "Quản lý phương thức thanh toán",
+        "route" => "#",
+        'children' =>
+        [
+            
+            
+            [
+                "name" => "QL phương thức thanh toán",
+                "route" => "admin.payment_methods"
+            ],
+        ]
+
+    ],
 ];
 //    Parent : 
