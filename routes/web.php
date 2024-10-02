@@ -11,6 +11,7 @@ use App\Http\Controllers\backend\AttributeValueController;
 use App\Http\Controllers\backend\DashBoardController;
 use App\Http\Controllers\backend\PostController;
 use App\Http\Controllers\backend\ProductCatelogueController;
+use App\Http\Controllers\backend\ProductController;
 use App\Http\Controllers\Backend\UserCatelogueController;
 use App\Http\Controllers\Backend\UserController;
 
@@ -85,12 +86,12 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::delete("/delete",[PostController::class,"destroy"])->name("admin.post.delete");
     });
     Route::prefix("product")->group(function(){
-        Route::get("list",[PostController::class,"index"])->name("admin.product");
-        Route::get("create",[PostController::class,"create"])->name("admin.product.create");
-        Route::post("postStore",[PostController::class,"store"])->name("admin.product.store");
-        Route::get("{id}/edit",[PostController::class,"editPost"])->name("admin.product.edit");
-        Route::put("{id}/update",[PostController::class,"update"])->name("admin.product.update");
-        Route::delete("/delete",[PostController::class,"destroy"])->name("admin.product.delete");
+        Route::get("list",[ProductController::class,"index"])->name("admin.product");
+        Route::get("create",[ProductController::class,"create"])->name("admin.product.create");
+        Route::post("postStore",[ProductController::class,"store"])->name("admin.product.store");
+        Route::get("{id}/edit",[ProductController::class,"editPost"])->name("admin.product.edit");
+        Route::put("{id}/update",[ProductController::class,"update"])->name("admin.product.update");
+        Route::delete("/delete",[ProductController::class,"destroy"])->name("admin.product.delete");
     });
     Route::prefix("product-catelogue")->group(function(){
         Route::get("list",[ProductCatelogueController::class,"index"])->name("admin.product_catelogue");

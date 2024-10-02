@@ -43,7 +43,7 @@ class PostCatelogueController extends Controller
      */
     public function create()
     {
-        $title = "quản lý chuyên mục bài viết";
+        $title = "Thêm mới chuyên mục bài viết";
         array_push($this->breadcrumbs,[
             "active"=>false,
             "url"=> route("admin.post-catelogue"),
@@ -51,7 +51,7 @@ class PostCatelogueController extends Controller
         ],[
             "active"=>true,
             "url"=> route("admin.post-catelogue.create"),
-            "name"=>"Thêm nhóm bài viết"
+            "name"=>"Thêm mới nhóm bài viết"
          ]);  
          $post_catelogues =$this->postcatelogueService->dropdownPostCatelogue();
      
@@ -87,7 +87,7 @@ class PostCatelogueController extends Controller
      
     }
     public function editPostCatelogue(Request $request){
-        $title = "quản lý chuyên mục bài viết";
+        $title = "Sửa chuyên mục bài viết";
         array_push($this->breadcrumbs,[
             "active"=>false,
             "url"=> route("admin.post-catelogue"),

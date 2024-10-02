@@ -1,4 +1,4 @@
-<table class="table table-striped table-bordered table-hover" >
+<table class="table table-striped table-bordered table-hover dataTables-example" >
     <thead>
     <tr>
         <th></th>
@@ -22,6 +22,8 @@
             <td class="text-center">
                <p>{{$post["author"]}}</p>
             </td>
+            
+           
         <td class="text-center">
             <form name="form_status" action="">
                 @csrf
@@ -34,7 +36,7 @@
             <span>
                 @if($post["catelogues"]->count()> 0)
                 @foreach($post["catelogues"] as $catelogue)
-                <span class="label label-primary">{{$catelogue->name}}</span>
+                <span class="label label-primary">{{$catelogue}}</span>
                 @endforeach
                 @else
                 <span class="label label-info">Chưa có chuyên mục</span>

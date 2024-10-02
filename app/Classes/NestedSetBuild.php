@@ -101,7 +101,7 @@ use Illuminate\Support\Facades\DB;
         
         return $resuilt;
     }
-    public function renderDropdownCreate($data,$parent = 0,$target= "create",$catelogues = []){
+    public function renderDropdownCreate($data,$parent = 0,$target= "create",$catelogues = [],$className){
         if(request()->id){
             $id = request()->id;
         }
@@ -119,16 +119,19 @@ use Illuminate\Support\Facades\DB;
         foreach($data as $item){
             if($item->parent_id == $parent){
                 if($target == "edit" && in_array($item->id,$catelogues) ){
-                    $resuilt .= " <li>
-                    <span> <input type='checkbox' checked name='catelogue' value='$item->id'> $item->name</span>
+                    $resuilt .= "<li>
+                    <span> <input type='checkbox' checked name='$className' value='$item->id'> $item->name</span>
                      ";
                 }
-                $resuilt .= " <li>
-                <span> <input type='checkbox' name='catelogue' value='$item->id'> $item->name</span>
-                 ";
+                else {
+                    $resuilt .= " <li>
+                    <span> <input type='checkbox' name='$className' value='$item->id'> $item->name</span>
+                     ";
+                }
+               
             
                 if($this->hasChild($data,$item->id)){
-                    $resuilt .= $this->renderDropdownCreate($data,$item->id,$catelogues);
+                    $resuilt .= $this->renderDropdownCreate($data,$item->id,$target,$catelogues,$className);
                 }
               $resuilt .="</li>";
             }

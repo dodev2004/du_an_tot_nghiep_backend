@@ -36,17 +36,16 @@ class PostService implements PostServiceInterface
     }
     public function dropdownPostCatelogue($target = "create",$catelogue= []){
         $this->nestedSetBuild->_set("post_catelogues"); 
-        return $this->nestedSetBuild->renderDropdownCreate($this->nestedSetBuild->Get($target),0,$target, $catelogue);
+        return $this->nestedSetBuild->renderDropdownCreate($this->nestedSetBuild->Get($target),0,$target, $catelogue,"post_catelogue_id");
     }
     public function postStore ($request){
        
         
         DB::beginTransaction();
         try{
-        $data = $request->except(["_token","post_catelogue"]);
+        $data = $request->except(["_token","post_catelogue_id"]);
         $item =$this->post->create($data);
-        $catelogue = explode(",",$request->catelogues);
-    
+        $catelogue = explode(",",$request->post_catelogue_id);
         if(count($catelogue) > 0){
             $item->catelogues()->sync($catelogue);
         }
