@@ -105,17 +105,17 @@
                     </div>
                     <div class="ibox-content">
                         <div class="form-group">
-                           <input type="text" name="avatar" class="form-control" id="avatar" class="avatar" style="display: none;">
+                           <input type="text" name="image" class="form-control" id="avatar" class="avatar" style="display: none;">
                            <div class="seo_avatar" id="seo_avatar" >
-                            @if(!empty($post["avatar"]))
-                            <img class="" src="{{$post["avatar"]}}" alt="">
+                            @if(!empty($post["image"]))
+                            <img class="" src="{{$post["image"]}}" alt="">
                             @else
                             <img class="" src="https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg" alt="">
                            
                             @endif
                             
                            </div>
-                           
+                           <button style="margin-top:20px" class="remove_avatar" class="btn btn-danger">Xóa ảnh</button>
                         </div>
                     </div>
                    
@@ -158,4 +158,5 @@
 <script src="{{asset("backend/js/framework/catelogue/select2.js")}}"></script>
 @include("backend.posts.handle.posts.update");
 <script src="{{asset('backend/js/collapse.js')}}"></script>
+
 @endpush

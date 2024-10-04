@@ -120,3 +120,12 @@ var uploadImage = function (target = 'avatar'){
         }
     }
 }
+
+const removeAvatar = document.querySelector(".remove_avatar");
+if(removeAvatar){
+    const inputImage = document.querySelector("input[name='image']");
+    removeAvatar.onclick = function (){
+        console.log(inputImage);
+        
+    }
+}

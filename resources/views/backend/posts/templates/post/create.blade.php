@@ -104,7 +104,7 @@
                     </div>
                     <div class="ibox-content">
                         <div class="form-group">
-                           <input type="text" name="avatar" class="form-control" id="avatar" class="avatar" style="display: none;">
+                           <input type="text" name="image" class="form-control" id="avatar" class="avatar" style="display: none;">
                            <div class="seo_avatar" id="seo_avatar" >
                             <img class="" src="https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg" alt="">
                            </div>

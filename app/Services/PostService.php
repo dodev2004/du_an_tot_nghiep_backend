@@ -66,6 +66,7 @@ class PostService implements PostServiceInterface
           
           $catelogue = explode(",",$request->catelogues);
          $post = $this->getPostByPostId($request->id);
+         $post->update($data);
           if(count($catelogue) > 0){
               $post->catelogues()->sync($catelogue);
           }
