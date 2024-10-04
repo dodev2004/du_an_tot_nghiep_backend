@@ -65,18 +65,27 @@ class AppServiceProvider extends ServiceProvider
     ProductCatelogueServiceInterface::class => ProductCatelogueService::class,
 
    ];
-    public function register(): void
-    {
-        $this->app->singleton(UserRepositoryInterface::class,UserRepository::class);
-        foreach($this->binding as $interface => $intance){
-            $this->app->bind($interface, $intance);
-        }
-        $this->app->bind(
-            \App\Repositories\Interfaces\PromotionRepositoryInterface::class,
-            \App\Repositories\PromotionRepository::class
-        );
+   public function register(): void
+{
+    // Bind singleton cho UserRepository
+    $this->app->singleton(UserRepositoryInterface::class, UserRepository::class);
+    
+    // Bind các interface khác
+    foreach($this->binding as $interface => $instance) {
+        $this->app->bind($interface, $instance);
     }
 
+    // Tách từng cặp interface và class thành các dòng riêng biệt
+    $this->app->bind(
+        \App\Repositories\Interfaces\PromotionRepositoryInterface::class,
+        \App\Repositories\PromotionRepository::class
+    );
+    
+    $this->app->bind(
+        \App\Services\Interfaces\PromotionServiceInterface::class,
+        \App\Services\PromotionService::class
+    );
+}
     /**
      * Bootstrap any application services.
      */

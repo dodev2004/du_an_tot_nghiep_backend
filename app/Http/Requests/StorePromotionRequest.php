@@ -22,12 +22,14 @@ class StorePromotionRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required|unique:promotions,code',
+            'code' => 'required|string|max:255',
             'discount_value' => 'required|numeric',
-            'discount_type' => 'required|in:percentage,fixed',
-            'status' => 'required|in:active,inactive',
+            'discount_type' => 'required|string|in:percentage,fixed',
+            'status' => 'required|string|in:active,inactive',
             'start_date' => 'required|date',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'max_uses' => 'required|integer|min:1',
+            'used_count' => 'nullable|integer|min:0',
         ];
     }
 }

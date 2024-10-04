@@ -125,13 +125,13 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::put("{id}/update",[PaymentMethodsController::class,"update"])->name("admin.payment_methods.update");
         Route::delete('payment_methods/{id}', [PaymentMethodsController::class, 'destroy'])->name('admin.payment_methods.delete');
     });
-    Route::prefix('admin/promotions')->group(function () {
-        Route::get('/', [PromotionController::class, 'listPromotions'])->name('admin.promotions'); // Hiển thị danh sách mã giảm giá
-        Route::get('/create', [PromotionController::class, 'create'])->name('admin.promotions.create'); // Thêm mã giảm giá mới
-        Route::post('/store', [PromotionController::class, 'store'])->name('admin.promotions.store'); // Lưu mã giảm giá mới
-        Route::get('/{id}/edit', [PromotionController::class, 'edit'])->name('admin.promotions.edit'); // Sửa mã giảm giá
-        Route::put('/{id}/update', [PromotionController::class, 'update'])->name('admin.promotions.update'); // Cập nhật mã giảm giá
-        Route::delete('/delete', [PromotionController::class, 'deletePromotion'])->name('admin.promotions.delete'); // Xóa mã giảm giá
+    Route::prefix('promotions')->group(function () {
+        Route::get('/', [PromotionController::class, 'listPromotions'])->name('admin.promotions'); 
+        Route::get('/create', [PromotionController::class, 'create'])->name('admin.promotions.create'); 
+        Route::post('/store', [PromotionController::class, 'store'])->name('admin.promotions.store');
+        Route::get('/{id}/edit', [PromotionController::class, 'edit'])->name('admin.promotions.edit'); 
+        Route::put('/{id}/update', [PromotionController::class, 'update'])->name('admin.promotions.update');
+        Route::delete('/delete', [PromotionController::class, 'deletePromotion'])->name('admin.promotions.delete'); 
     });
     
    

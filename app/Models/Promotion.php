@@ -19,4 +19,9 @@ class Promotion extends Model
         'max_uses',
         'used_count'
     ];
+    protected $table = "promotions";
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
+    ];
 }

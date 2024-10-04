@@ -88,7 +88,6 @@ return [
         'children' =>
         [
             
-            
             [
                 "name" => "QL mã giảm giá",
                 "route" => "admin.promotions"

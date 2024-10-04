@@ -8,35 +8,43 @@
             <th>Trạng thái</th>
             <th>Ngày bắt đầu</th>
             <th>Ngày kết thúc</th>
+            <th>Số lượt sử dụng</th>
+            <th>Số lượt đã sử dụng</th>
             <th>Hành động</th>
         </tr>
     </thead>
     <tbody>
-        @foreach($data as $promotion)
+        @foreach ($data as $promotion)
             <tr>
                 <td><input type="checkbox"></td>
                 <td>{{ $promotion->code }}</td>
                 <td>{{ $promotion->discount_type }}</td>
                 <td>{{ $promotion->discount_value }}</td>
-                <td>
+                {{-- <td>
                     <form name="form_status" action="">
                         @csrf
                         <input type="hidden" name="table" value="{{$table}}">
-                        <input type="checkbox" @if($promotion->status == 1) checked @endif data-id="{{$promotion->id}}" class="js-switch js-switch_{{$promotion->id}}" style="display: none;" data-switchery="true">
+                        <input type="checkbox" data-id="{{$promotion->id}}" @if ($promotion->status == 1) checked @endif  class="js-switch js-switch_{{$promotion->id}}" style="display: none;" data-switchery="true">
+
                     </form>
                     
-                </td>
+                </td> --}}
+                <td>{{ $promotion->status }}</td>
                 <td>{{ $promotion->start_date }}</td>
                 <td>{{ $promotion->end_date ?? 'Không có' }}</td>
+                <td>{{ $promotion->max_uses }}</td>
+                <td>{{ $promotion->used_count }}</td>
                 <td>
-                    <a class="btn btn-sm btn-info"  href="#" ><i class="fa fa-paste"></i> Edit</a>
+                    <a class="btn btn-sm btn-info" href="{{ route('admin.promotions.edit', $promotion->id) }}"><i
+                            class="fa fa-paste"></i> Edit</a>
                     <form action="" method="POST" data-url="promotions" class="form-delete">
-                        @method("DELETE")
+                        @method('DELETE')
                         @csrf
-                        <input type="hidden" value="{{$promotion->id}}" name="id">
-                        <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i> Xóa</button>
+                        <input type="hidden" value="{{ $promotion->id }}" name="id">
+                        <button class="btn btn-sm btn-danger" data-id="{{ $promotion->id }}><i class="fa-solid
+                            fa-trash"></i> Xóa</button>
                     </form>
-        
+
                 </td>
             </tr>
         @endforeach
