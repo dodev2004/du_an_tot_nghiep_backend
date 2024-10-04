@@ -20,15 +20,6 @@
                 <td>{{ $promotion->code }}</td>
                 <td>{{ $promotion->discount_type }}</td>
                 <td>{{ $promotion->discount_value }}</td>
-                {{-- <td>
-                    <form name="form_status" action="">
-                        @csrf
-                        <input type="hidden" name="table" value="{{$table}}">
-                        <input type="checkbox" data-id="{{$promotion->id}}" @if ($promotion->status == 1) checked @endif  class="js-switch js-switch_{{$promotion->id}}" style="display: none;" data-switchery="true">
-
-                    </form>
-                    
-                </td> --}}
                 <td>{{ $promotion->status }}</td>
                 <td>{{ $promotion->start_date }}</td>
                 <td>{{ $promotion->end_date ?? 'Không có' }}</td>

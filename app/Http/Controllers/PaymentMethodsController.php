@@ -79,18 +79,9 @@ class PaymentMethodsController extends Controller
      */
     public function destroy($id)
     {
-        // Tìm phương thức thanh toán theo ID
         $paymentMethod = PaymentMethods::findOrFail($id);
-    
-        // Xóa phương thức thanh toán
-        $paymentMethod->delete();
-    
-        // Thêm thông báo thành công vào session để SweetAlert2 hiển thị
-        return redirect()->route('admin.payment_methods')
+            $paymentMethod->delete();
+            return redirect()->route('admin.payment_methods')
                          ->with('success', 'Phương thức thanh toán đã được xóa.');
     }
-    
-
-    
-
 }

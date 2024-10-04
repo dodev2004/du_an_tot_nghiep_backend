@@ -15,32 +15,22 @@ class PromotionController extends Controller
 {
     protected $promotions;
     protected $breadcrumbs = [];
-    protected $provinces, $districts, $wards;
 
-    public function __construct(ProvinceRepository $province, PromotionRepository $promotions)
+    public function __construct(PromotionRepository $promotions)
     {
-        $this->provinces = $province;
         $this->promotions = $promotions;
     }
     public function listPromotions()
     {
         $title = "Quản lý mã giảm giá";
+        $data = Promotion::all();
         $this->breadcrumbs[] = [
             "active" => true,
             "url" => route("admin.promotions"),
             "name" => "Quản lý mã giảm giá"
         ];
         $breadcrumbs = $this->breadcrumbs;
-
-        $data = $this->promotions->getAllPromotions()->paginate(10);
-
-        if ($data->isNotEmpty()) {
-            $table = $data[0]->getTable();
-        } else {
-            $table = 'promotions';
-        }
-
-        return view("backend.promotion.templates.list", compact('data', 'breadcrumbs', 'title', 'table'));
+        return view("backend.promotion.templates.list", compact('data','breadcrumbs', 'title'));
     }
 
     public function create()
@@ -51,13 +41,10 @@ class PromotionController extends Controller
             "url" => route("admin.promotions"),
             "name" => "Quản lý mã giảm giá",
         ], [
-
             "active" => true,
             "url" => route("admin.promotions.create"),
             "name" => "Thêm mã giảm giá",
-
         ]);
-
         $breadcrumbs = $this->breadcrumbs;
         return view("backend.promotion.templates.create", compact("title", "breadcrumbs"));
     }
@@ -65,7 +52,6 @@ class PromotionController extends Controller
 
     public function store(Request $request)
     {
-
         $validatedData = $request->validate([
             'code' => 'required|string|unique:promotions',
             'discount_value' => 'required|numeric|min:0',
@@ -76,7 +62,7 @@ class PromotionController extends Controller
             'max_uses' => 'required|integer|min:1',
             'used_count' => 'integer|min:0',
         ], [
-            "code.required" => "",
+            "code.required" => " ",
             "code.unique" => " ",
             "discount_value.required" => "Giá trị giảm giá không được để trống",
             "discount_value.numeric" => "Giá trị giảm giá phải là số",
@@ -100,10 +86,8 @@ class PromotionController extends Controller
         $title = "Chỉnh sửa khuyến mãi";
         return view('backend.promotion.templates.edit', compact('promotion', 'breadcrumbs', 'title', 'id'));
     }
-
     public function update(Request $request, $id)
     {
-
         $request->validate([
             "code" => ["required", Rule::unique("promotions")->ignore($id)],
             "discount_value" => ["required", "numeric"],
@@ -135,25 +119,19 @@ class PromotionController extends Controller
             "end_date",
             "max_uses"
         ]);
-
         $promotion->update($data);
-
         return redirect()->route('admin.promotions')->with('success', 'Cập nhật khuyến mãi thành công');
     }
-
-
     public function deletePromotion(Request $request)
-    {
-        try {
-            $id = $request->input('id');
+{
+    $id = $request->input('id');
+    $promotion = Promotion::find($id);
 
-            $promotion = Promotion::findOrFail($id);
-
-            $promotion->delete();
-
-            return response()->json(['message' => 'Khuyến mãi đã được xóa thành công', 'status' => 'success'], 200);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Có lỗi xảy ra khi xóa khuyến mãi', 'status' => 'error'], 500);
-        }
+    if ($promotion) {
+        $promotion->delete();
+        return response()->json(['message' => 'Khuyến mãi đã được xóa thành công', 'status' => 'success'], 200);
+    } else {
+        return response()->json(['message' => 'Không tìm thấy khuyến mãi', 'status' => 'error'], 404);
     }
+}
 }

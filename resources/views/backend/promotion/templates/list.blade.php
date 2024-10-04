@@ -37,7 +37,6 @@
                         @include('backend.promotion.components.fillter')
                         @include('backend.promotion.components.table')
                         <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                            {{ $data->appends(request()->query())->links() }}
                         </div>
                     </div>
                 </div>
@@ -46,7 +45,6 @@
         </div>
     </div>
 @endsection
-
 @push('scripts')
     @include('backend.components.scripts');
     @include('backend.posts.handle.switchery')
@@ -58,7 +56,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
+    {{-- <script>
         // Kiểm tra nếu có session thành công
         @if (session('success'))
             Swal.fire({
@@ -82,5 +80,5 @@
                 confirmButtonText: 'Thử lại'
             });
         @endif
-    </script>
+    </script> --}}
 @endpush

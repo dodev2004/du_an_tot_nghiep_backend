@@ -1,7 +1,7 @@
 @extends('backend.index')
 @section('style')
     @include('backend.components.head')
-    <link rel="stylesheet" href="{{ asset('backend/css/upload.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" href="{{ asset('backend/css/upload.css') }}">
     <style>
         .form-user_create .row .col-md-6 {
             flex: 0 0 auto !important;
@@ -55,7 +55,9 @@
 @push('scripts')
     @include('backend.components.scripts');
     @include('backend.promotion.handles.add');
-    <script>
+    
+
+    {{-- <script>
         $('#promotionForm').submit(function(e) {
             e.preventDefault();
 
@@ -81,5 +83,5 @@
                 }
             });
         });
-    </script>
+    </script> --}}
 @endpush
