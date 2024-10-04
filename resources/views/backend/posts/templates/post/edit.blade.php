@@ -105,7 +105,7 @@
                     </div>
                     <div class="ibox-content">
                         <div class="form-group">
-                           <input type="text" name="image" class="form-control" id="avatar" class="avatar" style="display: none;">
+                           <input type="text"  @if(!empty($post["image"])) value="{{$post["image"]}}" @endif name="image" class="form-control" id="avatar" class="avatar" style="display: none;">
                            <div class="seo_avatar" id="seo_avatar" >
                             @if(!empty($post["image"]))
                             <img class="" src="{{$post["image"]}}" alt="">
@@ -115,7 +115,7 @@
                             @endif
                             
                            </div>
-                           <button style="margin-top:20px" class="remove_avatar" class="btn btn-danger">Xóa ảnh</button>
+                           <button style="margin-top:20px" class="remove_avatar btn btn-danger">Xóa ảnh</button>
                         </div>
                     </div>
                    
