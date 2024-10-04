@@ -20,7 +20,7 @@
                 <div class="form-group col-md-6">
                     <label for="discount_type">Loại giảm giá:</label>
                     <select id="discount_type" class="form-control" name="discount_type" required>
-                        <option value="percent">Phần trăm</option>
+                        <option value="percentage">Phần trăm</option>
                         <option value="fixed">Cố định</option>
                     </select>
                     <p class=" text-danger message-error"></p>

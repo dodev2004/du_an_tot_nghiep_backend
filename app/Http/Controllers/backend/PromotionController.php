@@ -69,15 +69,15 @@ class PromotionController extends Controller
         $validatedData = $request->validate([
             'code' => 'required|string|unique:promotions',
             'discount_value' => 'required|numeric|min:0',
-            'discount_type' => 'required|in:percent,fixed',
+            'discount_type' => 'required|in:percentage,fixed',
             'status' => 'required|boolean',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'max_uses' => 'required|integer|min:1',
             'used_count' => 'integer|min:0',
         ], [
-            "code.required" => "Mã khuyến mãi không được để trống",
-            "code.unique" => "Mã khuyến mãi này đã tồn tại",
+            "code.required" => "",
+            "code.unique" => " ",
             "discount_value.required" => "Giá trị giảm giá không được để trống",
             "discount_value.numeric" => "Giá trị giảm giá phải là số",
             "discount_type.required" => "Vui lòng chọn loại giảm giá",
@@ -88,9 +88,7 @@ class PromotionController extends Controller
             "max_uses.required" => "Vui lòng nhập số lượt sử dụng tối đa",
             "max_uses.min" => "Số lượt sử dụng tối đa phải lớn hơn 0"
         ]);
-
         Promotion::create($validatedData);
-
         return redirect()->route('admin.promotions')->with('success', 'Promotion added successfully.');
     }
 
@@ -109,7 +107,7 @@ class PromotionController extends Controller
         $request->validate([
             "code" => ["required", Rule::unique("promotions")->ignore($id)],
             "discount_value" => ["required", "numeric"],
-            "discount_type" => ["required", "in:percentage,fixed"],
+            'discount_type' => 'required|in:percentage,fixed',
             "status" => ["required", "in:active,inactive"],
             "start_date" => ["required", "date"],
             "end_date" => ["required", "date", "after_or_equal:start_date"],
