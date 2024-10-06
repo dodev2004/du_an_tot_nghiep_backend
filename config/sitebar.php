@@ -66,5 +66,16 @@ return [
         ]
 
     ],
+    [
+        "childrenlevel" => false,
+        "name" => "Quản lí nhãn hàng",
+        "route" => "admin.brand",
+    ],
+    [
+        "childrenlevel" => false,
+        "name" => "Quản lí liên hệ",
+        "route" => "admin.contact",
+    ],
+
 ];
-//    Parent : 
+//    Parent :

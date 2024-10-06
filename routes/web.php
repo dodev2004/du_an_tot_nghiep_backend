@@ -13,7 +13,8 @@ use App\Http\Controllers\backend\PostController;
 use App\Http\Controllers\backend\ProductCatelogueController;
 use App\Http\Controllers\Backend\UserCatelogueController;
 use App\Http\Controllers\Backend\UserController;
-
+use App\Http\Controllers\Backend\BrandController;
+use App\Http\Controllers\backend\ContactController;
 use App\Http\Controllers\PostCatelogueController;
 
 /*
@@ -116,9 +117,24 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::put("{id}/update",[AttributeValueController::class,"update"])->name("admin.variant.update");
         Route::delete("/delete",[AttributeValueController::class,"destroy"])->name("admin.variant.delete");
     });
-   
+    Route::prefix("brand")->group(function(){
+        Route::get("list",[BrandController::class,"index"])->name("admin.brand");
+        Route::get("create",[BrandController::class,"create"])->name("admin.brand.create");
+        Route::post("postStore",[BrandController::class,"store"])->name("admin.brand.store");
+        Route::get("{id}/edit",[BrandController::class,"edit"])->name("admin.brand.edit");
+        Route::put("{id}/update",[BrandController::class,"update"])->name("admin.brand.update");
+        Route::delete("/delete",[BrandController::class,"destroy"])->name("admin.brand.delete");
+    });
+    Route::prefix("contact")->group(function(){
+        Route::get("list",[ContactController::class,"index"])->name("admin.contact");
+        Route::get("create",[ContactController::class,"create"])->name("admin.contact.create");
+        Route::post("postStore",[ContactController::class,"store"])->name("admin.contact.store");
+        Route::get("{id}/edit",[ContactController::class,"edit"])->name("admin.contact.edit");
+        Route::put("{id}/update",[ContactController::class,"update"])->name("admin.contact.update");
+        Route::delete("/delete",[ContactController::class,"destroy"])->name("admin.contact.delete");
+    });
 });
-                    
+
 Route::get("/",function(){
     return redirect()->route("admin.dashboard");
 });
