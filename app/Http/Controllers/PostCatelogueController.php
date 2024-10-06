@@ -30,7 +30,7 @@ class PostCatelogueController extends Controller
         array_push($this->breadcrumbs,[
             "active"=>true,
             "url"=> route("admin.post-catelogue"),
-            "name"=>"Quản lý nhóm bài viết"
+            "name"=>"Quản lý chuyên mục bài viết"
         ]); 
         $table_name = "Bảng quản lý chuyên mục bài viết";
         $post_catelogues = $this->postcatelogueService->getAllPosCatelogue();

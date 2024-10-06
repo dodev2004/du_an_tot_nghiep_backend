@@ -7,7 +7,7 @@
             </div>
             <div class="col-md-6" style="padding-left: 12px">
                 <div class="d-flex">
-                    <button type="submit" class="btn btn-primary seach"> <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm </button>
+                    <button type="submit" class="btn btn-primary seach"> <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</button>
                     <a href="{{ route('admin.post.create') }}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Thêm mới bài
                         viết</a>
                 </div>

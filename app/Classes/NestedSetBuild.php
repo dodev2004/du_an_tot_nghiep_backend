@@ -177,14 +177,15 @@ use Illuminate\Support\Facades\DB;
                 $resuilt .="
                     <td><input type='checkbox' data-id='$item->id'></td>
                     <td>" . str_repeat('---|',$item->level). "$item->name</td>
-                    <th class='text-center'>
-                    <form action='' method='POST' data-url='product-catelogue' class='form-delete'>
-                    <input type='hidden' name = '_token' value='" . csrf_token() . "' />" .
-                   " <input type='hidden' value='$item->id' name='id'>
-                    <button class='btn btn-sm btn-danger'><i class='fa-solid fa-trash'></i> Xóa</button>
-                    </form>
-                        <a href='$routeEdit' class='btn btn-sm btn-info'><i class='fa fa-pencil'></i> Sửa</a>
-                    </th>
+                //     <th class='text-center'>
+                //     <form action='' method='POST' data-url='product-catelogue' class='form-delete'>
+                //     <input type='hidden' name = '_token' value='" . csrf_token() . "' />" .
+                //    " <input type='hidden' value='$item->id' name='id'>
+                //     <button class='btn btn-sm btn-danger'><i class='fa-solid fa-trash'></i> Xóa</button>
+                //     </form>
+                //         <a href='$routeEdit' class='btn btn-sm btn-info'><i class='fa fa-pencil'></i> Sửa</a>
+                //     </th>
+                
                 ";
                 $resuilt.="</tr>"; 
                 if($this->hasChild($data,$item->id)){

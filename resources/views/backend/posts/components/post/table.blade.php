@@ -10,9 +10,9 @@
     </tr>
     </thead>
     <tbody>
-    @foreach ($data as $post)
+    @foreach ($data as $index => $post)
         <tr>
-            <td><input type="checkbox" value="{{$post["id"]}}"></td>
+            <td class="text-center">{{$index+1}}</td>
             <td>
                 <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{$post["title"]}}</p>
                 <p style="font-size: 12px;margin-bottom: 0;" >Tin tức bóng đá liên quan đến các nhóm sản phẩm</p>
@@ -28,7 +28,6 @@
                 <input type="hidden" name="table" value="">
                 <input type="checkbox"  data-id="{{$post["id"]}}" @if($post["status"] == 1) checked @endif class="js-switch js-switch_{{$post["id"]}}"  style="display: none;" data-switchery="true">
             </form>
-            
         </td>
         <td>
             <span>
@@ -43,13 +42,16 @@
             </span>
         </td>
         <td style="text-align: center">
-             <a href="{{route('admin.post.edit',$post["id"])}}" class="btn btn-info"><i class="fa fa-pencil"></i></a>
-            <form action="" method="POST" data-url="post" class="form-delete">
-                @method("DELETE")
-                @csrf
-                <input type="hidden" value="{{$post["id"]}}" name="id">
-                        <button class="btn btn-warning center"><i class="fa fa-trash-o"></i></button>
-            </form>
+                <div style="display: flex; justify-content: center;column-gap: 5px;" >
+
+                    <a href="{{route('admin.post.edit',$post["id"])}}" class="btn btn-info"><i class="fa fa-pencil"></i></a>
+                    <form action="" method="POST" data-url="post" class="form-delete">
+                        @method("DELETE")
+                        @csrf
+                        <input type="hidden" value="{{$post["id"]}}" name="id">
+                                <button class="btn btn-warning center"><i class="fa fa-trash-o"></i></button>
+                    </form>
+                </div>
 
         </td>
     </tr>

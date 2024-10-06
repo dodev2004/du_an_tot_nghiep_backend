@@ -108,10 +108,8 @@
                            <div class="seo_avatar" id="seo_avatar" >
                             <img class="" src="https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg" alt="">
                            </div>
-                           
                         </div>
                     </div>
-                   
                 </div>
                 <div class="ibox-content">
                     <div class="avatar_title">

@@ -59,6 +59,14 @@ h5 {
 .nav .open > a:focus {
   background: #fff;
 }
+.switchery{
+  width: 40px !important;
+  height: 20px !important;
+}
+.switchery  *{
+  height: 20px !important;
+  width: 20px !important;
+}
 .nav.navbar-top-links > li > a:hover,
 .nav.navbar-top-links > li > a:focus {
   background-color: transparent;
