@@ -20,19 +20,19 @@ class NestedSetBuild
             $resuilt = DB::table($this->param ? $this->param : "post_catelogues")->where("id", "=", $id)->where('deleted_at', Null)->get();
         } else {
             $resuilt = DB::table($this->param ? $this->param : "post_catelogues")->where('deleted_at', Null)->get();
+        
         }
-
-        return $resuilt->toArray();
+    
+        return $resuilt;
     }
     private function hasChild($data, $id)
     {
-        $checked = false;
         foreach ($data as $item) {
             if ($item->parent_id == $id) {
-                return true;
+                return true; // Ngừng kiểm tra ngay khi tìm thấy danh mục con
             }
         }
-        return false;
+        return false; // Không tìm thấy danh mục con
     }
     public function _set($param)
     {
@@ -139,33 +139,36 @@ class NestedSetBuild
 
         return $resuilt;
     }
-    public function renderListPostCatelogue($data, $parentId = 0)
+    public function renderListPostCatelogue($data)
     {
-        $resuilt = "<tr>";
+        $result = ""; // Chuỗi lưu HTML
+        
         foreach ($data as $item) {
-            if ($item->parent_id == $parentId) {
-                $routeEdit = route('admin.post-catelogue.edit', [$item->id]);
-                $resuilt .= "
-                    <td><input type='checkbox' data-id='$item->id'></td>
-                    <td>" . str_repeat('---|', $item->level) . "$item->name</td>
-                    <td class='text-center' style='display: flex; justify-content: center;column-gap: 5px;'>
+            // Render danh mục cha
+            $routeEdit = route('admin.post-catelogue.edit', [$item->id]);
+            $result .= "<tr class='category-row' data-id='$item->id'>";
+            $result .= "
+                <td><input type='checkbox' data-id='$item->id'></td>
+                <td>" . str_repeat('---|', $item->level) . "$item->name</td>
+                <td class='text-center' style='display: flex; justify-content: center; column-gap: 5px;'>
                     <a href='$routeEdit' class='btn btn-info'><i class='fa fa-pencil'></i></a>
-                    <form action='' method='POST' data-url='product-catelogue' class='form-delete'>
-                    <input type='hidden' name = '_token' value='" . csrf_token() . "' />" .
-                    "  <input type='hidden' value='$item->id' name='id'>
-                              <button class='btn btn-warning center'><i class='fa fa-trash-o'></i></button>
+                    <form action='' method='POST' class='form-delete'>
+                        " . csrf_field() . method_field('DELETE') . "
+                        <input type='hidden' value='$item->id' name='id'>
+                        <button type='submit' class='btn btn-warning center'><i class='fa fa-trash-o'></i></button>
                     </form>
-                    
-                    </td>
-                ";
-                $resuilt .= "</tr>";
-                if ($this->hasChild($data, $item->id)) {
-                    $resuilt .= $this->renderListPostCatelogue($data, $item->id);
-                }
+                </td>
+            ";
+            $result .= "</tr>";
+    
+            // Render danh mục con nếu có
+            if (!empty($item->children)) {
+                // Gọi lại hàm render cho các danh mục con
+                $result .= $this->renderListPostCatelogue($item->children);
             }
         }
-
-        return $resuilt;
+        
+        return $result; // Trả về kết quả đã render
     }
     public function renderListProductCatelogue($data, $parentId = 0)
     {
@@ -181,7 +184,7 @@ class NestedSetBuild
                     <form action='' method='POST' data-url='product-catelogue' class='form-delete'>
                     <input type='hidden' name = '_token' value='" . csrf_token() . "' />" .
                     "  <input type='hidden' value='$item->id' name='id'>
-                                      <button class='btn btn-warning center'><i class='fa fa-trash-o'></i></button>
+                        <button class='btn btn-warning center'><i class='fa fa-trash-o'></i></button>
                     </form>
                     
                     </td>
@@ -192,7 +195,7 @@ class NestedSetBuild
                 }
             }
         }
-
+        dd($resuilt);
         return $resuilt;
     }
 }

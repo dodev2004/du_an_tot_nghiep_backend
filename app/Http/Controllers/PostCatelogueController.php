@@ -10,6 +10,7 @@ use App\Classes\NestedSetBuild;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+
 class PostCatelogueController extends Controller
 {
     /**
@@ -34,10 +35,12 @@ class PostCatelogueController extends Controller
         ]); 
         $table_name = "Bảng quản lý chuyên mục bài viết";
         $post_catelogues = $this->postcatelogueService->getAllPosCatelogue();
+        $data = $post_catelogues["data"];
+        $post_catelogues = $post_catelogues["html"];
         $breadcrumbs = $this->breadcrumbs;
-        return  view("backend.posts.templates.post_catelogue.index",compact("breadcrumbs","title","table_name","post_catelogues"));
+        return  view("backend.posts.templates.post_catelogue.index",compact("breadcrumbs","title","table_name","post_catelogues","data"));
     }
-
+  
     /**
      * Show the form for creating a new resource.
      */
