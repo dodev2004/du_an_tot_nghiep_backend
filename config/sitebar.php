@@ -73,8 +73,8 @@ return [
     ],
     [
         "childrenlevel" => false,
-        "name" => "Quản lí liên hệ",
-        "route" => "admin.contact",
+        "name" => "Thông tin liên hệ",
+        "route" => "admin.information",
     ],
 
 ];

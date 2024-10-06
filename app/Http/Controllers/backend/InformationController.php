@@ -1,13 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\backend;
-
 use App\Http\Controllers\Controller;
-use App\Models\Contact;
+use App\Models\Information;
 use Illuminate\Http\Request;
 
-
-class ContactController extends Controller
+class InformationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,19 +14,19 @@ class ContactController extends Controller
 
     public function index()
     {
-        $title = "Quản lý trang liên hệ";
+        $title = "Quản lý thông tin liên hệ";
         $this->breadcrumbs[] = [
             "active" => true,
-            "url" => route("admin.contact"),
-            "name" => "Quản lý trang liên hệ"
+            "url" => route("admin.information"),
+            "name" => "Quản lý thông tin liên hệ"
         ];
         $breadcrumbs = $this->breadcrumbs;
-        $data = Contact::all();
-        $item = Contact::query()->first();
+        $data = Information::all();
+        $item = Information::query()->first();
         if ($item) {
-            return view('backend.contacts.templates.index', compact('breadcrumbs', "title", "data", "item"));
+            return view('backend.information.templates.index', compact('breadcrumbs', "title", "data", "item"));
         } else {
-            return view('backend.contacts.templates.index', compact('breadcrumbs', "title", "data"));
+            return view('backend.information.templates.index', compact('breadcrumbs', "title", "data"));
         }
     }
 
@@ -37,20 +35,20 @@ class ContactController extends Controller
      */
     public function create()
     {
-        $title = "Quản lý trang liên hệ";
+        $title = "Quản lý thông tin liên hệ";
         array_push($this->breadcrumbs, [
             "active" => false,
-            "url" => route("admin.contact"),
-            "name" => "Quản lý trang liên hệ",
+            "url" => route("admin.information"),
+            "name" => "Quản lý thông tin liên hệ",
         ], [
 
             "active" => true,
-            "url" => route("admin.contact.create"),
-            "name" => "Thêm trang liên hệ",
+            "url" => route("admin.information.create"),
+            "name" => "Thêm thông tin liên hệ",
 
         ]);
         $breadcrumbs = $this->breadcrumbs;
-        return view("backend.contacts.templates.create", compact("title", "breadcrumbs"));
+        return view("backend.information.templates.create", compact("title", "breadcrumbs"));
     }
 
     /**
@@ -84,16 +82,12 @@ class ContactController extends Controller
         $data=$request->except('_token');
         $data['map'] = preg_replace('/<p>|<\/p>/', '', $request->map);
 
-        if (Contact::create($data)) {
+        if (Information::create($data)) {
             return response()->json(["success", "Thêm mới thành công"]);
         } else {
             return response()->json(["error", "Thêm mới thất bại"]);
         }
     }
-
-    /**
-     * Display the specified resource.
-     */
 
 
     /**
@@ -101,23 +95,22 @@ class ContactController extends Controller
      */
     public function edit(string $id)
     {
-
         $title = "Sửa trang liên hệ";
         array_push($this->breadcrumbs, [
             "active" => false,
-            "url" => route("admin.contact"),
-            "name" => "Quản lý trang liên hệ",
+            "url" => route("admin.information"),
+            "name" => "Quản lý thông tin liên hệ",
         ], [
 
             "active" => true,
-            "url" => route("admin.contact.edit", $id),
-            "name" => "Sửa trang liên hệ",
+            "url" => route("admin.information.edit", $id),
+            "name" => "Sửa thông tin liên hệ",
 
         ]);
-        $data = Contact::query()->where("id", "=", $id)->first();
+        $data = Information::query()->where("id", "=", $id)->first();
 
         $breadcrumbs = $this->breadcrumbs;
-        return view("backend.contacts.templates.edit", compact("title", "breadcrumbs", "data", "id"));
+        return view("backend.informations.templates.edit", compact("title", "breadcrumbs", "data", "id"));
     }
 
     /**
@@ -149,12 +142,12 @@ class ContactController extends Controller
             "map.string" => "Map phải là chuỗi",
         ]);
         $data=$request->except('_token');
-        $contact = Contact::find($id);
+        $information = Information::find($id);
         $data['map'] = preg_replace('/<p>|<\/p>/', '', $request->map);
         if($request->image==null){
-        $data['image']=$contact->image;
+        $data['image']=$information->image;
         };
-        if ($contact->update($data)) {
+        if ($information->update($data)) {
             return response()->json(["success", "Cập nhật thành công"]);
         } else {
             return response()->json(["error", "Cập nhật thất bại"]);
@@ -166,8 +159,8 @@ class ContactController extends Controller
      */
     public function destroy(Request $request)
     {
-        $contact = Contact::find($request->id);
-        if ($contact->delete($request->id)) {
+        $information = Information::find($request->id);
+        if ($information->delete($request->id)) {
             return response()->json(["success", "Xóa thành công"]);
         } else {
             return response()->json(["error", "Xóa thất bại"]);

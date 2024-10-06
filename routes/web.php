@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\UserCatelogueController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\backend\ContactController;
+use App\Http\Controllers\backend\InformationController;
 use App\Http\Controllers\PostCatelogueController;
 
 /*
@@ -132,6 +133,14 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::get("{id}/edit",[ContactController::class,"edit"])->name("admin.contact.edit");
         Route::put("{id}/update",[ContactController::class,"update"])->name("admin.contact.update");
         Route::delete("/delete",[ContactController::class,"destroy"])->name("admin.contact.delete");
+    });
+    Route::prefix("information")->group(function(){
+        Route::get("list",[InformationController::class,"index"])->name("admin.information");
+        Route::get("create",[InformationController::class,"create"])->name("admin.information.create");
+        Route::post("postStore",[InformationController::class,"store"])->name("admin.information.store");
+        Route::get("{id}/edit",[InformationController::class,"edit"])->name("admin.information.edit");
+        Route::put("{id}/update",[InformationController::class,"update"])->name("admin.information.update");
+        Route::delete("/delete",[InformationController::class,"destroy"])->name("admin.information.delete");
     });
 });
 
