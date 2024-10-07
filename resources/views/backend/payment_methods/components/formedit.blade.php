@@ -12,7 +12,7 @@
         </div>
         <div class="col-md-8" style="padding:20px 0 0 50px">
             <div class="row" style="display: flex; flex-wrap:wrap">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-12">
                     <label for="">Tên phương thức thanh toán*</label>
                     <input type="text" class="form-control" name="name"
                         placeholder="Nhập tên phương thức thanh toán " value="{{ $paymentMethods->name }}">
