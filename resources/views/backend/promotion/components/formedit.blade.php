@@ -60,19 +60,18 @@
                     <p class="text-danger message-error"></p>
                 </div>
 
-                <!-- Ngày bắt đầu -->
                 <div class="form-group col-md-6">
                     <label for="start_date">Ngày bắt đầu*</label>
-                    <input type="datetime" name="start_date" class="form-control"
-                        value="{{ old('start_date', isset($promotion) ? $promotion->start_date : '') }}" required>
+                    <input type="date" name="start_date" class="form-control"
+                        value="{{ old('start_date', isset($promotion) ? \Carbon\Carbon::parse($promotion->start_date)->format('Y-m-d') : '') }}" required>
                     <p class="text-danger message-error"></p>
                 </div>
-
+                
                 <!-- Ngày kết thúc -->
                 <div class="form-group col-md-6">
                     <label for="end_date">Ngày kết thúc*</label>
-                    <input type="datetime" name="end_date" class="form-control"
-                        value="{{ old('end_date', isset($promotion) ? $promotion->end_date : '') }}" required>
+                    <input type="date" name="end_date" class="form-control"
+                        value="{{ old('end_date', isset($promotion) ? \Carbon\Carbon::parse($promotion->end_date)->format('Y-m-d') : '') }}" required>
                     <p class="text-danger message-error"></p>
                 </div>
 

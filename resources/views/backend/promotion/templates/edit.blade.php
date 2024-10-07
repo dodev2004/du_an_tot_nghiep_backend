@@ -43,12 +43,13 @@
         }
     </style>
 @endsection
-@include('backend.components.breadcrumb')
+
 
 @section('title')
     {{ $title }}
 @endsection
 @section('content')
+@include('backend.components.breadcrumb')
     <div class="wrapper wrapper-content animated fadeInRight">
         @include('backend.promotion.components.formedit')
     </div>

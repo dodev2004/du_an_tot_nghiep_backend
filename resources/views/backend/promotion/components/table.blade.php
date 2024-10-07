@@ -1,7 +1,7 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th></th>
+            <th>STT</th>
             <th>Mã</th>
             <th>Loại giảm giá</th>
             <th>Giá trị giảm</th>
@@ -14,26 +14,28 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($data as $promotion)
+        @foreach ($data as $index => $promotion)
             <tr>
-                <td><input type="checkbox"></td>
+                <td>{{$index+1}}</td>
                 <td>{{ $promotion->code }}</td>
                 <td>{{ $promotion->discount_type }}</td>
                 <td>{{ $promotion->discount_value }}</td>
                 <td>{{ $promotion->status }}</td>
-                <td>{{ $promotion->start_date }}</td>
-                <td>{{ $promotion->end_date ?? 'Không có' }}</td>
+                <td>{{ \Carbon\Carbon::parse($promotion->start_date)->format('d/m/Y') }}</td>
+                <td>{{ $promotion->end_date ? \Carbon\Carbon::parse($promotion->end_date)->format('d/m/Y') : 'Không có' }}
+                </td>
+
                 <td>{{ $promotion->max_uses }}</td>
                 <td>{{ $promotion->used_count }}</td>
-                <td>
+                <td >
                     <a class="btn btn-sm btn-info" href="{{ route('admin.promotions.edit', $promotion->id) }}"><i
-                            class="fa fa-paste"></i> Edit</a>
+                            class="fa fa-paste"></i> </a>
                     <form action="" method="POST" data-url="promotions" class="form-delete">
                         @method('DELETE')
                         @csrf
                         <input type="hidden" value="{{ $promotion->id }}" name="id">
-                        <button class="btn btn-sm btn-danger" data-id="{{ $promotion->id }}><i class="fa-solid
-                            fa-trash"></i> Xóa</button>
+                        <button class="btn btn-sm btn-danger" data-id="{{ $promotion->id }}"">
+                            <i class="fa-solid fa-trash"></i></button>
                     </form>
 
                 </td>

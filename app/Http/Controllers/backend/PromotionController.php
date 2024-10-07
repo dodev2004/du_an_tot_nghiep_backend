@@ -6,8 +6,6 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\Interfaces\PromotionRepositoryInterface as PromotionRepository;
-use App\Repositories\Interfaces\PromotionRepositoryInterface as ProvinceRepository;
-use App\Http\Requests\StorePromotionRequest;
 use App\Models\Promotion;
 use Illuminate\Validation\Rule;
 
@@ -62,8 +60,8 @@ class PromotionController extends Controller
             'max_uses' => 'required|integer|min:1',
             'used_count' => 'integer|min:0',
         ], [
-            "code.required" => " ",
-            "code.unique" => " ",
+            "code.required" => "Mã khuyến mãi không được để trống ",
+            "code.unique" => "Mã khuyến mãi này đã tồn tại ",
             "discount_value.required" => "Giá trị giảm giá không được để trống",
             "discount_value.numeric" => "Giá trị giảm giá phải là số",
             "discount_type.required" => "Vui lòng chọn loại giảm giá",
@@ -82,8 +80,19 @@ class PromotionController extends Controller
     public function edit($id)
     {
         $promotion = $this->promotions->getPromotionById($id);
+        $title = "Quản lý mã giảm giá";
+        array_push($this->breadcrumbs,[
+            "active"=>false,
+            "url"=> route("admin.promotions"),
+            "name"=>"Quản lý mã giảm giá",
+        ],[
+            
+                "active"=>true,
+                "url"=> route("admin.promotions.create"),
+                "name"=>"Sửa mã giảm giá",
+            
+        ]);  
         $breadcrumbs = $this->breadcrumbs;
-        $title = "Chỉnh sửa khuyến mãi";
         return view('backend.promotion.templates.edit', compact('promotion', 'breadcrumbs', 'title', 'id'));
     }
     public function update(Request $request, $id)

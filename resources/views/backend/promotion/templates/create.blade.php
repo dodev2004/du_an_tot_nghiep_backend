@@ -52,36 +52,14 @@
         @include('backend.promotion.components.formadd')
     </div>
 @endsection
-@push('scripts')
-    @include('backend.components.scripts');
-    @include('backend.promotion.handles.add');
-    
-
-    {{-- <script>
-        $('#promotionForm').submit(function(e) {
-            e.preventDefault();
-
-            $.ajax({
-                url: 'http://127.0.0.1:8000/admin/promotions/store',
-                type: 'POST',
-                data: {
-                    code: $('#code').val(),
-                    discount_value: $('#discount_value').val(),
-                    discount_type: $('#discount_type').val(),
-                    status: $('#status').val(),
-                    start_date: $('#start_date').val(),
-                    end_date: $('#end_date').val(),
-                    max_uses: $('#max_uses').val(),
-                    used_count: $('#used_count').val(),
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    window.location.href = '/admin/promotions';
-                },
-                error: function(xhr) {
-                    console.log('Error:', xhr.responseJSON);
-                }
-            });
-        });
-    </script> --}}
-@endpush
+@push("scripts")
+@include('backend.components.scripts');
+@include("backend.promotion.handles.add");
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+   $(document).ready(function(){
+    $(".attribute_id").select2({
+       
+    });
+   })
+</script>
