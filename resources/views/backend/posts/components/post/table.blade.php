@@ -6,7 +6,7 @@
         <th class="text-center">Tác giả</th>
         <th class="text-center">Trạng thái</th>
         <th class="text-center" style="with:auto">Danh mục</th>
-        <th class="text-center">Chỉnh sửa</th>
+        <th class="text-center">Hành động</th>
     </tr>
     </thead>
     <tbody>

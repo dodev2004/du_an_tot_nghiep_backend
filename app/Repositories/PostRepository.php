@@ -6,6 +6,7 @@ use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Models\Post;
 use App\Repositories\BaseRespository;
 use App\Repositories\Interfaces\PostCatelogueRepositoryInterface;
+use DateTime;
 use Illuminate\Contracts\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -34,9 +35,22 @@ class PostRepository extends BaseRespository  implements PostRepositoryInterface
     {
         $query = Post::with(["catelogues","users"])
          ->where(function(Builder $query) {
-            if(request()->has(["keywords"])){
+            if(request()->has(["ky_tu"]) && !empty(request()->keywords)){
                 $query->where("title","like",'%'. request()->keywords . '%');
-              }
+            }
+            if(request()->has(["trang_thai"]) && !empty(request()->trang_thai)){
+                $query->where("status","=",request()->trang_thai);
+            }
+            if(request()->has("chuyen_muc") && !empty(request()->catelogue)){
+                $query->whereHas("catelogues",function($query){
+                    $query->where("name","like","%".request()->catelogue . "%");
+                });
+            }
+            if(request()->has(["ngay_dang"]) && !empty(request()->ngay_dang)){
+              
+             
+                $query->where("created_at","=",date("Y-m-d H:i:s",strtotime(request()->ngay_dang)));
+            }
         })->paginate(15)->appends(request()->query());
     
         return $query;
