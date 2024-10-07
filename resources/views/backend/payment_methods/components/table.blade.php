@@ -23,10 +23,11 @@
                 </td>
                 <td class="text-center">
                     <div style="display: inline-flex; align-items: center;">
+                        <!-- Thay icon paste thành icon bút chì -->
                         <a class="btn btn-sm btn-info"
                             href="{{ route('admin.payment_methods.edit', $item->id) }}"
                             style="margin-right: 5px;">
-                            <i class="fa fa-paste"></i>
+                            <i class="fa fa-pencil"></i> <!-- Icon bút chì -->
                         </a>
                         <form action="{{ route('admin.payment_methods.delete', $item->id) }}"
                             method="POST" class="d-inline delete-form">
@@ -38,7 +39,6 @@
                         </form>
                     </div>
                 </td>
-
             </tr>
         @endforeach
     </tbody>

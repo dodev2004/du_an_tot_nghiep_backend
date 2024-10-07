@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PaymentMethods;
-use Illuminate\Support\Facades\DB;
 
 class PaymentMethodsController extends Controller
 {
@@ -52,14 +51,20 @@ class PaymentMethodsController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+{
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255|unique:payment_methods',
+    ], [
+        'name.required' => 'Tên phương thức thanh toán không được để trống.',
+        'name.unique' => 'Tên phương thức thanh toán đã tồn tại.',
+        'name.max' => 'Tên phương thức thanh toán không được dài quá 255 ký tự.',
+    ]);
 
-        if ($request->isMethod('POST')) {
-            $params = $request->except('_token');
-            $this->paymentMethods->createPttt($params);
-            return redirect()->route('admin.payment_methods');
-        }
-    }
+    $params = $request->except('_token');
+    $this->paymentMethods->createPttt($params);
+
+    return redirect()->route('admin.payment_methods')->with('success', 'Phương thức thanh toán đã được thêm mới thành công.');
+}
 
     /**
      * Display the specified resource.

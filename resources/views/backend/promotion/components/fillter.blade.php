@@ -17,4 +17,7 @@
     <a href="{{ route('admin.promotions.create') }}" class="btn btn-success">
         <i class="fa-solid fa-plus"></i> Thêm mới mã giảm giá
     </a>
+    
 </form>
+
+
