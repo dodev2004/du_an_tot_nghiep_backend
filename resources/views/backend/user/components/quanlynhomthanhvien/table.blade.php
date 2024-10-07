@@ -2,10 +2,10 @@
     <thead>
     <tr>
         <th></th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Status</th>
-        <th>Action</th>
+        <th>Tên nhóm thành viên</th>
+        <th>Mô tả</th>
+        <th>Trạng thái</th>
+        <th>Hành động</th>
     </tr>
     </thead>
     <tbody>

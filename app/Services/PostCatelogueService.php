@@ -30,7 +30,7 @@ class PostCatelogueService implements PostCatelogueServiceInterface
         $nestedCategories = $this->buildNestedCategories($data);
         // Phân trang danh mục cha
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $perPage = 1; // Số lượng mục trên mỗi trang
+        $perPage = 15; // Số lượng mục trên mỗi trang
         $currentItems = collect($nestedCategories)->slice(($currentPage - 1) * $perPage, $perPage)->all();
         
         $paginatedItems = new LengthAwarePaginator($currentItems, count($nestedCategories), $perPage, $currentPage, [
