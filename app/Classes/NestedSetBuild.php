@@ -186,16 +186,16 @@ class NestedSetBuild
                     "  <input type='hidden' value='$item->id' name='id'>
                         <button class='btn btn-warning center'><i class='fa fa-trash-o'></i></button>
                     </form>
-                    
                     </td>
                 ";
                 $resuilt .= "</tr>";
-                if ($this->hasChild($data, $item->id)) {
-                    $resuilt .= $this->renderListProductCatelogue($data, $item->id);
+                if (!empty($item->children)) {
+                    // Gọi lại hàm render cho các danh mục con
+                    $resuilt .= $this->renderListPostCatelogue($item->children);
                 }
             }
         }
-        dd($resuilt);
+
         return $resuilt;
     }
 }

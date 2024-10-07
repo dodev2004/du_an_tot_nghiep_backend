@@ -35,7 +35,7 @@
             </div>
             <div class="ibox-content">
                 <div class="table-responsive">
-                    <a style="margin-bottom: 20px" href="{{route("admin.post-catelogue.create")}}" class="btn btn-success">Thêm mới <i class="fa fa-plus"></i> </a>
+                    @include("backend.posts.components.post_catelogue.fillter")
                     @include("backend.posts.components.post_catelogue.table")
                     <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
                         {!! $data->links() !!}
