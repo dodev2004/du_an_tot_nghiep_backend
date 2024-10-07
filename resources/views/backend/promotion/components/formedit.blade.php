@@ -2,7 +2,9 @@
     action="{{ isset($promotion) ? route('admin.promotions.update', $promotion->id) : route('admin.promotions.store') }}"
     method="POST" class="form-add" style="background-color: white; padding:40px" novalidate>
     @csrf
-    @method('PUT')
+    @if(isset($promotion))
+        @method('PUT')
+    @endif
 
     <div class="row">
         <div class="col-md-4">
@@ -18,7 +20,9 @@
                     <label for="code">Mã giảm giá*</label>
                     <input type="text" name="code" class="form-control"
                         value="{{ old('code', isset($promotion) ? $promotion->code : '') }}" autocomplete="" required>
-                    <p class="text-danger message-error"></p>
+                    @if($errors->has('code'))
+                        <p class="text-danger">{{ $errors->first('code') }}</p>
+                    @endif
                 </div>
 
                 <!-- Loại giảm giá -->
@@ -33,16 +37,19 @@
                             {{ old('discount_type', isset($promotion) && $promotion->discount_type == 'fixed' ? 'selected' : '') }}>
                             Cố định</option>
                     </select>
-                    <p class="text-danger message-error"></p>
+                    @if($errors->has('discount_type'))
+                        <p class="text-danger">{{ $errors->first('discount_type') }}</p>
+                    @endif
                 </div>
 
                 <!-- Giá trị giảm -->
                 <div class="form-group col-md-6">
                     <label for="discount_value">Giá trị giảm*</label>
                     <input type="number" name="discount_value" class="form-control"
-                        value="{{ old('discount_value', isset($promotion) ? $promotion->discount_value : '') }}"
-                        required>
-                    <p class="text-danger message-error"></p>
+                        value="{{ old('discount_value', isset($promotion) ? $promotion->discount_value : '') }}" required>
+                    @if($errors->has('discount_value'))
+                        <p class="text-danger">{{ $errors->first('discount_value') }}</p>
+                    @endif
                 </div>
 
                 <!-- Trạng thái -->
@@ -50,21 +57,22 @@
                     <label for="status">Trạng thái*</label>
                     <select name="status" class="form-control" required>
                         <option value="">Chọn trạng thái</option>
-                        <option value="active"
-                            {{ old('status', isset($promotion) && $promotion->status == 'active' ? 'selected' : '') }}>
-                            Hoạt động</option>
-                        <option value="inactive"
-                            {{ old('status', isset($promotion) && $promotion->status == 'inactive' ? 'selected' : '') }}>
-                            Không hoạt động</option>
+                        <option value="1" {{ old('status', $promotion->status) == 1 ? 'selected' : '' }}>Hoạt động</option>
+                        <option value="0" {{ old('status', $promotion->status) == 0 ? 'selected' : '' }}>Không hoạt động</option>
                     </select>
-                    <p class="text-danger message-error"></p>
+                    @if($errors->has('status'))
+                        <p class="text-danger">{{ $errors->first('status') }}</p>
+                    @endif
                 </div>
 
+                <!-- Ngày bắt đầu -->
                 <div class="form-group col-md-6">
                     <label for="start_date">Ngày bắt đầu*</label>
                     <input type="date" name="start_date" class="form-control"
                         value="{{ old('start_date', isset($promotion) ? \Carbon\Carbon::parse($promotion->start_date)->format('Y-m-d') : '') }}" required>
-                    <p class="text-danger message-error"></p>
+                    @if($errors->has('start_date'))
+                        <p class="text-danger">{{ $errors->first('start_date') }}</p>
+                    @endif
                 </div>
                 
                 <!-- Ngày kết thúc -->
@@ -72,7 +80,9 @@
                     <label for="end_date">Ngày kết thúc*</label>
                     <input type="date" name="end_date" class="form-control"
                         value="{{ old('end_date', isset($promotion) ? \Carbon\Carbon::parse($promotion->end_date)->format('Y-m-d') : '') }}" required>
-                    <p class="text-danger message-error"></p>
+                    @if($errors->has('end_date'))
+                        <p class="text-danger">{{ $errors->first('end_date') }}</p>
+                    @endif
                 </div>
 
                 <!-- Số lượt sử dụng tối đa -->
@@ -80,7 +90,9 @@
                     <label for="max_uses">Số lượt sử dụng tối đa*</label>
                     <input type="number" name="max_uses" class="form-control"
                         value="{{ old('max_uses', isset($promotion) ? $promotion->max_uses : '') }}" required>
-                    <p class="text-danger message-error"></p>
+                    @if($errors->has('max_uses'))
+                        <p class="text-danger">{{ $errors->first('max_uses') }}</p>
+                    @endif
                 </div>
 
                 <!-- Số lượt đã sử dụng -->
@@ -88,7 +100,6 @@
                     <label for="used_count">Số lượt đã sử dụng</label>
                     <input type="number" name="used_count" class="form-control"
                         value="{{ old('used_count', isset($promotion) ? $promotion->used_count : 0) }}" readonly>
-                    <p class="text-danger message-error"></p>
                 </div>
             </div>
         </div>
