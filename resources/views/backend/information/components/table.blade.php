@@ -26,7 +26,7 @@
                 </div>
                <div style="display: flex; justify-content: end;margin-top: 10px ;">
                 @if (isset($item))
-                <a class="btn btn-sm btn-info" href="{{ route('admin.contact.edit', $item->id) }}" style="width: 100px;" ><i class="fa fa-paste"></i>
+                <a class="btn btn-sm btn-info" href="{{ route('admin.information.edit', $item->id) }}" style="width: 100px;" ><i class="fa fa-paste"></i>
                     Edit</a>
 
                 @endif

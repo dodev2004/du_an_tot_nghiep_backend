@@ -110,7 +110,7 @@ class InformationController extends Controller
         $data = Information::query()->where("id", "=", $id)->first();
 
         $breadcrumbs = $this->breadcrumbs;
-        return view("backend.informations.templates.edit", compact("title", "breadcrumbs", "data", "id"));
+        return view("backend.information.templates.edit", compact("title", "breadcrumbs", "data", "id"));
     }
 
     /**
