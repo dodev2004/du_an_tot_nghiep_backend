@@ -31,8 +31,13 @@
                 <div class="table-responsive">
                     <a style="margin-bottom: 20px" href="{{route("admin.product_catelogue.create")}}" class="btn btn-success">Thêm mới <i class="fa fa-plus"></i> </a>
                     @include("backend.product_catelogues.components.table")
-                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                        {!! $pagination->links() !!}
+                    <div style="display:flex;justify-content: space-between;align-items: center">
+                        <div class="per_page">
+                            <p>Tồn tại tổng <strong>{{$total}}</strong> tại trang thứ <strong>{{$pagination->currentPage()}}</strong></p>
+                        </div>
+                        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                            {{  $pagination->appends(request()->query())->links()}}
+                        </div>
                     </div>
                 </div>
             </div>

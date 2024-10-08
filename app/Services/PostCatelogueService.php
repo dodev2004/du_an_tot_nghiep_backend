@@ -38,7 +38,7 @@ class PostCatelogueService implements PostCatelogueServiceInterface
             'query' => request()->query(), // Giữ lại các tham số truy vấn
         ]);
         $post_catelogues = $this->nestedSetBuild->renderListPostCatelogue($paginatedItems); // Gọi hàm render với danh sách phân trang
-        
+     
         return ["html" => $post_catelogues, "data" => $paginatedItems];
     }
     
