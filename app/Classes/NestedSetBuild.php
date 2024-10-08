@@ -143,12 +143,12 @@ class NestedSetBuild
     {
         $result = ""; // Chuỗi lưu HTML
         
-        foreach ($data as $item) {
-            // Render danh mục cha
+        foreach ($data as $index => $item) {
+            $index = $index + 1;
             $routeEdit = route('admin.post-catelogue.edit', [$item->id]);
             $result .= "<tr class='category-row' data-id='$item->id'>";
             $result .= "
-                <td><input type='checkbox' data-id='$item->id'></td>
+                <td class='text-center'>$item->id</td>
                 <td>" . str_repeat('---|', $item->level) . "$item->name</td>
                 <td class='text-center' style='display: flex; justify-content: center; column-gap: 5px;'>
                     <a href='$routeEdit' class='btn btn-info'><i class='fa fa-pencil'></i></a>
@@ -173,11 +173,12 @@ class NestedSetBuild
     public function renderListProductCatelogue($data, $parentId = 0)
     {
         $resuilt = "<tr>";
-        foreach ($data as $item) {
+        foreach ($data as $index => $item) {
+            $index = $index + 1;
             if ($item->parent_id == $parentId) {
                 $routeEdit = route('admin.product_catelogue.edit', [$item->id]);
                 $resuilt .= "
-                    <td><input type='checkbox' data-id='$item->id'></td>
+                    <td>$index</td>
                     <td>" . str_repeat('---|', $item->level) . "$item->name</td>
                     <td class='text-center' style='display: flex; justify-content: center;column-gap: 5px;'>
                     <a href='$routeEdit' class='btn btn-info'><i class='fa fa-pencil'></i></a>

@@ -22,12 +22,6 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-wrench"></i>
                     </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#">Config option 1</a>
-                        </li>
-                        <li><a href="#">Config option 2</a>
-                        </li>
-                    </ul>
                     <a class="close-link">
                         <i class="fa fa-times"></i>
                     </a>
@@ -37,6 +31,9 @@
                 <div class="table-responsive">
                     <a style="margin-bottom: 20px" href="{{route("admin.product_catelogue.create")}}" class="btn btn-success">Thêm mới <i class="fa fa-plus"></i> </a>
                     @include("backend.product_catelogues.components.table")
+                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                        {!! $pagination->links() !!}
+                    </div>
                 </div>
             </div>
         </div>

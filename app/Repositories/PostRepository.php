@@ -21,8 +21,6 @@ class PostRepository extends BaseRespository  implements PostRepositoryInterface
     public function __construct(
         Post $model,
         PostCatelogueRepositoryInterface $catelogue
-
-        
     ){
         $this->model = $model;
         $this->catelogue = $catelogue;    
@@ -80,4 +78,3 @@ class PostRepository extends BaseRespository  implements PostRepositoryInterface
        
     }
 }
-
