@@ -12,7 +12,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // Lập lịch cho command xóa bình luận hàng ngày
+        $schedule->command('comments:delete-old-soft-deleted')->daily();
     }
 
     /**
