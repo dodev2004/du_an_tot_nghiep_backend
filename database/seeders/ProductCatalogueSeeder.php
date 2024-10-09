@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ProductCatalogueSeeder extends Seeder
 {
@@ -14,11 +15,11 @@ class ProductCatalogueSeeder extends Seeder
     {
         DB::table('product_catelogues')->insert([
             [
-                'name' => 'Electronics',
-                'slug' => 'electronics',
-                'image' => 'images/electronics.jpg',
-                'meta_description' => 'Catalogue for electronic products',
-                'meta_keywords' => 'electronics, gadgets, devices',
+                'name' => 'Phòng Khách',
+                'slug' => 'phong-khach',
+                'image' => 'images/phong-khach.jpg',
+                'meta_description' => 'Danh mục nội thất phòng khách',
+                'meta_keywords' => 'sofa, bàn trà, tủ kệ phòng khách',
                 '_ltf' => 1,
                 '_rgt' => 2,
                 'user_id' => 1,
@@ -28,20 +29,20 @@ class ProductCatalogueSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
-                'name' => 'Mobile Phones',
-                'slug' => 'mobile-phones',
-                'image' => 'images/mobile-phones.jpg',
-                'meta_description' => 'Catalogue for mobile phones',
-                'meta_keywords' => 'phones, mobile, smartphones',
+                'name' => 'Phòng Ngủ',
+                'slug' => 'phong-ngu',
+                'image' => 'images/phong-ngu.jpg',
+                'meta_description' => 'Danh mục nội thất phòng ngủ',
+                'meta_keywords' => 'giường, tủ quần áo, bàn trang điểm',
                 '_ltf' => 3,
                 '_rgt' => 4,
                 'user_id' => 1,
-                'parent_id' => 1,
-                'level' => 2,
+                'parent_id' => NULL,
+                'level' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
-            // Thêm các danh mục khác nếu cần
+            // Thêm danh mục khác nếu cần
         ]);
     }
 }

@@ -15,12 +15,17 @@ class AttributeSeeder extends Seeder
     {
         DB::table('attributes')->insert([
             [
-                'name' => 'Color',
+                'name' => 'Chất Liệu',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'Size',
+                'name' => 'Màu Sắc',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'Kích Thước',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
