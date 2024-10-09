@@ -15,13 +15,12 @@ class ProductCatalogueSeeder extends Seeder
     {
         DB::table('product_catelogues')->insert([
             [
-                'name' => 'Phòng Khách',
-                'slug' => 'phong-khach',
-                'image' => 'images/phong-khach.jpg',
-                'meta_description' => 'Danh mục nội thất phòng khách',
-                'meta_keywords' => 'sofa, bàn trà, tủ kệ phòng khách',
-                '_ltf' => 1,
-                '_rgt' => 2,
+                'name' => 'Nội Thất',
+                'slug' => 'noi-that',
+               
+                'meta_description' => 'Danh mục nội thất tổng hợp',
+                'meta_keywords' => 'nội thất, trang trí, nhà cửa',
+              // Số con là 2
                 'user_id' => 1,
                 'parent_id' => NULL,
                 'level' => 1,
@@ -29,16 +28,41 @@ class ProductCatalogueSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
+                'name' => 'Phòng Khách',
+                'slug' => 'phong-khach',
+              
+                'meta_description' => 'Danh mục nội thất phòng khách',
+                'meta_keywords' => 'sofa, bàn trà, tủ kệ phòng khách',
+              
+                'user_id' => 1,
+                'parent_id' => 1, // Cha là Nội Thất
+                'level' => 2,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'Sofa',
+                'slug' => 'sofa',
+            
+                'meta_description' => 'Sofa hiện đại cho phòng khách',
+                'meta_keywords' => 'sofa, nội thất',
+               
+                'user_id' => 1,
+                'parent_id' => 2, // Cha là Phòng Khách
+                'level' => 3,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
                 'name' => 'Phòng Ngủ',
                 'slug' => 'phong-ngu',
-                'image' => 'images/phong-ngu.jpg',
+           
                 'meta_description' => 'Danh mục nội thất phòng ngủ',
-                'meta_keywords' => 'giường, tủ quần áo, bàn trang điểm',
-                '_ltf' => 3,
-                '_rgt' => 4,
+                'meta_keywords' => 'giường, tủ quần áo',
+             
                 'user_id' => 1,
-                'parent_id' => NULL,
-                'level' => 1,
+                'parent_id' => 1, // Cha là Nội Thất
+                'level' => 2,
                 'created_at' => now(),
                 'updated_at' => now()
             ],

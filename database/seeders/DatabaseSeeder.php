@@ -12,11 +12,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        ProductCatalogueSeeder::class,
-        ProductSeeder::class,
-        AttributeSeeder::class,
-        VariantAttributeValueSeeder::class,
-        ProductVariantSeeder::class,
-        VariantAttributeValueSeeder::class,
+        $this->call([
+            // UserSeeder::class,
+            // RoleSeeder::class,
+            // PermissionSeeder::class,
+            // RolePermissionSeeder::class,
+            // PostCateloguesSeeder::class,
+            // ProductCatalogueSeeder::class,
+            // BrandSeeder::class,
+            // ProductSeeder::class,
+            // AttributeSeeder::class,
+            // AttributeValueSeeder::class,
+            // ProductVariantSeeder::class,
+            VariantAttributeValueSeeder::class,
+        ]);
     }
 }

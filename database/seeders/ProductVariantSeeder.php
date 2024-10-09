@@ -15,7 +15,7 @@ class ProductVariantSeeder extends Seeder
     {
         DB::table('product_variants')->insert([
             [
-                'product_id' => 1,
+                'product_id' => 3,
                 'price' => 12000.00,
                 'weight' => 20.0,
                 'dimension' => '220x80x75 cm',
@@ -26,7 +26,7 @@ class ProductVariantSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
-                'product_id' => 2,
+                'product_id' => 3,
                 'price' => 18000.00,
                 'weight' => 28.0,
                 'dimension' => '200x180 cm',
