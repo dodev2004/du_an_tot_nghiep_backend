@@ -82,5 +82,48 @@ return [
         ]
 
     ],
+    [
+        "childrenlevel" => true,
+        "name" => "Quản lý phương thức thanh toán",
+        "route" => "#",
+        'children' =>
+        [
+            
+            
+            [
+                "name" => "QL phương thức thanh toán",
+                "route" => "admin.payment_methods"
+            ],
+        ]
+
+    ],
+    [
+        "childrenlevel" => true,
+        "name" => "Quản lý mã giảm giá",
+        "route" => "",
+        'children' =>
+        [
+            
+            [
+                "name" => "QL mã giảm giá",
+                "route" => "admin.promotions"
+            ],
+        ]
+
+        ],
+        [
+            "childrenlevel" => true,
+            "name" => "Quản lý mã trang giới thiệu",
+            "route" => "",
+            'children' =>
+            [
+                
+                [
+                    "name" => "QL trang giới thiệu",
+                    "route" => "admin.about"
+                ],
+            ]
+    
+        ]
 ];
 //    Parent : 

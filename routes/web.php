@@ -5,7 +5,7 @@ use App\Http\Controllers\DasboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ajax\ChangeStatusAjax;
 use App\Http\Controllers\ajax\GetLocaitonAjax;
-
+use App\Http\Controllers\Backend\AboutPageController;
 use App\Http\Controllers\backend\AttributeController;
 use App\Http\Controllers\backend\AttributeValueController;
 use App\Http\Controllers\backend\DashBoardController;
@@ -17,8 +17,10 @@ use App\Http\Controllers\backend\ProductCommentController;
 use App\Http\Controllers\backend\ProductReviewController;
 use App\Http\Controllers\Backend\UserCatelogueController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\PaymentMethodsController;
 
 use App\Http\Controllers\PostCatelogueController;
+use App\Http\Controllers\Backend\PromotionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -120,6 +122,31 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::put("{id}/update",[AttributeValueController::class,"update"])->name("admin.variant.update");
         Route::delete("/delete",[AttributeValueController::class,"destroy"])->name("admin.variant.delete");
     });
+    Route::prefix("payment_methods")->group(function(){
+        Route::get("list",[PaymentMethodsController::class,"index"])->name("admin.payment_methods");
+        Route::get("create",[PaymentMethodsController::class,"create"])->name("admin.payment_methods.create");
+        Route::post("postStore",[PaymentMethodsController::class,"store"])->name("admin.payment_methods.store");
+        Route::get("{id}/edit",[PaymentMethodsController::class,"edit"])->name("admin.payment_methods.edit");
+        Route::put("{id}/update",[PaymentMethodsController::class,"update"])->name("admin.payment_methods.update");
+        Route::delete('payment_methods/{id}', [PaymentMethodsController::class, 'destroy'])->name('admin.payment_methods.delete');
+    });
+    Route::prefix('promotions')->group(function () {
+        Route::get('/', [PromotionController::class, 'listPromotions'])->name('admin.promotions'); 
+        Route::get('/create', [PromotionController::class, 'create'])->name('admin.promotions.create'); 
+        Route::post('/store', [PromotionController::class, 'store'])->name('admin.promotions.store');
+        Route::get('/{id}/edit', [PromotionController::class, 'edit'])->name('admin.promotions.edit'); 
+        Route::put('/{id}/update', [PromotionController::class, 'update'])->name('admin.promotions.update');
+        Route::delete('/{id}', [PromotionController::class, 'deletePromotion'])->name('admin.promotions.delete');
+    });
+    Route::prefix("about")->group(function() {
+        Route::get("list", [AboutPageController::class, "index"])->name("admin.about");
+        Route::get("create", [AboutPageController::class, "create"])->name("admin.about.create");
+        Route::post('/store', [AboutPageController::class, 'store'])->name('admin.about.store');
+        Route::get("{id}/edit", [AboutPageController::class, "edit"])->name("admin.about.edit");
+        Route::put("{id}/update", [AboutPageController::class, "update"])->name("admin.about.update");
+        Route::delete('/about/{id}', [AboutPageController::class, 'destroy'])->name('admin.about.delete');
+    });
+    
    
     Route::prefix("product-comment")->group(function(){
         Route::get("users", [ProductCommentController::class, "index"])->name("admin.product_comment.users");
