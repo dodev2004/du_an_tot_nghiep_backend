@@ -94,6 +94,20 @@ return [
             ],
         ]
 
-    ]
+        ],
+        [
+            "childrenlevel" => true,
+            "name" => "Quản lý mã trang giới thiệu",
+            "route" => "",
+            'children' =>
+            [
+                
+                [
+                    "name" => "QL trang giới thiệu",
+                    "route" => "admin.about"
+                ],
+            ]
+    
+        ]
 ];
 //    Parent : 

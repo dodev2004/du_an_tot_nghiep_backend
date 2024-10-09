@@ -5,7 +5,7 @@ use App\Http\Controllers\DasboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ajax\ChangeStatusAjax;
 use App\Http\Controllers\ajax\GetLocaitonAjax;
-
+use App\Http\Controllers\Backend\AboutPageController;
 use App\Http\Controllers\backend\AttributeController;
 use App\Http\Controllers\backend\AttributeValueController;
 use App\Http\Controllers\backend\DashBoardController;
@@ -132,7 +132,15 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::post('/store', [PromotionController::class, 'store'])->name('admin.promotions.store');
         Route::get('/{id}/edit', [PromotionController::class, 'edit'])->name('admin.promotions.edit'); 
         Route::put('/{id}/update', [PromotionController::class, 'update'])->name('admin.promotions.update');
-        Route::delete('/delete', [PromotionController::class, 'deletePromotion'])->name('admin.promotions.delete'); 
+        Route::delete('/{id}', [PromotionController::class, 'deletePromotion'])->name('admin.promotions.delete');
+    });
+    Route::prefix("about")->group(function() {
+        Route::get("list", [AboutPageController::class, "index"])->name("admin.about");
+        Route::get("create", [AboutPageController::class, "create"])->name("admin.about.create");
+        Route::post('/store', [AboutPageController::class, 'store'])->name('admin.about.store');
+        Route::get("{id}/edit", [AboutPageController::class, "edit"])->name("admin.about.edit");
+        Route::put("{id}/update", [AboutPageController::class, "update"])->name("admin.about.update");
+        Route::delete('/about/{id}', [AboutPageController::class, 'destroy'])->name('admin.about.delete');
     });
     
    

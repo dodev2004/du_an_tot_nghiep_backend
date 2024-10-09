@@ -143,11 +143,11 @@ class PromotionController extends Controller
         $promotion->update($data);
         return redirect()->route('admin.promotions')->with('success', 'Cập nhật khuyến mãi thành công');
     }
-    public function deletePromotion(Request $request)
+    public function deletePromotion(Request $request, $id)
     {
         $id = $request->input('id');
-        $promotion = Promotion::find($id);
-
+        $promotion = Promotion::findOrFail($id);
+        
         if ($promotion) {
             $promotion->delete();
             return response()->json(['message' => 'Khuyến mãi đã được xóa thành công', 'status' => 'success'], 200);
