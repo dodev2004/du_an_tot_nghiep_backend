@@ -1,5 +1,5 @@
- <!-- Toastr -->
- <script src="{{asset("backend/js/plugins/toastr/toastr.min.js")}}"></script>
+<!-- Toastr -->
+<script src="{{asset("backend/js/plugins/toastr/toastr.min.js")}}"></script>
 <script>
      $(document).ready(function() {
         setTimeout(function() {

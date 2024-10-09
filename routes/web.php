@@ -11,6 +11,8 @@ use App\Http\Controllers\backend\AttributeValueController;
 use App\Http\Controllers\backend\DashBoardController;
 use App\Http\Controllers\backend\PostController;
 use App\Http\Controllers\backend\ProductCatelogueController;
+use App\Http\Controllers\backend\ProductCommentController;
+use App\Http\Controllers\backend\ProductReviewController;
 use App\Http\Controllers\Backend\UserCatelogueController;
 use App\Http\Controllers\Backend\UserController;
 
@@ -117,6 +119,17 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::delete("/delete",[AttributeValueController::class,"destroy"])->name("admin.variant.delete");
     });
    
+    Route::prefix("product-comment")->group(function(){
+        Route::get("users", [ProductCommentController::class, "index"])->name("admin.product_comment.users");
+        Route::get("user/{id}/comments", [ProductCommentController::class, "userComments"])->name("admin.product_comment.user_comments");
+        Route::delete("{id}/soft-delete", [ProductCommentController::class, "softDelete"])->name("admin.product_comment.soft_delete");//xóa mềm
+        Route::post("{id}/restore", [ProductCommentController::class, "restore"])->name("admin.product_comment.restore");//khôi phục
+        Route::delete("{id}/hard-delete", [ProductCommentController::class, "hardDelete"])->name("admin.product_comment.hard_delete");//xóa cúng
+        Route::get("trash", [ProductCommentController::class, "trash"])->name("admin.product_comment.trash"); // Trang thùng rác
+    });
+    Route::prefix("product-reviews")->group(function(){
+        Route::get('admin/product-reviews', [ProductReviewController::class, 'index'])->name('admin.product_review');
+    });
 });
                     
 Route::get("/",function(){
