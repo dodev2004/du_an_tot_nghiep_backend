@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\backend\ContactController;
 use App\Http\Controllers\backend\InformationController;
+use App\Http\Controllers\backend\ShippingFeeController;
 use App\Http\Controllers\PostCatelogueController;
 
 /*
@@ -141,6 +142,15 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::get("{id}/edit",[InformationController::class,"edit"])->name("admin.information.edit");
         Route::put("{id}/update",[InformationController::class,"update"])->name("admin.information.update");
         Route::delete("/delete",[InformationController::class,"destroy"])->name("admin.information.delete");
+    });
+    Route::prefix("shipping-fee")->group(function(){
+        Route::get("list",[ShippingFeeController::class,"index"])->name("admin.shipping_fee");
+        Route::get("create",[ShippingFeeController::class,"create"])->name("admin.shipping_fee.create");
+        Route::post("postStore",[ShippingFeeController::class,"store"])->name("admin.shipping_fee.store");
+        Route::get("{id}/edit",[ShippingFeeController::class,"edit"])->name("admin.shipping_fee.edit");
+        Route::put("{id}/update",[ShippingFeeController::class,"update"])->name("admin.shipping_fee.update");
+        Route::delete("/delete",[ShippingFeeController::class,"destroy"])->name("admin.shipping_fee.delete");
+
     });
 });
 

@@ -26,10 +26,10 @@ class BrandController extends Controller
         $searchText = request()->input('seach_text');
 
         if ($searchText) {
-            $data = Brand::where('name', 'LIKE', '%' . $searchText . '%')->get();
+            $data = Brand::where('name', 'LIKE', '%' . $searchText . '%')->paginate(5);
         } else {
             // Không có giá trị tìm kiếm
-            $data = Brand::all();
+            $data = Brand::paginate(5);
         }
 
         return view('backend.brands.templates.index', compact('breadcrumbs', "title", "data"));

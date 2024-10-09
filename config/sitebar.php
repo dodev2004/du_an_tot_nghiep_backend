@@ -76,6 +76,11 @@ return [
         "name" => "Thông tin liên hệ",
         "route" => "admin.information",
     ],
+    [
+        "childrenlevel" => false,
+        "name" => "Quản lí phí ship",
+        "route" => "admin.shipping_fee",
+    ],
 
 ];
 //    Parent :

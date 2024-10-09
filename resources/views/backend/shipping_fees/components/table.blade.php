@@ -2,8 +2,9 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Tên nhãn hàng</th>
-            <th>Miêu tả</th>
+            <th>Tên thành phố</th>
+            <th>Phí ship</th>
+            <th>Trọng lượng tối đa</th>
             <th>Trạng thái</th>
             <th class="text-center">Chỉnh sửa</th>
         </tr>
@@ -11,12 +12,15 @@
     <tbody>
         @foreach ($data as $item)
             <tr>
-                <td><p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->id }}</p></td>
+                <td><p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->province->code }}</p></td>
                 <td>
-                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->name }}</p>
+                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->province->name }}</p>
                 </td>
                 <th>
-                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->description }}</p>
+                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->fee }}</p>
+                </th>
+                <th>
+                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->weight_limit }}</p>
                 </th>
 
                 <td class="text-center">
@@ -32,9 +36,9 @@
                 </td>
 
                 <th class="text-center">
-                    <a class="btn btn-sm btn-info" href="{{ route('admin.brand.edit', $item->id) }}"><i
+                    <a class="btn btn-sm btn-info" href="{{ route('admin.shipping_fee.edit', $item->id) }}"><i
                             class="fa fa-paste"></i> Edit</a>
-                    <form action="" method="POST" data-url="brand" class="form-delete">
+                    <form action="" method="POST" data-url="shipping-fee" class="form-delete ">
                         @method('DELETE')
                         @csrf
                         <input type="hidden" value="{{ $item->id }}" name="id">
