@@ -1,9 +1,9 @@
-<table class="table table-striped table-bordered table-hover dataTables-example" >
+<table class="table table-striped table-bordered table-hover" >
     <thead>
     <tr>
-        <th></th>
+        <th class="text-center"></th>
         <th>Danh mục sản phẩm</th>
-        <th>Action</th>
+        <th class="text-center">Hành động</th>
     </tr>
     </thead>
     <tbody>

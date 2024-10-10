@@ -10,9 +10,17 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
+    private $breadcrumbs = [];
     public function index()
     {
-        //
+        $title = "Quản lý sản phẩm";
+        array_push($this->breadcrumbs,[
+            "active"=>true,
+            "url"=> route("admin.product"),
+            "name"=>"Quản lý sản phẩm"
+        ]);  
+        $breadcrumbs = $this->breadcrumbs;
+        return view("backend.products.templates.index",compact("title","breadcrumbs"));
     }
 
     /**

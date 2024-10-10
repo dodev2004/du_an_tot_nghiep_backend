@@ -29,9 +29,15 @@ class ProductCatelogueController extends Controller
             "name"=>"Quản lý danh mục sản phẩm"
          ]);
          $table_name = "Bảng quản lý danh mục sản phẩm ";
-         $productCatelogue = $this->productCatelogueService->getAllProductCatelogue();       
+         $productCatelogue = $this->productCatelogueService->getAllProductCatelogue();   
+         $pagination = $productCatelogue["data"];     
+         $productCatelogue = $productCatelogue["html"];
+         $total = 0;
+         foreach($pagination as $item) {
+            $total += $total +1 + count($item->children); 
+         };
          $breadcrumbs = $this->breadcrumbs;
-         return view("backend.product_catelogues.templates.index",compact("title","breadcrumbs","table_name","productCatelogue"));
+         return view("backend.product_catelogues.templates.index",compact("title","breadcrumbs","pagination","table_name","productCatelogue","total"));
     }
 
     /**

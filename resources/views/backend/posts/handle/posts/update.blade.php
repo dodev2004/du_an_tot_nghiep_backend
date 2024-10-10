@@ -7,20 +7,18 @@
             let _token = $("input[name='_token'").val()
             let data =  new FormData();
             const inputs = Array.from(this.querySelectorAll(".form-control"));
-            const catelogueElem = Array.from(this.querySelectorAll('input[name="catelogue"]'));
+            const catelogueElem = Array.from(this.querySelectorAll('input[name="post_catelogue_id"]'));
             inputs.forEach(function(input){
-                    data.append(input.name,input.value.trim());
-                   
+                    data.append(input.name,input.value.trim());  
             })
             catelogueElem.forEach(function(catelogue){
                 if(catelogue.checked){
                     catelogues.push(Number(catelogue.value) )
-                }
-                
+                } 
             })
             data.append("_token",_token); 
             data.append("catelogues",catelogues);
-           $.ajax({
+            $.ajax({
             url : '{{route('admin.post.update',request()->id)}}',
             type: "POST",
             dataType: "json",
@@ -31,9 +29,7 @@
                 'X-HTTP-Method-Override':'PUT'
             },
             success : function(res){
-          
                 toastMessage(res[1],res[0],'{{route('admin.post')}}')
-               
             },
             error : function(error){
               let errors =  error.responseJSON.errors;
@@ -43,12 +39,10 @@
                     if(input){
                     const message = input.parentElement.querySelector("span");
                         message.innerText = errors[error]
-
                     }
                     if(select){
                         const message = select.parentElement.querySelector(".message-error");
                         message.innerText = errors[error]
-                       
                     }
                 })
             }

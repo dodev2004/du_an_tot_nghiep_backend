@@ -29,4 +29,3 @@ class ProvinceRepository extends BaseRespository  implements ProvinceRepositoryI
        
     }
 }
-

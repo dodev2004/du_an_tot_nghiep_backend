@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer("user_status")->default(1);
+        Schema::table('promotions', function (Blueprint $table) {
+            $table->softDeletes(); // Thêm cột 'deleted_at'
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('promotions', function (Blueprint $table) {
             //
         });
     }

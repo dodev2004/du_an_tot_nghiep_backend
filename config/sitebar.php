@@ -65,22 +65,88 @@ return [
             ],
         ]
 
+    ],[
+        "childrenlevel" => true,
+        "name" => "Quản lý phản hồi",
+        "route" => "#",
+        'children' =>
+        [
+            [
+                "name" => "QL bình luận",
+                "route" => 'admin.product_comment.users',
+            ],
+            [
+                "name" => "QL đánh giá",
+                "route" => 'admin.product_review',
+            ],
+        ]
+
     ],
     [
-        "childrenlevel" => false,
-        "name" => "Quản lí nhãn hàng",
-        "route" => "admin.brand",
+        "childrenlevel" => true,
+        "name" => "Quản lý phương thức thanh toán",
+        "route" => "#",
+        'children' =>
+        [
+
+
+            [
+                "name" => "QL phương thức thanh toán",
+                "route" => "admin.payment_methods"
+            ],
+        ]
+
     ],
     [
+        "childrenlevel" => true,
+        "name" => "Quản lý mã giảm giá",
+        "route" => "",
+        'children' =>
+        [
+
+            [
+                "name" => "QL mã giảm giá",
+                "route" => "admin.promotions"
+            ],
+        ]
+
+    ],
+        [
+            "childrenlevel" => true,
+            "name" => "Quản lý mã trang giới thiệu",
+            "route" => "",
+            'children' =>
+            [
+
+                [
+                    "name" => "QL trang giới thiệu",
+                    "route" => "admin.about"
+                ],
+            ]
+
+            ],
+        [
+            "childrenlevel" => false,
+            "name" => "Quản lí nhãn hàng",
+            "route" => "admin.brand",
+        ],
+        [
         "childrenlevel" => false,
         "name" => "Thông tin liên hệ",
         "route" => "admin.information",
+
     ],
     [
         "childrenlevel" => false,
         "name" => "Quản lí phí ship",
         "route" => "admin.shipping_fee",
     ],
+
+        
+
+
+
+
 
 ];
 //    Parent :

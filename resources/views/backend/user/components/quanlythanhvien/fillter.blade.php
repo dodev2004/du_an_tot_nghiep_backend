@@ -12,7 +12,4 @@
             <a class="btn btn-primary seach"> <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm </a> 
             <a href="{{route("admin.users.create")}}"  class="btn btn-success"><i class="fa-solid fa-plus"></i> Thêm người dùng</a>
         </div>
-    <div class="total_record">
-        <p>Tồn tại tổng <strong>{{$total}}</strong> tại trang thứ <strong>{{$data->currentPage()}}</strong></p>
-    </div>
 </div>

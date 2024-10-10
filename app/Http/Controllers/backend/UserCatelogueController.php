@@ -82,41 +82,5 @@ class UserCatelogueController extends Controller
                         return response()->json(["success","Thành công"]);
         }
     }
-    // public function editUser ($id){
-    //     $title = "Quản lý thành viên";
-    //     array_push($this->breadcrumbs,[
-    //         "active"=>false,
-    //         "url"=> route("admin.users"),
-    //         "name"=>"Quản lý thành viên"
-    //     ],[
-    //         "active"=>true,
-    //         "url"=> route("admin.users.edit",$id),
-    //         "name"=>"Sửa thành viên"
-    //      ]);
-    //      $data = $this->users->getUserId($id);
-    //      $breadcrumbs = $this->breadcrumbs;
-    //      $provinces = $this->provinces->all();
-    //      $districts = $this->provinces->findDistrictByIdProvince($data->province_id);
-    //      $wards = $this->districts->findwardsByIdDistrict($data->district_id);
-    //     return view("backend.user.templates.quanlythanhvien.edit",compact("breadcrumbs","title","data","provinces","districts","wards","id"));
-    // }
-    // public function updateUser(UpdateUserRequest $update){
-    //     $data = request()->except(["_token","avatar"]);
-    //     if($this->users->update($data,request()->id)){
-    //         return response()->json(["success","Sửa thành công"]);
-    //     }
-    //     else {
-    //         return response()->json(["error","Thêm mới không thành công"]);
-    //     }
-    // }
-    // public function updateUserStatus(){
-    //     $data = request()->except(["_token"]);
-    //     $this->users->change_status($data["status"],$data["id"]);
-    //     return response()->json(["success","okee"]);    
-    // }
-    // public function deleteUser(){
-    //         if($this->users->delete(request()->id)){
-    //             return response()->json(["success","thanhf conbg"]);
-    //         }
-    // }
+
 }

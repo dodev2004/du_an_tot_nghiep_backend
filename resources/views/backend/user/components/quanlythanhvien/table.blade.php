@@ -1,21 +1,19 @@
 <table class="table table-bordered">
     <thead>
     <tr>
-        <th></th>
-        <th>#</th>
-        <th>Full Name</th>
+        <th>STT</th>
+        <th>Họ và tên</th>
         <th>Email</th>
-        <th>Phone</th>
-        <th>Adress</th>
-        <th>Status</th>
-        <th>Active</th>
+        <th>Số điện thoại</th>
+        <th>Địa chỉ</th>
+        <th>Trạng thái</th>
+        <th class="text-center">Hành động</th>
     </tr>
     </thead>
     <tbody>
-    @foreach ($data as $user)
+    @foreach ($data as $index => $user)
         <tr>
-        <td><input type="checkbox"></td>
-        <td>{{$user->id}}</td>
+        <td>{{$index + 1}}</td>
         <td>{{$user->Fullname}}</td>
         <td>{{$user->email}}</td>
         <td>{{$user->phone ? $user->phone : "Dữ liệu chưa có" }}</td>
@@ -29,13 +27,17 @@
             
         </td>
         <td>
-            <a class="btn btn-sm btn-info"  href="{{route("admin.users.edit",$user->id) }}" ><i class="fa fa-paste"></i> Edit</a>
-            <form action="" method="POST" data-url="users" class="form-delete">
-                @method("DELETE")
-                @csrf
-                <input type="hidden" value="{{$user->id}}" name="user_id">
-                <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i> Xóa</button>
-            </form>
+            <div class="" style="display:flex;justify-content: center;column-gap: 12px">
+                <a class="btn btn-sm btn-info"  href="{{route("admin.users.edit",$user->id) }}" ><i
+                    class="fa fa-pencil"></i></a>
+                <form action="" method="POST" data-url="users" class="form-delete">
+                    @method("DELETE")
+                    @csrf
+                    <input type="hidden" value="{{$user->id}}" name="user_id">
+                    <button class="btn btn-warning center"><i class="fa fa-trash-o"></i></button>
+                </form>
+            </div>
+          
 
         </td>
     </tr>

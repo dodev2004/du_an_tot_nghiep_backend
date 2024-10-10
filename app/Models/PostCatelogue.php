@@ -26,6 +26,10 @@ class PostCatelogue extends Model
     {
         return $this->belongsToMany(Post::class,"post_post_catelogue");
     }
+    public function children()
+    {
+        return $this->hasMany(PostCatelogue::class, 'parent_id');
+    }
     public static function boot(){
         parent::boot();
         static::saving(function($model){

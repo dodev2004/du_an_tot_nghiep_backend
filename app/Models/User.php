@@ -59,4 +59,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function product_comments()
+    {
+        return $this->hasMany(ProductComment::class, 'user_id'); // 'user_id' là khóa ngoại trong bảng product_comments
+    }
+    public function product_reviews()
+    {
+        return $this->hasMany(ProductReview::class, 'user_id'); // 'user_id' là khóa ngoại trong bảng product_reviews
+    }
 }

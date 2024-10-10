@@ -22,21 +22,6 @@ class AttributeValueRepository extends BaseRespository  implements AttributeValu
       public function pagination()
       {
         $query  = $this->model;
-        //  if(request()->has(["name"]) || request()->has("rule_id")){
-        //   $name = request()->name ? request()->name : "";
-        //   $rule = request()->rule_id ? request()->rule_id : "" ;  
-        //   dd($rule);
-        // if(!empty($name) && !empty($rule)){
-        //    $query =  $this->model::where("Fullname","like",'%'.$name.'%')->where('rule_id',$rule)->orderBy("id","desc");
-        // }
-        // else if(empty($name) && !empty($rule)){
-        //    $query =  $this->model::where("rule_id",$rule)->orderBy("id","desc");
-        // }
-        // else if(!empty($name) && empty($rule)){
-    
-        //  $query =  $this->model::where("Fullname","like",'%'.$name.'%')->orderBy("id","desc") ;
-        // }
-        //  }
         $query = $this->model::with("attributes")
         ->where(function(Builder $query){
                   if(request()->has(["keywords"])){

@@ -8,7 +8,7 @@
             let _token = $("input[name='_token'").val()
             let data =  new FormData();
             const inputs = Array.from(this.querySelectorAll(".form-control"));
-            const catelogueElem = Array.from(this.querySelectorAll('input[name="catelogue"]'));
+            const catelogueElem = Array.from(this.querySelectorAll('input[name="post_catelogue_id"]'));
             inputs.forEach(function(input){
                     data.append(input.name,input.value.trim());
                    
@@ -20,8 +20,9 @@
                 
             })
             data.append("_token",_token); 
-           
-           
+               data.append("post_catelogue_id",catelogues)
+            console.log(data);
+            
             $.ajax({
             url : '{{route('admin.post.store')}}',
             type: "POST",

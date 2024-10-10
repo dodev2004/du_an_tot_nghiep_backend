@@ -6,6 +6,9 @@ use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Models\Post;
 use App\Repositories\BaseRespository;
 use App\Repositories\Interfaces\PostCatelogueRepositoryInterface;
+use DateTime;
+use Illuminate\Contracts\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 /**
  * Class UserService
@@ -18,8 +21,6 @@ class PostRepository extends BaseRespository  implements PostRepositoryInterface
     public function __construct(
         Post $model,
         PostCatelogueRepositoryInterface $catelogue
-
-        
     ){
         $this->model = $model;
         $this->catelogue = $catelogue;    
@@ -30,23 +31,27 @@ class PostRepository extends BaseRespository  implements PostRepositoryInterface
     }
     public function getAllPost()
     {
-        $posts = Post::with(["catelogues","users"])->get();
-       
-        $posts = $posts->map(function($post){
-            
-            return [
-                "title" => $post->title,
-                "catelogues" =>$post->catelogues->pluck("name"),
-                "author" => $post->users->Fullname,
-                "created_at" => $post->created_at,
-                "updated_at" => $post->updated_at,
-                "id" => $post->id,
-                "description" => $post->description,
-                "status" => $post->status,  
-
-            ];
-        });
-        return $posts;
+        $query = Post::with(["catelogues","users"])
+         ->where(function(Builder $query) {
+            if(request()->has(["ky_tu"]) && !empty(request()->keywords)){
+                $query->where("title","like",'%'. request()->keywords . '%');
+            }
+            if(request()->has(["trang_thai"]) && !empty(request()->trang_thai)){
+                $query->where("status","=",request()->trang_thai);
+            }
+            if(request()->has("chuyen_muc") && !empty(request()->catelogue)){
+                $query->whereHas("catelogues",function($query){
+                    $query->where("name","like","%".request()->catelogue . "%");
+                });
+            }
+            if(request()->has(["ngay_dang"]) && !empty(request()->ngay_dang)){
+              
+             
+                $query->where("created_at","=",date("Y-m-d H:i:s",strtotime(request()->ngay_dang)));
+            }
+        })->paginate(15)->appends(request()->query());
+    
+        return $query;
     }
     public function getParentCatelogue($catelogue_id){
         return $this->catelogue->getParent($catelogue_id);
@@ -73,4 +78,3 @@ class PostRepository extends BaseRespository  implements PostRepositoryInterface
        
     }
 }
-

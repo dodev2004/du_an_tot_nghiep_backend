@@ -1,9 +1,9 @@
-<table class="table table-striped table-bordered table-hover dataTables-example" >
+<table class="table table-striped table-bordered table-hover" >
     <thead>
     <tr>
         <th></th>
-        <th>Tên nhóm bài viết</th>
-        <th>Action</th>
+        <th>Tên chuyên mục bài viết</th>
+        <th>Hành động</th>
     </tr>
     </thead>
     <tbody>
@@ -11,4 +11,4 @@
         echo $post_catelogues;
         @endphp
     </tbody>
-    </table>
+</table>
