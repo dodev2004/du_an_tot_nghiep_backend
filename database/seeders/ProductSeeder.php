@@ -15,7 +15,6 @@ class ProductSeeder extends Seeder
     {
         DB::table('products')->insert([
             [
-                'catalogue_id' => 5,
                 'brand_id' => 1,
                 'name' => 'Sofa Cao Cấp',
                 'slug' => 'sofa-cao-cap',
@@ -35,7 +34,6 @@ class ProductSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
-                'catalogue_id' => 6,
                 'brand_id' => 1,
                 'name' => 'Giường Ngủ Gỗ Tự Nhiên',
                 'slug' => 'giuong-ngu-go-tu-nhien',
