@@ -73,6 +73,22 @@ window.renderCkfinder = function () {
                 ]
             },
             licenseKey: '',
+            allowedContent: true, // Hoặc chỉ cụ thể với iframe
+             extraAllowedContent: 'iframe[*]',
+             disallowedContent: '',  htmlSupport: {
+                allow: [
+                    {
+                        name: 'iframe',
+                        attributes: {
+                            // Bạn có thể chỉ định các thuộc tính nào được cho phép
+                            width: true,
+                            height: true,
+                            src: true,
+                            // ...
+                        }
+                    }
+                ]
+            }
 
 
         })
@@ -101,11 +117,15 @@ var uploadImage = function (target = 'avatar'){
                 height: 600,
                 onInit: function (finder) {
                     finder.on('files:choose', function (evt) {
+
+
                         var file = evt.data.files.first();
                         var output = document.getElementById(elementId);
                         var image = document.querySelector(".seo_avatar > img");
-                       
+
                         image.src = file.getUrl();
+
+
                         output.value = file.getUrl();
                     });
 

@@ -110,7 +110,7 @@ return [
             ],
         ]
 
-        ],
+    ],
         [
             "childrenlevel" => true,
             "name" => "Quản lý mã trang giới thiệu",
@@ -124,6 +124,20 @@ return [
                 ],
             ]
     
+            ],
+        [
+            "childrenlevel" => false,
+            "name" => "Quản lí nhãn hàng",
+            "route" => "admin.brand",
+        ],
+        [
+        "childrenlevel" => false,
+        "name" => "Thông tin liên hệ",
+        "route" => "admin.information",
         ]
+        
+       
+   
+
 ];
-//    Parent : 
+//    Parent :
