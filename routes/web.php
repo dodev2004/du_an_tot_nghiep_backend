@@ -8,7 +8,10 @@ use App\Http\Controllers\ajax\GetLocaitonAjax;
 use App\Http\Controllers\Backend\AboutPageController;
 use App\Http\Controllers\backend\AttributeController;
 use App\Http\Controllers\backend\AttributeValueController;
+use App\Http\Controllers\backend\BrandController;
+use App\Http\Controllers\backend\ContactController;
 use App\Http\Controllers\backend\DashBoardController;
+use App\Http\Controllers\backend\InformationController;
 use App\Http\Controllers\backend\PostController;
 use App\Http\Controllers\backend\ProductCatelogueController;
 
@@ -158,6 +161,30 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
     });
     Route::prefix("product-reviews")->group(function(){
         Route::get('admin/product-reviews', [ProductReviewController::class, 'index'])->name('admin.product_review');
+    });
+    Route::prefix("brand")->group(function(){
+        Route::get("list",[BrandController::class,"index"])->name("admin.brand");
+        Route::get("create",[BrandController::class,"create"])->name("admin.brand.create");
+        Route::post("postStore",[BrandController::class,"store"])->name("admin.brand.store");
+        Route::get("{id}/edit",[BrandController::class,"edit"])->name("admin.brand.edit");
+        Route::put("{id}/update",[BrandController::class,"update"])->name("admin.brand.update");
+        Route::delete("/delete",[BrandController::class,"destroy"])->name("admin.brand.delete");
+    });
+    Route::prefix("contact")->group(function(){
+        Route::get("list",[ContactController::class,"index"])->name("admin.contact");
+        Route::get("create",[ContactController::class,"create"])->name("admin.contact.create");
+        Route::post("postStore",[ContactController::class,"store"])->name("admin.contact.store");
+        Route::get("{id}/edit",[ContactController::class,"edit"])->name("admin.contact.edit");
+        Route::put("{id}/update",[ContactController::class,"update"])->name("admin.contact.update");
+        Route::delete("/delete",[ContactController::class,"destroy"])->name("admin.contact.delete");
+    });
+    Route::prefix("information")->group(function(){
+        Route::get("list",[InformationController::class,"index"])->name("admin.information");
+        Route::get("create",[InformationController::class,"create"])->name("admin.information.create");
+        Route::post("postStore",[InformationController::class,"store"])->name("admin.information.store");
+        Route::get("{id}/edit",[InformationController::class,"edit"])->name("admin.information.edit");
+        Route::put("{id}/update",[InformationController::class,"update"])->name("admin.information.update");
+        Route::delete("/delete",[InformationController::class,"destroy"])->name("admin.information.delete");
     });
 });
                     
