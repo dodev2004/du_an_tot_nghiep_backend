@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
@@ -20,7 +21,7 @@ class ProductController extends Controller
             "name"=>"Quản lý sản phẩm"
         ]);  
         $breadcrumbs = $this->breadcrumbs;
-     
+        $data = Product::query()->with(["users","variants",])
         return view("backend.products.templates.index",compact("title","breadcrumbs"));
     }
 

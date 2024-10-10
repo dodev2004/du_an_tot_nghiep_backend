@@ -19,8 +19,18 @@ class Product extends Model
     {
         return $this->belongsTo(Brand::class);
     }
-    public function productCatelogue(){
-        // return $this->belongsToMany("")
+    public function users(){
+        return $this->belongsTo(User::class,"user_id");
+    }
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class);   
+    }
+    public static function boot(){
+        parent::boot();
+        static::deleting(function($model){
+            $model->catelogues()->detach();
+        });
     }
    
 
