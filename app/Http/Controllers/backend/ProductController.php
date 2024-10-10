@@ -21,8 +21,8 @@ class ProductController extends Controller
             "name"=>"Quản lý sản phẩm"
         ]);  
         $breadcrumbs = $this->breadcrumbs;
-        $data = Product::query()->with(["users","variants",])
-        return view("backend.products.templates.index",compact("title","breadcrumbs"));
+        $data = Product::query()->with(["users","variants",])->paginate(15);
+        return view("backend.products.templates.index",compact("title","breadcrumbs","data"));
     }
 
     /**
