@@ -20,6 +20,7 @@ class ProductController extends Controller
             "name"=>"Quản lý sản phẩm"
         ]);  
         $breadcrumbs = $this->breadcrumbs;
+     
         return view("backend.products.templates.index",compact("title","breadcrumbs"));
     }
 

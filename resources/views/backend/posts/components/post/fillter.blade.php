@@ -25,7 +25,7 @@
             <div class="col-md-2" style="padding-left: 12px">
                 <div class="d-flex">
                     <button type="submit" class="btn btn-primary seach"> <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</button>
-                   
+                    <a class="btn btn-success" href="{{route("admin.post.create")}}">Thêm mới</a>
                 </div>
             </div>
         </form>

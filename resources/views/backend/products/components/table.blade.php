@@ -1,4 +1,4 @@
-<table class="table table-striped table-bordered table-hover dataTables-example" >
+<table class="table table-striped table-bordered " >
     <thead>
     <tr>
         <th></th>
@@ -10,20 +10,10 @@
     </tr>
     </thead>
     <tbody>
-    @foreach ($data as $post)
+  
       
-        <td style="text-align: center">
-             <a href="{{route('admin.post.edit',$post["id"])}}" class="btn btn-info"><i class="fa fa-pencil"></i></a>
-            <form action="" method="POST" data-url="post" class="form-delete">
-                @method("DELETE")
-                @csrf
-                <input type="hidden" value="{{$post["id"]}}" name="id">
-                        <button class="btn btn-warning center"><i class="fa fa-trash-o"></i></button>
-            </form>
-
-        </td>
+       
     </tr>
-    @endforeach
     
-    </tbody>
+     </tbody>
 </table>
