@@ -180,9 +180,10 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::get("list",[ContactController::class,"index"])->name("admin.contact");
         Route::get("create",[ContactController::class,"create"])->name("admin.contact.create");
         Route::post("postStore",[ContactController::class,"store"])->name("admin.contact.store");
-        Route::get("{id}/edit",[ContactController::class,"edit"])->name("admin.contact.edit");
-        Route::put("{id}/update",[ContactController::class,"update"])->name("admin.contact.update");
-        Route::delete("/delete",[ContactController::class,"destroy"])->name("admin.contact.delete");
+        Route::get("{id}/show",[ContactController::class,"show"])->name("admin.contact.show");
+        // Route::get("{id}/edit",[ContactController::class,"edit"])->name("admin.contact.edit");
+        // Route::put("{id}/update",[ContactController::class,"update"])->name("admin.contact.update");
+        // Route::delete("/delete",[ContactController::class,"destroy"])->name("admin.contact.delete");
     });
     Route::prefix("information")->group(function(){
         Route::get("list",[InformationController::class,"index"])->name("admin.information");

@@ -68,4 +68,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(ProductReview::class, 'user_id'); // 'user_id' là khóa ngoại trong bảng product_reviews
     }
+    public function contacts()
+    {
+        return $this->hasMany(Contact::class);
+    }
 }

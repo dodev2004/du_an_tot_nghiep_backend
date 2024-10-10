@@ -114,7 +114,7 @@ return [
         [
             "childrenlevel" => true,
             "name" => "Quản lý mã trang giới thiệu",
-            "route" => "",
+            "route" => "#",
             'children' =>
             [
 
@@ -126,23 +126,62 @@ return [
 
             ],
         [
-            "childrenlevel" => false,
+            "childrenlevel" => true,
             "name" => "Quản lí nhãn hàng",
-            "route" => "admin.brand",
+            "route" => "#",
+            'children' =>
+            [
+
+                [
+                    "name" => "Quản lí nhãn hàng",
+                    "route" => "admin.brand"
+                ],
+            ]
         ],
         [
-        "childrenlevel" => false,
-        "name" => "Thông tin liên hệ",
-        "route" => "admin.information",
+        "childrenlevel" => true,
+        "name" => "Quản lí Thông tin liên hệ",
+        "route" => "#",
+        'children' =>
+        [
+
+            [
+                "name" => "Thông tin liên hệ",
+                "route" => "admin.information"
+            ],
+        ]
 
     ],
     [
-        "childrenlevel" => false,
+        "childrenlevel" => true,
         "name" => "Quản lí phí ship",
-        "route" => "admin.shipping_fee",
+        "route" => "#",
+        'children' =>
+        [
+
+            [
+                "name" => "Quản lí phí ship",
+                "route" => "admin.shipping_fee"
+            ],
+
+        ]
+    ],
+    [
+        "childrenlevel" => true,
+        "name" => "Quản lí form liên hệ",
+        "route" => "#",
+        'children' =>
+        [
+
+            [
+                "name" => " form liên hệ",
+                "route" => "admin.contact"
+            ],
+
+        ]
     ],
 
-        
+
 
 
 

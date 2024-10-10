@@ -9,11 +9,14 @@ class Contact extends Model
 {
     use HasFactory;
     protected $fillable = [
-        "name",
-        "phone",
-        "address",
-        "map",
-        "image",
+        "title",
+        "content",
+        "user_id",
+        
     ];
     protected $table = "contacts";
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

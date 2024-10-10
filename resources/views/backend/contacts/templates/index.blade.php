@@ -34,11 +34,12 @@
                 </div>
             </div>
             <div class="ibox-content">
+                @include("backend.contacts.components.fillter")
                     @include("backend.contacts.components.table")
-                    @include("backend.contacts.components.fillter")
+
 
                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                    {{-- {{  $data->appends(request()->query())->links()}} --}}
+                    {{  $data->appends(request()->query())->links()}}
                 </div>
             </div>
         </div>
@@ -50,7 +51,7 @@
 @endsection
 @push("scripts")
 @include('backend.components.scripts');
-@include("backend.components.handles.switchery")
+
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
 @include("backend.components.handles.delete");
