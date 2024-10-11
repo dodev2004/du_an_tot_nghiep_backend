@@ -16,31 +16,50 @@ class ContactController extends Controller
     protected $breadcrumbs = [];
 
     public function index()
-    {
-        $title = "Quản lý form liên hệ";
-        $this->breadcrumbs[] = [
-            "active" => true,
-            "url" => route("admin.contact"),
-            "name" => "Quản lý form liên hệ"
-        ];
-        $breadcrumbs = $this->breadcrumbs;
-        $searchText = request()->input('seach_text');
-        if ($searchText) {
-            $data = Contact::with('user') // Eager load thông tin user
-            ->whereHas('user', function ($query) use ($searchText) {
-                $query->where('full_name', 'LIKE', '%' . $searchText . '%');
-            })
-            ->paginate(10);
-        } else {
-            // Không có giá trị tìm kiếm
-            $data = Contact::with('user')->paginate(5);
-        }
+{
+    $title = "Quản lý form liên hệ";
+    $this->breadcrumbs[] = [
+        "active" => true,
+        "url" => route("admin.contact"),
+        "name" => "Quản lý form liên hệ"
+    ];
+    $breadcrumbs = $this->breadcrumbs;
 
+    $searchText = request()->input('seach_text');
+    $startDate = request()->input('start_date');
+    $endDate = request()->input('end_date');
+    $dateOrder = request()->input('date_order');
 
+    $query = Contact::with('user');
 
-
-        return view('backend.contacts.templates.index', compact('breadcrumbs', "title", "data"));
+    // Search by username
+    if ($searchText) {
+        $query->whereHas('user', function ($query) use ($searchText) {
+            $query->where('full_name', 'LIKE', '%' . $searchText . '%');
+        });
     }
+
+    // Filter by date range
+    if ($startDate) {
+        $query->where('created_at', '>=', $startDate);
+    }
+    if ($endDate) {
+        $query->where('created_at', '<=', $endDate);
+    }
+
+    // Sort by date
+    if ($dateOrder === 'newest') {
+        $query->orderBy('created_at', 'desc');
+    } elseif ($dateOrder === 'oldest') {
+        $query->orderBy('created_at', 'asc');
+    }
+
+    // Paginate the results
+    $data = $query->paginate(10);
+
+    return view('backend.contacts.templates.index', compact('title', 'breadcrumbs', 'data'));
+}
+
 
     /**
      * Show the form for creating a new resource.

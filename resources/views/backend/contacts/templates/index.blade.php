@@ -34,6 +34,16 @@
                 </div>
             </div>
             <div class="ibox-content">
+                <style>
+                    .form-group {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 10px;
+                    }
+                    .btn {
+                        height: 30px;
+                    }
+                </style>
                 @include("backend.contacts.components.fillter")
                     @include("backend.contacts.components.table")
 
@@ -46,6 +56,9 @@
 
     </div>
     </div>
+    <p>Tồn tại tổng <strong>{{ $data->count() }}
+    </strong> tại trang thứ <strong>{{ $data->currentPage() }}</strong>
+</p>
 </div>
 
 @endsection
