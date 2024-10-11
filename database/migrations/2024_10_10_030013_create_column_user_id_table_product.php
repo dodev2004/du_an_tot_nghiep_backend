@@ -24,7 +24,8 @@ return new class extends Migration
     {
         Schema::table('products', function (Blueprint $table) {
             if (Schema::hasColumn('products', 'user_id')) {
-                $table->dropColumn('user_id');
+                $table->dropForeign(['user_id']); // Xóa khóa ngoại trước
+                $table->dropColumn('user_id'); // Sau đó xóa cột
             }
         });
     }

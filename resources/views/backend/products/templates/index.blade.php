@@ -39,10 +39,10 @@
                     @include("backend.products.components.table")
                     <div style="display:flex;justify-content: space-between;align-items: center">
                         <div class="per_page">
-                            <p>Tồn tại tổng <strong>{{$data->count()}}</strong> tại trang thứ <strong>{{$data->currentPage()}}</strong></p>
+                            <p>Tồn tại tổng <strong>{{$products->count()}}</strong> tại trang thứ <strong>{{$products->currentPage()}}</strong></p>
                         </div>
                         <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                            {{  $data->appends(request()->query())->links()}}
+                            {{  $products->appends(request()->query())->links()}}
                         </div>
                     </div>
                 </div>

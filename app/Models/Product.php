@@ -32,6 +32,9 @@ class Product extends Model
             $model->catelogues()->detach();
         });
     }
+    public function catelogues(){
+        return  $this->belongsToMany(ProductCatelogue::class,"product_product_catalogue");
+    }
    
 
 }
