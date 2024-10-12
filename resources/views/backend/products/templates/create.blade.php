@@ -124,7 +124,7 @@
                             <p style="margin-bottom: 12px; font-size: 11px;">Một sản phẩm có thể có nhiều phiên bản
                                 khác nhau ví dụ áo có kích thước, độ rộng, màu sắc khách nhau</p>
                             <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                                <input style="height: 20px; margin: 0;" onchange="renderAttributeProduct()" type="checkbox">
+                                <input style="height: 20px; margin: 0;" class="checkVariants" onchange="renderAttributeProduct()" type="checkbox">
                                 <p style="margin: 0 4px;">Sản phẩm có nhiều thể loại, nhiều mức giá</p>
 
                             </div>
@@ -317,38 +317,28 @@
     <script src="{{ asset('backend/js/collapse.js') }}"></script>
     <script>
         const attributes = document.querySelector(".attribute")
-        if (attributes) {
+        function selectFileWithCKFinder(button) {   
+                    const parent = button.parentElement;
+                    CKFinder.popup({
+                        chooseFiles: true,
+                        width: 800,
+                        height: 600,
+                        onInit: function (finder) {
+                            finder.on('files:choose', function (evt) {
+                                var file = evt.data.files.first();
+                                var output = parent.querySelector("input");
+                                const image = parent.querySelector('.variant_image-show')
+                                image.src = file.getUrl();
+                                output.value = file.getUrl();
+                            });
 
-            var button1 = document.getElementById('ckfinder-popup-1');
-            if (button1) {
-                button1.onclick = function() {
-                    selectFileWithCKFinder('variant_image');
-                };
-            }
-
-
-            function selectFileWithCKFinder(elementId) {
-                CKFinder.popup({
-                    chooseFiles: true,
-                    width: 800,
-                    height: 600,
-                    onInit: function(finder) {
-                        finder.on('files:choose', function(evt) {
-                            var file = evt.data.files.first();
-                            var output = document.getElementById(elementId);
-                            const image = output.parentElement.querySelector('.variant_image-show')
-                            image.src = file.getUrl();
-                            output.value = file.getUrl();
-                        });
-
-                        finder.on('file:choose:resizedImage', function(evt) {
-                            var output = document.getElementById(elementId);
-                            output.value = evt.data.resizedUrl;
-                        });
-                    }
-                });
-            }
-        }
+                            finder.on('file:choose:resizedImage', function (evt) {
+                                var output = parent.querySelector("input");
+                                output.value = evt.data.resizedUrl;
+                            });
+                        }
+                    });
+                }
     </script>
 
     <!-- Page-Level Scripts -->
@@ -629,7 +619,7 @@
                 <div class="col-md-12 attribute_collape-content">
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label for="" id="ckfinder-popup-1">
+                            <label onclick='selectFileWithCKFinder(this)' for="" id="ckfinder-popup-1">
                                 <img style="border:1px solid #ccc;" width="100"
                                     height="100" class="variant_image-show"
                                     src="https://img.icons8.com/?size=100&id=1G2BW7-tQJJJ&format=png&color=000000"
