@@ -76,7 +76,22 @@ class CustomerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $title = "Chi tiết tổng đơn mua hàng";
+        array_push($this->breadcrumbs, [
+            "active" => false,
+            "url" => route("admin.contact"),
+            "name" => "Quản lý khách hàng",
+        ], [
+
+            "active" => true,
+            "url" => route("admin.contact.show", $id),
+            "name" => "Chi tiết tổng đơn mua hàng",
+
+        ]);
+        $breadcrumbs = $this->breadcrumbs;
+        $user = User::with(['orders.orderItems'])->withSum('orders', 'final_amount')->findOrFail($id);
+
+        return view("backend.customers.templates.show", compact("title", "breadcrumbs", "user"));
     }
 
     /**

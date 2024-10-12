@@ -49,7 +49,7 @@
 @section('content')
     @include('backend.components.breadcrumb')
     <div class="wrapper wrapper-content animated fadeInRight">
-        @include('backend.contacts.components.show')
+        @include('backend.customers.components.show')
     </div>
 @endsection
 @push('scripts')
@@ -60,5 +60,5 @@
     <script src="{{ asset('backend/js/framework/seo.js') }}"></script>
     <script src="{{ asset('backend/js/framework/catelogue/select2.js') }}"></script>
 
-    
+
 @endpush

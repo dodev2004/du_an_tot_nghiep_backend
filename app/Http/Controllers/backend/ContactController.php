@@ -120,7 +120,7 @@ class ContactController extends Controller
     public function show(string $id)
     {
 
-        $title = "Sửa form liên hệ";
+        $title = "Chi tiết form liên hệ";
         array_push($this->breadcrumbs, [
             "active" => false,
             "url" => route("admin.contact"),
@@ -129,7 +129,7 @@ class ContactController extends Controller
 
             "active" => true,
             "url" => route("admin.contact.show", $id),
-            "name" => "Sửa form liên hệ",
+            "name" => "Chi tiết form liên hệ",
 
         ]);
         $data = Contact::with('user')->where("id", "=", $id)->first();

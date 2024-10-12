@@ -206,7 +206,7 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::get("list",[CustomerController::class,"index"])->name("admin.customer");
         Route::get("create",[CustomerController::class,"create"])->name("admin.customer.create");
         Route::post("postStore",[CustomerController::class,"store"])->name("admin.customer.store");
-        Route::get("{id}/show",[ContactController::class,"show"])->name("admin.contact.show");
+        Route::get("{id}/show",[CustomerController::class,"show"])->name("admin.customer.show");
         Route::get("{id}/edit",[CustomerController::class,"edit"])->name("admin.customer.edit");
         Route::put("{id}/update",[CustomerController::class,"update"])->name("admin.customer.update");
         Route::delete("/delete",[CustomerController::class,"destroy"])->name("admin.customer.delete");
