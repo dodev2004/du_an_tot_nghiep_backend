@@ -10,6 +10,7 @@ use App\Http\Controllers\backend\AttributeController;
 use App\Http\Controllers\backend\AttributeValueController;
 use App\Http\Controllers\backend\BrandController;
 use App\Http\Controllers\backend\ContactController;
+use App\Http\Controllers\backend\CustomerController;
 use App\Http\Controllers\backend\DashBoardController;
 use App\Http\Controllers\backend\InformationController;
 use App\Http\Controllers\backend\PostController;
@@ -200,7 +201,15 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::get("{id}/edit",[ShippingFeeController::class,"edit"])->name("admin.shipping_fee.edit");
         Route::put("{id}/update",[ShippingFeeController::class,"update"])->name("admin.shipping_fee.update");
         Route::delete("/delete",[ShippingFeeController::class,"destroy"])->name("admin.shipping_fee.delete");
-
+    });
+    Route::prefix("customer")->group(function(){
+        Route::get("list",[CustomerController::class,"index"])->name("admin.customer");
+        Route::get("create",[CustomerController::class,"create"])->name("admin.customer.create");
+        Route::post("postStore",[CustomerController::class,"store"])->name("admin.customer.store");
+        Route::get("{id}/show",[ContactController::class,"show"])->name("admin.contact.show");
+        Route::get("{id}/edit",[CustomerController::class,"edit"])->name("admin.customer.edit");
+        Route::put("{id}/update",[CustomerController::class,"update"])->name("admin.customer.update");
+        Route::delete("/delete",[CustomerController::class,"destroy"])->name("admin.customer.delete");
     });
 });
 

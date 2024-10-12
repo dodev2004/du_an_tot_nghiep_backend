@@ -180,6 +180,20 @@ return [
 
         ]
     ],
+    [
+        "childrenlevel" => true,
+        "name" => "Quản lí khách hàng",
+        "route" => "#",
+        'children' =>
+        [
+
+            [
+                "name" => " list khách hàng",
+                "route" => "admin.customer"
+            ],
+
+        ]
+    ],
 
 
 

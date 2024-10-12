@@ -36,14 +36,16 @@
                 </td>
 
                 <th class="text-center">
+                    <div style="display: flex; justify-content: center;column-gap: 5px;">
                     <a class="btn btn-sm btn-info" href="{{ route('admin.shipping_fee.edit', $item->id) }}"><i
-                            class="fa fa-paste"></i> Edit</a>
+                        class="fa fa-pencil"></i></a>
                     <form action="" method="POST" data-url="shipping-fee" class="form-delete ">
                         @method('DELETE')
                         @csrf
                         <input type="hidden" value="{{ $item->id }}" name="id">
-                        <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i> Xóa</button>
+                        <button class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></button>
                     </form>
+                    </div>
                 </th>
             </tr>
         @endforeach
