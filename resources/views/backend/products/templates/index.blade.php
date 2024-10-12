@@ -34,8 +34,8 @@
                 </div>
             </div>
             <div class="ibox-content">
-                <div class="table-responsive">
-                    
+                <div class="">
+                    @include("backend.products.components.fillter")
                     @include("backend.products.components.table")
                     <div style="display:flex;justify-content: space-between;align-items: center">
                         <div class="per_page">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attribute;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use  App\Services\Interfaces\AttributeServiceInterface as AttributeService;
@@ -134,5 +135,29 @@ class AttributeController extends Controller
         else {
             return response()->json(["error","Xóa thất bại"]);
         }
+    }
+    public function getAll(Request $request){
+        $data = Attribute::with("attributevalues")->get()->toArray();
+
+        $data =  array_map(function($item){
+            return [
+                "id"=>$item["id"],
+                "name"=>$item["name"],
+                "values"=> array_map(function($value){
+                    return [
+                        "id" => $value["id"],
+                        "name" => $value["name"],
+                    ];
+                },$item["attributevalues"])
+               
+            ];
+        },$data);
+ 
+        return response()->json([
+            "status" => 200,
+            "data" => $data,
+            "message" => "Lấy dữ liệu thành công",
+            "url" => $request->getUri()
+        ]);
     }
 }

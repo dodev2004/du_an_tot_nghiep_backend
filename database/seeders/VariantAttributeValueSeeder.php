@@ -19,7 +19,7 @@ class VariantAttributeValueSeeder extends Seeder
                 'attribute_value_id' => 3, // Màu Đen
             ],
             [
-                'product_variant_id' => 4,
+                'product_variant_id' => 3,
                 'attribute_value_id' => 1, // Gỗ Sồi
             ],
             // Thêm giá trị thuộc tính biến thể khác nếu cần

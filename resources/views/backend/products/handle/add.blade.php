@@ -23,14 +23,14 @@
            
            
             $.ajax({
-            url : '{{route('admin.post.store')}}',
+            url : '{{route('admin.product.store')}}',
             type: "POST",
             dataType: "json",
             data : data,
             contentType: false,
             processData: false,
             success : function(res){
-                toastMessage(res[1],res[0],'{{route('admin.post-catelogue')}}')
+                toastMessage(res[1],res[0],'{{route('admin.product')}}')
                 
             },
             error : function(error){

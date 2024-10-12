@@ -15,7 +15,7 @@ class ProductSeeder extends Seeder
     {
         DB::table('products')->insert([
             [
-                'brand_id' => 1,
+                'brand_id' => 3,
                 'name' => 'Sofa Cao Cấp',
                 'slug' => 'sofa-cao-cap',
                 'sku' => 'SF001',
@@ -52,7 +52,6 @@ class ProductSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now()
             ],
-            // Thêm các sản phẩm khác nếu cần
         ]);
     }
 }
