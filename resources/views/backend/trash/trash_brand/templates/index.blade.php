@@ -34,17 +34,23 @@
                 </div>
             </div>
             <div class="ibox-content">
-                @include("backend.brands.components.fillter")
-                @include("backend.brands.components.table")
+                <style>
+                    .form-group {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 10px;
+                    }
+                    .btn {
+                        height: 30px;
+                    }
+                </style>
+                @include("backend.trash.trash_brand.components.fillter")
+                @include("backend.trash.trash_brand.components.table")
+                @include("backend.trash.trash_brand.components.page")
                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                    {{-- {{  $data->appends(request()->query())->links()}} --}}
-                    {{ $data->links() }}
+                {{ $data->links() }}
                 </div>
-                <p>Tồn tại tổng <strong>{{$data->count()}}
-                </strong> tại trang thứ <strong>{{$data->currentPage()}}</strong>
-            </p>
             </div>
-
         </div>
 
     </div>
@@ -54,8 +60,8 @@
 @endsection
 @push("scripts")
 @include('backend.components.scripts');
-@include("backend.brands.handles.switchery")
+@include("backend.posts.handle.switchery")
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
-@include("backend.components.handles.delete");
+@include("backend.trash.trash_brand.handles.delete");
 @endpush

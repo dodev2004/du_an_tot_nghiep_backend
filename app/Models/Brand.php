@@ -13,6 +13,7 @@ class Brand extends Model
         "description",
         "status",
     ];
+    protected $dates = ['deleted_at'];
     protected $table = "brands";
 
 }

@@ -7,8 +7,9 @@
        </form>
 
 <div class="total_record">
-    <p>Tồn tại tổng <strong>{{$data->count()}}
-        </strong> tại trang thứ <strong>{{$data->currentPage()}}</strong>
-    </p>
+
+    <div style="margin-top: 15px;">
+        <a href="{{ route('admin.brand.trash') }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Thùng rác"><i class="fa fa-trash-o"></i></a>
+    </div>
 </div>
 </div>

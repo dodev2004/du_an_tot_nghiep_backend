@@ -25,7 +25,7 @@ class ContactController extends Controller
     ];
     $breadcrumbs = $this->breadcrumbs;
 
-    $searchText = request()->input('seach_text');
+    $searchText = request()->input('search_text');
     $startDate = request()->input('start_date');
     $endDate = request()->input('end_date');
     $dateOrder = request()->input('date_order');

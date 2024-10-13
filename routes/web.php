@@ -176,6 +176,9 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::get("{id}/edit",[BrandController::class,"edit"])->name("admin.brand.edit");
         Route::put("{id}/update",[BrandController::class,"update"])->name("admin.brand.update");
         Route::delete("/delete",[BrandController::class,"destroy"])->name("admin.brand.delete");
+        Route::delete("/force-delete",[BrandController::class,"force_destroy"])->name("admin.brand.force_delete");
+        Route::post("{id}/restore", [BrandController::class, "restore"])->name("admin.brand.restore");//khôi phục
+        Route::get("/trash", [BrandController::class, "trash"])->name("admin.brand.trash"); // Trang thùng rác
     });
     Route::prefix("contact")->group(function(){
         Route::get("list",[ContactController::class,"index"])->name("admin.contact");
