@@ -1,11 +1,10 @@
 <div class="ibox-content_top">
-    <form action="" method="GET" class="form_seach">
+    <form action="{{ route('admin.shipping_fee') }}" method="GET" class="form_seach">
         <div class="form-group d-flex align-items-center">
-            <div >
-                <label for="seach" class="me-2">Tìm kiếm theo tên người dùng:</label>
-                <input type="text" class="form-control" name="seach_text"
-                    @if (isset($_GET['seach_text'])) value="{{ $_GET['seach_text'] }}" @endif
-                    placeholder="Tìm kiếm">
+            <input type="text" name="trash" value="trash" hidden>
+            <div>
+                <label for="seach" class="me-2">Tìm kiếm</label>
+                <input type="text" class="form-control" name="seach_text" value="{{ request('seach_text') }}" placeholder="Tìm kiếm theo tên sản phẩm">
             </div>
             <div>
                 <label for="start_date">Ngày bắt đầu:</label>
@@ -24,14 +23,8 @@
                 </select>
             </div>
             <div style="margin-top: 24px;">
-            <button class="btn btn-primary seach"> <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm </button>
-            <a href="{{ route('admin.contact.create') }}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Thêm
-                mới form liên hệ</a>
+                <button class="btn btn-primary seach"> <i class="fa fa-seach"></i> Tìm kiếm</button>
             </div>
         </div>
     </form>
-
-    <div class="total_record">
-
-    </div>
 </div>

@@ -23,9 +23,8 @@ class BrandController extends Controller
             "name" => "Quản lý nhãn hàng"
         ];
         $breadcrumbs = $this->breadcrumbs;
+        $searchText = request()->input('seach_text');
         if (empty(request()->input('trash'))) {
-            $searchText = request()->input('seach_text');
-
             if ($searchText) {
                 $data = Brand::where('name', 'LIKE', '%' . $searchText . '%')->paginate(5);
             } else {
@@ -34,7 +33,6 @@ class BrandController extends Controller
             }
             return view('backend.brands.templates.index', compact('breadcrumbs', "title", "data"));
         } else{
-            $searchText = request()->input('search_text');
             if ($searchText) {
                 $data = Brand::onlyTrashed()->where('name', 'LIKE', '%' . $searchText . '%')->paginate(5);
             } else {

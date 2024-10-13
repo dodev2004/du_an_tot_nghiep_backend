@@ -24,7 +24,7 @@ class ShippingFeeController extends Controller
         ];
         $breadcrumbs = $this->breadcrumbs;
         $searchText = request()->input('seach_text');
-
+        if (empty(request()->input('trash'))) {
         if ($searchText) {
             $data = Shipping_fee::with('province') // Eager load province
                 ->whereHas('province', function ($query) use ($searchText) {
@@ -35,8 +35,20 @@ class ShippingFeeController extends Controller
             // Không có giá trị tìm kiếm
             $data = Shipping_fee::with('province')->paginate(10);
         }
-
         return view('backend.shipping_fees.templates.index', compact('breadcrumbs', "title", "data"));
+    }else{
+        if ($searchText) {
+            $data = Shipping_fee::with('province')->onlyTrashed() // Eager load province
+                ->whereHas('province', function ($query) use ($searchText) {
+                    $query->where('name', 'LIKE', '%' . $searchText . '%');
+                })
+                ->paginate(10);
+        } else {
+            // Không có giá trị tìm kiếm
+            $data = Shipping_fee::with('province')->onlyTrashed()->paginate(10);
+        }
+        return view('backend.trash.trash_shipping_fee.templates.index', compact('breadcrumbs', "title", "data"));
+    }
     }
 
     /**
@@ -159,5 +171,40 @@ class ShippingFeeController extends Controller
         } else {
             return response()->json(["error", "Xóa thất bại"]);
         }
+    }
+    public function force_destroy(Request $request)
+    {
+        // Tìm bản ghi đã bị xóa mềm bằng ID
+        $shipping_fee = Shipping_fee::onlyTrashed()->find($request->id);
+
+        // Kiểm tra nếu tồn tại và thực hiện xóa vĩnh viễn
+        if ($shipping_fee) {
+            $shipping_fee->forceDelete(); // Thực hiện xóa vĩnh viễn
+            return response()->json(["success" => "Xóa vĩnh viễn thành công"]);
+        } else {
+            return response()->json(["error" => "Bản ghi không tồn tại"]);
+        }
+    }
+    public function restore($id)
+    {
+        $shipping_fee = Shipping_fee::onlyTrashed()->findOrFail($id);
+        $shipping_fee->restore(); // Khôi phục bình luận
+
+        return redirect()->back()->with('success', 'Nhãn hàng đã được khôi phục thành công!');
+    }
+    public function trash()
+    {
+        $title = "Danh sách nhãn hàng đã xóa";
+        array_push($this->breadcrumbs, [
+            "active" => true,
+            "url" => route("admin.brand.trash"),
+            "name" => "Danh sách nhãn hàng đã xóa"
+        ]);
+        $breadcrumbs = $this->breadcrumbs;
+
+        // Lấy các bình luận đã xóa mềm
+        $data = Shipping_fee::with('province')->onlyTrashed()->paginate(10);
+
+        return view("backend.trash.trash_shipping_fee.templates.index", compact("title", "breadcrumbs", "data"));
     }
 }

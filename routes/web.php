@@ -204,6 +204,9 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::get("{id}/edit",[ShippingFeeController::class,"edit"])->name("admin.shipping_fee.edit");
         Route::put("{id}/update",[ShippingFeeController::class,"update"])->name("admin.shipping_fee.update");
         Route::delete("/delete",[ShippingFeeController::class,"destroy"])->name("admin.shipping_fee.delete");
+        Route::delete("/force-delete",[ShippingFeeController::class,"force_destroy"])->name("admin.shipping_fee.force_delete");
+        Route::post("{id}/restore", [ShippingFeeController::class, "restore"])->name("admin.shipping_fee.restore");//khôi phục
+        Route::get("/trash", [ShippingFeeController::class, "trash"])->name("admin.shipping_fee.trash"); // Trang thùng rác
     });
     Route::prefix("customer")->group(function(){
         Route::get("list",[CustomerController::class,"index"])->name("admin.customer");

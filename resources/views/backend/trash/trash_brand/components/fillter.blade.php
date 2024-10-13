@@ -1,10 +1,10 @@
 <div class="ibox-content_top">
-    <form action="{{ route('admin.brand') }}" method="GET" class="form_search">
+    <form action="{{ route('admin.brand') }}" method="GET" class="form_seach">
         <div class="form-group d-flex align-items-center">
             <input type="text" name="trash" value="trash" hidden>
             <div>
-                <label for="search" class="me-2">Tìm kiếm</label>
-                <input type="text" class="form-control" name="search_text" value="{{ request('search_text') }}" placeholder="Tìm kiếm theo tên sản phẩm">
+                <label for="seach" class="me-2">Tìm kiếm</label>
+                <input type="text" class="form-control" name="seach_text" value="{{ request('seach_text') }}" placeholder="Tìm kiếm theo tên sản phẩm">
             </div>
             <div>
                 <label for="start_date">Ngày bắt đầu:</label>
@@ -23,7 +23,7 @@
                 </select>
             </div>
             <div style="margin-top: 24px;">
-                <button class="btn btn-primary search"> <i class="fa fa-search"></i> Tìm kiếm</button>
+                <button class="btn btn-primary seach"> <i class="fa fa-seach"></i> Tìm kiếm</button>
             </div>
         </div>
     </form>

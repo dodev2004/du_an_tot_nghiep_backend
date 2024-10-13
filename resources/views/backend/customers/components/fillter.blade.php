@@ -2,7 +2,7 @@
     <form action="" method="GET" class="form_seach">
         <div class="form-group d-flex align-items-center">
             <div >
-                <label for="search" class="me-2">Tìm kiếm theo tên người dùng:</label>
+                <label for="seach" class="me-2">Tìm kiếm theo tên người dùng:</label>
                 <input type="text" class="form-control" name="seach_text"
                     @if (isset($_GET['seach_text'])) value="{{ $_GET['seach_text'] }}" @endif
                     placeholder="Tìm kiếm">
