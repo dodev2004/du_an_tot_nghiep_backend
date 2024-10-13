@@ -9,7 +9,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($reviews as $review)
+            @foreach($data as $review)
             <tr>
                 <td>{{ $review->user->full_name }}</td> 
                 <td>{{ $review->product->name }}</td>
