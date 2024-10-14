@@ -40,7 +40,21 @@
                 }
                 
             }
-          
+            const gallerys = document.querySelectorAll(".image-container")
+            if(gallerys && gallerys.length > 0){
+                const datagallery = [];
+             
+                
+                gallerys.forEach(function(gallery){
+
+                        const inputsgallery = gallery.querySelector("input");
+                        console.log(inputsgallery.value);
+                        
+                        datagallery.push(inputsgallery.value)
+                    })
+                    data.append("gallery",datagallery)
+                
+            }
             $.ajax({
             url : '{{route('admin.product.store')}}',
             type: "POST",

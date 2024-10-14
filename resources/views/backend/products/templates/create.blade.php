@@ -86,6 +86,186 @@
             transform: rotate(180deg);
             /* Xoay icon 180 độ khi mở */
         }
+
+        .image-container {
+            position: relative;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .variant_image-show {
+            width: 200px;
+            height: 200px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            /* Tạo hiệu ứng đổ bóng cho ảnh */
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background-color: #ffcccc;
+            /* Màu nền nhạt hơn cho nút xóa */
+            color: #cc0000;
+            /* Màu đỏ nhạt cho chữ */
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 50%;
+            /* Tạo hình tròn */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            /* Hiệu ứng khi hover */
+        }
+
+        .remove-btn:hover {
+            background-color: #ff9999;
+            /* Đổi màu nhạt hơn khi hover */
+            transform: scale(1.1);
+            /* Tăng kích thước nhẹ khi hover */
+        }
+
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .image-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+
+        .variant_image-show {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background-color: #ffcccc;
+            color: #cc0000;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .remove-btn:hover {
+            background-color: #ff9999;
+            transform: scale(1.1);
+        }
+
+        /* Nút dấu "+" */
+        .add-image-btn {
+            width: 200px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            font-weight: bold;
+            color: #999;
+            background-color: #f9f9f9;
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        .add-image-btn:hover {
+            background-color: #e6e6e6;
+            color: #666;
+            transform: scale(1.05);
+        }
+
+        .seo_avatar {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #ddd;
+            /* Đường viền màu xám nhạt */
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            /* Nền xám nhạt */
+            overflow: hidden;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .seo_avatar:hover {
+            border-color: #aaa;
+            /* Đổi màu viền khi hover */
+        }
+
+        /* Tùy chỉnh hình ảnh bên trong */
+        .seo_avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+            /* Hiệu ứng phóng to nhẹ khi hover */
+        }
+
+        .seo_avatar:hover img {
+            transform: scale(1.05);
+            /* Phóng to nhẹ khi hover */
+        }
+
+        /* Tùy chỉnh nút xóa (dấu x) */
+        .remove-avatar-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 24px;
+            height: 24px;
+            background-color: rgba(255, 0, 0, 0.8);
+            /* Màu đỏ nhạt với độ trong suốt */
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .seo_avatar:hover .remove-avatar-btn {
+            opacity: 1;
+        }
+
+        .remove-avatar-btn:hover {
+            transform: scale(1.1);
+            background-color: rgba(255, 0, 0, 0.9);
+            /* Màu đậm hơn khi hover */
+        }
     </style>
 @endsection
 @section('title')
@@ -116,7 +296,17 @@
                         </div>
 
                     </div>
-
+                    <div class="ibox-title">
+                        <h5>Chọn nhiều ảnh </h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div id="image-gallery" class="image-gallery">
+                            <!-- Ảnh sẽ được render vào đây -->
+                            <div id="add-image-btn" class="add-image-btn">
+                                <span>+</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="ibox" style="margin-top: 20px">
                         <div class="ibox-content">
                             <h6 style="margin: 0;  font-weight: 500; font-size: 16px;">Sản phẩm có nhiều phiên bản
@@ -124,7 +314,8 @@
                             <p style="margin-bottom: 12px; font-size: 11px;">Một sản phẩm có thể có nhiều phiên bản
                                 khác nhau ví dụ áo có kích thước, độ rộng, màu sắc khách nhau</p>
                             <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                                <input style="height: 20px; margin: 0;" class="checkVariants" onchange="renderAttributeProduct()" type="checkbox">
+                                <input style="height: 20px; margin: 0;" class="checkVariants"
+                                    onchange="renderAttributeProduct()" type="checkbox">
                                 <p style="margin: 0 4px;">Sản phẩm có nhiều thể loại, nhiều mức giá</p>
 
                             </div>
@@ -272,19 +463,21 @@
                             <h5>Chọn ảnh đại diện</h5>
                         </div>
                         <div class="ibox-content">
-                            <div class="form-group">
+                            <div class="form-group" style="display:flex;justify-content: center">
                                 <input type="text" name="image_url" class="form-control" id="avatar"
                                     class="avatar" style="display: none;">
                                 <div class="seo_avatar" id="seo_avatar">
                                     <img class=""
                                         src="https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
                                         alt="">
+                                  
                                 </div>
 
                             </div>
                         </div>
 
                     </div>
+
                     <div class="ibox-content">
                         <div class="avatar_title">
                             <h5>Cấu hình nâng cao</h5>
@@ -317,28 +510,29 @@
     <script src="{{ asset('backend/js/collapse.js') }}"></script>
     <script>
         const attributes = document.querySelector(".attribute")
-        function selectFileWithCKFinder(button) {   
-                    const parent = button.parentElement;
-                    CKFinder.popup({
-                        chooseFiles: true,
-                        width: 800,
-                        height: 600,
-                        onInit: function (finder) {
-                            finder.on('files:choose', function (evt) {
-                                var file = evt.data.files.first();
-                                var output = parent.querySelector("input");
-                                const image = parent.querySelector('.variant_image-show')
-                                image.src = file.getUrl();
-                                output.value = file.getUrl();
-                            });
 
-                            finder.on('file:choose:resizedImage', function (evt) {
-                                var output = parent.querySelector("input");
-                                output.value = evt.data.resizedUrl;
-                            });
-                        }
+        function selectFileWithCKFinder(button) {
+            const parent = button.parentElement;
+            CKFinder.popup({
+                chooseFiles: true,
+                width: 800,
+                height: 600,
+                onInit: function(finder) {
+                    finder.on('files:choose', function(evt) {
+                        var file = evt.data.files.first();
+                        var output = parent.querySelector("input");
+                        const image = parent.querySelector('.variant_image-show')
+                        image.src = file.getUrl();
+                        output.value = file.getUrl();
+                    });
+
+                    finder.on('file:choose:resizedImage', function(evt) {
+                        var output = parent.querySelector("input");
+                        output.value = evt.data.resizedUrl;
                     });
                 }
+            });
+        }
     </script>
 
     <!-- Page-Level Scripts -->
@@ -565,7 +759,7 @@
                 thead.appendChild(tableTop);
                 table.appendChild(thead);
 
-                variants.forEach(function(variant,index) {
+                variants.forEach(function(variant, index) {
                     let count = 0;
                     const tbody = document.createElement("tbody");
                     const listVariant = document.createElement("tr");
@@ -751,6 +945,55 @@
                 attributeAdd.style.display = "none";
                 attributeDetail.style.display = "none";
             }
+        }
+    </script>
+    <script>
+        document.getElementById('add-image-btn').onclick = function() {
+            selectFilesWithCKFinder();
+        };
+
+        function selectFilesWithCKFinder() {
+            CKFinder.popup({
+                chooseFiles: true,
+                width: 800,
+                height: 600,
+                onInit: function(finder) {
+                    finder.on('files:choose', function(evt) {
+                        const files = evt.data.files.toArray(); // Lấy mảng các tệp đã chọn
+
+                        files.forEach((file) => {
+                            const container = document.createElement('div');
+                            container.className = 'image-container';
+
+                            const img = document.createElement('img');
+                            img.src = file.getUrl();
+                            img.className = 'variant_image-show';
+
+                            const input = document.createElement('input');
+                            input.name = "gallery_product"
+                            input.type = 'text';
+                            input.value = file.getUrl();
+                            input.className = 'image-url-input';
+                            input.hidden = true
+
+                            const removeBtn = document.createElement('span');
+                            removeBtn.innerHTML = '✖';
+                            removeBtn.className = 'remove-btn';
+
+                            removeBtn.onclick = function() {
+                                container.remove();
+                            };
+
+                            container.appendChild(img);
+                            container.appendChild(input);
+                            container.appendChild(removeBtn);
+
+                            document.getElementById('image-gallery').insertBefore(container,
+                                document.getElementById('add-image-btn'));
+                        });
+                    });
+                }
+            });
         }
     </script>
 @endpush

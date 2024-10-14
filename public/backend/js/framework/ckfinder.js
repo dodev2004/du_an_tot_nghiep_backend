@@ -104,12 +104,13 @@ window.renderCkfinder = function () {
     })
 
 }
-var uploadImage = function (target = 'avatar'){
+var uploadImage = function (target = 'avatar') {
     if(target == "avatar"){
-        var button1 = document.getElementById('seo_avatar')
+        var button1 = document.getElementById('seo_avatar');
         button1.onclick = function () {
             selectFileWithCKFinder('avatar');
         };
+
         function selectFileWithCKFinder(elementId) {
             CKFinder.popup({
                 chooseFiles: true,
@@ -117,26 +118,49 @@ var uploadImage = function (target = 'avatar'){
                 height: 600,
                 onInit: function (finder) {
                     finder.on('files:choose', function (evt) {
-
-
                         var file = evt.data.files.first();
                         var output = document.getElementById(elementId);
                         var image = document.querySelector(".seo_avatar > img");
 
+                        // Cập nhật URL ảnh
                         image.src = file.getUrl();
-
-
                         output.value = file.getUrl();
+
+                        // Thêm nút "✖" nếu chưa có
+                        addRemoveButton();
                     });
 
                     finder.on('file:choose:resizedImage', function (evt) {
                         var output = document.getElementById(elementId);
                         output.value = evt.data.resizedUrl;
-                        var image = document.querySelector(".seo_avatar");
-                        image.src = file.getUrl();
+                        var image = document.querySelector(".seo_avatar > img");
+                        image.src = evt.data.resizedUrl;
+
+                        // Thêm nút "✖" nếu chưa có
+                        addRemoveButton();
                     });
                 }
             });
+        }
+
+        // Hàm thêm nút "✖" để xóa ảnh
+        function addRemoveButton() {
+            // Kiểm tra nếu nút "✖" đã có thì không thêm lại
+            if (!document.querySelector('.seo_avatar .remove-avatar-btn')) {
+                var removeButton = document.createElement('span');
+                removeButton.classList.add('remove-avatar-btn');
+                removeButton.innerHTML = '✖';
+
+                // Xử lý sự kiện xóa ảnh khi nhấn nút "✖"
+                removeButton.onclick = function() {
+                    var image = document.querySelector(".seo_avatar > img");
+                    image.src = 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg';
+                    document.getElementById('avatar').value = ''; // Xóa URL trong input
+                    removeButton.remove(); // Xóa nút "✖"
+                };
+
+                document.querySelector('.seo_avatar').appendChild(removeButton);
+            }
         }
     }
 }
