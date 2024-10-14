@@ -20,7 +20,7 @@
                         <td>
                             <form action="{{ route('admin.shipping_fee.restore', $item->id) }}" method="POST" style="display: inline;">
                                 @csrf
-                                <button type="submit" class="btn btn-success">Khôi phục</button>
+                                <button type="submit" class="btn btn-success"><i class="fa fa-undo"></i></button>
                             </form>
                             <form action="" method="POST" data-url="shipping-fee" class="form-delete" style="display: inline;">
                                 @method('DELETE')

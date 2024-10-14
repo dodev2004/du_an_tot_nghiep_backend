@@ -27,4 +27,9 @@
             </div>
         </div>
     </form>
+    <div style="margin-bottom: 15px;">
+        <a href="{{ route('admin.brand') }}" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Trở về danh sách">
+            <i class="fa fa-arrow-left"></i>
+        </a>
+    </div>
 </div>
