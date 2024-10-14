@@ -38,8 +38,13 @@
                 @include("backend.brands.components.table")
                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
                     {{-- {{  $data->appends(request()->query())->links()}} --}}
+                    {{ $data->links() }}
                 </div>
+                <p>Tồn tại tổng <strong>{{$data->count()}}
+                </strong> tại trang thứ <strong>{{$data->currentPage()}}</strong>
+            </p>
             </div>
+
         </div>
 
     </div>

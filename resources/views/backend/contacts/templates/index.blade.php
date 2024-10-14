@@ -34,23 +34,37 @@
                 </div>
             </div>
             <div class="ibox-content">
+                <style>
+                    .form-group {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 10px;
+                    }
+                    .btn {
+                        height: 30px;
+                    }
+                </style>
+                @include("backend.contacts.components.fillter")
                     @include("backend.contacts.components.table")
-                    @include("backend.contacts.components.fillter")
+
 
                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                    {{-- {{  $data->appends(request()->query())->links()}} --}}
+                    {{  $data->appends(request()->query())->links()}}
                 </div>
             </div>
         </div>
 
     </div>
     </div>
+    <p>Tồn tại tổng <strong>{{ $data->count() }}
+    </strong> tại trang thứ <strong>{{ $data->currentPage() }}</strong>
+</p>
 </div>
 
 @endsection
 @push("scripts")
 @include('backend.components.scripts');
-@include("backend.components.handles.switchery")
+
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
 @include("backend.components.handles.delete");

@@ -24,15 +24,24 @@ class BrandController extends Controller
         ];
         $breadcrumbs = $this->breadcrumbs;
         $searchText = request()->input('seach_text');
-
-        if ($searchText) {
-            $data = Brand::where('name', 'LIKE', '%' . $searchText . '%')->get();
-        } else {
-            // Không có giá trị tìm kiếm
-            $data = Brand::all();
+        if (empty(request()->input('trash'))) {
+            if ($searchText) {
+                $data = Brand::where('name', 'LIKE', '%' . $searchText . '%')->paginate(5);
+            } else {
+                // Không có giá trị tìm kiếm
+                $data = Brand::paginate(5);
+            }
+            return view('backend.brands.templates.index', compact('breadcrumbs', "title", "data"));
+        } else{
+            if ($searchText) {
+                $data = Brand::onlyTrashed()->where('name', 'LIKE', '%' . $searchText . '%')->paginate(5);
+            } else {
+                // Không có giá trị tìm kiếm
+                $data = Brand::onlyTrashed()->paginate(5);
+            }
+            return view('backend.trash.trash_brand.templates.index', compact('breadcrumbs', "title", "data"));
         }
 
-        return view('backend.brands.templates.index', compact('breadcrumbs', "title", "data"));
     }
 
     /**
@@ -142,5 +151,40 @@ class BrandController extends Controller
         } else {
             return response()->json(["error", "Xóa thất bại"]);
         }
+    }
+    public function force_destroy(Request $request)
+    {
+        // Tìm bản ghi đã bị xóa mềm bằng ID
+        $brand = Brand::onlyTrashed()->find($request->id);
+
+        // Kiểm tra nếu tồn tại và thực hiện xóa vĩnh viễn
+        if ($brand) {
+            $brand->forceDelete(); // Thực hiện xóa vĩnh viễn
+            return response()->json(["success" => "Xóa vĩnh viễn thành công"]);
+        } else {
+            return response()->json(["error" => "Bản ghi không tồn tại"]);
+        }
+    }
+    public function restore($id)
+    {
+        $brand = Brand::onlyTrashed()->findOrFail($id);
+        $brand->restore(); // Khôi phục bình luận
+
+        return redirect()->back()->with('success', 'Nhãn hàng đã được khôi phục thành công!');
+    }
+    public function trash()
+    {
+        $title = "Danh sách nhãn hàng đã xóa";
+        array_push($this->breadcrumbs, [
+            "active" => true,
+            "url" => route("admin.brand.trash"),
+            "name" => "Danh sách nhãn hàng đã xóa"
+        ]);
+        $breadcrumbs = $this->breadcrumbs;
+
+        // Lấy các bình luận đã xóa mềm
+        $data = Brand::onlyTrashed()->paginate(10);
+
+        return view("backend.trash.trash_brand.templates.index", compact("title", "breadcrumbs", "data"));
     }
 }

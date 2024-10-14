@@ -1,7 +1,7 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th></th>
+            <th>ID</th>
             <th>Tên nhãn hàng</th>
             <th>Miêu tả</th>
             <th>Trạng thái</th>
@@ -11,7 +11,9 @@
     <tbody>
         @foreach ($data as $item)
             <tr>
-                <td><input type="checkbox" value="{{ $item->id }}"></td>
+                <td>
+                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->id }}</p>
+                </td>
                 <td>
                     <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->name }}</p>
                 </td>
@@ -32,14 +34,16 @@
                 </td>
 
                 <th class="text-center">
-                    <a class="btn btn-sm btn-info" href="{{ route('admin.brand.edit', $item->id) }}"><i
-                            class="fa fa-paste"></i> Edit</a>
-                    <form action="" method="POST" data-url="brand" class="form-delete">
-                        @method('DELETE')
-                        @csrf
-                        <input type="hidden" value="{{ $item->id }}" name="id">
-                        <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i> Xóa</button>
-                    </form>
+                    <div style="display: flex; justify-content: center;column-gap: 5px;">
+                        <a class="btn btn-sm btn-info" href="{{ route('admin.brand.edit', $item->id) }}"><i
+                                class="fa fa-pencil"></i></a>
+                        <form action="" method="POST" data-url="brand" class="form-delete">
+                            @method('DELETE')
+                            @csrf
+                            <input type="hidden" value="{{ $item->id }}" name="id">
+                            <button class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></button>
+                        </form>
+                    </div>
                 </th>
             </tr>
         @endforeach

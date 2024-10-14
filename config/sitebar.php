@@ -88,8 +88,8 @@ return [
         "route" => "#",
         'children' =>
         [
-            
-            
+
+
             [
                 "name" => "QL phương thức thanh toán",
                 "route" => "admin.payment_methods"
@@ -103,7 +103,7 @@ return [
         "route" => "",
         'children' =>
         [
-            
+
             [
                 "name" => "QL mã giảm giá",
                 "route" => "admin.promotions"
@@ -114,30 +114,92 @@ return [
         [
             "childrenlevel" => true,
             "name" => "Quản lý mã trang giới thiệu",
-            "route" => "",
+            "route" => "#",
             'children' =>
             [
-                
+
                 [
                     "name" => "QL trang giới thiệu",
                     "route" => "admin.about"
                 ],
             ]
-    
+
             ],
         [
-            "childrenlevel" => false,
+            "childrenlevel" => true,
             "name" => "Quản lí nhãn hàng",
-            "route" => "admin.brand",
+            "route" => "#",
+            'children' =>
+            [
+
+                [
+                    "name" => "Quản lí nhãn hàng",
+                    "route" => "admin.brand"
+                ],
+            ]
         ],
         [
-        "childrenlevel" => false,
-        "name" => "Thông tin liên hệ",
-        "route" => "admin.information",
+        "childrenlevel" => true,
+        "name" => "Quản lí Thông tin liên hệ",
+        "route" => "#",
+        'children' =>
+        [
+
+            [
+                "name" => "Thông tin liên hệ",
+                "route" => "admin.information"
+            ],
         ]
-        
-       
-   
+
+    ],
+    [
+        "childrenlevel" => true,
+        "name" => "Quản lí phí ship",
+        "route" => "#",
+        'children' =>
+        [
+
+            [
+                "name" => "Quản lí phí ship",
+                "route" => "admin.shipping_fee"
+            ],
+
+        ]
+    ],
+    [
+        "childrenlevel" => true,
+        "name" => "Quản lí form liên hệ",
+        "route" => "#",
+        'children' =>
+        [
+
+            [
+                "name" => " form liên hệ",
+                "route" => "admin.contact"
+            ],
+
+        ]
+    ],
+    [
+        "childrenlevel" => true,
+        "name" => "Quản lí khách hàng",
+        "route" => "#",
+        'children' =>
+        [
+
+            [
+                "name" => " list khách hàng",
+                "route" => "admin.customer"
+            ],
+
+        ]
+    ],
+
+
+
+
+
+
 
 ];
 //    Parent :

@@ -10,6 +10,7 @@ use App\Http\Controllers\backend\AttributeController;
 use App\Http\Controllers\backend\AttributeValueController;
 use App\Http\Controllers\backend\BrandController;
 use App\Http\Controllers\backend\ContactController;
+use App\Http\Controllers\backend\CustomerController;
 use App\Http\Controllers\backend\DashBoardController;
 use App\Http\Controllers\backend\InformationController;
 use App\Http\Controllers\backend\PostController;
@@ -20,7 +21,13 @@ use App\Http\Controllers\backend\ProductCommentController;
 use App\Http\Controllers\backend\ProductReviewController;
 use App\Http\Controllers\Backend\UserCatelogueController;
 use App\Http\Controllers\Backend\UserController;
+
+
+
+use App\Http\Controllers\backend\ShippingFeeController;
+
 use App\Http\Controllers\PaymentMethodsController;
+
 
 use App\Http\Controllers\PostCatelogueController;
 use App\Http\Controllers\Backend\PromotionController;
@@ -134,10 +141,10 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::delete('payment_methods/{id}', [PaymentMethodsController::class, 'destroy'])->name('admin.payment_methods.delete');
     });
     Route::prefix('promotions')->group(function () {
-        Route::get('/', [PromotionController::class, 'listPromotions'])->name('admin.promotions'); 
-        Route::get('/create', [PromotionController::class, 'create'])->name('admin.promotions.create'); 
+        Route::get('/', [PromotionController::class, 'listPromotions'])->name('admin.promotions');
+        Route::get('/create', [PromotionController::class, 'create'])->name('admin.promotions.create');
         Route::post('/store', [PromotionController::class, 'store'])->name('admin.promotions.store');
-        Route::get('/{id}/edit', [PromotionController::class, 'edit'])->name('admin.promotions.edit'); 
+        Route::get('/{id}/edit', [PromotionController::class, 'edit'])->name('admin.promotions.edit');
         Route::put('/{id}/update', [PromotionController::class, 'update'])->name('admin.promotions.update');
         Route::delete('/{id}', [PromotionController::class, 'deletePromotion'])->name('admin.promotions.delete');
     });
@@ -149,9 +156,8 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::put("{id}/update", [AboutPageController::class, "update"])->name("admin.about.update");
         Route::delete('/about/{id}', [AboutPageController::class, 'destroy'])->name('admin.about.delete');
     });
-    
-   
-    Route::prefix("product_comment")->group(function(){
+
+    Route::prefix("product-comment")->group(function(){
         Route::get("users", [ProductCommentController::class, "index"])->name("admin.product_comment.users");
         Route::get("user/{id}/comments", [ProductCommentController::class, "userComments"])->name("admin.product_comment.user_comments");
         Route::delete("/soft-delete", [ProductCommentController::class, "softDelete"])->name("admin.product_comment.soft_delete");//xóa mềm
@@ -169,14 +175,18 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::get("{id}/edit",[BrandController::class,"edit"])->name("admin.brand.edit");
         Route::put("{id}/update",[BrandController::class,"update"])->name("admin.brand.update");
         Route::delete("/delete",[BrandController::class,"destroy"])->name("admin.brand.delete");
+        Route::delete("/force-delete",[BrandController::class,"force_destroy"])->name("admin.brand.force_delete");
+        Route::post("{id}/restore", [BrandController::class, "restore"])->name("admin.brand.restore");//khôi phục
+        Route::get("/trash", [BrandController::class, "trash"])->name("admin.brand.trash"); // Trang thùng rác
     });
     Route::prefix("contact")->group(function(){
         Route::get("list",[ContactController::class,"index"])->name("admin.contact");
         Route::get("create",[ContactController::class,"create"])->name("admin.contact.create");
         Route::post("postStore",[ContactController::class,"store"])->name("admin.contact.store");
-        Route::get("{id}/edit",[ContactController::class,"edit"])->name("admin.contact.edit");
-        Route::put("{id}/update",[ContactController::class,"update"])->name("admin.contact.update");
-        Route::delete("/delete",[ContactController::class,"destroy"])->name("admin.contact.delete");
+        Route::get("{id}/show",[ContactController::class,"show"])->name("admin.contact.show");
+        // Route::get("{id}/edit",[ContactController::class,"edit"])->name("admin.contact.edit");
+        // Route::put("{id}/update",[ContactController::class,"update"])->name("admin.contact.update");
+        // Route::delete("/delete",[ContactController::class,"destroy"])->name("admin.contact.delete");
     });
     Route::prefix("information")->group(function(){
         Route::get("list",[InformationController::class,"index"])->name("admin.information");
@@ -186,8 +196,28 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::put("{id}/update",[InformationController::class,"update"])->name("admin.information.update");
         Route::delete("/delete",[InformationController::class,"destroy"])->name("admin.information.delete");
     });
+    Route::prefix("shipping-fee")->group(function(){
+        Route::get("list",[ShippingFeeController::class,"index"])->name("admin.shipping_fee");
+        Route::get("create",[ShippingFeeController::class,"create"])->name("admin.shipping_fee.create");
+        Route::post("postStore",[ShippingFeeController::class,"store"])->name("admin.shipping_fee.store");
+        Route::get("{id}/edit",[ShippingFeeController::class,"edit"])->name("admin.shipping_fee.edit");
+        Route::put("{id}/update",[ShippingFeeController::class,"update"])->name("admin.shipping_fee.update");
+        Route::delete("/delete",[ShippingFeeController::class,"destroy"])->name("admin.shipping_fee.delete");
+        Route::delete("/force-delete",[ShippingFeeController::class,"force_destroy"])->name("admin.shipping_fee.force_delete");
+        Route::post("{id}/restore", [ShippingFeeController::class, "restore"])->name("admin.shipping_fee.restore");//khôi phục
+        Route::get("/trash", [ShippingFeeController::class, "trash"])->name("admin.shipping_fee.trash"); // Trang thùng rác
+    });
+    Route::prefix("customer")->group(function(){
+        Route::get("list",[CustomerController::class,"index"])->name("admin.customer");
+        Route::get("create",[CustomerController::class,"create"])->name("admin.customer.create");
+        Route::post("postStore",[CustomerController::class,"store"])->name("admin.customer.store");
+        Route::get("{id}/show",[CustomerController::class,"show"])->name("admin.customer.show");
+        Route::get("{id}/edit",[CustomerController::class,"edit"])->name("admin.customer.edit");
+        Route::put("{id}/update",[CustomerController::class,"update"])->name("admin.customer.update");
+        Route::delete("/delete",[CustomerController::class,"destroy"])->name("admin.customer.delete");
+    });
 });
-                    
+
 Route::get("/",function(){
     return redirect()->route("admin.dashboard");
 });
