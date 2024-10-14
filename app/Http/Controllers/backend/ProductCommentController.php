@@ -41,60 +41,77 @@ class ProductCommentController extends Controller
             "name"=>"Chi tiết người dùng bình luận"
          ]); 
         $breadcrumbs = $this->breadcrumbs;
+        $query = ProductComment::where('user_id', $id);
 
-        // Khởi tạo truy vấn để lấy bình luận của người dùng
-        $query = $users->product_comments();
-        $searchText = $request->input('search_text');
 
-    if ($searchText) {
-        $query = ProductComment::where('comment', 'LIKE', '%' . $searchText . '%');
+    $searchText = $request->get('search_text');
+    if (!empty($searchText)) {
+        $query->where('comment', 'LIKE', '%' . $searchText . '%')
+        ->orWhereHas('product', function ($q) use ($searchText) {
+            $q->where('name', 'LIKE', '%' . $searchText . '%');
+        });
     }
 
-    // Tìm kiếm theo ngày bắt đầu và ngày kết thúc
-    if ($request->has('start_date') && $request->has('end_date')) {
-        $query->whereBetween('created_at', [$request->start_date, $request->end_date]);
+
+    $startDate = $request->get('start_date');
+    $endDate = $request->get('end_date');
+
+    if (!empty($startDate) && !empty($endDate)) {
+        $query->whereBetween('created_at', [$startDate, $endDate]);
+    } elseif (!empty($startDate)) {
+        $query->where('created_at', '>=', $startDate);
+    } elseif (!empty($endDate)) {
+        $query->where('created_at', '<=', $endDate);
     }
 
-    // Lọc theo thứ tự ngày bình luận
     if ($request->has('date_order')) {
         if ($request->date_order == 'newest') {
-            $query->orderBy('created_at', 'desc'); // Sắp xếp theo ngày mới nhất
+            $query->orderBy('created_at', 'desc');
         } elseif ($request->date_order == 'oldest') {
-            $query->orderBy('created_at', 'asc'); // Sắp xếp theo ngày cũ nhất
+            $query->orderBy('created_at', 'asc');
         }
     }
 
-    // Phân trang bình luận của người dùng
-    $data = $query->paginate(10); 
+        $data = $query->paginate(10); 
     
         return view("backend.product_comment.templates.comment", compact( 'users','title', 'breadcrumbs', 'data'));
     }
     
-    // Xóa cứng bình luận
-    public function destroy($id)
-    {
-        $comment = ProductComment::findOrFail($id);
-        $comment->delete(); // Xóa bình luận
 
-        return response()->json('success', 'Bình luận đã được xóa thành công!');
+    public function destroy(Request $request, $id)
+    {
+        $comment = ProductComment::withTrashed()->findOrFail($id);
+
+        if ($comment) {
+            $comment->forceDelete();
+            return response()->json(["success" , "Bình luận đã được xóa vĩnh viễn"]);
+        } else {
+            return response()->json(["error" , "Không tìm thấy bình luận"]);
+        }
     }
 
-    // Xóa mềm bình luận
-    public function softDelete($id)
+    public function softDelete(Request $request, $id)
     {
         $comment = ProductComment::findOrFail($id);
-        $comment->delete(); // Xóa mềm bình luận
 
-        return response()->json('success', 'Bình luận đã được xóa mềm thành công!');
+        if ($comment) {
+            $comment->delete();
+            return response()->json(["success" , "Bình luận đã được xóa thành công"]);
+        } else {
+            return response()->json(["error" , "Không tìm thấy bình luận"]);
+        }
     }
 
-    // Khôi phục bình luận
     public function restore($id)
     {
         $comment = ProductComment::onlyTrashed()->findOrFail($id);
-        $comment->restore(); // Khôi phục bình luận
 
-        return redirect()->back()->with('success', 'Bình luận đã được khôi phục thành công!');
+        if ($comment) {
+            $comment->restore();
+            return response()->json(['message' => 'Bình luận đã được khôi phục thành công', 'status' => 'success'], 200);
+        } else {
+            return response()->json(['message' => 'Không tìm thấy bình luận', 'status' => 'error'], 404);
+        }
     }
 
     public function trash()

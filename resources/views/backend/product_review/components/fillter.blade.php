@@ -1,29 +1,46 @@
 <div class="ibox-content_top">  
     <form action="{{ route('admin.product_review') }}" method="GET" class="form_search">
-        <div class="form-group d-flex align-items-center">
-            <div>
-                <label for="search" class="me-2">Tìm kiếm</label>
-                <input type="text" class="form-control" name="keywords" value="{{ request('keywords') }}" placeholder="Tìm kiếm theo tên sản phẩm">
-            </div>
-            <div>
-                <label for="start_date">Ngày bắt đầu:</label>
-                <input type="date" class="form-control" name="start_date" value="{{ request('start_date') }}">
-            </div>
-            <div>
-                <label for="end_date">Ngày kết thúc:</label>
-                <input type="date" class="form-control" name="end_date" value="{{ request('end_date') }}">
-            </div>
-            <div>
-                <label for="date_order">Sắp xếp theo:</label>
-                <select name="date_order" class="form-control">
-                    <option value="">Chọn thứ tự</option>
-                    <option value="newest" {{ request('date_order') == 'newest' ? 'selected' : '' }}>Mới nhất</option>
-                    <option value="oldest" {{ request('date_order') == 'oldest' ? 'selected' : '' }}>Cũ nhất</option>
-                </select>
-            </div>
-            <div style="margin-top: 24px;">
-                <button class="btn btn-primary search"> <i class="fa fa-search"></i> Tìm kiếm</button>
-            </div>
-        </div>
+    <div class="row">
+
+    <div class="col-md-2">
+        <input type="text" class="form-control" name="search_text" 
+            @if(request()->has('search_text')) 
+                value="{{ request()->get('search_text') }}" 
+            @endif 
+            placeholder="Tìm kiếm">
+    </div>
+
+    <div class="col-md-2">
+        <input type="date" class="form-control" name="start_date" 
+            @if(request()->has('start_date')) 
+                value="{{ request()->get('start_date') }}" 
+            @endif 
+            placeholder="Ngày bắt đầu">
+    </div>
+
+    <div class="col-md-2">
+        <input type="date" class="form-control" name="end_date" 
+            @if(request()->has('end_date')) 
+                value="{{ request()->get('end_date') }}" 
+            @endif 
+            placeholder="Ngày kết thúc">
+    </div>
+
+    <div class="col-md-2">
+        <select class="form-control" name="date_order">
+            <option value="">Sắp xếp theo ngày bình luận</option>
+            <option value="newest" 
+                {{ request()->get('date_order') == 'newest' ? 'selected' : '' }}>Mới nhất</option>
+            <option value="oldest" 
+                {{ request()->get('date_order') == 'oldest' ? 'selected' : '' }}>Cũ nhất</option>
+        </select>
+    </div>
+
+    <div class="col-md-2 mt-2">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
+        </button>
+    </div>
+</div>
     </form>
 </div>

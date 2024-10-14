@@ -15,11 +15,12 @@
                 <td>{{ $comment->created_at }}</td>
                 
                 <td>
-                    <form action="{{ route('admin.product_comment.soft_delete', $comment->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger"><i class="fa fa-trash-o"></i> Xóa</button>
-                    </form>
+                <form action="" method="POST" data-url="product_comment" style="text-align: center;" class="form-delete">
+                            @method("DELETE")
+                            @csrf
+                            <input type="hidden" value="{{$comment->id}}" name="id">
+                            <button class="btn btn-danger center"><i class="fa fa-trash-o"></i></button>
+                        </form>
                 </td>
             </tr>
         @endforeach

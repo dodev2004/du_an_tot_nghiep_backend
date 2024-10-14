@@ -43,6 +43,9 @@
                     .btn {
                         height: 30px;
                     }
+                    .col-md-2{
+                        width: 160px;
+                    }
                 </style>
                 @include("backend.product_comment.components.filltercomment") 
                 @include("backend.product_comment.components.commentdetail")  
