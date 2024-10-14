@@ -90,9 +90,10 @@ class ProductCommentController extends Controller
         }
     }
 
-    public function softDelete(Request $request, $id)
-    {
-        $comment = ProductComment::findOrFail($id);
+    public function softDelete(Request $request)
+    {   
+   
+        $comment = ProductComment::findOrFail($request->id);
 
         if ($comment) {
             $comment->delete();

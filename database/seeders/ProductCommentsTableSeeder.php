@@ -13,28 +13,28 @@ class ProductCommentsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        // DB::table('product_comments')->insert([
-        //     [
-        //         'product_id' => 1, 
-        //         'user_id' => 1, 
-        //         'comment' => 'Sản phẩm này rất tuyệt vời! Tôi rất hài lòng với chất lượng.',
-        //         'created_at' => now(),
-        //         'updated_at' => now(),
-        //     ],
-        //     [
-        //         'product_id' => 2, 
-        //         'user_id' => 1, 
-        //         'comment' => 'Giá cả hợp lý, giao hàng nhanh. Sẽ tiếp tục ủng hộ.',
-        //         'created_at' => now(),
-        //         'updated_at' => now(),
-        //     ],
-        //     [
-        //         'product_id' => 1, 
-        //         'user_id' => 1, 
-        //         'comment' => 'Sản phẩm không tốt như mong đợi, cần cải thiện.',
-        //         'created_at' => now(),
-        //         'updated_at' => now(),
-        //     ],
-        // ]);
+        DB::table('product_comments')->insert([
+            [
+                'product_id' => 5, 
+                'user_id' => 1, 
+                'comment' => 'Sản phẩm này rất tuyệt vời! Tôi rất hài lòng với chất lượng.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 5, 
+                'user_id' => 1, 
+                'comment' => 'Giá cả hợp lý, giao hàng nhanh. Sẽ tiếp tục ủng hộ.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 6, 
+                'user_id' => 1, 
+                'comment' => 'Sản phẩm không tốt như mong đợi, cần cải thiện.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
     }
 }
