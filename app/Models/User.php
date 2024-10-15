@@ -76,4 +76,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_role', 'user_id', 'role_id');
+    }
+    public function permissions()
+    {
+        return $this->hasManyThrough(
+            Permission::class, // Model mục tiêu
+            Role::class,       // Model trung gian
+            'user_id',         // Khóa ngoại trên bảng user_role
+            'role_id',         // Khóa ngoại trên bảng permission_role
+            'id',              // Khóa chính trên bảng users
+            'id'               // Khóa chính trên bảng roles
+        );
+    }
 }
