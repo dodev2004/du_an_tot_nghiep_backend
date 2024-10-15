@@ -433,28 +433,40 @@
                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                                     @endforeach
                                 </select>
+                            <span class="text-danger"></span>
+
                             </div>
                             <div class="form-group">
                                 <label for="">Mã sản phẩm</label>
                                 <input type="text" class="form-control" name="sku" placeholder="Mã sản phẩm">
+                            <span class="text-danger"></span>
+
 
                             </div>
                             <div class="form-group">
                                 <label for="">Giá thành</label>
                                 <input type="text" class="form-control" name="price" placeholder="Giá sản phẩm">
+                            <span class="text-danger"></span>
+
                             </div>
                             <div class="form-group">
                                 <label for="">Giảm giá</label>
                                 <input type="text" class="form-control" name="discount_price"
                                     placeholder="Giảm giá nếu có">
+                            <span class="text-danger"></span>
+                                    
                             </div>
                             <div class="form-group">
                                 <label for="">Tồn kho</label>
                                 <input type="text" class="form-control" name="stock" placeholder="Tồn kho">
+                            <span class="text-danger"></span>
+
                             </div>
                             <div class="form-group">
                                 <label for="">Cân năng</label>
                                 <input type="text" class="form-control" name="weight" placeholder="Cân nặng">
+                            <span class="text-danger"></span>
+
                             </div>
                         </div>
                     </div>
@@ -489,6 +501,7 @@
                                     <option value="0">Không kích hoạt</option>
                                     <option value="1">Kích hoạt</option>
                                 </select>
+                                <span class="text-danger"></span>
 
                             </div>
 
@@ -802,6 +815,7 @@
                                 break;
                         }
                     });
+                    const price = document.querySelector("input[name='price']");
 
                     tbody.appendChild(listVariant);
                     tbody.insertAdjacentHTML("beforeend", `
@@ -813,7 +827,7 @@
                 <div class="col-md-12 attribute_collape-content">
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label onclick='selectFileWithCKFinder(this)' for="" id="ckfinder-popup-1">
+                            <label style="width:100px;height:100px" onclick='selectFileWithCKFinder(this)' for="" id="ckfinder-popup-1">
                                 <img style="border:1px solid #ccc;" width="100"
                                     height="100" class="variant_image-show"
                                     src="https://img.icons8.com/?size=100&id=1G2BW7-tQJJJ&format=png&color=000000"
@@ -830,7 +844,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="">Giá</label>
-                    <input type="text" class="form-control" name="price_variant">
+                    <input type="text" class="form-control" value='${price.value}' name="price_variant">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="">Giá khuyến mãi</label>

@@ -15,7 +15,7 @@
                 <td>{{ $comment->created_at }}</td>
                 
                 <td>
-                <form action="" method="POST" data-url="product_comment" style="text-align: center;" class="form-delete">
+                <form action="" method="POST" data-url="product-comment" style="text-align: center;" class="form-delete">
                             @method("DELETE")
                             @csrf
                             <input type="hidden" value="{{$comment->id}}" name="id">

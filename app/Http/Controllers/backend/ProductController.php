@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Classes\NestedSetBuild;
 use App\Models\Brand;
-
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ProductRequest;
 class ProductController extends Controller
 {
     /**
@@ -88,9 +89,48 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        dd($request->all());
+        $data = $request->except("_token");
+       
+       DB::beginTransaction();
+
+       try {
+        $discountPercentage = (($request["price"] - $request["discount_price"]) / $request["price"]) * 100;
+     
+        $dataProduct = [
+            'user_id' => trim($data['user_id']),
+            'name' => trim($data['name']),
+            'detailed_description' => trim($data['detailed_description']),
+            'meta_keywords' => trim($data['meta_keywords']),
+            'slug' => trim($data['slug']),
+            'meta_description' => trim($data['meta_description']),
+            'brand_id' => trim($data['brand_id_']),
+            'sku' => trim($data['sku']),
+            'price' => trim($data['price']),
+            'discount_price' => trim($data['discount_price']),
+            'stock' => trim($data['stock']),
+            'weight' => trim($data['weight']),
+            'image_url' => trim($data['image_url']),
+            'discount_percentage' => round($discountPercentage, 2), 
+            'is_active' => trim($data['is_active']),
+        ];
+        $product = Product::create($dataProduct);
+        $galleries = explode(",",$data["gallery"]);
+        foreach($galleries as $item){
+            DB::table("galleries")->insert([
+                "product_id" => $product->id,
+                "image_url" => $item,
+                "created_at" => date('Y-m-d H:i:s',time()),
+                "updated_at" => date('Y-m-d H:i:s',time()),
+            ]);
+        }
+        DB::commit();
+       }
+       catch (\Exception $e) {
+           DB::rollBack();
+           dd($e);
+       }
     }
 
     /**

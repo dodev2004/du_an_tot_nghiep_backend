@@ -67,8 +67,11 @@
                 
             },
             error : function(error){
+                console.log(error);
+                
             let errors =  error.responseJSON.errors;
-          
+                console.log(errors);
+                
                 Object.keys(errors).forEach(function(error){
                     const input = document.querySelector(`input[name="${error}"]`);
                     const select = document.querySelector(`select[name="${error}"]`)
@@ -76,19 +79,21 @@
                    
                     if(input){
                     const message = input.parentElement.querySelector("span");
-                        message.innerText = errors[error]
+                    console.log(message,errors[error]);
+                    
+                        message.innerText = errors[error][0]
 
                     }
                     if(select){
                         const message = select.parentElement.querySelector(".message-error");
 
-                        message.innerText = errors[error]
+                        message.innerText = errors[error][0]
                        
                     }
                     if(textarea){
                         const message = textarea.parentElement.querySelector(".text-danger");
                         console.log(message);
-                        message.innerText = errors[error]
+                        message.innerText = errors[error][0]
                     }
                 })
             }
