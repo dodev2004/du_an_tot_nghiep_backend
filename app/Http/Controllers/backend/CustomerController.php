@@ -27,7 +27,7 @@ class CustomerController extends Controller
     $endDate = request()->input('end_date');
     $dateOrder = request()->input('date_order');
 
-    $query = User::with('orders')->withSum('orders', 'final_amount')->where('rule_id', 2);
+    $query = User::with('orders')->withSum('orders', 'final_amount')->where('role_id', 2);
 
     // Search by username
     if ($searchText) {

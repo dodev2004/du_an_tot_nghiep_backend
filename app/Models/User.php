@@ -34,7 +34,7 @@ class User extends Authenticatable
         "user_agent",
         "created_at",
         "updated_at",
-        "rule_id",
+        "role_id",
         "goooge_id",
         "last_login",
         "deleted_at"
