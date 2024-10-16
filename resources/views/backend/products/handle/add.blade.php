@@ -8,7 +8,7 @@
             let _token = $("input[name='_token'").val()
             let data =  new FormData();
             const inputs = Array.from(this.querySelectorAll(".form-control"));
-            const catelogueElem = Array.from(this.querySelectorAll('input[name="catelogue"]'));
+            const catelogueElem = Array.from(this.querySelectorAll('input[name="post_catelogue_id"]'));
             inputs.forEach(function(input){
                   if(!(input.name == "variant_image" || input.name == "price_variant" || input.name =="discount_price_variant" || input.name == "stock_variant")){
                     data.append(input.name,input.value.trim());
@@ -19,6 +19,7 @@
                     catelogues.push(Number(catelogue.value) )
                 }
             })
+            data.append("catelogues",catelogues);
             data.append("_token",_token); 
             const checkValidate = document.querySelector(".checkVariants").checked;
             if(checkValidate){
@@ -67,11 +68,10 @@
                 
             },
             error : function(error){
-                console.log(error);
+             
                 
             let errors =  error.responseJSON.errors;
-                console.log(errors);
-                
+              if(errors){
                 Object.keys(errors).forEach(function(error){
                     const input = document.querySelector(`input[name="${error}"]`);
                     const select = document.querySelector(`select[name="${error}"]`)
@@ -96,6 +96,14 @@
                         message.innerText = errors[error][0]
                     }
                 })
+              
+              }
+              else {
+                 const error_variant = error.responseJSON.error_variant;
+
+                 document.querySelector(".error_variant").innerText = error_variant
+                }
+                
             }
         })
         })

@@ -319,6 +319,7 @@
                                 <p style="margin: 0 4px;">Sản phẩm có nhiều thể loại, nhiều mức giá</p>
 
                             </div>
+                            <span class="error_variant text-center"></span>
                             <div class="attribute_add" style="display:none">
                                 <div class="attribute">
                                     <div class="row">
@@ -838,7 +839,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">Sku</label>
-                            <input type="text" name="" class="form-control">
+                            <input type="text" name="sku_variant" class="form-control">
                         </div>
                     </div>
                 </div>

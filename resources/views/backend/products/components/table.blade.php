@@ -3,7 +3,7 @@
         <tr>
             <th></th>
             <th style="width: 200px" class="text-center">Hình ảnh</th>
-            <th  class="text-center">Thông tin sản phẩm</th>
+            <th class="text-center">Thông tin sản phẩm</th>
             <th class="text-center">Ngày tạo</th>
             <th class="text-center">Hành động</th>
         </tr>
@@ -12,20 +12,33 @@
         @foreach ($products as $index => $product)
             <tr>
                 <td>
-                   {{$index +1}}
+                    {{ $index + 1 }}
                 </td>
                 <td>
                     <img src="{{ asset($product->image_url) }}" alt="{{ $product->name }}" width="50">
                 </td>
                 <td>
-                    <strong>Tên sản phẩm:</strong> {{ $product->catelogues ?  implode(",",$product->catelogues) : 'N/A' }}<br>
-                    <strong>Danh mục:</strong> {{ $product->catelogues ?  implode(",",$product->catelogues) : 'N/A' }}<br>
+                    <strong>Tên sản phẩm:</strong> {{ $product->name ? $product->name : 'N/A' }}<br>
+                    <strong>Danh mục:</strong>
+                    {{ $product->catelogues ? implode(',', $product->catelogues) : 'N/A' }}<br>
                     <strong>Nhãn hàng:</strong> {{ $product->brand->name ?? 'N/A' }}<br>
                     <strong>Giá:</strong> {{ $product->display_price }}<br>
                     <strong>Tồn kho:</strong> {{ $product->display_stock }}
                 </td>
                 <td>{{ $product->created_at->format('d/m/Y') }}</td>
-                <td class="text-center">
+                <td style="text-align: center">
+                    <div style="display: flex; justify-content: center;column-gap: 5px;">
+
+                        <a href="{{ route('admin.product.edit',$product->id) }}" class="btn btn-info"><i
+                                class="fa fa-pencil"></i></a>
+                        <form action="" method="POST" data-url="product" class="form-delete">
+                            @method('DELETE')
+                            @csrf
+                            <input type="hidden" value="{{$product->id }}" name="id">
+                            <button class="btn btn-warning center"><i class="fa fa-trash-o"></i></button>
+                        </form>
+                    </div>
+
                 </td>
             </tr>
         @endforeach

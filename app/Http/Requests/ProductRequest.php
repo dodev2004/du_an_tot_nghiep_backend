@@ -23,13 +23,13 @@ class ProductRequest extends FormRequest
     {
         return [
             'user_id' => 'required|integer',
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:products,name',
             'detailed_description' => 'nullable|string',
             'meta_keywords' => 'nullable|string|max:255',
-            'slug' => 'nullable|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:products,slug',
             'meta_description' => 'nullable|string|max:255',
             'brand_id_' => 'nullable|integer',
-            'sku' => 'required|string|max:255',
+            'sku' => 'nullable|required|string|max:255|unique:products,sku',
             'price' => 'required|numeric|min:0',
             'discount_price' => 'nullable|numeric|min:0|lt:price',
             'stock' => 'required|integer|min:0',
@@ -64,7 +64,7 @@ class ProductRequest extends FormRequest
 
             'name.required' => 'Tên sản phẩm là bắt buộc',
             'name.max' => 'Tên sản phẩm không được vượt quá :max ký tự.',
-
+            'name.unique' => "Tên sản phẩm đã tồn tại",
             'detailed_description.string' => 'Mô tả chi tiết phải là một chuỗi.',
 
             'meta_keywords.string' => 'Từ khóa SEO phải là một chuỗi.',
@@ -72,7 +72,7 @@ class ProductRequest extends FormRequest
 
             'slug.string' => 'Slug phải là một chuỗi.',
             'slug.max' => 'Slug không được vượt quá :max ký tự.',
-
+            'slug.unique' => "Slug đã tồn tại",
             'meta_description.string' => 'Mô tả SEO phải là một chuỗi.',
             'meta_description.max' => 'Mô tả SEO không được vượt quá :max ký tự.',
 
@@ -80,7 +80,7 @@ class ProductRequest extends FormRequest
 
             'sku.required' => 'Mã sản phẩm là bắt buộc.',
             'sku.max' => 'Mã sản phẩm không được vượt quá :max ký tự.',
-
+            'sku.unique' => "Mã sản phẩm đã tồn tại",
             'price.required' => 'Vui lòng nhập giá sản phẩm.',
             'price.numeric' => 'Giá sản phẩm phải là một số hợp lệ.',
             'price.min' => 'Giá sản phẩm phải lớn hơn hoặc bằng 0.',
@@ -100,6 +100,8 @@ class ProductRequest extends FormRequest
 
             'is_active.required' => 'Trạng thái kích hoạt là bắt buộc.',
             'is_active.boolean' => 'Trạng thái kích hoạt phải là true hoặc false.',
+
+            
         ];
     }
 }
