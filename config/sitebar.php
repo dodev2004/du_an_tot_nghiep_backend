@@ -40,7 +40,8 @@ return [
 
             ],
         ]
-    ], [
+    ],
+    [
         "childrenlevel" => true,
         "name" => "Quản lý sản phẩm",
         "route" => "#",
@@ -65,7 +66,8 @@ return [
             ],
         ]
 
-    ],[
+    ],
+    [
         "childrenlevel" => true,
         "name" => "Quản lý phản hồi",
         "route" => "#",
@@ -111,74 +113,40 @@ return [
         ]
 
     ],
-        [
-            "childrenlevel" => true,
-            "name" => "Quản lý mã trang giới thiệu",
-            "route" => "#",
-            'children' =>
-            [
-
-                [
-                    "name" => "QL trang giới thiệu",
-                    "route" => "admin.about"
-                ],
-            ]
-
-            ],
-        [
-            "childrenlevel" => true,
-            "name" => "Quản lí nhãn hàng",
-            "route" => "#",
-            'children' =>
-            [
-
-                [
-                    "name" => "Quản lí nhãn hàng",
-                    "route" => "admin.brand"
-                ],
-            ]
-        ],
-        [
+    [
         "childrenlevel" => true,
+        "name" => "Quản lý mã trang giới thiệu",
+        "route" => "#",
+        'children' =>
+        [
+
+            [
+                "name" => "QL trang giới thiệu",
+                "route" => "admin.about"
+            ],
+        ]
+
+    ],
+    [
+        "childrenlevel" => false,
+        "name" => "Quản lí nhãn hàng",
+        "route" => "admin.brand",
+    ],
+    [
+        "childrenlevel" => false,
         "name" => "Quản lí Thông tin liên hệ",
-        "route" => "#",
-        'children' =>
-        [
-
-            [
-                "name" => "Thông tin liên hệ",
-                "route" => "admin.information"
-            ],
-        ]
+        "route" => "admin.information",
 
     ],
     [
-        "childrenlevel" => true,
+        "childrenlevel" => false,
         "name" => "Quản lí phí ship",
-        "route" => "#",
-        'children' =>
-        [
-
-            [
-                "name" => "Quản lí phí ship",
-                "route" => "admin.shipping_fee"
-            ],
-
-        ]
+        "route" => "admin.shipping_fee",
     ],
     [
-        "childrenlevel" => true,
+        "childrenlevel" => false,
         "name" => "Quản lí form liên hệ",
-        "route" => "#",
-        'children' =>
-        [
-
-            [
-                "name" => " form liên hệ",
-                "route" => "admin.contact"
-            ],
-
-        ]
+        "route" => "admin.contact",
     ],
     [
         "childrenlevel" => true,
