@@ -11,7 +11,7 @@ class Role extends Model
     use HasFactory;
     use SoftDeletes; // Sử dụng tính năng xóa mềm
 
-    protected $fillable = ['name', 'description']; // Các cột có thể được gán hàng loạt
+    protected $fillable = ['name','display_name','description']; // Các cột có thể được gán hàng loạt
 
     // Mối quan hệ: Một vai trò có nhiều quyền
     public function permissions()

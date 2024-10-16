@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\backend;
+
 use App\Http\Controllers\Controller;
 use App\Models\GroupPermission;
 use App\Models\Permission;
@@ -14,56 +15,56 @@ class PermissionController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-{
-    $title = "Quản lý quyền";
-    $this->breadcrumbs[] = [
-        "active" => true,
-        "url" => route("admin.permission"),
-        "name" => "Quản lý quyền"
-    ];
+    {
+        $title = "Quản lý quyền";
+        $this->breadcrumbs[] = [
+            "active" => true,
+            "url" => route("admin.permission"),
+            "name" => "Quản lý quyền"
+        ];
 
-    $breadcrumbs = $this->breadcrumbs;
+        $breadcrumbs = $this->breadcrumbs;
 
-    // Tìm kiếm và lọc dữ liệu
-    $query = Permission::with('groupPermission');
+        // Tìm kiếm và lọc dữ liệu
+        $query = Permission::with('groupPermission');
 
-    // Kiểm tra nếu người dùng muốn xem các bản ghi đã bị xóa mềm
+        // Kiểm tra nếu người dùng muốn xem các bản ghi đã bị xóa mềm
 
 
-    if ($request->input('seach_text')) {
-        $query->where('name', 'LIKE', '%' . $request->input('seach_text') . '%');
+        if ($request->input('seach_text')) {
+            $query->where('name', 'LIKE', '%' . $request->input('seach_text') . '%');
+        }
+
+        if ($request->input('group_permission_id')) {
+            $query->where('group_permission_id', $request->input('group_permission_id'));
+        }
+
+        if ($request->input('start_date')) {
+            $query->whereDate('created_at', '>=', $request->input('start_date'));
+        }
+
+        if ($request->input('end_date')) {
+            $query->whereDate('created_at', '<=', $request->input('end_date'));
+        }
+
+        if ($request->input('date_order') == 'newest') {
+            $query->orderBy('created_at', 'desc');
+        } elseif ($request->input('date_order') == 'oldest') {
+            $query->orderBy('created_at', 'asc');
+        }
+
+        // Lấy tất cả các nhóm quyền để hiển thị trong form tìm kiếm
+        $groupPermissions = GroupPermission::all();
+
+        if ($request->input('trash')) {
+            $data = $query->onlyTrashed()->paginate(5);
+            return view('backend.trash.trash_permission.templates.index', compact('breadcrumbs', "title", "data", "groupPermissions"));
+        }
+
+        $data = $query->paginate(5);
+
+        return view('backend.permissions.templates.index', compact('breadcrumbs', "title", "data", "groupPermissions"));
     }
-
-    if ($request->input('group_permission_id')) {
-        $query->where('group_permission_id', $request->input('group_permission_id'));
-    }
-
-    if ($request->input('start_date')) {
-        $query->whereDate('created_at', '>=', $request->input('start_date'));
-    }
-
-    if ($request->input('end_date')) {
-        $query->whereDate('created_at', '<=', $request->input('end_date'));
-    }
-
-    if ($request->input('date_order') == 'newest') {
-        $query->orderBy('created_at', 'desc');
-    } elseif ($request->input('date_order') == 'oldest') {
-        $query->orderBy('created_at', 'asc');
-    }
-
-    // Lấy tất cả các nhóm quyền để hiển thị trong form tìm kiếm
-    $groupPermissions = GroupPermission::all();
-
-    if ($request->input('trash')) {
-        $data=$query->onlyTrashed()->paginate(5);
-        return view('backend.trash.trash_permission.templates.index', compact('breadcrumbs', "title", "data", "groupPermissions"));
-    }
-
-    $data = $query->paginate(5);
-
-    return view('backend.permissions.templates.index', compact('breadcrumbs', "title", "data", "groupPermissions"));
-}
 
 
     /**
@@ -71,13 +72,17 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        $title = "Thêm quyền";
-
         // Tạo breadcrumb cho trang thêm quyền
         array_push($this->breadcrumbs, [
             "active" => true,
+            "url" => route("admin.permission"),
+            "name" => "Quản lý quyền"
+        ], [
+
+            "active" => true,
             "url" => route("admin.permission.create"),
-            "name" => $title,
+            "name" => "Thêm quyền",
+
         ]);
 
         $breadcrumbs = $this->breadcrumbs;
@@ -94,10 +99,13 @@ class PermissionController extends Controller
         $request->validate([
             'name' => 'required|unique:permissions',
             "description" => "required",
+            "display_name" => "required|unique:permissions",
             'group_permission_id' => 'required|exists:group_permission,id',
         ], [
             'name.required' => 'Tên quyền không được để trống',
             'name.unique' => 'Tên quyền đã tồn tại',
+            'display_name.required' => 'Tên hiển thị không được để trống',
+            'display_name.unique' => 'Tên hiển thị đã tồn tại',
             'description.required' => 'Mô tả không được để trống',
             'group_permission_id.required' => 'Bạn phải chọn nhóm quyền',
             'group_permission_id.exists' => 'Nhóm quyền không tồn tại',
@@ -120,13 +128,16 @@ class PermissionController extends Controller
      */
     public function edit(string $id)
     {
-        $title = "Sửa quyền";
-
-        // Tạo breadcrumb cho trang sửa quyền
         array_push($this->breadcrumbs, [
             "active" => true,
+            "url" => route("admin.permission"),
+            "name" => "Quản lý quyền"
+        ], [
+
+            "active" => true,
             "url" => route("admin.permission.edit", $id),
-            "name" => $title,
+            "name" => "Sửa quyền",
+
         ]);
 
         $breadcrumbs = $this->breadcrumbs;
@@ -143,10 +154,12 @@ class PermissionController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            "display_name" => "required",
             "description" => "required",
             'group_permission_id' => 'required|exists:group_permission,id',
         ], [
             'name.required' => 'Tên quyền không được để trống',
+            'display_name.required' => 'Tên quyền không được để trống',
             'description.required' => 'Mô tả không được để trống',
             'group_permission_id.required' => 'Bạn phải chọn nhóm quyền',
             'group_permission_id.exists' => 'Nhóm quyền không tồn tại',
@@ -204,6 +217,6 @@ class PermissionController extends Controller
         $groupPermissions = GroupPermission::all(); // Lấy danh sách nhóm quyền
 
         $data = Permission::with('groupPermission')->onlyTrashed()->paginate(10);
-        return view("backend.trash.trash_permission.templates.index", compact("title", "breadcrumbs", "data","groupPermissions"));
+        return view("backend.trash.trash_permission.templates.index", compact("title", "breadcrumbs", "data", "groupPermissions"));
     }
 }

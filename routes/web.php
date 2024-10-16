@@ -33,6 +33,7 @@ use App\Http\Controllers\PaymentMethodsController;
 use App\Http\Controllers\PostCatelogueController;
 use App\Http\Controllers\Backend\PromotionController;
 use App\Http\Controllers\backend\PermissionController;
+use App\Http\Controllers\Backend\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -239,6 +240,18 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::delete("/force-delete",[PermissionController::class,"force_destroy"])->name("admin.permission.force_delete");
         Route::post("{id}/restore", [PermissionController::class, "restore"])->name("admin.permission.restore");//khôi phục
         Route::get("/trash", [PermissionController::class, "trash"])->name("admin.permission.trash"); // Trang thùng rác
+    });
+    Route::prefix("role")->group(function(){
+        Route::get("list",[RoleController::class,"index"])->name("admin.role");
+        Route::get("create",[RoleController::class,"create"])->name("admin.role.create");
+        Route::post("postStore",[RoleController::class,"store"])->name("admin.role.store");
+        Route::get("{id}/show",[RoleController::class,"show"])->name("admin.role.show");
+        Route::get("{id}/edit",[RoleController::class,"edit"])->name("admin.role.edit");
+        Route::put("{id}/update",[RoleController::class,"update"])->name("admin.role.update");
+        Route::delete("/delete",[RoleController::class,"destroy"])->name("admin.role.delete");
+        Route::delete("/force-delete",[RoleController::class,"force_destroy"])->name("admin.role.force_delete");
+        Route::post("{id}/restore", [RoleController::class, "restore"])->name("admin.role.restore");//khôi phục
+        Route::get("/trash", [RoleController::class, "trash"])->name("admin.role.trash"); // Trang thùng rác
     });
 });
 

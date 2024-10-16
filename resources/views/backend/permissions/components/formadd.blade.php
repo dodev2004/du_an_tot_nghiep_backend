@@ -16,6 +16,11 @@
                      <p  class=" text-danger message-error"></p>
                 </div>
                 <div class="form-group col-md-6">
+                    <label for="">Tên hiển thị*</label>
+                    <input type="text"  name="display_name" class="form-control" value="{{old("display_name")}}" autocomplete="">
+                     <p  class=" text-danger message-error"></p>
+                </div>
+                <div class="form-group col-md-6">
                     <label for="">Miêu tả*</label>
                     <input type="text"  name="description" class="form-control" value="{{old("description")}}" autocomplete="">
                     <p  class=" text-danger message-error"></p>

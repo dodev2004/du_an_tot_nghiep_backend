@@ -180,6 +180,11 @@ return [
 
         ]
     ],
+    [
+        "childrenlevel" => false,
+        "name" => "Quản lí vai trò",
+        "route" => "admin.role",
+    ],
 
 
 

@@ -11,7 +11,7 @@ class Permission extends Model
     use HasFactory;
     use SoftDeletes; // Sử dụng tính năng xóa mềm
 
-    protected $fillable = ['name', 'description', 'group_permission_id']; // Các cột có thể được gán hàng loạt
+    protected $fillable = ['name', 'description','display_name', 'group_permission_id']; // Các cột có thể được gán hàng loạt
 
     // Mối quan hệ: Một quyền thuộc về một nhóm quyền
     public function groupPermission()
