@@ -12,6 +12,8 @@ class GroupPermission extends Model
     use SoftDeletes; // Sử dụng tính năng xóa mềm
 
     protected $fillable = ['name', 'description']; // Các cột có thể được gán hàng loạt
+    protected $table = "group_permission";
+
 
     // Mối quan hệ: Một nhóm quyền có nhiều quyền
     public function permissions()

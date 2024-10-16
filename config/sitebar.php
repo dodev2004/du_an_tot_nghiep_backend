@@ -162,6 +162,24 @@ return [
 
         ]
     ],
+    [
+        "childrenlevel" => true,
+        "name" => "Quản lí quyền",
+        "route" => "#",
+        'children' =>
+        [
+
+            [
+                "name" => " quản lí nhóm quyền",
+                "route" => "admin.group_permission"
+            ],
+            [
+                "name" => " quản lí quyền",
+                "route" => "admin.permission"
+            ],
+
+        ]
+    ],
 
 
 
