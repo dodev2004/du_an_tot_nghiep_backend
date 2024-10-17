@@ -458,7 +458,7 @@
                             <div class="form-group">
                                 <label for="">Giá thành</label>
                                 <input type="text" class="form-control" name="price"
-                                    value="{{ $product->price }} placeholder="Giá sản phẩm">
+                                    value="{{ $product->price }}"placeholder="Giá sản phẩm">
                                 <span class="text-danger"></span>
 
                             </div>
@@ -534,7 +534,7 @@
     @include('backend.products.components.js.ckfinder')
     <script src="{{ asset('backend/js/framework/seo.js') }}"></script>
     <script src="{{ asset('backend/js/framework/catelogue/select2.js') }}"></script>
-    @include('backend.products.handle.add');
+    @include('backend.products.handle.update');
     <script src="{{ asset('backend/js/collapse.js') }}"></script>
     <script>
         const attributes = document.querySelector(".attribute")
@@ -602,6 +602,8 @@
         let data = {};
 
         var attributesData = [];
+        const selectedAttributes = [];
+        let productVariant = [];
         $.ajax({
             method: "GET",
             url: "/api/products/showOne/{{ $id }}",
@@ -609,8 +611,17 @@
             success: function(res) {
 
                 if (res.attributes) {
+                    data = {
+                        ...res.attributes
+                    }
 
-                    renderTableListVariant(res.attributes)
+                    
+                   res.attribute_id.forEach(item => {
+                          selectedAttributes.push(item)
+                            
+                    });
+                    productVariant = res.variants
+                    renderTableListVariant(res.attributes,productVariant)
                     Object.keys(res.attributes).forEach(function(item) {
                         handleAttributeAdd(item, res.attributes[item])
                     })
@@ -619,13 +630,10 @@
             }
         })
 
-        const selectedAttributes = [];
+     
         // Khởi tạo mảng để lưu trữ các thuộc tính đã chọ
 
         function createElementAttributeValue(options,selectedAttribute = null) {
-
-            console.log(options);
-
             const select = document.createElement('select');
             select.className = "attribute_value";
             select.multiple = true;
@@ -681,10 +689,14 @@
                     if (attribute.name.trim() == optionSelect.trim()) {
                         option.selected = true;
 
-                    }
+                    }  
+                
+                    
                     // Disable thuộc tính đã được chọn trước đó
                     if (selectedAttributes.includes(attribute.id)) {
                         option.disabled = true;
+                     
+                        
                     }
                     selectAttribute.appendChild(option);
                 });
@@ -720,7 +732,7 @@
             rowElement.appendChild(attribute);
             rowElement.appendChild(attribute_value);
             rowElement.appendChild(remove_attribute);
-            updateSelectAttributes();
+           
             attributeGroups.appendChild(rowElement);
             if (attribute_selected) {
                     const options = attributesData.find(attribute => attribute.name == optionSelect).values;
@@ -732,8 +744,11 @@
                     });
             
             }
+            updateSelectAttributes();
             // Xử lý sự kiện chọn thuộc tính
             selectAttribute.onchange = function() {
+                console.log("Checking");
+                
                 const key = selectAttribute[selectAttribute.options.selectedIndex].text.trim();
                 const attributeValueSelect = this.parentElement.parentElement.querySelector(".attribute_value");
                 const attributeId = this.value;
@@ -762,7 +777,7 @@
             };
         }
 
-        function renderTableListVariant(data) {
+        function renderTableListVariant(data,first=false) {
             const nameColumn = Object.keys(data); // Lấy tất cả các keys
             const variants = [];
 
@@ -862,7 +877,8 @@
                     const price = document.querySelector("input[name='price']");
 
                     tbody.appendChild(listVariant);
-                    tbody.insertAdjacentHTML("beforeend", `
+                    if(!first){
+                        tbody.insertAdjacentHTML("beforeend", `
     <tr class="attribute_table-content">
     <td colspan="${4 + count}">
         <div class="attribute_collape">
@@ -904,6 +920,54 @@
     </td>
 </tr>
 `);
+                    }
+                    else {
+                        const dataVariant = first[index];
+                    
+                        tbody.insertAdjacentHTML("beforeend", `
+    <tr class="attribute_table-content">
+    <td colspan="${4 + count}">
+        <div class="attribute_collape">
+            <div class="row form-variant">
+                <input type='hidden' name="attribute" value='${attributevalue.join(",")}'/>
+                <div class="col-md-12 attribute_collape-content">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label style="width:100px;height:100px" onclick='selectFileWithCKFinder(this)' for="" id="ckfinder-popup-1">
+                                <img style="border:1px solid #ccc;" width="100"
+                                    height="100" class="variant_image-show"
+                                    src="${ dataVariant.image_url ? dataVariant.image_url : 'https://img.icons8.com/?size=100&id=1G2BW7-tQJJJ&format=png&color=000000'  }"
+                                    alt="">
+                            </label>
+                            <input type="text" style="display:none"
+                                class="form-control" name='variant_image' id="variant_image">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Sku</label>
+                            <input type="text" name="sku_variant" value='${ dataVariant.sku ? dataVariant.sku  : ""}' class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Giá</label>
+                    <input type="text" class="form-control" value='${ dataVariant.price ? dataVariant.price  : 0}' name="price_variant">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="">Giá khuyến mãi</label>
+                    <input type="text" name="discount_price_variant" value='${ dataVariant.discount_percentage ? dataVariant.discount_percentage  : 0}' class="form-control">
+                </div>
+               
+                <div class="form-group col-md-6">
+                    <label for="">Số lượng</label>
+                    <input type="text" name="stock_variant" value='${ dataVariant.stock ? dataVariant.stock  : 0}' class="form-control">
+                </div>
+            </div>
+        </div>
+    </td>
+</tr>
+`);
+                    }
+                    
                     table.appendChild(tbody);
                 });
             }
@@ -912,14 +976,12 @@
         function updateSelectAttributes() {
             const allSelects = document.querySelectorAll(".attribute select");
             const currentSelectedIds = Array.from(allSelects).map(select => select.value).filter(id => id);
-            console.log(currentSelectedIds);
-            
+           
 
             allSelects.forEach(select => {
                 const options = select.querySelectorAll('option');
                 options.forEach(option => {
-                    console.log(currentSelectedIds.includes(option.value));
-                    
+                
                     option.disabled = currentSelectedIds.includes(option.value) && option.value !== select
                         .value; // Disable nếu đã chọn
                 });

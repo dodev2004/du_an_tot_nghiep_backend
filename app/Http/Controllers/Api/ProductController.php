@@ -86,29 +86,33 @@ class ProductController extends Controller
                         }]);
                 }]);
         }, "galleries"])->findOrFail($id);
-
+    
         // Xử lý thuộc tính sản phẩm
         $groupedAttributes = [];
         $attributeValuesList = [];
-
+        $attributeIds = []; // Thêm mảng để lưu trữ attribute_id
         foreach ($product->variants as $variant) {
             foreach ($variant->variantAttributeValues as $attributeValue) {
                 $attributeName = $attributeValue->attributeValue->attributes->name;
+                $attributeNameId= $attributeValue->attributeValue->attributes->id;
                 $attributeValueId = $attributeValue->attribute_value_id;
                 $attributeValueName = $attributeValue->attributeValue->name;
-
+                
                 // Nhóm thuộc tính
                 $groupedAttributes[$attributeName][] = (string) $attributeValueId;
 
-                // Danh sách id và name
                 $attributeValuesList[] = [
                     'id' => $attributeValueId,
                     'name' => $attributeValueName
                 ];
+    
+                // Lưu trữ attribute_id vào mảng
+                if (!in_array($attributeNameId, $attributeIds)) {
+                    $attributeIds[] = $attributeNameId;
+                }
             }
         }
-
-
+    
         return response()->json([
             'id' => $product->id,
             'catalogue_id' => $product->catalogue_id,
@@ -136,9 +140,10 @@ class ProductController extends Controller
                     'updated_at' => $variant->updated_at,
                 ];
             }),
-            'attribute_values_list' =>$attributeValuesList,
+            'attribute_values_list' => $attributeValuesList,
             'attributes' => $groupedAttributes,  // Trả về thuộc tính theo nhóm
-            'geleries' => $product->galleries->map(function ($gallery) {
+            'attribute_id' => $attributeIds, // Trả về danh sách attribute_id
+            'galleries' => $product->galleries->map(function ($gallery) {
                 return [
                     'image_url' => $gallery->image_url,
                 ];
@@ -147,6 +152,7 @@ class ProductController extends Controller
             'updated_at' => $product->updated_at,
         ]);
     }
+    
     public function store(Request $request)
     {
         // Tạo mới sản phẩm
