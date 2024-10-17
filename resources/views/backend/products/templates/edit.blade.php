@@ -323,7 +323,7 @@
                                 khác nhau ví dụ áo có kích thước, độ rộng, màu sắc khách nhau</p>
                             <div style="display: flex; align-items: center; margin-bottom: 20px;">
                                 <input style="height: 20px; margin: 0;" class="checkVariants"
-                                    onchange="renderAttributeProduct()" type="checkbox">
+                                    onchange="renderAttributeProduct()" @if($product->variants) checked @endif type="checkbox">
                                 <p style="margin: 0 4px;">Sản phẩm có nhiều thể loại, nhiều mức giá</p>
 
                             </div>
@@ -633,17 +633,12 @@
                 const optionValue = document.createElement('option');
                 optionValue.value = option.id;
                 optionValue.text = option.name;
-                if(selectedAttribute){
-                    console.log(selectedAttribute);
-                    
-                
-                    
+                if(selectedAttribute){   
                     optionValue.selected = selectedAttribute.includes(String(option.id))
                 }
                 optionValue.disabled = false
                 select.appendChild(optionValue);
             });
-            console.log(select);
 
             return select;
         }
@@ -652,7 +647,7 @@
 
 
         function handleAttributeAdd(optionSelect = null, attribute_selected = null) {
-            console.log(optionSelect);
+  
 
             const attributeGroups = document.querySelector(".attribute");
             const rowElement = document.createElement("div");
@@ -725,14 +720,10 @@
             rowElement.appendChild(attribute);
             rowElement.appendChild(attribute_value);
             rowElement.appendChild(remove_attribute);
-
+            updateSelectAttributes();
             attributeGroups.appendChild(rowElement);
             if (attribute_selected) {
-               
-                console.log(optionSelect);
-                
                     const options = attributesData.find(attribute => attribute.name == optionSelect).values;
-                    updateSelectAttributes();
                     attribute_value.innerHTML = "";
                     const newSelect = createElementAttributeValue(options,attribute_selected);
                     attribute_value.appendChild(newSelect);
@@ -772,8 +763,6 @@
         }
 
         function renderTableListVariant(data) {
-            console.log(data);
-
             const nameColumn = Object.keys(data); // Lấy tất cả các keys
             const variants = [];
 
@@ -834,7 +823,6 @@
                     const listVariant = document.createElement("tr");
                     listVariant.className = "attribute_table-list";
                     listVariant.addEventListener("click", handleCollapse);
-
                     const attributevalue = [];
                     Object.entries(variant).forEach(function(item) {
 
@@ -924,10 +912,14 @@
         function updateSelectAttributes() {
             const allSelects = document.querySelectorAll(".attribute select");
             const currentSelectedIds = Array.from(allSelects).map(select => select.value).filter(id => id);
+            console.log(currentSelectedIds);
+            
 
             allSelects.forEach(select => {
                 const options = select.querySelectorAll('option');
                 options.forEach(option => {
+                    console.log(currentSelectedIds.includes(option.value));
+                    
                     option.disabled = currentSelectedIds.includes(option.value) && option.value !== select
                         .value; // Disable nếu đã chọn
                 });
@@ -940,7 +932,7 @@
             // Tìm đến phần tử hàng cha và phần tử select trong hàng đó
             const parentNode = event.target.closest(".row");
             const selectElement = parentNode.querySelector("select");
-            console.log(selectElement.value);
+        
 
             const attributeId = selectElement.value;
             const attributeName = selectElement.options[selectElement.selectedIndex].text.trim();
@@ -970,8 +962,6 @@
 
     <script>
         var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-        console.log(elems);
-
         elems.forEach(function(html) {
             var switchery = new Switchery(html, {
                 size: 'small'
