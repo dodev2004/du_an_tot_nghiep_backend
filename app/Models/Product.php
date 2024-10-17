@@ -35,6 +35,9 @@ class Product extends Model
     public function catelogues(){
         return  $this->belongsToMany(ProductCatelogue::class,"product_product_catalogue");
     }
-   
+    public function galleries()
+    {
+        return $this->hasMany(Gallery::class, 'product_id');
+    }
 
 }

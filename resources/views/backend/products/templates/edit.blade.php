@@ -286,12 +286,13 @@
                     <div class="ibox-content">
                         <div class="form-group">
                             <label>Tên sản phẩm</label>
-                            <input type="text" placeholder="Tên sản phẩm" value="{{$product->name}}" name="name" class="form-control">
+                            <input type="text" placeholder="Tên sản phẩm" value="{{ $product->name }}" name="name"
+                                class="form-control">
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label>Mô tả sản phẩm</label>
-                            <textarea cols="50" rows="50" class="form-control" name="detailed_description" id="editor">{{$product->detailed_description}}</textarea>
+                            <textarea cols="50" rows="50" class="form-control" name="detailed_description" id="editor">{{ $product->detailed_description }}</textarea>
                             <span style="display:block" class="text-danger"></span>
                         </div>
 
@@ -301,7 +302,14 @@
                     </div>
                     <div class="ibox-content">
                         <div id="image-gallery" class="image-gallery">
-                            <!-- Ảnh sẽ được render vào đây -->
+                            @foreach ($product->galleries as $item)
+                                <div class="image-container">
+                                    <img src="{{ $item->image_url }}" class="variant_image-show">
+                                    <input name="gallery_product" value="{{ $item->image_url }}" type="text"
+                                        class="image-url-input" hidden="">
+                                    <span class="remove-btn">✖</span>
+                                </div>
+                            @endforeach
                             <div id="add-image-btn" class="add-image-btn">
                                 <span>+</span>
                             </div>
@@ -330,6 +338,7 @@
                                             <p>Thêm giá trị thuộc tính</p>
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="btn btn-primary attribute_add" onclick="handleAttributeAdd()">
                                     Thêm thuộc tính
@@ -431,42 +440,47 @@
                                 <select name="brand_id " class="form-control" id="">
                                     @foreach ($brands as $item)
                                         <option value="">Lựa chọn thương hiệu</option>
-                                        <option @if($item->id == $product->brand_id) selected @endif value="{{ $item->id }}">{{ $item->name }}</option>
+                                        <option @if ($item->id == $product->brand_id) selected @endif
+                                            value="{{ $item->id }}">{{ $item->name }}</option>
                                     @endforeach
                                 </select>
-                            <span class="text-danger"></span>
+                                <span class="text-danger"></span>
 
                             </div>
                             <div class="form-group">
                                 <label for="">Mã sản phẩm</label>
-                                <input type="text" class="form-control" name="sku" value="{{$product->sku}}" placeholder="Mã sản phẩm">
-                            <span class="text-danger"></span>
+                                <input type="text" class="form-control" name="sku" value="{{ $product->sku }}"
+                                    placeholder="Mã sản phẩm">
+                                <span class="text-danger"></span>
 
 
                             </div>
                             <div class="form-group">
                                 <label for="">Giá thành</label>
-                                <input type="text" class="form-control" name="price" value="{{$product->price}} placeholder="Giá sản phẩm">
-                            <span class="text-danger"></span>
+                                <input type="text" class="form-control" name="price"
+                                    value="{{ $product->price }} placeholder="Giá sản phẩm">
+                                <span class="text-danger"></span>
 
                             </div>
                             <div class="form-group">
                                 <label for="">Giảm giá</label>
-                                <input type="text" class="form-control"  value="{{$product->discount_price}} " name="discount_price"
-                                    placeholder="Giảm giá nếu có">
-                            <span class="text-danger"></span>
-                                    
+                                <input type="text" class="form-control" value="{{ $product->discount_price }} "
+                                    name="discount_price" placeholder="Giảm giá nếu có">
+                                <span class="text-danger"></span>
+
                             </div>
                             <div class="form-group">
                                 <label for="">Tồn kho</label>
-                                <input type="text" class="form-control" name="stock"  value="{{$product->stock}}" placeholder="Tồn kho">
-                            <span class="text-danger"></span>
+                                <input type="text" class="form-control" name="stock" value="{{ $product->stock }}"
+                                    placeholder="Tồn kho">
+                                <span class="text-danger"></span>
 
                             </div>
                             <div class="form-group">
                                 <label for="">Cân năng</label>
-                                <input type="text" class="form-control" name="weight"  value="{{$product->weight}}" placeholder="Cân nặng">
-                            <span class="text-danger"></span>
+                                <input type="text" class="form-control" name="weight"
+                                    value="{{ $product->weight }}" placeholder="Cân nặng">
+                                <span class="text-danger"></span>
 
                             </div>
                         </div>
@@ -477,13 +491,13 @@
                         </div>
                         <div class="ibox-content">
                             <div class="form-group" style="display:flex;justify-content: center">
-                                <input type="text" value="{{$product->image_url}}" name="image_url" class="form-control" id="avatar"
-                                    class="avatar" style="display: none;">
+                                <input type="text" value="{{ $product->image_url }}" name="image_url"
+                                    class="form-control" id="avatar" class="avatar" style="display: none;">
                                 <div class="seo_avatar" id="seo_avatar">
                                     <img class=""
-                                        src="{{$product->image_url ? $product->image_url : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"}}"
+                                        src="{{ $product->image_url ? $product->image_url : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg' }}"
                                         alt="">
-                                  
+
                                 </div>
 
                             </div>
@@ -585,27 +599,30 @@
 
 
 
-        const data = {};
+        let data = {};
 
+        var attributesData = [];
+        $.ajax({
+            method: "GET",
+            url: "/api/products/showOne/{{ $id }}",
+            dataType: "json",
+            success: function(res) {
 
-        function createElementAttributeValue(options) {
-            const select = document.createElement('select');
-            select.className = "attribute_value";
-            select.multiple = true;
-            options.forEach(function(option) {
-                const optionValue = document.createElement('option');
-                optionValue.value = option.id;
-                optionValue.text = option.name;
-                select.appendChild(optionValue);
-            });
-            return select;
-        }
+                if (res.attributes) {
+
+                    renderTableListVariant(res.attributes)
+                    Object.keys(res.attributes).forEach(function(item) {
+                        handleAttributeAdd(item, res.attributes[item])
+                    })
+                }
+
+            }
+        })
+
         const selectedAttributes = [];
-        // Khởi tạo mảng để lưu trữ các thuộc tính đã chọn
+        // Khởi tạo mảng để lưu trữ các thuộc tính đã chọ
 
-        const selectedValues = []; // 
-
-        function createElementAttributeValue(options) {
+        function createElementAttributeValue(options,selectedAttribute = null) {
 
             console.log(options);
 
@@ -616,6 +633,13 @@
                 const optionValue = document.createElement('option');
                 optionValue.value = option.id;
                 optionValue.text = option.name;
+                if(selectedAttribute){
+                    console.log(selectedAttribute);
+                    
+                
+                    
+                    optionValue.selected = selectedAttribute.includes(String(option.id))
+                }
                 optionValue.disabled = false
                 select.appendChild(optionValue);
             });
@@ -627,7 +651,9 @@
 
 
 
-        function handleAttributeAdd() {
+        function handleAttributeAdd(optionSelect = null, attribute_selected = null) {
+            console.log(optionSelect);
+
             const attributeGroups = document.querySelector(".attribute");
             const rowElement = document.createElement("div");
             rowElement.classList.add('row');
@@ -651,16 +677,35 @@
             selectAttribute.appendChild(option);
 
             // Chỉ thêm các thuộc tính chưa được chọn vào danh sách
-            attributesData.forEach(function(attribute) {
-                const option = document.createElement("option");
-                option.value = attribute.id;
-                option.text = attribute.name;
-                // Disable thuộc tính đã được chọn trước đó
-                if (selectedAttributes.includes(attribute.id)) {
-                    option.disabled = true;
-                }
-                selectAttribute.appendChild(option);
-            });
+            if (optionSelect) {
+                attributesData.forEach(function(attribute) {
+
+                    const option = document.createElement("option");
+                    option.value = attribute.id;
+                    option.text = attribute.name;
+                    if (attribute.name.trim() == optionSelect.trim()) {
+                        option.selected = true;
+
+                    }
+                    // Disable thuộc tính đã được chọn trước đó
+                    if (selectedAttributes.includes(attribute.id)) {
+                        option.disabled = true;
+                    }
+                    selectAttribute.appendChild(option);
+                });
+            } else {
+                attributesData.forEach(function(attribute) {
+                    const option = document.createElement("option");
+                    option.value = attribute.id;
+                    option.text = attribute.name;
+                    // Disable thuộc tính đã được chọn trước đó
+                    if (selectedAttributes.includes(attribute.id)) {
+                        option.disabled = true;
+                    }
+                    selectAttribute.appendChild(option);
+                });
+            }
+
 
             attribute.appendChild(selectAttribute);
 
@@ -682,7 +727,20 @@
             rowElement.appendChild(remove_attribute);
 
             attributeGroups.appendChild(rowElement);
-
+            if (attribute_selected) {
+               
+                console.log(optionSelect);
+                
+                    const options = attributesData.find(attribute => attribute.name == optionSelect).values;
+                    updateSelectAttributes();
+                    attribute_value.innerHTML = "";
+                    const newSelect = createElementAttributeValue(options,attribute_selected);
+                    attribute_value.appendChild(newSelect);
+                    $(newSelect).select2({
+                        width: "100%"
+                    });
+            
+            }
             // Xử lý sự kiện chọn thuộc tính
             selectAttribute.onchange = function() {
                 const key = selectAttribute[selectAttribute.options.selectedIndex].text.trim();
@@ -706,10 +764,7 @@
 
 
                 newSelect.onchange = function() {
-
-
                     data[key] = $(newSelect).val();
-
 
                     renderTableListVariant(data);
                 };
@@ -717,7 +772,7 @@
         }
 
         function renderTableListVariant(data) {
-
+            console.log(data);
 
             const nameColumn = Object.keys(data); // Lấy tất cả các keys
             const variants = [];
@@ -945,14 +1000,9 @@
 
     <script>
         function renderAttributeProduct() {
-            const {
-                target
-            } = event;
+            const target = document.querySelector(".checkVariants");
             const attributeAdd = document.querySelector(".attribute_add");
             const attributeDetail = document.querySelector(".attribute-details")
-
-            console.log(target.value);
-
             if (target.checked) {
                 attributeAdd.style.display = "block";
                 attributeDetail.style.display = "block"
@@ -961,6 +1011,8 @@
                 attributeDetail.style.display = "none";
             }
         }
+
+        renderAttributeProduct()
     </script>
     <script>
         document.getElementById('add-image-btn').onclick = function() {
@@ -1010,5 +1062,14 @@
                 }
             });
         }
+    </script>
+
+    <script>
+        const removeBtn = document.querySelectorAll(".remove-btn");
+        removeBtn.forEach(btn => {
+            btn.addEventListener("click", function() {
+                this.parentElement.remove();
+            });
+        });
     </script>
 @endpush

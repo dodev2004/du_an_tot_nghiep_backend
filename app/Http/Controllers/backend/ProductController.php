@@ -234,8 +234,8 @@ class ProductController extends Controller
         $product_catelogue =$this->dropdownPostCatelogueEdit("edit");
         $breadcrumbs = $this->breadcrumbs;
         $brands = Brand::all();
-        $product = Product::find($id);
-     return view("backend.products.templates.edit",compact("title","product","breadcrumbs","product_catelogue","brands"));
+        $product = Product::with("galleries")->find($id);
+        return view("backend.products.templates.edit",compact("title","product","breadcrumbs","product_catelogue","brands","id"));
     }
 
     /**
