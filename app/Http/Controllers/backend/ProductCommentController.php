@@ -21,7 +21,15 @@ class ProductCommentController extends Controller
             "name"=>"Danh sách người dùng có bình luận"
          ]);   
          $breadcrumbs = $this->breadcrumbs;
-         $users = User::withCount('product_comments')->paginate(10);
+
+         $searchText = request()->get('search_text');
+         $query = User::withCount('product_comments');
+
+         if (!empty($searchText)) {
+             $query->where('full_name', 'LIKE', value: '%' . $searchText . '%');
+         }
+         $users = $query->paginate(10);
+
          foreach ($users as $user) {
             $user->product_count = ProductComment::where('user_id', $user->id)
                 ->distinct('product_id')
@@ -78,9 +86,9 @@ class ProductCommentController extends Controller
     }
     
 
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request)
     {
-        $comment = ProductComment::withTrashed()->findOrFail($id);
+        $comment = ProductComment::onlyTrashed()->find($request->id);
 
         if ($comment) {
             $comment->forceDelete();
@@ -106,16 +114,12 @@ class ProductCommentController extends Controller
     public function restore($id)
     {
         $comment = ProductComment::onlyTrashed()->findOrFail($id);
+        $comment->restore();
 
-        if ($comment) {
-            $comment->restore();
-            return response()->json(['message' => 'Bình luận đã được khôi phục thành công', 'status' => 'success'], 200);
-        } else {
-            return response()->json(['message' => 'Không tìm thấy bình luận', 'status' => 'error'], 404);
-        }
+        return redirect()->back()->with('success', 'Bình luận đã được khôi phục thành công!');
     }
 
-    public function trash()
+    public function trash(Request $request)
     {
         $title = "Danh sách bình luận đã xóa";
         array_push($this->breadcrumbs, [
@@ -124,9 +128,37 @@ class ProductCommentController extends Controller
             "name" => "Danh sách bình luận đã xóa"
         ]);
         $breadcrumbs = $this->breadcrumbs;
+        
+        $query = ProductComment::onlyTrashed()->with(['product', 'user']);
 
-        // Lấy các bình luận đã xóa mềm
-        $data = ProductComment::onlyTrashed()->with(['product', 'user'])->paginate(10);
+        $searchText = $request->get('search_text');
+    if (!empty($searchText)) {
+        $query->where('comment', 'LIKE', '%' . $searchText . '%')
+        ->orWhereHas('product', function ($q) use ($searchText) {
+            $q->where('name', 'LIKE', '%' . $searchText . '%');
+        });
+    }
+
+
+    $startDate = $request->get('start_date');
+    $endDate = $request->get('end_date');
+
+    if (!empty($startDate) && !empty($endDate)) {
+        $query->whereBetween('created_at', [$startDate, $endDate]);
+    } elseif (!empty($startDate)) {
+        $query->where('created_at', '>=', $startDate);
+    } elseif (!empty($endDate)) {
+        $query->where('created_at', '<=', $endDate);
+    }
+
+    if ($request->has('date_order')) {
+        if ($request->date_order == 'newest') {
+            $query->orderBy('created_at', 'desc');
+        } elseif ($request->date_order == 'oldest') {
+            $query->orderBy('created_at', 'asc');
+        }
+    }
+        $data = $query->paginate(10);
 
         return view("backend.trash.trash_comment.templates.index", compact("title", "breadcrumbs", "data"));
     }

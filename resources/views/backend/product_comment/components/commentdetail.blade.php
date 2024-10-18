@@ -15,12 +15,12 @@
                 <td>{{ $comment->created_at }}</td>
                 
                 <td>
-                <form action="" method="POST" data-url="product_comment" style="text-align: center;" class="form-delete">
-                            @method("DELETE")
-                            @csrf
-                            <input type="hidden" value="{{$comment->id}}" name="id">
-                            <button class="btn btn-danger center"><i class="fa fa-trash-o"></i></button>
-                        </form>
+                    <form action="" method="POST" data-url="product-comment" style="text-align: center;" class="form-delete">
+                        @method("DELETE")
+                        @csrf
+                        <input type="hidden" value="{{$comment->id}}" name="id">
+                        <button class="btn btn-warning center"><i class="fa fa-trash-o"></i></button>
+                    </form>
                 </td>
             </tr>
         @endforeach

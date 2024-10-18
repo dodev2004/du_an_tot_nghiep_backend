@@ -43,6 +43,7 @@
                     .btn {
                         height: 30px;
                     }
+                    
                 </style>
                 @include("backend.trash.trash_comment.components.fillter")  
                 @include("backend.trash.trash_comment.components.table")  

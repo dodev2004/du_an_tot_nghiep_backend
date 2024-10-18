@@ -16,15 +16,22 @@
                         <td>{{ $comment->product->name }}</td>
                         <td>{{ $comment->deleted_at }}</td>
                         <td>
-                            <form action="{{ route('admin.product_comment.restore', $comment->id) }}" method="POST" style="display: inline;">
-                                @csrf
-                                <button type="submit" class="btn btn-success">Khôi phục</button>
-                            </form>
-                            <form action="{{ route('admin.product_comment.hard_delete', $comment->id) }}" method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Xóa vĩnh viễn</button>
-                            </form>
+                            <div class="form-group d-flex ">
+                                <div>
+                                    <form action="{{ route('admin.product_comment.restore', $comment->id) }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success">Khôi phục</button>
+                                    </form>
+                                </div>
+                                <div>
+                                    <form action="" method="POST" data-url="product-comment" style="text-align: center;" class="form-delete">
+                                        @method("DELETE")
+                                        @csrf
+                                        <input type="hidden" value="{{$comment->id}}" name="id">
+                                        <button class="btn btn-warning center"><i class="fa fa-trash-o"></i></button>
+                                    </form>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

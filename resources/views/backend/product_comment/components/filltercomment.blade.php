@@ -46,6 +46,6 @@
     </form>
     
     <div class="col-md-2 ml-5">
-        <a href="{{ route('admin.product_comment.trash') }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Thùng rác"><i class="fa fa-trash-o"></i></a>
+        <a href="{{ route('admin.product_comment.trash') }}" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Thùng rác"><i class="fa fa-trash-o"></i></a>
     </div>
 </div>
