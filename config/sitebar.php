@@ -146,7 +146,7 @@ return [
         "route" => "admin.shipping_fee",
     ],
     [
-        "childrenlevel" => false,
+        "childrenlevel" => true,
         "name" => "Quản lí form liên hệ",
         "route" => "#",
         'children' =>
