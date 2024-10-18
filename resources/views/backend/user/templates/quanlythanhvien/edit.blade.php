@@ -48,6 +48,11 @@
                         <p  class=" text-danger"></p>
                     </div>
                     <div class="form-group col-md-6">
+                        <label for="">Fullname *</label>
+                        <input type="text" name="full_name" class="form-control" value="{{$data->full_name}}" autocomplete="">
+                        <p class=" text-danger"></p>
+                    </div>
+                    <div class="form-group col-md-6">
                         <label for="">username *</label>
                         <input type="text" name="username" value="{{$data->username}}" class="form-control">
 
