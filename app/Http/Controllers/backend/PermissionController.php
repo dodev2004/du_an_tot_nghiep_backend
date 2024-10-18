@@ -73,6 +73,7 @@ class PermissionController extends Controller
     public function create()
     {
         // Tạo breadcrumb cho trang thêm quyền
+        $title = "Thêm quyền";
         array_push($this->breadcrumbs, [
             "active" => true,
             "url" => route("admin.permission"),
