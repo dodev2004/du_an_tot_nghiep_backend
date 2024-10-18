@@ -18,7 +18,7 @@
                         <td>
                             <form action="{{ route('admin.brand.restore', $item->id) }}" method="POST" style="display: inline;">
                                 @csrf
-                                <button type="submit" class="btn btn-success">Khôi phục</button>
+                                <button type="submit" class="btn btn-success"><i class="fa fa-undo"></i></button>
                             </form>
                             <form action="" method="POST" data-url="brand" class="form-delete" style="display: inline;">
                                 @method('DELETE')

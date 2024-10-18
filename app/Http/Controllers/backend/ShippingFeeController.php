@@ -24,32 +24,31 @@ class ShippingFeeController extends Controller
         ];
         $breadcrumbs = $this->breadcrumbs;
         $searchText = request()->input('seach_text');
-        if (empty(request()->input('trash'))) {
+
+        // Tạo truy vấn chung cho Shipping_fee
+        $query = Shipping_fee::with('province');
+
+        // Kiểm tra xem có yêu cầu trash không
+
+
+        // Thêm điều kiện tìm kiếm theo tên tỉnh
         if ($searchText) {
-            $data = Shipping_fee::with('province') // Eager load province
-                ->whereHas('province', function ($query) use ($searchText) {
-                    $query->where('name', 'LIKE', '%' . $searchText . '%');
-                })
-                ->paginate(10);
-        } else {
-            // Không có giá trị tìm kiếm
-            $data = Shipping_fee::with('province')->paginate(10);
+            $query->whereHas('province', function ($query) use ($searchText) {
+                $query->where('name', 'LIKE', '%' . $searchText . '%');
+            });
         }
+        if (request()->input('trash')) {
+            $data=$query->onlyTrashed()->paginate(10); // Nếu có trash thì chỉ lấy dữ liệu đã xóa mềm
+            return view('backend.trash.trash_shipping_fee.templates.index', compact('breadcrumbs', "title", "data"));
+        }
+
+        // Phân trang dữ liệu
+        $data = $query->paginate(10);
+
+        // Trả về view tương ứng
         return view('backend.shipping_fees.templates.index', compact('breadcrumbs', "title", "data"));
-    }else{
-        if ($searchText) {
-            $data = Shipping_fee::with('province')->onlyTrashed() // Eager load province
-                ->whereHas('province', function ($query) use ($searchText) {
-                    $query->where('name', 'LIKE', '%' . $searchText . '%');
-                })
-                ->paginate(10);
-        } else {
-            // Không có giá trị tìm kiếm
-            $data = Shipping_fee::with('province')->onlyTrashed()->paginate(10);
-        }
-        return view('backend.trash.trash_shipping_fee.templates.index', compact('breadcrumbs', "title", "data"));
     }
-    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -128,7 +127,7 @@ class ShippingFeeController extends Controller
         $data = Shipping_fee::query()->where("id", "=", $id)->first();
         $provinces = Province::all();
         $breadcrumbs = $this->breadcrumbs;
-        return view("backend.shipping_fees.templates.edit", compact("title", "breadcrumbs", "data", "id",'provinces'));
+        return view("backend.shipping_fees.templates.edit", compact("title", "breadcrumbs", "data", "id", 'provinces'));
     }
 
     /**

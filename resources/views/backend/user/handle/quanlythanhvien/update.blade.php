@@ -13,7 +13,7 @@
            })
           data.append("_token",_token);
           if(uploadfile){
-            data.append("avatar",uploadfile.files[0] || ""); 
+            data.append("avatar",uploadfile.files[0] || "");
           }
            $.ajax({
             url : '{{route('admin.users.update',$id)}}',
@@ -26,9 +26,9 @@
                 'X-HTTP-Method-Override':'PUT'
             },
             success : function(res){
-          
+
                 toastMessage(res[1],res[0],"http://127.0.0.1:8000/admin/users/list")
-               
+
             },
             error : function(error){
               let errors =  error.responseJSON.errors;

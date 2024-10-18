@@ -25,8 +25,8 @@ class StoreUserRequest extends FormRequest
             "email"=> ["required", "email","unique:App\Models\User,email"],
             "password"=>["required","min:6","string"],
             "re-password"=>["required","min:6","string","same:password"],
-            "Fullname"=> ["required","min:8"],
-            "rule_id" => ["required"],
+            "username"=> ["required","min:8"],
+            // "rule_id" => ["required"],
         ];
     }
     public function  messages()

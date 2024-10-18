@@ -37,32 +37,36 @@
                         @if (!empty($data->image))
                         <img width="100" height="100" src="{{asset($data->image)}}" alt="">
                         @endif
-                      
+
                     </div>
             </div>
             <div class="col-md-8 " style="padding:20px 0 0 50px">
                 <div class="row" style="display: flex; flex-wrap:wrap">
                     <div class="form-group col-md-6">
                         <label for="">Email *</label>
-                        <input type="email"  name="email" value="{{$data->email}}" class="form-control" autocomplete="">       
-                        <p  class=" text-danger"></p>            
+                        <input type="email"  name="email" value="{{$data->email}}" class="form-control" autocomplete="">
+                        <p  class=" text-danger"></p>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="">Tên đầy đủ *</label>
                         <input type="text" name="Fullname" value="{{$data->Fullname}}" class="form-control">
-                     
+
                        <p  class=" text-danger"></p>
-               
+
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="">Quyền truy cập *</label>
-                        <select class="form-control" name="rule_id" id="">
-                            <option value="">Vui lòng chọn quyền</option>
-                            <option @if($data->rule_id == 1) selected @endif value="1">Quản trị viên</option>
+                        <label for="">Vai trò *</label>
+                        <select class="form-control roles" name="role_id[]" id="">
+                            <option value="">Vui lòng chọn vai trò</option>
+                            @foreach ($roles as $role)
+                            <option value="{{ $role->id }}" {{ in_array($role->id, $data->roles->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                {{ $role->name }}
+                            </option>
+                            @endforeach
                         </select>
-                
-                        <p  class=" text-danger"></p>
-                  
+
+                        <p class=" text-danger"></p>
+
                     </div>
                     <div class="form-group col-md-6">
                         <label for="">Ngày sinh</label>
@@ -70,7 +74,7 @@
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="date" value="{{$data->birthday}}" name="birthday" class="form-control">
                         </div>
                     </div>
-                   
+
                 </div>
             </div>
         </div>
@@ -128,7 +132,7 @@
         <div class="text-right mt-4">
               <button class="btn  btn-primary">Thêm mới thành viên</button>
         </div>
-      
+
     </form>
 </div>
 @endsection

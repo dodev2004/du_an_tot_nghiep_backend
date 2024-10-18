@@ -12,6 +12,7 @@ use App\Http\Controllers\backend\BrandController;
 use App\Http\Controllers\backend\ContactController;
 use App\Http\Controllers\backend\CustomerController;
 use App\Http\Controllers\backend\DashBoardController;
+use App\Http\Controllers\backend\GroupPermissionController;
 use App\Http\Controllers\backend\InformationController;
 use App\Http\Controllers\backend\PostController;
 use App\Http\Controllers\backend\ProductCatelogueController;
@@ -31,6 +32,8 @@ use App\Http\Controllers\PaymentMethodsController;
 
 use App\Http\Controllers\PostCatelogueController;
 use App\Http\Controllers\Backend\PromotionController;
+use App\Http\Controllers\backend\PermissionController;
+use App\Http\Controllers\Backend\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -216,6 +219,40 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::get("{id}/edit",[CustomerController::class,"edit"])->name("admin.customer.edit");
         Route::put("{id}/update",[CustomerController::class,"update"])->name("admin.customer.update");
         Route::delete("/delete",[CustomerController::class,"destroy"])->name("admin.customer.delete");
+    });
+    Route::prefix("group-permission")->group(function(){
+        Route::get("list",[GroupPermissionController::class,"index"])->name("admin.group_permission");
+        Route::get("create",[GroupPermissionController::class,"create"])->name("admin.group_permission.create");
+        Route::post("postStore",[GroupPermissionController::class,"store"])->name("admin.group_permission.store");
+        Route::get("{id}/edit",[GroupPermissionController::class,"edit"])->name("admin.group_permission.edit");
+        Route::put("{id}/update",[GroupPermissionController::class,"update"])->name("admin.group_permission.update");
+        Route::delete("/delete",[GroupPermissionController::class,"destroy"])->name("admin.group_permission.delete");
+        Route::delete("/force-delete",[GroupPermissionController::class,"force_destroy"])->name("admin.group_permission.force_delete");
+        Route::post("{id}/restore", [GroupPermissionController::class, "restore"])->name("admin.group_permission.restore");//khôi phục
+        Route::get("/trash", [GroupPermissionController::class, "trash"])->name("admin.group_permission.trash"); // Trang thùng rác
+    });
+    Route::prefix("permission")->group(function(){
+        Route::get("list",[PermissionController::class,"index"])->name("admin.permission");
+        Route::get("create",[PermissionController::class,"create"])->name("admin.permission.create");
+        Route::post("postStore",[PermissionController::class,"store"])->name("admin.permission.store");
+        Route::get("{id}/edit",[PermissionController::class,"edit"])->name("admin.permission.edit");
+        Route::put("{id}/update",[PermissionController::class,"update"])->name("admin.permission.update");
+        Route::delete("/delete",[PermissionController::class,"destroy"])->name("admin.permission.delete");
+        Route::delete("/force-delete",[PermissionController::class,"force_destroy"])->name("admin.permission.force_delete");
+        Route::post("{id}/restore", [PermissionController::class, "restore"])->name("admin.permission.restore");//khôi phục
+        Route::get("/trash", [PermissionController::class, "trash"])->name("admin.permission.trash"); // Trang thùng rác
+    });
+    Route::prefix("role")->group(function(){
+        Route::get("list",[RoleController::class,"index"])->name("admin.role");
+        Route::get("create",[RoleController::class,"create"])->name("admin.role.create");
+        Route::post("postStore",[RoleController::class,"store"])->name("admin.role.store");
+        Route::get("{id}/show",[RoleController::class,"show"])->name("admin.role.show");
+        Route::get("{id}/edit",[RoleController::class,"edit"])->name("admin.role.edit");
+        Route::put("{id}/update",[RoleController::class,"update"])->name("admin.role.update");
+        Route::delete("/delete",[RoleController::class,"destroy"])->name("admin.role.delete");
+        Route::delete("/force-delete",[RoleController::class,"force_destroy"])->name("admin.role.force_delete");
+        Route::post("{id}/restore", [RoleController::class, "restore"])->name("admin.role.restore");//khôi phục
+        Route::get("/trash", [RoleController::class, "trash"])->name("admin.role.trash"); // Trang thùng rác
     });
 });
 

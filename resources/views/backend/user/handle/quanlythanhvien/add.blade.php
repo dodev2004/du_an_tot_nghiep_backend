@@ -11,10 +11,10 @@
            inputs.forEach(function(input){
                 data.append(input.name,input.value);
            })
-          
+
           data.append("_token",_token);
-          data.append("avatar",uploadfile.files[0] || ""); 
-         
+          data.append("avatar",uploadfile.files[0] || "");
+
            $.ajax({
             url : '{{route('admin.users.store')}}',
             type: "POST",
@@ -23,9 +23,9 @@
             contentType: false,
             processData: false,
             success : function(res){
-          
+
                 toastMessage(res[1],res[0],"http://127.0.0.1:8000/admin/users/list")
-               
+
             },
             error : function(error){
               let errors =  error.responseJSON.errors;

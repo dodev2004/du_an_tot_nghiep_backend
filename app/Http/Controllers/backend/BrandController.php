@@ -14,35 +14,37 @@ class BrandController extends Controller
     protected $breadcrumbs = [];
 
     public function index()
-    {
+{
+    $title = "Quản lý nhãn hàng";
+    $this->breadcrumbs[] = [
+        "active" => true,
+        "url" => route("admin.brand"),
+        "name" => "Quản lý nhãn hàng"
+    ];
+    $breadcrumbs = $this->breadcrumbs;
+    $searchText = request()->input('seach_text');
 
-        $title = "Quản lý nhãn hàng";
-        $this->breadcrumbs[] = [
-            "active" => true,
-            "url" => route("admin.brand"),
-            "name" => "Quản lý nhãn hàng"
-        ];
-        $breadcrumbs = $this->breadcrumbs;
-        $searchText = request()->input('seach_text');
-        if (empty(request()->input('trash'))) {
-            if ($searchText) {
-                $data = Brand::where('name', 'LIKE', '%' . $searchText . '%')->paginate(5);
-            } else {
-                // Không có giá trị tìm kiếm
-                $data = Brand::paginate(5);
-            }
-            return view('backend.brands.templates.index', compact('breadcrumbs', "title", "data"));
-        } else{
-            if ($searchText) {
-                $data = Brand::onlyTrashed()->where('name', 'LIKE', '%' . $searchText . '%')->paginate(5);
-            } else {
-                // Không có giá trị tìm kiếm
-                $data = Brand::onlyTrashed()->paginate(5);
-            }
-            return view('backend.trash.trash_brand.templates.index', compact('breadcrumbs', "title", "data"));
-        }
+    // Tạo truy vấn chung cho Brand
+    $query = Brand::query();
 
+
+
+    // Thêm điều kiện tìm kiếm theo tên nhãn hàng
+    if ($searchText) {
+        $query->where('name', 'LIKE', '%' . $searchText . '%');
     }
+    // Kiểm tra xem có yêu cầu trash không
+    if (request()->input('trash')) {
+        $data=$query->onlyTrashed()->paginate(5); // Nếu có trash thì chỉ lấy dữ liệu đã xóa mềm
+        return view('backend.trash.trash_brand.templates.index',compact('breadcrumbs', "title", "data"));
+    }
+
+    // Phân trang dữ liệu
+    $data = $query->paginate(5);
+
+    // Trả về view tương ứng
+    return view('backend.brands.templates.index', compact('breadcrumbs', "title", "data"));
+}
 
     /**
      * Show the form for creating a new resource.

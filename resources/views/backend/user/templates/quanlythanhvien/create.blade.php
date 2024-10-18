@@ -46,8 +46,8 @@
                             <p class=" text-danger"></p>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="">Tên đầy đủ *</label>
-                            <input type="text" name="Fullname" value="" class="form-control">
+                            <label for="">username *</label>
+                            <input type="text" name="username" value="" class="form-control">
 
                             <p class=" text-danger"></p>
 
@@ -67,11 +67,12 @@
 
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="">Quyền truy cập *</label>
-                            <select class="form-control" name="rule_id" id="">
-                                <option value="">Vui lòng chọn quyền</option>
-                                <option @if (old('rule') == 1) selected @endif value="1">Quản trị viên
-                                </option>
+                            <label for="">Vai trò *</label>
+                            <select class="form-control roles" name="role_id[]" id="" multiple>
+                                <option value="">Vui lòng chọn vai trò</option>
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                @endforeach
                             </select>
 
                             <p class=" text-danger"></p>

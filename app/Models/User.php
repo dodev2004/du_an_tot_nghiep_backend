@@ -34,7 +34,7 @@ class User extends Authenticatable
         "user_agent",
         "created_at",
         "updated_at",
-        "rule_id",
+        "role_id",
         "goooge_id",
         "last_login",
         "deleted_at"
@@ -75,5 +75,20 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_role', 'user_id', 'role_id');
+    }
+    public function permissions()
+    {
+        return $this->hasManyThrough(
+            Permission::class, // Model mục tiêu
+            Role::class,       // Model trung gian
+            'user_id',         // Khóa ngoại trên bảng user_role
+            'role_id',         // Khóa ngoại trên bảng permission_role
+            'id',              // Khóa chính trên bảng users
+            'id'               // Khóa chính trên bảng roles
+        );
     }
 }

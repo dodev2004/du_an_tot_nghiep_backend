@@ -40,7 +40,8 @@ return [
 
             ],
         ]
-    ], [
+    ],
+    [
         "childrenlevel" => true,
         "name" => "Quản lý sản phẩm",
         "route" => "#",
@@ -65,7 +66,8 @@ return [
             ],
         ]
 
-    ],[
+    ],
+    [
         "childrenlevel" => true,
         "name" => "Quản lý phản hồi",
         "route" => "#",
@@ -115,34 +117,36 @@ return [
         ],
         [
         "childrenlevel" => true,
+        "name" => "Quản lý mã trang giới thiệu",
+        "route" => "#",
+        'children' =>
+        [
+
+            [
+                "name" => "QL trang giới thiệu",
+                "route" => "admin.about"
+            ],
+        ]
+
+    ],
+    [
+        "childrenlevel" => false,
+        "name" => "Quản lí nhãn hàng",
+        "route" => "admin.brand",
+    ],
+    [
+        "childrenlevel" => false,
         "name" => "Quản lí Thông tin liên hệ",
-        "route" => "#",
-        'children' =>
-        [
-
-            [
-                "name" => "Thông tin liên hệ",
-                "route" => "admin.information"
-            ],
-        ]
+        "route" => "admin.information",
 
     ],
     [
-        "childrenlevel" => true,
+        "childrenlevel" => false,
         "name" => "Quản lí phí ship",
-        "route" => "#",
-        'children' =>
-        [
-
-            [
-                "name" => "Quản lí phí ship",
-                "route" => "admin.shipping_fee"
-            ],
-
-        ]
+        "route" => "admin.shipping_fee",
     ],
     [
-        "childrenlevel" => true,
+        "childrenlevel" => false,
         "name" => "Quản lí form liên hệ",
         "route" => "#",
         'children' =>
@@ -154,6 +158,7 @@ return [
             ],
 
         ]
+
     ],
     [
         "childrenlevel" => true,
@@ -168,6 +173,29 @@ return [
             ],
 
         ]
+    ],
+    [
+        "childrenlevel" => true,
+        "name" => "Quản lí quyền",
+        "route" => "#",
+        'children' =>
+        [
+
+            [
+                "name" => " quản lí nhóm quyền",
+                "route" => "admin.group_permission"
+            ],
+            [
+                "name" => " quản lí quyền",
+                "route" => "admin.permission"
+            ],
+
+        ]
+    ],
+    [
+        "childrenlevel" => false,
+        "name" => "Quản lí vai trò",
+        "route" => "admin.role",
     ],
 
 
