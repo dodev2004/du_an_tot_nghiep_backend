@@ -48,15 +48,15 @@
                         <p  class=" text-danger"></p>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="">Tên đầy đủ *</label>
-                        <input type="text" name="Fullname" value="{{$data->Fullname}}" class="form-control">
+                        <label for="">username *</label>
+                        <input type="text" name="username" value="{{$data->username}}" class="form-control">
 
                        <p  class=" text-danger"></p>
 
                     </div>
                     <div class="form-group col-md-6">
                         <label for="">Vai trò *</label>
-                        <select class="form-control roles" name="role_id[]" id="">
+                        <select class="form-control roles" name="role_id" id="" multiple>
                             <option value="">Vui lòng chọn vai trò</option>
                             @foreach ($roles as $role)
                             <option value="{{ $role->id }}" {{ in_array($role->id, $data->roles->pluck('id')->toArray()) ? 'selected' : '' }}>
@@ -130,7 +130,7 @@
             </div>
         </div>
         <div class="text-right mt-4">
-              <button class="btn  btn-primary">Thêm mới thành viên</button>
+              <button class="btn  btn-primary">sửa thành viên</button>
         </div>
 
     </form>

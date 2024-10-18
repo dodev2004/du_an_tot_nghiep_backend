@@ -68,7 +68,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">Vai trò *</label>
-                            <select class="form-control roles" name="role_id[]" id="" multiple>
+                            <select class="form-control roles" name="role_id" id="" multiple>
                                 <option value="">Vui lòng chọn vai trò</option>
                                 @foreach ($roles as $role)
                                     <option value="{{ $role->id }}">{{ $role->name }}</option>

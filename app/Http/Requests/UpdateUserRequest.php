@@ -24,8 +24,8 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             "email"=> ["required", "email",Rule::unique("users")->ignore($request->id)],
-            "Fullname"=> ["required","min:8"],
-            "rule_id" => ["required"],
+            "username"=> ["required","min:8"],
+            // "rule_id" => ["required"],
         ];
     }
     public function  messages()
