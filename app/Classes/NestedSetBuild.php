@@ -103,6 +103,8 @@ class NestedSetBuild
     }
     public function renderDropdownCreate($data, $parent = 0, $target = "create", $catelogues = [], $className)
     {
+  
+     
         if (request()->id) {
             $id = request()->id;
         } else {
@@ -116,7 +118,9 @@ class NestedSetBuild
             $resuilt = "<ul class='catelogue_child'>";
         }
         foreach ($data as $item) {
+      
             if ($item->parent_id == $parent) {
+              
                 if ($target == "edit" && in_array($item->id, $catelogues)) {
                     $resuilt .= "<li>
                     <span> <input type='checkbox' checked name='$className' value='$item->id'> $item->name</span>
