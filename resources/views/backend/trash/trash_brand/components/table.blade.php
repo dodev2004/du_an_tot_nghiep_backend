@@ -1,7 +1,7 @@
 <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>STT</th>
                     <th>Tên nhãn hàng</th>
                     <th>Miêu tả</th>
                     <th>Ngày xóa</th>
@@ -9,9 +9,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($data as $item)
+                @foreach($data as $index=> $item)
                     <tr>
-                        <td>{{ $item->id }}</td>
+                        <td>{{ $index+1 }}</td>
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->description }}</td>
                         <td>{{ $item->deleted_at }}</td>

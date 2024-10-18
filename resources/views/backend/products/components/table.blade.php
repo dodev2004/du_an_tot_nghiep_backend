@@ -1,7 +1,7 @@
 <table class="table table-striped table-bordered ">
     <thead>
         <tr>
-            <th></th>
+            <th class="text-center">STT</th>
             <th style="width: 200px" class="text-center">Hình ảnh</th>
             <th class="text-center">Thông tin sản phẩm</th>
             <th class="text-center">Ngày tạo</th>

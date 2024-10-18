@@ -51,7 +51,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="start_date">Ngày bắt đầu:</label>
-                    <input type="date" id="start_date" class="form-control" name="start_date" value="{{ old('start_date') }}" required>
+                    <input type="datetime-local" id="start_date" class="form-control" name="start_date" value="{{ old('start_date') }}" required>
                     @if ($errors->has('start_date'))
                         <p class="text-danger">{{ $errors->first('start_date') }}</p>
                     @endif
@@ -59,7 +59,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="end_date">Ngày kết thúc:</label>
-                    <input type="date" id="end_date" class="form-control" name="end_date" value="{{ old('end_date') }}" required>
+                    <input type="datetime-local" id="end_date" class="form-control" name="end_date" value="{{ old('end_date') }}" required>
                     @if ($errors->has('end_date'))
                         <p class="text-danger">{{ $errors->first('end_date') }}</p>
                     @endif

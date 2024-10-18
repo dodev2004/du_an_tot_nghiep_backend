@@ -65,27 +65,25 @@
                     @endif
                 </div>
 
-                <!-- Ngày bắt đầu -->
                 <div class="form-group col-md-6">
                     <label for="start_date">Ngày bắt đầu*</label>
-                    <input type="date" name="start_date" class="form-control"
-                        value="{{ old('start_date', isset($promotion) ? \Carbon\Carbon::parse($promotion->start_date)->format('Y-m-d') : '') }}" required>
+                    <input type="datetime-local" name="start_date" class="form-control"
+                        value="{{ old('start_date')}}" required>
                     @if($errors->has('start_date'))
                         <p class="text-danger">{{ $errors->first('start_date') }}</p>
                     @endif
                 </div>
                 
-                <!-- Ngày kết thúc -->
                 <div class="form-group col-md-6">
                     <label for="end_date">Ngày kết thúc*</label>
-                    <input type="date" name="end_date" class="form-control"
-                        value="{{ old('end_date', isset($promotion) ? \Carbon\Carbon::parse($promotion->end_date)->format('Y-m-d') : '') }}" required>
+                    <input type="datetime-local" name="end_date" class="form-control"
+                        value="{{ old('end_date') }}" required>
                     @if($errors->has('end_date'))
                         <p class="text-danger">{{ $errors->first('end_date') }}</p>
                     @endif
                 </div>
 
-                <!-- Số lượt sử dụng tối đa -->
+
                 <div class="form-group col-md-6">
                     <label for="max_uses">Số lượt sử dụng tối đa*</label>
                     <input type="number" name="max_uses" class="form-control"
@@ -95,7 +93,6 @@
                     @endif
                 </div>
 
-                <!-- Số lượt đã sử dụng -->
                 <div class="form-group col-md-6">
                     <label for="used_count">Số lượt đã sử dụng</label>
                     <input type="number" name="used_count" class="form-control"

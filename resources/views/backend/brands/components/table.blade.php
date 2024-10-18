@@ -1,7 +1,7 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>STT</th>
             <th>Tên nhãn hàng</th>
             <th>Miêu tả</th>
             <th>Trạng thái</th>
@@ -9,10 +9,10 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($data as $item)
+        @foreach ($data as $index => $item)
             <tr>
                 <td>
-                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->id }}</p>
+                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $index+1 }}</p>
                 </td>
                 <td>
                     <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->name }}</p>
@@ -41,7 +41,7 @@
                             @method('DELETE')
                             @csrf
                             <input type="hidden" value="{{ $item->id }}" name="id">
-                            <button class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></button>
+                            <button class="btn btn-sm btn-warning"><i class="fa fa-trash-o"></i></button>
                         </form>
                     </div>
                 </th>

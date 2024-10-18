@@ -31,7 +31,7 @@
             contentType: false,
             processData: false,
             success : function(res){
-                toastMessage(res[1],res[0],'{{route('admin.post-catelogue')}}')
+                toastMessage(res[1],res[0],'{{route('admin.post')}}')
                 
             },
             error : function(error){
