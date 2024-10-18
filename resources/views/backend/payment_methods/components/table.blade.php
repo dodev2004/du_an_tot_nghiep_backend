@@ -23,17 +23,16 @@
                 </td>
                 <td class="text-center">
                     <div style="display: inline-flex; align-items: center;">
-                        <!-- Thay icon paste thành icon bút chì -->
                         <a class="btn btn-sm btn-info"
                             href="{{ route('admin.payment_methods.edit', $item->id) }}"
                             style="margin-right: 5px;">
-                            <i class="fa fa-pencil"></i> <!-- Icon bút chì -->
+                            <i class="fa fa-pencil"></i> 
                         </a>
                         <form action="{{ route('admin.payment_methods.delete', $item->id) }}"
                             method="POST" class="d-inline delete-form">
                             @csrf
                             @method('DELETE')
-                            <button type="button" class="btn btn-sm btn-danger delete-button">
+                            <button type="button" class="btn btn-sm btn-warning delete-button">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                         </form>

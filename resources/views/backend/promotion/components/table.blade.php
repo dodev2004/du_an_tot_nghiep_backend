@@ -25,8 +25,8 @@
                         {{ $promotion->status == 'active' ? 'Hoạt động' : 'Không hoạt động' }}
                     </span>
                 </td>
-                <td>{{ \Carbon\Carbon::parse($promotion->start_date)->format('d/m/Y') }}</td>
-                <td>{{ $promotion->end_date ? \Carbon\Carbon::parse($promotion->end_date)->format('d/m/Y') : 'Không có' }}</td>
+                <td>{{ $promotion->start_date}}</td>
+                <td>{{ $promotion->end_date}}</td>
                 <td>{{ $promotion->max_uses }}</td>
                 <td>{{ $promotion->used_count }}</td>
                 <td>
@@ -37,7 +37,7 @@
                         @method('DELETE')
                         @csrf
                         <input type="hidden" value="{{ $promotion->id }}" name="id">
-                        <button class="btn btn-sm btn-danger" data-id="{{ $promotion->id }}">
+                        <button class="btn btn-sm btn-warning" data-id="{{ $promotion->id }}">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </form>
@@ -45,6 +45,7 @@
             </tr>
         @endforeach
     </tbody>
+    
 </table>
 
 <div class="total_record text-right">

@@ -83,48 +83,23 @@ return [
 
     ],
     [
-        "childrenlevel" => true,
+        "childrenlevel" => false,
         "name" => "Quản lý phương thức thanh toán",
-        "route" => "#",
-        'children' =>
-        [
-
-
-            [
-                "name" => "QL phương thức thanh toán",
-                "route" => "admin.payment_methods"
-            ],
-        ]
+        "route" => "admin.payment_methods",
 
     ],
     [
-        "childrenlevel" => true,
+        "childrenlevel" => false,
         "name" => "Quản lý mã giảm giá",
-        "route" => "",
-        'children' =>
-        [
-
-            [
-                "name" => "QL mã giảm giá",
-                "route" => "admin.promotions"
-            ],
-        ]
+        "route" => "admin.promotions"
 
     ],
         [
-            "childrenlevel" => true,
+            "childrenlevel" => false,
             "name" => "Quản lý mã trang giới thiệu",
-            "route" => "#",
-            'children' =>
-            [
+            "route" => "admin.about",
+        ],
 
-                [
-                    "name" => "QL trang giới thiệu",
-                    "route" => "admin.about"
-                ],
-            ]
-
-            ],
         [
             "childrenlevel" => true,
             "name" => "Quản lí nhãn hàng",
@@ -174,7 +149,7 @@ return [
         [
 
             [
-                "name" => " form liên hệ",
+                "name" => " QL form liên hệ",
                 "route" => "admin.contact"
             ],
 
@@ -188,7 +163,7 @@ return [
         [
 
             [
-                "name" => " list khách hàng",
+                "name" => " QL khách hàng",
                 "route" => "admin.customer"
             ],
 
