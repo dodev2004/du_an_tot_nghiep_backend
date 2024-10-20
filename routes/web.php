@@ -70,7 +70,7 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
     Route::get("/showMessage",function(){
         return view("auths.showMessage");
     })->name("showMessage");
-    Route::prefix('users')->group(function(){
+    Route::prefix('users')->middleware(['checkRole:admin'])->group(function(){
         Route::get("list",[UserController::class,"listGroupMember"])->name("admin.users");
         Route::put("list/change_status",[UserController::class,"updateUserStatus"])->name("admin.users.user_status");
         Route::get("create",[UserController::class,"create"])->name("admin.users.create");
@@ -110,7 +110,7 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::get("{id}/edit",[ProductController::class,"editPost"])->name("admin.product.edit");
         Route::put("{id}/update",[ProductController::class,"update"])->name("admin.product.update");
         Route::delete("/delete",[ProductController::class,"destroy"])->name("admin.product.delete");
-    
+
     });
     Route::prefix("product-catelogue")->group(function(){
         Route::get("list",[ProductCatelogueController::class,"index"])->name("admin.product_catelogue");

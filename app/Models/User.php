@@ -91,4 +91,15 @@ class User extends Authenticatable
             'id'               // Khóa chính trên bảng roles
         );
     }
+    public function hasRole($roleName)
+    {
+        return $this->roles()->where('name', $roleName)->exists();
+    }
+
+    public function hasPermission($permissionName)
+    {
+        return $this->roles()->whereHas('permissions', function ($query) use ($permissionName) {
+            $query->where('name', $permissionName);
+        })->exists();
+    }
 }
