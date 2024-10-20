@@ -13,7 +13,7 @@ class Product extends Model
     protected $fillable = [
         'catalogue_id', 'brand_id', 'name', 'slug', 'sku', 'detailed_description',
         'image_url', 'price', 'discount_price', 'discount_percentage', 'stock',
-        'weight', 'ratings_avg', 'ratings_count', 'is_active', 'is_featured'
+        'weight', 'ratings_avg', 'ratings_count', 'status', 'is_featured'
     ];
     public function brand()
     {

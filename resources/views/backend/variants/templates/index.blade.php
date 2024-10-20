@@ -52,5 +52,5 @@
 @include("backend.posts.handle.switchery")
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
-@include("backend.variants.handles.delete");
+@include("backend.components.handles.delete");
 @endpush

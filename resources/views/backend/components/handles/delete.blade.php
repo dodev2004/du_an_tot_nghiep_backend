@@ -11,8 +11,10 @@
         const _token = document.querySelector("input[name=_token]").value;
 
         const url = window.location.origin + "/admin/" + textUrl  + "/delete";
-        const element = this.parentElement.parentElement;
+        const element = this.parentElement.parentElement.parentElement;
         const tbodyElement  = element.parentElement;
+        console.log(element,tbodyElement);
+        
         const data = {
             id,_token
         }

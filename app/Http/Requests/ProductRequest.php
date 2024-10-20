@@ -34,7 +34,7 @@ class ProductRequest extends FormRequest
             'discount_price' => 'nullable|numeric|min:0|lt:price',
             'stock' => 'required|integer|min:0',
             'weight' => 'nullable|numeric|min:0',
-            'is_active' => 'required|boolean',
+            'status' => 'required|boolean',
         ];
     }
     public function attributes()
@@ -52,7 +52,7 @@ class ProductRequest extends FormRequest
             'discount_price' => 'Giá giảm',
             'stock' => 'Tồn kho',
             'weight' => 'Khối lượng',
-            'is_active' => 'Trạng thái kích hoạt',
+            'status' => 'Trạng thái kích hoạt',
         ];
     }
 
@@ -98,8 +98,8 @@ class ProductRequest extends FormRequest
 
             'image_url.url' => 'URL hình ảnh không hợp lệ.',
 
-            'is_active.required' => 'Trạng thái kích hoạt là bắt buộc.',
-            'is_active.boolean' => 'Trạng thái kích hoạt phải là true hoặc false.',
+            'status.required' => 'Trạng thái kích hoạt là bắt buộc.',
+            'status.boolean' => 'Trạng thái kích hoạt phải là true hoặc false.',
 
             
         ];
