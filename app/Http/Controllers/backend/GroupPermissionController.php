@@ -18,7 +18,7 @@ class GroupPermissionController extends Controller
             "url" => route("admin.group_permission"),
             "name" => "Quản lý nhóm quyền"
         ];
-
+        $table="group_permission";
         $breadcrumbs = $this->breadcrumbs;
         $searchText = request()->input('seach_text');
         $status = request()->input('status');
