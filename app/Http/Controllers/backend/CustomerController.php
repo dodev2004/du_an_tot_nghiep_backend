@@ -22,7 +22,7 @@ class CustomerController extends Controller
     ];
     $table="users";
     $breadcrumbs = $this->breadcrumbs;
-
+    $status = request()->input('status');
     $searchText = request()->input('seach_text');
     $startDate = request()->input('start_date');
     $endDate = request()->input('end_date');
@@ -42,7 +42,9 @@ class CustomerController extends Controller
     if ($endDate) {
         $query->where('created_at', '<=', $endDate);
     }
-
+    if ($status !== null && $status !== '') {
+        $query->where('status', $status);
+    }
     // Sort by date
     if ($dateOrder === 'newest') {
         $query->orderBy('created_at', 'desc');
@@ -53,7 +55,7 @@ class CustomerController extends Controller
     // Paginate the results
     $data = $query->paginate(10);
 
-    return view('backend.customers.templates.index', compact('title', 'breadcrumbs', 'data','users'));
+    return view('backend.customers.templates.index', compact('title', 'breadcrumbs', 'data','table'));
     }
 
     /**

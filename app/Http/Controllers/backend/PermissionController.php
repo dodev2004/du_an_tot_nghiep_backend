@@ -57,6 +57,13 @@ class PermissionController extends Controller
         $groupPermissions = GroupPermission::all();
 
         if ($request->input('trash')) {
+            if ($request->input('start_date')) {
+                $query->whereDate('deleted_at', '>=', $request->input('start_date'));
+            }
+
+            if ($request->input('end_date')) {
+                $query->whereDate('deleted_at', '<=', $request->input('end_date'));
+            }
             $data = $query->onlyTrashed()->paginate(5);
             return view('backend.trash.trash_permission.templates.index', compact('breadcrumbs', "title", "data", "groupPermissions"));
         }
