@@ -52,7 +52,9 @@ class PermissionController extends Controller
         } elseif ($request->input('date_order') == 'oldest') {
             $query->orderBy('created_at', 'asc');
         }
-
+        if (request()->input('status') !== null && request()->input('status') !== '') {
+            $query->where('status', request()->input('status'));
+        }
         // Lấy tất cả các nhóm quyền để hiển thị trong form tìm kiếm
         $groupPermissions = GroupPermission::all();
 

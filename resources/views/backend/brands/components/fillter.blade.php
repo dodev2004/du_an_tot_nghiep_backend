@@ -8,6 +8,22 @@
                     placeholder="Tìm kiếm">
             </div>
             <div>
+                <label for="start_date">Ngày bắt đầu:</label>
+                <input type="date" class="form-control" name="start_date" value="{{ request('start_date') }}">
+            </div>
+            <div>
+                <label for="end_date">Ngày kết thúc:</label>
+                <input type="date" class="form-control" name="end_date" value="{{ request('end_date') }}">
+            </div>
+            <div>
+                <label for="date_order">Sắp xếp theo:</label>
+                <select name="date_order" class="form-control">
+                    <option value="">Chọn thứ tự</option>
+                    <option value="newest" {{ request('date_order') == 'newest' ? 'selected' : '' }}>Mới nhất</option>
+                    <option value="oldest" {{ request('date_order') == 'oldest' ? 'selected' : '' }}>Cũ nhất</option>
+                </select>
+            </div>
+            <div>
                 <label for="status">Sắp xếp theo:</label>
                 <select name="status" class="form-control">
                     <option value="">Trạng thái</option>

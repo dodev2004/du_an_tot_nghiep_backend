@@ -40,6 +40,17 @@ class BrandController extends Controller
     if ($status !== null && $status !== '') {
         $query->where('status', $status);
     }
+    if ($startDate) {
+        $query->where('created_at', '>=', $startDate);
+    }
+    if ($endDate) {
+        $query->where('created_at', '<=', $endDate);
+    }
+    if ($dateOrder === 'newest') {
+        $query->orderBy('created_at', 'desc');
+    } elseif ($dateOrder === 'oldest') {
+        $query->orderBy('created_at', 'asc');
+    }
     // Kiểm tra xem có yêu cầu trash không
     if (request()->input('trash')) {
         if ($startDate) {
