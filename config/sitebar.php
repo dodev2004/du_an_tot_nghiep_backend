@@ -102,33 +102,6 @@ return [
             "route" => "admin.about",
         ],
 
-        [
-            "childrenlevel" => true,
-            "name" => "Quản lí nhãn hàng",
-            "route" => "#",
-            'children' =>
-            [
-
-                [
-                    "name" => "Quản lí nhãn hàng",
-                    "route" => "admin.brand"
-                ],
-            ]
-        ],
-        [
-        "childrenlevel" => true,
-        "name" => "Quản lý mã trang giới thiệu",
-        "route" => "#",
-        'children' =>
-        [
-
-            [
-                "name" => "QL trang giới thiệu",
-                "route" => "admin.about"
-            ],
-        ]
-
-    ],
     [
         "childrenlevel" => false,
         "name" => "Quản lí nhãn hàng",
