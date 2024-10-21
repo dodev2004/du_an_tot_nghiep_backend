@@ -20,6 +20,7 @@ class CustomerController extends Controller
         "url" => route("admin.customer"),
         "name" => "Quản lý khách hàng"
     ];
+    $table="users";
     $breadcrumbs = $this->breadcrumbs;
 
     $searchText = request()->input('seach_text');
@@ -52,7 +53,7 @@ class CustomerController extends Controller
     // Paginate the results
     $data = $query->paginate(10);
 
-    return view('backend.customers.templates.index', compact('title', 'breadcrumbs', 'data'));
+    return view('backend.customers.templates.index', compact('title', 'breadcrumbs', 'data','users'));
     }
 
     /**
