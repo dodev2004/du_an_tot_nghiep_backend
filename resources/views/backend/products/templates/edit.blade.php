@@ -323,7 +323,7 @@
                                 khác nhau ví dụ áo có kích thước, độ rộng, màu sắc khách nhau</p>
                             <div style="display: flex; align-items: center; margin-bottom: 20px;">
                                 <input style="height: 20px; margin: 0;" class="checkVariants"
-                                    onchange="renderAttributeProduct()" @if($product->variants) checked @endif type="checkbox">
+                                    onchange="renderAttributeProduct()" @if(count($product->variants)) checked @endif type="checkbox">
                                 <p style="margin: 0 4px;">Sản phẩm có nhiều thể loại, nhiều mức giá</p>
 
                             </div>

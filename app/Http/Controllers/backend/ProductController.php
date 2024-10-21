@@ -62,10 +62,11 @@ class ProductController extends Controller
                
             }
             $product->catelogues = $product->catelogues->pluck('name')->toArray();
-
+         
         }
-        // dd($products);
-        return view("backend.products.templates.index",compact("title","breadcrumbs","products"));
+        $table  = "products";
+         // dd($products);
+        return view("backend.products.templates.index",compact("title","breadcrumbs","products","table"));
     }
 
     /**
@@ -110,21 +111,21 @@ class ProductController extends Controller
         $discountPercentage = (($request["price"] - $request["discount_price"]) / $request["price"]) * 100;
      
         $dataProduct = [
-            'user_id' => trim($data['user_id']),
-            'name' => trim($data['name']),
-            'detailed_description' => trim($data['detailed_description']),
-            'meta_keywords' => trim($data['meta_keywords']),
-            'slug' => trim($data['slug']),
-            'meta_description' => trim($data['meta_description']),
-            'brand_id' => trim($data['brand_id_']),
-            'sku' => trim($data['sku']),
-            'price' => trim($data['price']),
-            'discount_price' => trim($data['discount_price']),
-            'stock' => trim($data['stock']),
-            'weight' => trim($data['weight']),
-            'image_url' => trim($data['image_url']),
-            'discount_percentage' => round($discountPercentage, 2), 
-            'is_active' => trim($data['is_active']),
+            'user_id' => isset($data['user_id']) ? trim($data['user_id']) : null,
+            'name' => isset($data['name']) ? trim($data['name']) : null,
+            'detailed_description' => isset($data['detailed_description']) ? trim($data['detailed_description']) : null,
+            'meta_keywords' => isset($data['meta_keywords']) ? trim($data['meta_keywords']) : null,
+            'slug' => isset($data['slug']) ? trim($data['slug']) : null,
+            'meta_description' => isset($data['meta_description']) ? trim($data['meta_description']) : null,
+            'brand_id' => isset($data['brand_id']) ? trim($data['brand_id']) : null,
+            'sku' => isset($data['sku']) ? trim($data['sku']) : null,
+            'price' => isset($data['price']) ? trim($data['price']) : 0,
+            'discount_price' => isset($data['discount_price']) ? trim($data['discount_price']) : 0,
+            'stock' => isset($data['stock']) ? trim($data['stock']) : 0,
+            'weight' => isset($data['weight']) ? trim($data['weight']) : 0,
+            'image_url' => isset($data['image_url']) ? trim($data['image_url']) : null,
+            'discount_percentage' => isset($discountPercentage) ? round($discountPercentage, 2) : 0,
+            'status' => isset($data['status']) ? trim($data['status']) : 1,
         ];
         $product = Product::create($dataProduct);
       
@@ -180,7 +181,7 @@ class ProductController extends Controller
                  "price" => $item->price_variant ? $item->price_variant : 0,
                  "image_url" =>$item->variant_image,
                  "stock" => $item->stock_variant ? $item->stock_variant : 0,
-                 "sku" => $item->sku_variant,
+                 "sku" => $item->sku_variant ? $item->sku_variant : null,
              ]);
              $attributes = explode(",",$item->attribute);
            
