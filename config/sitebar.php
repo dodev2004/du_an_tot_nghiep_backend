@@ -98,7 +98,7 @@ return [
     ],
         [
             "childrenlevel" => false,
-            "name" => "Quản lý mã trang giới thiệu",
+            "name" => "Quản lý trang giới thiệu",
             "route" => "admin.about",
         ],
 
@@ -107,12 +107,7 @@ return [
         "name" => "Quản lí nhãn hàng",
         "route" => "admin.brand",
     ],
-    [
-        "childrenlevel" => false,
-        "name" => "Quản lí Thông tin liên hệ",
-        "route" => "admin.information",
-
-    ],
+   
     [
         "childrenlevel" => false,
         "name" => "Quản lí phí ship",
@@ -120,7 +115,7 @@ return [
     ],
     [
         "childrenlevel" => true,
-        "name" => "Quản lí form liên hệ",
+        "name" => "Quản lí liên hệ",
         "route" => "#",
         'children' =>
         [
@@ -128,6 +123,10 @@ return [
             [
                 "name" => " QL form liên hệ",
                 "route" => "admin.contact"
+            ],
+            [
+                "name" => " QL form thông tin liên hệ",
+                "route" => "admin.information"
             ],
 
         ]
