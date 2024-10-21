@@ -18,7 +18,7 @@
                     <form name="form_status" action="">
                         @csrf
                         <input type="hidden" name="table" value="{{ $table }}">
-
+                        <input type="hidden" name="attribute" value="status">
                         <input type="checkbox" data-id="{{ $item->id }}"
                             @if ($item->status == 1) checked @endif
                             class="js-switch js-switch_{{ $item->id }}" style="display: none;" data-switchery="true">

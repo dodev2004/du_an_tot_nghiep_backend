@@ -11,7 +11,7 @@
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
-         
+
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>{{$title}}</h5>
@@ -36,7 +36,7 @@
             <div class="ibox-content">
                 <div class="table-responsive">
                     @include("backend.user.components.quanlythanhvien.fillter")
-                    @include("backend.user.components.quanlythanhvien.table")  
+                    @include("backend.user.components.quanlythanhvien.table")
                     <div class="d-flex">
                         <div class="total_record">
                             <p>Tồn tại tổng <strong>{{$total}}</strong> tại trang thứ <strong>{{$data->currentPage()}}</strong></p>
@@ -44,19 +44,19 @@
                         <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
                             {{  $data->appends(request()->query())->links()}}
                         </div>
-                    </div> 
+                    </div>
                 </div>
-                
+
             </div>
         </div>
-    
+
     </div>
     </div>
 </div>
 @endsection
 @push("scripts")
 @include('backend.components.scripts');
-@include("backend.user.handle.switchery")
+@include("backend.components.handles.switchery");
 @include('backend.components.toastmsg');
 @include("backend.user.handle.quanlythanhvien.handlerFillter")
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>

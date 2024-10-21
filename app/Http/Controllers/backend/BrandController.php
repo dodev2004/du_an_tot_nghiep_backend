@@ -26,7 +26,7 @@ class BrandController extends Controller
 
     // Tạo truy vấn chung cho Brand
     $query = Brand::query();
-
+    $table="brands";
 
 
     // Thêm điều kiện tìm kiếm theo tên nhãn hàng
@@ -43,7 +43,7 @@ class BrandController extends Controller
     $data = $query->paginate(5);
 
     // Trả về view tương ứng
-    return view('backend.brands.templates.index', compact('breadcrumbs', "title", "data"));
+    return view('backend.brands.templates.index', compact('breadcrumbs', "title", "data","table"));
 }
 
     /**

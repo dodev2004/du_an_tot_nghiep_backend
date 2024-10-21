@@ -24,7 +24,7 @@ class PermissionController extends Controller
         ];
 
         $breadcrumbs = $this->breadcrumbs;
-
+        $table="permissions";
         // Tìm kiếm và lọc dữ liệu
         $query = Permission::with('groupPermission');
 
@@ -63,7 +63,7 @@ class PermissionController extends Controller
 
         $data = $query->paginate(5);
 
-        return view('backend.permissions.templates.index', compact('breadcrumbs', "title", "data", "groupPermissions"));
+        return view('backend.permissions.templates.index', compact('breadcrumbs', "title", "data", "groupPermissions","table"));
     }
 
 
