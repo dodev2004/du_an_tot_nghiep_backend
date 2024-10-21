@@ -71,7 +71,7 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         return view("auths.showMessage");
     })->name("showMessage");
     Route::prefix('users')->middleware(['checkRole:admin'])->group(function(){
-        Route::get("list",[UserController::class,"listGroupMember"])->name("admin.users");
+        Route::get("list",[UserController::class,"listGroupMember"])->middleware(['checkPermission:view_products'])->name("admin.users");
         Route::put("list/change_status",[UserController::class,"updateUserStatus"])->name("admin.users.user_status");
         Route::get("create",[UserController::class,"create"])->name("admin.users.create");
         Route::post("store",[UserController::class,"store"])->name("admin.users.store");

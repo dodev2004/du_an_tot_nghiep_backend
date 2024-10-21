@@ -25,6 +25,7 @@ class Kernel extends HttpKernel
     ];
     protected $routeMiddleware = [
         'checkRole' => \App\Http\Middleware\CheckRole::class,
+        'checkPermission' => \App\Http\Middleware\CheckPermission::class,
         // Các middleware khác
     ];
     /**
