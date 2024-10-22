@@ -15,12 +15,12 @@ class VariantAttributeValueSeeder extends Seeder
     {
         DB::table('variant_attribute_values')->insert([
             [
-                'product_variant_id' => 3,
-                'attribute_value_id' => 3, // Màu Đen
+                'product_variant_id' => 1,
+                'attribute_value_id' => 9, // Màu Đen
             ],
             [
-                'product_variant_id' => 3,
-                'attribute_value_id' => 1, // Gỗ Sồi
+                'product_variant_id' => 1,
+                'attribute_value_id' => 7, // Gỗ Sồi
             ],
             // Thêm giá trị thuộc tính biến thể khác nếu cần
         ]);
