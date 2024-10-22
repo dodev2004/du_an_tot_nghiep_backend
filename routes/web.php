@@ -254,6 +254,10 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::post("{id}/restore", [RoleController::class, "restore"])->name("admin.role.restore");//khôi phục
         Route::get("/trash", [RoleController::class, "trash"])->name("admin.role.trash"); // Trang thùng rác
     });
+    Route::prefix("dashboard")->group(function(){
+        Route::get("list",[DashBoardController::class,"Orderindex"])->name("admin.dashboard_order");
+
+    });
 });
 
 Route::get("/",function(){
