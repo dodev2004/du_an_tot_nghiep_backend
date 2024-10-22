@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('order_items', function (Blueprint $table) {
              $table->json('variant')->nullable(); 
              $table->unsignedBigInteger('variant_id')->nullable()->after('product_id');
-
+            
             // Nếu bạn muốn thiết lập khóa ngoại với bảng product_variants
             $table->foreign('variant_id')->references('id')->on('product_variants')->onDelete('cascade');
         });

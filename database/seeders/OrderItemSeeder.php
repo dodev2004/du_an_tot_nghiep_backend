@@ -9,38 +9,20 @@ class OrderItemSeeder extends Seeder
     {
         DB::table('order_items')->insert([
             [
-                'order_id' => 1,
-                'product_id' => 1,
-                'product_name' => 'Ghế Sofa',
-                'variant' => json_encode(['màu sắc' => 'Xanh', 'kích thước' => 'L']),
+                'order_id' => 7, // ID của đơn hàng tương ứng
+                'product_id' => 1, // ID của sản phẩm
+                'product_name' => 'Sơn Đẹp trai Cao Cấp', // Tên sản phẩm
+                'variant_id' => 1,
+                "variant" => json_encode([
+                    "Gỗ sồi","Màu đen"
+                ]),
                 'quantity' => 2,
-                'price' => 800000.00,
-                'total' => 1600000.00,
+                'price' => 12000.00,
+                'total' => 24000.00, // Tổng giá trị của sản phẩm này
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'order_id' => 1,
-                'product_id' => 2,
-                'product_name' => 'Bàn trà',
-                'variant' => json_encode(['màu sắc' => 'Nâu', 'kích thước' => 'M']),
-                'quantity' => 1,
-                'price' => 400000.00,
-                'total' => 400000.00,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'order_id' => 2,
-                'product_id' => 3,
-                'product_name' => 'Kệ sách',
-                'variant' => json_encode(['màu sắc' => 'Đen', 'kích thước' => 'S']),
-                'quantity' => 1,
-                'price' => 500000.00,
-                'total' => 500000.00,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+        
         ]);
     }
 }

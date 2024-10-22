@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
             // AttributeSeeder::class,
             // AttributeValueSeeder::class,
             // ProductVariantSeeder::class,
-
+            VariantAttributeValueSeeder::class,
             // PaymentMethodSeeder::class,
         ]);
     }
