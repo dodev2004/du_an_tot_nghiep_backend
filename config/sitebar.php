@@ -96,31 +96,55 @@ return [
         "route" => "admin.promotions"
 
     ],
+
     [
         "childrenlevel" => false,
         "name" => "Quản lý mã trang giới thiệu",
         "route" => "admin.about",
     ],
+
+        [
+            "childrenlevel" => false,
+            "name" => "Quản lý trang giới thiệu",
+            "route" => "admin.about",
+        ],
+
+
     [
         "childrenlevel" => false,
         "name" => "Quản lí nhãn hàng",
         "route" => "admin.brand",
     ],
-    [
-        "childrenlevel" => false,
-        "name" => "Quản lí Thông tin liên hệ",
-        "route" => "admin.information",
 
-    ],
     [
         "childrenlevel" => false,
         "name" => "Quản lí phí ship",
         "route" => "admin.shipping_fee",
     ],
     [
+
         "childrenlevel" => false,
         "name" => "Quản lí form liên hệ",
         "route" => "admin.contact",
+
+        "childrenlevel" => true,
+        "name" => "Quản lí liên hệ",
+        "route" => "#",
+        'children' =>
+        [
+
+            [
+                "name" => " QL form liên hệ",
+                "route" => "admin.contact"
+            ],
+            [
+                "name" => " QL form thông tin liên hệ",
+                "route" => "admin.information"
+            ],
+
+        ]
+
+
     ],
     [
         "childrenlevel" => false,
