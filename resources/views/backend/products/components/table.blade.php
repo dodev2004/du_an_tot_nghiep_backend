@@ -47,13 +47,13 @@
             <td style="text-align: center">
                 <div style="display: flex; justify-content: center;column-gap: 5px;">
 
-                    <a href="{{ route('admin.product.edit',$product->id) }}" class="btn btn-info"><i
+                    <a href="{{ route('admin.product.edit',$product->id) }}" class="btn btn-info" title="Sửa"><i
                             class="fa fa-pencil"></i></a>
                     <form action="" method="POST" data-url="product" class="form-delete">
                         @method('DELETE')
                         @csrf
                         <input type="hidden" value="{{$product->id }}" name="id">
-                        <button class="btn btn-danger  center"><i class="fa fa-trash-o"></i></button>
+                        <button class="btn btn-danger  center" title="Xóa"><i class="fa fa-trash-o"></i></button>
                     </form>
                 </div>
 
