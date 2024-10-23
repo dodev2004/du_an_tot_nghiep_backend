@@ -7,7 +7,7 @@ if (!function_exists('getStatusOption')) {
         if ($order->status === 1) {
             $statusOptions = [
                 2 => 'Xác nhận đơn hàng',
-                6 => 'Hủy đơn hàng',
+                7 => 'Hủy đơn hàng',
             ];
         } elseif ($order->status === 2) {
             $statusOptions = [
@@ -53,6 +53,17 @@ if (!function_exists('getOrderStatusLabel')) {
         case 4: return 'Xác nhận giao hàng';
         case 5: return 'Đã giao hàng';
         case 6: return 'Hoàn tất';
+        case 7: return 'Hủy';
+        default: return 'Không xác định';
+    }
+}
+}
+if (!function_exists('getOrderPaymentStatusLabel')) {
+    function getOrderPaymentStatusLabel($status) {
+    switch ($status) {
+        case 1: return 'Chờ thanh toán';
+        case 2: return 'Đã thanh toán';
+        case 3: return 'Hoàn tiền';
         default: return 'Không xác định';
     }
 }
@@ -63,49 +74,49 @@ if (!function_exists('getOrderStatusLabel')) {
     <thead>
         <tr>
             <th class="text-center">STT</th>
-            <td class="text-center">Mã đơn hàng</td>
+            <th class="text-center">Mã đơn hàng</th>
             <th style="width: 200px" class="text-center">Khách hàng</th>
 
-            <th class="text-center">Thành tiền</th>
-            <th class="text-center">Chi phí khác</th>
-            <th class="text-center">Tổng tiền</th>
+            <th class="text-end">Thành tiền</th>
+            <th class="text-start">Chi phí khác</th>
+            <th class="text-right">Tổng tiền</th>
             <th class="text-center">Thanh toán</th>
             <th class="text-center">Địa chỉ giao hàng</th>
             <th class="text-center">Tình trạng</th>
-            <th class="text-center">Hành động</th>
+            <th class="text-start">Hành động</th>
         </tr>
     </thead>
 
     <tbody>
-        @foreach ($orders as $order)
+        @foreach ($orders as $index => $order)
         @php
         $statusOptions = getStatusOption($order);
         @endphp
             <tr id="order-row-{{$order->id}}">
-                <td class="text-center">1</td>
-                <td class="text-center"><a href="">BND-2323123</a></td>
+                <td class="text-center">{{$index + 1}}</td>
+                <td class="text-center"><a href="">BND-{{$order->id}}</a></td>
                 <td class="text-start">
-                    <b>Nguyễn văn A</b>
+                    <b>{{$order->customer_name}}</b>
                     <br>
-                    <span>0321321331</span>
+                    <span>{{$order->customer_name}}</span>
                     <br>
-                    <b>Ngày lên đơn: </b> 31/10/2004
+                    <b>Ngày lên đơn: </b> {{date_format($order->created_at,"d-m-Y")}}
                 </td>
-                <td class="text-center">
-                    2,200,000 đ
-                </td>
-                <td class="text-center">
-                    <b>Phí ship: </b> : 12đ
-                    <br>
-                    <b>Giảm giá:</b> 12đ
-                </td>
-                <td class="text-center">
-                    2,200,000 đ
+                <td class="text-end">
+                    {{number_format($order->total_amount)}} đ
                 </td>
                 <td class="text-start">
-                    <b>PTT: </b> Thanh toán onl
+                    <b>Phí ship: </b> : {{$order->shipping_fee ? number_format($order->shipping_fee,0,",") : 0}} đ
                     <br>
-                    <b>Trạng thái tanh toán :</b> Đã thanh toán
+                    <b>Giảm giá:</b> {{$order->discount_amount ? number_format($order->discount_amount,0,",") : 0}} đ
+                </td>
+                <td class="text-right">
+                    {{$order->final_amount ? number_format($order->final_amount,0,",") : 0}} đ
+                </td>
+                <td class="text-start">
+                    <b>PTT: </b> {{$order->paymentMethod->name}}
+                    <br>
+                    <b>Trạng thái tanh toán :</b> <span class="payment_status"> {{getOrderPaymentStatusLabel($order->payment_status)}}</span>
                 </td>
                 <td class="text-center">
                     <b>Địa chỉ : </b> Nam Hài - Nam Phương tiến
@@ -115,8 +126,8 @@ if (!function_exists('getOrderStatusLabel')) {
                     style="color: {{ getStatusColor($order->status) }}">
                     {{ getOrderStatusLabel($order->status) }}
                 </td>
-                <td class="text-end">
-                    <div class="d-flex" style="display: flex; column-gap: 12px;justify-content: end">
+                <td class="">
+                    <div class="d-flex" style="display: flex; column-gap: 12px;justify-content: start">
                         <div class="btn-group btn-group-{{$order->id }}">
                             <button data-toggle="dropdown" class="btn btn-primary btn-sm dropdown-toggle" aria-expanded="true">
                                 Hành động <span class="caret"></span>
@@ -127,7 +138,7 @@ if (!function_exists('getOrderStatusLabel')) {
                                             onclick="updateOrderStatus({{ $status }}, {{ $order->id }})">{{ $label }}</a>
                                     </li>
                                 @endforeach
-                                <li class="divider"></li>
+                              
                                 <li><a href="#" onclick="deleteOrder({{ $order->id }})">Xóa đơn hàng</a></li>
                             </ul>
                         </div>
@@ -164,10 +175,7 @@ if (!function_exists('getOrderStatusLabel')) {
                     statusCell.innerText = getOrderStatusLabel(status);
                     statusCell.style.color = getStatusColor(status);
 
-                    if (status === 6) {
-                
-                          $(`.btn-group-${orderId}`).remove(); 
-                     }
+                    if(response.)
                     updateDropdown(actionDropdown, status, orderId);
                 } else {
                     alert('Cập nhật trạng thái thất bại!');
@@ -216,6 +224,9 @@ if (!function_exists('getOrderStatusLabel')) {
             label: 'Hoàn tất'
         });
     }
+    else if (currentStatus === 5) {
+        options = []
+    }
 
     // Thêm các tùy chọn vào dropdown
     options.forEach(function(option) {
@@ -235,6 +246,7 @@ if (!function_exists('getOrderStatusLabel')) {
         case 4: return '#17A2B8'; // Xác nhận giao hàng
         case 5: return '#28A745'; // Đã giao hàng
         case 6: return '#DC3545'; // Hủy đơn
+        case 7: return 'red';
         default: return '#000000'; // Mặc định
     }
 }
@@ -245,7 +257,8 @@ function getOrderStatusLabel(status) {
         case 3: return 'Đang xử lý';        // Trạng thái 3: Đơn hàng đang được xử lý
         case 4: return 'Xác nhận giao hàng'; // Trạng thái 4: Đơn hàng đã được xác nhận giao hàng
         case 5: return 'Đã giao hàng';      // Trạng thái 5: Đơn hàng đã được giao
-        case 6: return 'Hoàn tất';          // Trạng thái 6: Đơn hàng đã hoàn tất
+        case 6: return 'Hoàn tất';   
+        case 7: return 'red';       // Trạng thái 6: Đơn hàng đã hoàn tất
         default: return 'Không xác định';   // Trạng thái không xác định
     }
 }
@@ -274,4 +287,5 @@ function deleteOrder(orderId) {
         });
     }
 }
+
 </script>

@@ -22,6 +22,7 @@ class OrderController extends Controller
         $breadcrumbs = $this->breadcrumbs;
         $keywords = $request->input('keywords');
         $orders = Order::with(['user', 'orderItems', 'promotion', 'paymentMethod'])->get();
+        
         return view("backend.orders.templates.index", compact("title", "breadcrumbs",'orders'));
     }
     public function update(Request $request){
@@ -29,20 +30,20 @@ class OrderController extends Controller
     $order = Order::find($request->order_id);
 
     if ($order) {
-        // Nếu trạng thái được cập nhật là 6 (Hủy đơn hàng)
-        if ($request->status === 6) {
-            
+        if ($request->status === 7) { 
             if ($order->payment_status === 2) {
-                // Cập nhật trạng thái thanh toán về 4 (Đã hoàn tiền)
-                $order->payment_status = 4;
+                $order->payment_status = 3;
             }
         }
-
-        // Cập nhật trạng thái đơn hàng
+        if($request->status == 6){
+            if($order->payment_status ==1){
+                $order->payment_status = 2;
+            }
+        }
         $order->status = $request->status;
         $order->save();
 
-        return response()->json(['success' => true, 'newStatus' => $order->status]);
+        return response()->json(['success' => true, 'newStatus' => $order->status,"newPaymebnt_status" => $order->payment_status]);
     }
 
     return response()->json(['success' => false]);
