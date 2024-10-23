@@ -31,12 +31,13 @@ class UserRepository extends BaseRespository  implements UserRepositoryInterface
               }
               if(request()->has('rule_id')){
                 $query->where("rule_id",request()->rule_id ) ;
-               
+
               }
     });
     return $query->paginate(15)->withQueryString();
   }
   public function create($data){
+
     if(request()->avatar){
       $image = request()->avatar;
       $extension = $image->getClientOriginalExtension();
@@ -44,7 +45,8 @@ class UserRepository extends BaseRespository  implements UserRepositoryInterface
       $path =  request()->avatar->storeAs("public/user",$filename);
       $data["image"] = "storage/user/".$filename;
     }
-    $this->model::create($data);
+   $user =  $this->model::create($data);
+    $user->roles()->attach(explode(",",request()->role_id));
   }
   public function findUserId($id){
       return $this->findId($id);
@@ -58,7 +60,9 @@ class UserRepository extends BaseRespository  implements UserRepositoryInterface
       $path =  request()->avatar->storeAs("public/user",$filename);
       $data["image"] = "storage/user/".$filename;
     }
-    $this->model::where("id",$id)->update($data);
+    $user = $this->model::findOrFail($id);
+    $user->update($data);
+    $user->roles()->sync(explode(",", request()->role_id));
   }
   public function updatestatus($status,$id){
     $user = User::find($id);

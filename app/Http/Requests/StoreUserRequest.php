@@ -22,30 +22,49 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "email"=> ["required", "email","unique:App\Models\User,email"],
-            "password"=>["required","min:6","string"],
-            "re-password"=>["required","min:6","string","same:password"],
-            "username"=> ["required","min:8"],
-            // "rule_id" => ["required"],
+            "email" => ["required", "email", "unique:App\Models\User,email"],
+            "password" => ["required", "min:6", "string"],
+            "re-password" => ["required", "min:6", "string", "same:password"],
+            "username" => ["required", "min:6", "unique:App\Models\User,username"],
+            "role_id" => ["required"], // Bắt buộc phải chọn vai trò
+            "birthday" => ["nullable", "date"], // Ngày sinh (không bắt buộc)
+            "province_id" => ["required","exists:provinces,id"], // Thành phố (không bắt buộc)
+            "district_id" => ["required", "exists:districts,id"], // Quận (không bắt buộc)
+            "ward_id" => ["required", "exists:wards,id"], // Phường (không bắt buộc)
+            "address" => ["required", "string"], // Địa chỉ (không bắt buộc)
+            "phone" => ["required", "string", "max:15"], // Số điện thoại (không bắt buộc)
         ];
     }
     public function  messages()
     {
         return [
-            "required"=> ":attribute không được để trống",
-            "rule_id.required" => "Vui lòng chọn mục này",
-            "min" => ":attribute phải dài hơn :value kí tự",
-            "re-password.same" => "Không trùng khớp với password",
-            "email.email"=> ":attribute phải đúng định dạng vd:'abv@gmail.com'",
-            "re-password.required" => "Vui lòng không để trống trường này",
-            "email.unique"=> "Email đã tồn tại"
+            "required" => ":attribute không được để trống.",
+            "role_id.required" => "Vui lòng chọn vai trò.",
+            "min" => ":attribute phải dài hơn :min ký tự.",
+            "re-password.same" => "Mật khẩu nhập lại không trùng khớp.",
+            "email.email" => ":attribute phải đúng định dạng, ví dụ: 'abv@gmail.com'.",
+            "email.unique" => "Email đã tồn tại.",
+            "username.unique" => "Tên đăng nhập đã tồn tại.",
+            "birthday.date" => ":attribute phải là ngày hợp lệ.",
+            "province_id.exists" => "Thành phố không tồn tại.",
+            "district_id.exists" => "Quận không tồn tại.",
+            "ward_id.exists" => "Phường không tồn tại.",
+            "phone.max" => ":attribute không được vượt quá :max ký tự.",
         ];
     }
     public function attributes(){
         return [
-            "email"=>"Email",
-            "Fullname"=>"Tên đầy đủ",
-            "password"=>"Password",
+            "email" => "Email",
+            "username" => "Tên đăng nhập",
+            "password" => "Mật khẩu",
+            "re-password" => "Nhập lại mật khẩu",
+            "role_id" => "Vai trò",
+            "birthday" => "Ngày sinh",
+            "province_id" => "Thành phố",
+            "district_id" => "Quận",
+            "ward_id" => "Phường",
+            "address" => "Địa chỉ",
+            "phone" => "Số điện thoại",
         ];
     }
     public function after(){

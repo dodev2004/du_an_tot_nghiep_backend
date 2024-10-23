@@ -5,6 +5,8 @@
             <th style="width: 200px" class="text-center">Hình ảnh</th>
             <th class="text-center">Thông tin sản phẩm</th>
             <th class="text-center">Ngày tạo</th>
+            <th class="text-center">Trạng thái</th>
+            <th class="text-center">Nổi bật</th>
             <th class="text-center">Hành động</th>
         </tr>
     </thead>
@@ -26,6 +28,22 @@
                     <strong>Tồn kho:</strong> {{ $product->display_stock }}
                 </td>
                 <td>{{ $product->created_at->format('d/m/Y') }}</td>
+                <td class="text-center">
+                    <form name="form_status" action="">
+                        @csrf
+                        <input type="hidden" name="attribute" value="status">
+                        <input type="hidden" name="table" value="{{$table}}">
+                        <input type="checkbox"  data-id="{{$product["id"]}}" @if($product["status"] == 1) checked @endif class="js-switch js-switch_{{$product["id"]}}"  style="display: none;" data-switchery="true">
+                    </form>
+                </td>
+                <td class="text-center">
+                    <form name="form_status" action="">
+                        @csrf
+                        <input type="hidden" name="attribute" value="is_featured">
+                        <input type="hidden" name="table" value="{{$table}}">
+                        <input type="checkbox"  data-id="{{$product["id"]}}" @if($product["is_featured"] == 1) checked @endif class="js-switch js-switch_{{$product["id"]}}"  style="display: none;" data-switchery="true">
+                    </form>
+                </td>
                 <td style="text-align: center">
                     <div style="display: flex; justify-content: center;column-gap: 5px;">
 

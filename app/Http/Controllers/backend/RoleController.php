@@ -57,10 +57,16 @@ class RoleController extends Controller
     {
         // Validate dữ liệu
         $request->validate([
-            'name' => 'required|unique:roles',
-            'description' => 'required|',
-            'permissions' => 'required|array',
-            'permissions.*' => 'exists:permissions,id',
+            'name' => 'required|string|max:255|unique:roles',
+            'description' => 'required|string|max:500',
+            'permissions' => 'required|array', // Đảm bảo là một mảng
+            'permissions.*' => 'required|exists:permissions,id', // Đảm bảo mỗi giá trị trong mảng tồn tại
+        ], [
+            'name.required' => 'Tên vai trò là bắt buộc.',
+            'name.unique' => 'Tên vai trò đã tồn tại, vui lòng chọn tên khác.',
+            'description.required' => 'Mô tả là bắt buộc.',
+            'permissions.required' => 'Bạn phải chọn ít nhất một quyền.',
+            'permissions.*.exists' => 'Một trong các quyền bạn chọn không hợp lệ.',
         ]);
 
         // Tạo vai trò mới
@@ -69,7 +75,7 @@ class RoleController extends Controller
         // Gán quyền cho vai trò
         $role->permissions()->attach($request->input('permissions'));
 
-        return response()->json(["success", "Cập nhật thành công"]);
+        return response()->json(["success", "Thêm thành công"]);
     }
 
     /**

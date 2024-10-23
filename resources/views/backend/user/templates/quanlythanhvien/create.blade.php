@@ -46,37 +46,34 @@
                             <p class=" text-danger"></p>
                         </div>
                         <div class="form-group col-md-6">
+                            <label for="">Fullname *</label>
+                            <input type="text" name="full_name" class="form-control" value="" autocomplete="">
+                            <p class=" text-danger"></p>
+                        </div>
+                        <div class="form-group col-md-6">
                             <label for="">username *</label>
                             <input type="text" name="username" value="" class="form-control">
-
                             <p class=" text-danger"></p>
-
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">Mật khẩu *</label>
                             <input type="password" name="password" value="" class="form-control">
-
                             <p class=" text-danger"></p>
-
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">Nhập lại mật khẩu *</label>
                             <input type="password" name="re-password" value="" class="form-control">
-
                             <p class=" text-danger"></p>
-
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">Vai trò *</label>
-                            <select class="form-control roles" name="role_id[]" id="" multiple>
+                            <select class="form-control roles" name="role_id" id="" multiple>
                                 <option value="">Vui lòng chọn vai trò</option>
                                 @foreach ($roles as $role)
                                     <option value="{{ $role->id }}">{{ $role->name }}</option>
                                 @endforeach
                             </select>
-
                             <p class=" text-danger"></p>
-
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">Ngày sinh</label>
@@ -84,8 +81,8 @@
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="date"
                                     name="birthday" class="form-control">
                             </div>
+                            <p class=" text-danger"></p>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -108,13 +105,14 @@
                                     @endforeach
                                 </select>
                             @endif
+                            <p class=" text-danger"></p>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">Quận (Huyện)</label>
                             <select class="district form-control" name="district_id">
                                 <option selected value="">Vui lòng chọn quận huyện</option>
                             </select>
-
+                            <p class=" text-danger"></p>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">Phường (Xã)</label>
@@ -122,14 +120,20 @@
                                 <option value="">Vui lòng chọn phường</option>
 
                             </select>
+                            <p class=" text-danger"></p>
+
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">Địa chỉ</label>
                             <input type="text" name="address" class="form-control">
+                            <p class=" text-danger"></p>
+
                         </div>
                         <div class="form-group col-md-12">
                             <label for="">Số điện thoại</label>
                             <input type="text" name="phone" class="form-control">
+                            <p class=" text-danger"></p>
+
                         </div>
                     </div>
 

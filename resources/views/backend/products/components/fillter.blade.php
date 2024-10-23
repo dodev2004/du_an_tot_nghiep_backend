@@ -23,7 +23,7 @@
                 <button type="submit" class="btn btn-primary seach"> 
                     <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
                 </button>
-                <a class="btn btn-success ml-2" href="{{route('admin.post.create')}}">Thêm mới</a>
+                <a class="btn btn-success ml-2" href="{{route('admin.product.create')}}">Thêm mới</a>
             </div>
         </form>
     </div>

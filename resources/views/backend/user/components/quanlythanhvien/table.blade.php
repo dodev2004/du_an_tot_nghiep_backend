@@ -47,7 +47,7 @@
                         <form action="" method="POST" data-url="users" class="form-delete">
                             @method('DELETE')
                             @csrf
-                            <input type="hidden" value="{{ $user->id }}" name="user_id">
+                            <input type="hidden" value="{{ $user->id }}" name="id">
                             <button class="btn btn-warning center"><i class="fa fa-trash-o"></i></button>
                         </form>
                     </div>

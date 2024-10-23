@@ -9,7 +9,14 @@
            const inputs = Array.from(this.querySelectorAll(".form-control"));
            inputs.shift();
            inputs.forEach(function(input){
-                data.append(input.name,input.value);
+                if(input.name  == "role_id"){
+                   const selectedValues = Array.from(input.selectedOptions).map(option => option.value);
+                   data.append(input.name,selectedValues.join(","));
+                }
+                else {
+                     data.append(input.name,input.value);
+                }
+
            })
 
           data.append("_token",_token);

@@ -498,7 +498,7 @@
                         <div class="ibox-content">
                             <div class="form-group">
                                 <label for="">Trạng thái</label>
-                                <select name="is_active" id="" class="form-control">
+                                <select name="status" id="" class="form-control">
                                     <option value="0">Không kích hoạt</option>
                                     <option value="1">Kích hoạt</option>
                                 </select>

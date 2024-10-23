@@ -69,7 +69,9 @@
             },
             error : function(error){
              
-                
+                document.querySelectorAll(".message-error").forEach(item => {
+                    item.innerText = "";
+                })
             let errors =  error.responseJSON.errors;
               if(errors){
                 Object.keys(errors).forEach(function(error){

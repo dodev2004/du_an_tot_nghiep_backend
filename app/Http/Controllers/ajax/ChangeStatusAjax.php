@@ -7,7 +7,7 @@
         public function change_status(){
             $data  = request()->except("_token");
             try{
-                DB::table($data["table"])->where("id",$data["id"])->update(["status"=>$data["status"]]);
+                DB::table($data["table"])->where("id",$data["id"])->update([$data["attribute"]=>$data["data"]]);
                 return response()->json(["success"=>"thành công"]);
             }
             catch(\Exception $e){

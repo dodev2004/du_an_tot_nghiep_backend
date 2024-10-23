@@ -61,9 +61,7 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $data = $request->except(["re-password", "_token", "avatar", "role_id"]);
-        if ($data) {
-            $user = $this->users->create($data);
-            $user->roles()->attach($request->role_id);
+        if ($this->users->create($data)) {
             return response()->json(["success", "Thêm mới thành công"]);
         } else {
             return response()->json(["error", "Thêm mới không thành công"]);
@@ -92,12 +90,7 @@ class UserController extends Controller
     public function updateUser(UpdateUserRequest $update)
     {
         $data = request()->except(["_token", "avatar", "role_id"]);
-        if (request()->fails()) {
-            return response()->json(["error", request()->errors()], 422);
-        }
-        $user = $this->users->update($data, request()->id);
-        if ($user) {
-            $user->roles()->sync(request()->role_id);
+        if ($this->users->update($data,request()->id)) {
             return response()->json(["success", "Sửa thành công"]);
         } else {
             return response()->json(["error", "Thêm mới không thành công"]);
