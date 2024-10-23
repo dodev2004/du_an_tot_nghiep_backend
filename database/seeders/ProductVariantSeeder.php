@@ -15,9 +15,9 @@ class ProductVariantSeeder extends Seeder
     {
         DB::table('product_variants')->insert([
             [
-                'product_id' => 6,
+                'product_id' => 1,
                 'price' => 12000.00,
-                'weight' => 20,00,
+                'weight' => 20.00, // Thay dấu phẩy bằng dấu chấm
                 'dimension' => '220x80x75 cm',
                 'discount_price' => 12000.00,
                 'stock' => 5,
@@ -27,9 +27,9 @@ class ProductVariantSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
-                'product_id' => 7,
+                'product_id' => 1,
                 'price' => 18000.00,
-                'weight' => 28.0,
+                'weight' => 28.00, // Đảm bảo dấu thập phân là dấu chấm
                 'dimension' => '200x180 cm',
                 'discount_price' => 12000.00,
                 'stock' => 10,
@@ -40,5 +40,6 @@ class ProductVariantSeeder extends Seeder
             ],
             // Thêm biến thể sản phẩm khác nếu cần
         ]);
+        
     }
 }
