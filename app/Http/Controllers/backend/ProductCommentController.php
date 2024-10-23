@@ -136,7 +136,7 @@ class ProductCommentController extends Controller
             "name"=>"Danh sách người dùng có bình luận"
         ], [
             "active"=>true,
-            "url"=> route("admin.product_comment.user_comments", ['id' => $userId]), // Đảm bảo bạn truyền id
+            "url"=> route("admin.product_comment.user_comments", ['id' => $userId]),
             "name"=>"Chi tiết người dùng bình luận"
         ], [
             "active" => true,
