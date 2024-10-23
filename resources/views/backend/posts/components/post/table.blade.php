@@ -27,7 +27,8 @@
         <td class="text-center">
             <form name="form_status" action="">
                 @csrf
-                <input type="hidden" name="table" value="">
+                <input type="hidden" name="attribute" value="status">
+                <input type="hidden" name="table" value="{{$table}}">
                 <input type="checkbox"  data-id="{{$post["id"]}}" @if($post["status"] == 1) checked @endif class="js-switch js-switch_{{$post["id"]}}"  style="display: none;" data-switchery="true">
             </form>
         </td>
@@ -39,7 +40,7 @@
                 @endforeach
                 @else
                 <span class="label label-info">Chưa có chuyên mục</span>
-               
+
                 @endif
             </span>
         </td>
@@ -58,6 +59,6 @@
         </td>
     </tr>
     @endforeach
-    
+
     </tbody>
 </table>

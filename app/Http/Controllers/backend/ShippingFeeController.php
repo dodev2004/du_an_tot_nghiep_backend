@@ -29,7 +29,7 @@ class ShippingFeeController extends Controller
         $query = Shipping_fee::with('province');
 
         // Kiểm tra xem có yêu cầu trash không
-
+        $table="shipping_fees";
 
         // Thêm điều kiện tìm kiếm theo tên tỉnh
         if ($searchText) {
@@ -46,7 +46,7 @@ class ShippingFeeController extends Controller
         $data = $query->paginate(10);
 
         // Trả về view tương ứng
-        return view('backend.shipping_fees.templates.index', compact('breadcrumbs', "title", "data"));
+        return view('backend.shipping_fees.templates.index', compact('breadcrumbs', "title", "data","table"));
     }
 
 

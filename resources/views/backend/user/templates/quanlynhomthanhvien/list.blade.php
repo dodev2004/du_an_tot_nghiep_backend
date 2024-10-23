@@ -11,7 +11,7 @@
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
-         
+
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>{{$title}}</h5>
@@ -35,17 +35,17 @@
             </div>
             <div class="ibox-content">
                 @include("backend.user.components.quanlynhomthanhvien.fillter")
-                @include("backend.user.components.quanlynhomthanhvien.table")   
+                @include("backend.user.components.quanlynhomthanhvien.table")
             </div>
         </div>
-    
+
     </div>
     </div>
 </div>
 @endsection
 @push("scripts")
 @include('backend.components.scripts');
-@include("backend.user.handle.switchery")
+@include("backend.components.handles.switchery");
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
 @include("backend.components.handles.delete");
 @endpush
