@@ -55,7 +55,11 @@ class CustomerController extends Controller
     // Paginate the results
     $data = $query->paginate(10);
 
+
     return view('backend.customers.templates.index', compact('title', 'breadcrumbs', 'data','table'));
+
+    
+
     }
 
     /**

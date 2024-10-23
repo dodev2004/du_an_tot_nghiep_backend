@@ -131,6 +131,13 @@ return [
 
     [
         "childrenlevel" => false,
+        "name" => "Quản lí đơn hàng",
+        "route" => "admin.orders",
+    ],
+
+
+    [
+        "childrenlevel" => false,
         "name" => "Quản lí phí ship",
         "route" => "admin.shipping_fee",
     ],

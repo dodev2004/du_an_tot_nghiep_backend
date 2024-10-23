@@ -34,6 +34,7 @@ use App\Http\Controllers\PostCatelogueController;
 use App\Http\Controllers\Backend\PromotionController;
 use App\Http\Controllers\backend\PermissionController;
 use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -110,6 +111,15 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::get("{id}/edit",[ProductController::class,"editPost"])->name("admin.product.edit");
         Route::put("{id}/update",[ProductController::class,"update"])->name("admin.product.update");
         Route::delete("/delete",[ProductController::class,"destroy"])->name("admin.product.delete");
+
+    });
+    Route::prefix("orders")->group(function(){
+        Route::get("list",[OrderController::class,"index"])->name("admin.orders");
+        Route::get("create",[OrderController::class,"create"])->name("admin.orders.create");
+        Route::post("store",[OrderController::class,"store"])->name("admin.orders.store");
+        Route::get("{id}/edit",[OrderController::class,"editPost"])->name("admin.orders.edit");
+        Route::put("update-order-status",[OrderController::class,"update"])->name("admin.orders.update");
+        Route::delete("/delete",[OrderController::class,"destroy"])->name("admin.orders.delete");
 
     });
     Route::prefix("product-catelogue")->group(function(){
@@ -254,10 +264,12 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::post("{id}/restore", [RoleController::class, "restore"])->name("admin.role.restore");//khôi phục
         Route::get("/trash", [RoleController::class, "trash"])->name("admin.role.trash"); // Trang thùng rác
     });
+
     Route::prefix("dashboard")->group(function(){
         Route::get("list",[DashBoardController::class,"Orderindex"])->name("admin.dashboard_order");
 
     });
+
 });
 
 Route::get("/",function(){
