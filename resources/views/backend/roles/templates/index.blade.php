@@ -34,16 +34,7 @@
                 </div>
             </div>
             <div class="ibox-content">
-                <style>
-                    .form-group {
-                        display: flex;
-                        flex-wrap: wrap;
-                        gap: 10px;
-                    }
-                    .btn {
-                        height: 30px;
-                    }
-                </style>
+                
                 @include("backend.roles.components.fillter")
                     @include("backend.roles.components.table")
 

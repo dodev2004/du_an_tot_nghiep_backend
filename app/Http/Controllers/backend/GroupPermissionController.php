@@ -48,7 +48,7 @@ class GroupPermissionController extends Controller
 
         // Nếu không có trash, lấy dữ liệu bình thường
         $data = $query->paginate(5);
-        return view('backend.group_permissions.templates.index', compact('breadcrumbs', "title", "data"));
+        return view('backend.group_permissions.templates.index', compact('breadcrumbs', "title", "data","table"));
     }
 
 

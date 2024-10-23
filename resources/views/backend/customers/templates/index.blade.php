@@ -2,6 +2,7 @@
 @section("style")
 @include('backend.components.head')
 <link rel="stylesheet" href="{{asset("backend/css/customize.css")}}">
+
 @endsection
 @section("title")
 {{$title}}
@@ -34,16 +35,7 @@
                 </div>
             </div>
             <div class="ibox-content">
-                <style>
-                    .form-group {
-                        display: flex;
-                        flex-wrap: wrap;
-                        gap: 10px;
-                    }
-                    .btn {
-                        height: 30px;
-                    }
-                </style>
+
                 @include("backend.customers.components.fillter")
                     @include("backend.customers.components.table")
 

@@ -34,16 +34,7 @@
                 </div>
             </div>
             <div class="ibox-content">
-                <style>
-                    .form-group {
-                        display: flex;
-                        flex-wrap: wrap;
-                        gap: 10px;
-                    }
-                    .btn {
-                        height: 30px;
-                    }
-                </style>
+                
                 @include("backend.permissions.components.fillter")
                 @include("backend.permissions.components.table")
                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
