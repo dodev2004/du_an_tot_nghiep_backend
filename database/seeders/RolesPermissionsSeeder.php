@@ -35,14 +35,14 @@ class RolesPermissionsSeeder extends Seeder
         DB::table('group_permission')->insert([
             [
                 'id' => 1,
-                'name' => 'User Management',
+                'name' => 'Quản lý người dùng',
                 'description' => 'Group of permissions for managing users',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'id' => 2,
-                'name' => 'Product Management',
+                'name' => 'Quản lý sản phẩm',
                 'description' => 'Group of permissions for managing products',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

@@ -2,15 +2,22 @@
     style="background-color: white; padding:40px" novalidate>
     @csrf
     <div class="row">
-        <div class="col-md-12">
+    <div class="col-md-4">
+                <h2>Thông tin nhóm quyền</h2>
+                <span>
+                    Những trường có dấu ("*") là những trường bắt buộc và không được bỏ trống
+                </span>
+
+        </div>
+        <div class="col-md-12" style="width: 500px; border: 1px solid #ddd; border-radius: 8px;margin-left: 300px ; padding: 20px ">
             <div class="ibox-content">
                 <div class="form-group">
-                    <label>Tên vai trò</label>
+                    <label>Tên vai trò <span style="color: red;">*</span></label>
                     <input type="text" class="form-control" id="name" name="name" value="{{ $role->name }}">
                     <p class=" text-danger message-error"></p>
                 </div>
                 <div class="form-group">
-                    <label>Mô tả</label>
+                    <label>Mô tả <span style="color: red;">*</span></label>
                     <input type="text" class="form-control" id="description" name="description" value="{{ $role->description }}">
                     <p class=" text-danger message-error"></p>
                 </div>
@@ -18,7 +25,7 @@
                     <label for="permissions">Chọn quyền hạn</label>
                     @foreach ($groupPermissions as $group)
                         <div class="permission-group">
-                            <h4>{{ $group->name }}</h4>
+                            <h5 style="font-weight: bold">{{ $group->name }}</h5>
                             @foreach ($group->permissions as $permission)
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" class="form-control" id="permissions" name="permissions[]"
@@ -43,7 +50,7 @@
                     </select> --}}
                     <p class="text-danger message-error"></p>
                 </div>
-                <button class="btn btn-success" type="submit">Cập nhật</button>
+                <button class="btn btn-success" style=" float: right; margin-right: 50px" type="submit">Cập nhật</button>
             </div>
         </div>
 
