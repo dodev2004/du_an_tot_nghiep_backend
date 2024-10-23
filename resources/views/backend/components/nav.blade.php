@@ -7,10 +7,10 @@
                      </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                     <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
-                     </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
+                     </span> <span class="text-muted text-xs block">Nhân Viên <b class="caret"></b></span> </span> </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        <li><a href="profile.html">Profile</a></li>
-                        <li><a href="contacts.html">Contacts</a></li>
+                        <li><a href="profile.html">Hồ sơ</a></li>
+                        <li><a href="contacts.html">Liên hệ</a></li>
                         <li><a href="mailbox.html">Mailbox</a></li>
                         <li class="divider"></li>
                         <li><a href="login.html">Logout</a></li>
@@ -30,9 +30,9 @@
                 <a href="#"><i class="fa fa-user-circle"></i> <span class="nav-label">{{$item["name"]}}</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
                     @foreach($item["children"] as $children)
-                    <li  class="{{request()->routeIs($children['route'] . ".*") || request()->routeIs($children['route']) ? 'active' : ""}}"><a href="{{route($children['route'])}}">{{$children["name"]}}</a></li>  
+                    <li  class="{{request()->routeIs($children['route'] . ".*") || request()->routeIs($children['route']) ? 'active' : ""}}"><a href="{{route($children['route'])}}">{{$children["name"]}}</a></li>
                     @endforeach
-                  
+
                 </ul>
              </li>
              @else
@@ -41,7 +41,7 @@
             </li>
              @endif
             @endforeach
-          
+
         </ul>
 
     </div>

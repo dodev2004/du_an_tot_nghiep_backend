@@ -2,13 +2,6 @@
     novalidate>
     @csrf
     <div class="row ">
-    <div class="col-md-4">
-                <h2>Thông tin nhóm quyền</h2>
-                <span>
-                    Những trường có dấu ("*") là những trường bắt buộc và không được bỏ trống
-                </span>
-
-        </div>
         <div class="col-md-12" style="width: 500px; border: 1px solid #ddd; border-radius: 8px;margin-left: 300px ; padding: 20px ">
             <div >
                 <div class="form-group">
