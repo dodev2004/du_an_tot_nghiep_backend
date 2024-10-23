@@ -4,6 +4,8 @@ return [
         "childrenlevel" => false,
         "name" => "Dashboards",
         "route" => "admin.dashboard",
+        "icon" => "fa-desktop"
+
     ],
     [
         "childrenlevel" => true,
