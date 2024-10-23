@@ -1,7 +1,6 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>STT</th>
             <th>Người dùng</th>
             <th>Số lượng sản phẩm</th>
             <th>Số lượng bình luận</th>
@@ -9,9 +8,8 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($users as $key => $user)
+        @foreach($users as $user)
             <tr>
-                <td>{{ $key + 1 }}</td> 
                 <td>{{ $user->full_name }}</td>
                 <td>{{ $user->product_count }}</td>
                 <td>{{ $user->product_comments_count }}</td> 

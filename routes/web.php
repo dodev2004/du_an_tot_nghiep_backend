@@ -167,7 +167,7 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::delete("/soft-delete", [ProductCommentController::class, "softDelete"])->name("admin.product_comment.soft_delete");//xóa mềm
         Route::post("{id}/restore", [ProductCommentController::class, "restore"])->name("admin.product_comment.restore");//khôi phục
         Route::delete("/hard-delete", [ProductCommentController::class, "destroy"])->name("admin.product_comment.hard_delete");//xóa cúng
-        Route::get("trash", [ProductCommentController::class, "trash"])->name("admin.product_comment.trash"); // Trang thùng rác
+        Route::get("trash", [ProductCommentController::class, "trash"])->name("admin.product_comment.trash");
     });
     Route::prefix("product_reviews")->group(function(){
         Route::get('admin/product-reviews', [ProductReviewController::class, 'index'])->name('admin.product_review');
