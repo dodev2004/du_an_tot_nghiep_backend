@@ -41,13 +41,20 @@ class ProductCommentController extends Controller
 
     public function userComments(Request $request, $id)
     {
+        session(['user_id' => $id]);
         $users = User::findOrFail($id);
         $title = "Chi tiết người dùng bình luận";
         array_push($this->breadcrumbs,[
             "active"=>true,
+            "url"=> route("admin.product_comment.users"),
+            "name"=>"Danh sách người dùng có bình luận"
+        ],[
+            "active"=>true,
             "url"=> route("admin.product_comment.user_comments", ['id' => $id]),
             "name"=>"Chi tiết người dùng bình luận"
-         ]); 
+ 
+        ]); 
+        
         $breadcrumbs = $this->breadcrumbs;
         $query = ProductComment::where('user_id', $id);
 
@@ -121,8 +128,17 @@ class ProductCommentController extends Controller
 
     public function trash(Request $request)
     {
+        $userId = session('user_id');
         $title = "Danh sách bình luận đã xóa";
         array_push($this->breadcrumbs, [
+            "active"=>true,
+            "url"=> route("admin.product_comment.users"),
+            "name"=>"Danh sách người dùng có bình luận"
+        ], [
+            "active"=>true,
+            "url"=> route("admin.product_comment.user_comments", ['id' => $userId]), // Đảm bảo bạn truyền id
+            "name"=>"Chi tiết người dùng bình luận"
+        ], [
             "active" => true,
             "url" => route("admin.product_comment.trash"),
             "name" => "Danh sách bình luận đã xóa"
