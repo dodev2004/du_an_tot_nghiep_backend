@@ -2,7 +2,7 @@
 return [
     [
         "childrenlevel" => false,
-        "name" => "Dashboards",
+        "name" => "Thống kê",
         "route" => "admin.dashboard",
     ],
     [
