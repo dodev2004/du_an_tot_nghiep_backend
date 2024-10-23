@@ -35,7 +35,7 @@ class ProductCommentController extends Controller
                 ->distinct('product_id')
                 ->count('product_id');
         }
-         $data = ProductComment::with(['product', 'user'])->paginate(10);
+         $data = ProductComment::with(['product', 'user'])->orderBy('created_at', 'desc')->paginate(10);
          return view("backend.product_comment.templates.index",compact("title","breadcrumbs", "users","data",));
     }
 
@@ -64,7 +64,7 @@ class ProductCommentController extends Controller
         $query->where('comment', 'LIKE', '%' . $searchText . '%')
         ->orWhereHas('product', function ($q) use ($searchText) {
             $q->where('name', 'LIKE', '%' . $searchText . '%');
-        });
+        })->where('user_id', $id);
     }
 
 
@@ -87,7 +87,7 @@ class ProductCommentController extends Controller
         }
     }
 
-        $data = $query->paginate(10); 
+        $data = $query->orderBy('created_at', 'desc')->paginate(10); 
     
         return view("backend.product_comment.templates.comment", compact( 'users','title', 'breadcrumbs', 'data'));
     }
@@ -152,7 +152,10 @@ class ProductCommentController extends Controller
         $query->where('comment', 'LIKE', '%' . $searchText . '%')
         ->orWhereHas('product', function ($q) use ($searchText) {
             $q->where('name', 'LIKE', '%' . $searchText . '%');
-        });
+        })
+        ->orWhereHas('user', function ($q) use ($searchText) {
+            $q->where('full_name', 'LIKE', '%' . $searchText . '%');
+        })->onlyTrashed();
     }
 
 
@@ -160,11 +163,11 @@ class ProductCommentController extends Controller
     $endDate = $request->get('end_date');
 
     if (!empty($startDate) && !empty($endDate)) {
-        $query->whereBetween('created_at', [$startDate, $endDate]);
+        $query->onlyTrashed()->whereBetween('created_at', [$startDate, $endDate]);
     } elseif (!empty($startDate)) {
-        $query->where('created_at', '>=', $startDate);
+        $query->onlyTrashed()->where('created_at', '>=', $startDate);
     } elseif (!empty($endDate)) {
-        $query->where('created_at', '<=', $endDate);
+        $query->onlyTrashed()->where('created_at', '<=', $endDate);
     }
 
     if ($request->has('date_order')) {
@@ -174,7 +177,7 @@ class ProductCommentController extends Controller
             $query->orderBy('created_at', 'asc');
         }
     }
-        $data = $query->paginate(10);
+        $data = $query->orderBy('created_at', 'desc')->paginate(10);
 
         return view("backend.trash.trash_comment.templates.index", compact("title", "breadcrumbs", "data"));
     }

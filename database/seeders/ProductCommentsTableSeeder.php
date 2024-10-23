@@ -15,23 +15,23 @@ class ProductCommentsTableSeeder extends Seeder
     {
         DB::table('product_comments')->insert([
             [
-                'product_id' => 5, 
-                'user_id' => 1, 
+                'product_id' => 7, 
+                'user_id' => 2, 
                 'comment' => 'Sản phẩm này rất tuyệt vời! Tôi rất hài lòng với chất lượng.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 5, 
-                'user_id' => 1, 
+                'product_id' => 7, 
+                'user_id' => 2, 
                 'comment' => 'Giá cả hợp lý, giao hàng nhanh. Sẽ tiếp tục ủng hộ.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 6, 
+                'product_id' => 7, 
                 'user_id' => 1, 
-                'comment' => 'Sản phẩm không tốt như mong đợi, cần cải thiện.',
+                'comment' => 'Sản phẩm không tốt như mong đợi, cần cải thiện ha.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

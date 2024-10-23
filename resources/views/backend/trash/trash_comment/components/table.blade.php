@@ -2,8 +2,8 @@
             <thead>
                 <tr>
                     <th>Người dùng</th>
-                    <th>Bình luận</th>
                     <th>Sản phẩm</th>
+                    <th>Bình luận</th>
                     <th>Ngày xóa</th>
                     <th>Hành động</th>
                 </tr>
@@ -12,8 +12,8 @@
                 @foreach($data as $comment)
                     <tr>
                         <td>{{ $comment->user->full_name }}</td>
-                        <td>{{ $comment->comment }}</td>
                         <td>{{ $comment->product->name }}</td>
+                        <td>{{ $comment->comment }}</td>
                         <td>{{ $comment->deleted_at }}</td>
                         <td>
                             <div class="form-group d-flex ">
