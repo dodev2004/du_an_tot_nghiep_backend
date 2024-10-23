@@ -34,6 +34,7 @@
                 </div>
             </div>
             <div class="ibox-content">
+                
                 @include("backend.brands.components.fillter")
                 @include("backend.brands.components.table")
                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">

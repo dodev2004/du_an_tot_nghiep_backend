@@ -24,12 +24,19 @@ class ShippingFeeController extends Controller
         ];
         $breadcrumbs = $this->breadcrumbs;
         $searchText = request()->input('seach_text');
-
+        $status = request()->input('status');
+        $startDate = request()->input('start_date');
+        $endDate = request()->input('end_date');
+        $dateOrder = request()->input('date_order');
         // Tạo truy vấn chung cho Shipping_fee
         $query = Shipping_fee::with('province');
 
         // Kiểm tra xem có yêu cầu trash không
+
+        $table = "shipping_fees";
+
         $table="shipping_fees";
+
 
         // Thêm điều kiện tìm kiếm theo tên tỉnh
         if ($searchText) {
@@ -37,8 +44,17 @@ class ShippingFeeController extends Controller
                 $query->where('name', 'LIKE', '%' . $searchText . '%');
             });
         }
+        if ($status !== null && $status !== '') {
+            $query->where('status', $status);
+        }
         if (request()->input('trash')) {
-            $data=$query->onlyTrashed()->paginate(10); // Nếu có trash thì chỉ lấy dữ liệu đã xóa mềm
+            if ($startDate) {
+                $query->where('deleted_at', '>=', $startDate);
+            }
+            if ($endDate) {
+                $query->where('deleted_at', '<=', $endDate);
+            }
+            $data = $query->onlyTrashed()->paginate(10); // Nếu có trash thì chỉ lấy dữ liệu đã xóa mềm
             return view('backend.trash.trash_shipping_fee.templates.index', compact('breadcrumbs', "title", "data"));
         }
 
@@ -46,7 +62,11 @@ class ShippingFeeController extends Controller
         $data = $query->paginate(10);
 
         // Trả về view tương ứng
-        return view('backend.shipping_fees.templates.index', compact('breadcrumbs', "title", "data","table"));
+
+        return view('backend.shipping_fees.templates.index', compact('breadcrumbs', "title", "data", "table"));
+
+
+
     }
 
 

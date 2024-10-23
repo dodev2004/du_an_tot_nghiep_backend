@@ -16,10 +16,10 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next,$role): Response
     {
-        
+
         if (!Auth::user()->hasRole($role)) {
 
-            return redirect('/'); // Chuyển hướng nếu không có quyền
+            abort(403, 'Bạn không có quyền truy cập vào trang này'); // Trả về lỗi 403 nếu không có quyền
         }
 
         return $next($request);

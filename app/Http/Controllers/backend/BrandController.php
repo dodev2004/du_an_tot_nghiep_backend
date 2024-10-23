@@ -21,9 +21,13 @@ class BrandController extends Controller
         "url" => route("admin.brand"),
         "name" => "Quản lý nhãn hàng"
     ];
-    $breadcrumbs = $this->breadcrumbs;
     $searchText = request()->input('seach_text');
+    $status = request()->input('status');
+    $startDate = request()->input('start_date');
+    $endDate = request()->input('end_date');
+    $dateOrder = request()->input('date_order');
 
+    $breadcrumbs = $this->breadcrumbs;
     // Tạo truy vấn chung cho Brand
     $query = Brand::query();
     $table="brands";
@@ -31,8 +35,28 @@ class BrandController extends Controller
     if ($searchText) {
         $query->where('name', 'LIKE', '%' . $searchText . '%');
     }
+    if ($status !== null && $status !== '') {
+        $query->where('status', $status);
+    }
+    if ($startDate) {
+        $query->where('created_at', '>=', $startDate);
+    }
+    if ($endDate) {
+        $query->where('created_at', '<=', $endDate);
+    }
+    if ($dateOrder === 'newest') {
+        $query->orderBy('created_at', 'desc');
+    } elseif ($dateOrder === 'oldest') {
+        $query->orderBy('created_at', 'asc');
+    }
     // Kiểm tra xem có yêu cầu trash không
     if (request()->input('trash')) {
+        if ($startDate) {
+            $query->where('deleted_at', '>=', $startDate);
+        }
+        if ($endDate) {
+            $query->where('deleted_at', '<=', $endDate);
+        }
         $data=$query->onlyTrashed()->paginate(5); // Nếu có trash thì chỉ lấy dữ liệu đã xóa mềm
         return view('backend.trash.trash_brand.templates.index',compact('breadcrumbs', "title", "data"));
     }

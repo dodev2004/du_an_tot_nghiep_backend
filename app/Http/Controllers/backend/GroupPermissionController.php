@@ -18,9 +18,13 @@ class GroupPermissionController extends Controller
             "url" => route("admin.group_permission"),
             "name" => "Quản lý nhóm quyền"
         ];
-
+        $table="group_permission";
         $breadcrumbs = $this->breadcrumbs;
         $searchText = request()->input('seach_text');
+        $status = request()->input('status');
+        $startDate = request()->input('start_date');
+        $endDate = request()->input('end_date');
+        $dateOrder = request()->input('date_order');
 
         // Tạo truy vấn cho GroupPermission
         $query = GroupPermission::query();
@@ -32,13 +36,19 @@ class GroupPermissionController extends Controller
 
         // Kiểm tra xem có truy vấn trash không
         if (request()->input('trash')) {
+            if ($startDate) {
+                $query->where('deleted_at', '>=', $startDate);
+            }
+            if ($endDate) {
+                $query->where('deleted_at', '<=', $endDate);
+            }
             $data = $query->onlyTrashed()->paginate(5);
             return view('backend.trash.trash_group_permission.templates.index', compact('breadcrumbs', "title", "data"));
         }
 
         // Nếu không có trash, lấy dữ liệu bình thường
         $data = $query->paginate(5);
-        return view('backend.group_permissions.templates.index', compact('breadcrumbs', "title", "data"));
+        return view('backend.group_permissions.templates.index', compact('breadcrumbs', "title", "data","table"));
     }
 
 

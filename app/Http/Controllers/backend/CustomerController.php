@@ -22,13 +22,13 @@ class CustomerController extends Controller
     ];
     $table="users";
     $breadcrumbs = $this->breadcrumbs;
-
+    $status = request()->input('status');
     $searchText = request()->input('seach_text');
     $startDate = request()->input('start_date');
     $endDate = request()->input('end_date');
     $dateOrder = request()->input('date_order');
 
-    $query = User::with('orders')->withSum('orders', 'final_amount')->where('role_id', 2);
+    $query = User::with('orders')->withSum('orders', 'final_amount')->where('rule_id', 2);
 
     // Search by username
     if ($searchText) {
@@ -42,7 +42,9 @@ class CustomerController extends Controller
     if ($endDate) {
         $query->where('created_at', '<=', $endDate);
     }
-
+    if ($status !== null && $status !== '') {
+        $query->where('status', $status);
+    }
     // Sort by date
     if ($dateOrder === 'newest') {
         $query->orderBy('created_at', 'desc');
@@ -53,7 +55,11 @@ class CustomerController extends Controller
     // Paginate the results
     $data = $query->paginate(10);
 
-    return view('backend.customers.templates.index', compact('title', 'breadcrumbs', 'data','users'));
+
+    return view('backend.customers.templates.index', compact('title', 'breadcrumbs', 'data','table'));
+
+    
+
     }
 
     /**

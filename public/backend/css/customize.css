@@ -46,4 +46,11 @@
 .form-user_create .row .col-md-6 > p{
     margin: 0;
 }
-    
+.form-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.btn {
+    height: 30px;
+}
