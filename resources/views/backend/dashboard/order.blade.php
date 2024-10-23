@@ -31,15 +31,16 @@
             <canvas id="completedOrdersYearlyChart"></canvas>
         </div>
 
-        <!-- Biểu đồ tròn: trạng thái đơn hàng -->
+
+        <!-- Biểu đồ cột: số lượng đơn hàng bị huỷ theo tháng -->
         <div class="col-md-6">
-            <canvas id="orderStatusChart"></canvas>
-        </div>
-        <!-- Biểu đồ cột: số lượng đơn hàng hoàn thành theo năm -->
-        <div class="col-md-6">
-            <canvas id="completedOrdersYearlyChart"></canvas>
+            <canvas id="cancelledOrdersMonthlyChart"></canvas>
         </div>
 
+        <!-- Biểu đồ cột: số lượng đơn hàng bị huỷ theo năm -->
+        <div class="col-md-6">
+            <canvas id="cancelledOrdersYearlyChart"></canvas>
+        </div>
         <!-- Biểu đồ tròn: trạng thái đơn hàng -->
         <div class="col-md-6">
             <canvas id="orderStatusChart"></canvas>
@@ -88,6 +89,14 @@
 
             // Dữ liệu cho số lượng đơn hàng hoàn thành theo năm
             var completedOrdersYearlyData = {!! json_encode($yearlyCompletedOrders) !!}; // Dữ liệu đơn hàng hoàn thành theo năm
+
+            // Dữ liệu cho số lượng đơn hàng bị huỷ theo tháng
+            var cancelledOrdersMonthlyLabels = {!! json_encode($cancelledOrdersMonthly->pluck('month')) !!};
+            var cancelledOrdersMonthlyData = {!! json_encode($cancelledOrdersMonthly->pluck('cancelled_count')) !!};
+
+            // Dữ liệu cho số lượng đơn hàng bị huỷ theo năm
+            var cancelledOrdersYearlyLabels = {!! json_encode($cancelledOrdersYearly->pluck('year')) !!};
+            var cancelledOrdersYearlyData = {!! json_encode($cancelledOrdersYearly->pluck('cancelled_count')) !!};
 
             // Dữ liệu cho biểu đồ tròn
             var orderStatusLabels = {!! json_encode($orderStatusLabels) !!};
@@ -233,7 +242,62 @@
                     }
                 }
             });
+
+            // Vẽ biểu đồ cột số lượng đơn hàng bị huỷ theo tháng
+            var cancelledOrdersMonthlyCtx = document.getElementById('cancelledOrdersMonthlyChart').getContext('2d');
+            var cancelledOrdersMonthlyChart = new Chart(cancelledOrdersMonthlyCtx, {
+                type: 'bar',
+                data: {
+                    labels: cancelledOrdersMonthlyLabels,
+                    datasets: [{
+                        label: 'Cancelled Orders This Month',
+                        data: cancelledOrdersMonthlyData,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 5
+                            }
+                        }
+                    }
+                }
+            });
+
+
+
+            // Vẽ biểu đồ cột số lượng đơn hàng bị huỷ theo năm
+            var cancelledOrdersYearlyCtx = document.getElementById('cancelledOrdersYearlyChart').getContext('2d');
+            var cancelledOrdersYearlyChart = new Chart(cancelledOrdersYearlyCtx, {
+                type: 'bar',
+                data: {
+                    labels: cancelledOrdersYearlyLabels,
+                    datasets: [{
+                        label: 'Cancelled Orders This Year',
+                        data: cancelledOrdersYearlyData,
+                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                        borderColor: 'rgba(255, 159, 64, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 5
+                            }
+                        }
+                    }
+                }
+            });
         });
+        // Dữ liệu cho số lượng đơn hàng bị huỷ theo tháng
     </script>
 @endsection
 

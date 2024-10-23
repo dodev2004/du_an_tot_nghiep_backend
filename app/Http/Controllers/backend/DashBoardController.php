@@ -15,8 +15,8 @@ class DashBoardController extends Controller
         return view('backend.dashboard.home');
     }
     public function OrderIndex()
-{
-   $title = "Thống kê order";
+    {
+        $title = "Thống kê order";
 
         // 1. Doanh thu theo từng tháng trong năm hiện tại
         $monthlySales = Order::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, SUM(final_amount) as total_final_amount')
@@ -115,6 +115,20 @@ class DashBoardController extends Controller
         $orderStatusLabels = ['Completed Orders', 'Orders In Delivery', 'Cancelled Orders'];
         $orderStatusData = [$paidOrders, $inDeliveryOrders, $cancelledOrders];
 
+        // 12. Số lượng đơn hàng bị huỷ theo tháng trong năm hiện tại
+        $cancelledOrdersMonthly = Order::selectRaw('MONTH(created_at) as month, COUNT(*) as cancelled_count')
+            ->where('status', 0) // Đơn hàng bị huỷ
+            ->whereYear('created_at', date('Y')) // Năm hiện tại
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+        // 13. Số lượng đơn hàng bị huỷ theo từng năm
+        $cancelledOrdersYearly = Order::selectRaw('YEAR(created_at) as year, COUNT(*) as cancelled_count')
+            ->where('status', 0) // Đơn hàng bị huỷ
+            ->groupBy('year')
+            ->orderBy('year')
+            ->get();
+
         // Truyền dữ liệu sang view
         return view('backend.dashboard.order', compact(
             'monthlyLabels',
@@ -133,11 +147,9 @@ class DashBoardController extends Controller
             'yearlyCompletedOrders',
             'orderStatusLabels',  // Đưa biến vào
             'orderStatusData',    // Đưa biến vào
+            'cancelledOrdersMonthly', // Thêm dữ liệu vào
+            'cancelledOrdersYearly',  // Thêm dữ liệu vào
             'title'
         ));
-}
-
-
-
-
+    }
 }
