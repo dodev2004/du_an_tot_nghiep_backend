@@ -162,11 +162,11 @@ class ProductCommentController extends Controller
     $endDate = $request->get('end_date');
 
     if (!empty($startDate) && !empty($endDate)) {
-        $query->onlyTrashed()->whereBetween('created_at', [$startDate, $endDate]);
+        $query->whereBetween('created_at', [$startDate, $endDate]);
     } elseif (!empty($startDate)) {
-        $query->onlyTrashed()->where('created_at', '>=', $startDate);
+        $query->where('created_at', '>=', $startDate);
     } elseif (!empty($endDate)) {
-        $query->onlyTrashed()->where('created_at', '<=', $endDate);
+        $query->where('created_at', '<=', $endDate);
     }
 
     if ($request->has('date_order')) {
