@@ -190,18 +190,18 @@
                 <div class="col-lg-6">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            
+                            <!-- đánh gía & bình luận -->
                             <div class="ibox-tools">
                                 <div style="width: 65%; margin-left: 20%;">
                                     <canvas id="reviewRatingsDoughnutChart" ></canvas>
                                 </div>
                             </div>
-                            <div class="ibox-tools" style="margin-top: 100px;">
+                            <div class="ibox-tools" style="margin-top: 70px;">
                                 <div">
-                                    <canvas id="topRatedProductsChart" width="1500" height="400"></canvas>
+                                    <canvas id="topRatedProductsChart" width="1200" height="400"></canvas>
                                 </div>
-                                <div style="margin-top: 100px;">
-                                    <canvas id="mostCommentedProductsChart" width="1500" height="400"></canvas>
+                                <div style="margin-top: 70px;">
+                                    <canvas id="mostCommentedProductsChart" width="1200" height="400"></canvas>
                                 </div>
                             </div>
                         </div>

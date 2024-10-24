@@ -20,12 +20,10 @@
                         flex-wrap: wrap; 
                         gap: 10px; 
                     }
-                    .btn {
-                        height: 30px;
-                    }
                     .col-md-2{
                         width: 160px;
                     }
+                    
                 </style>
                 @include("backend.product_comment.components.filltercomment") 
                 @include("backend.product_comment.components.commentdetail")  
@@ -47,4 +45,5 @@
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
 @include("backend.product_comment.handles.delete");
+@include("backend.product_comment.handles.productdetail");
 @endpush

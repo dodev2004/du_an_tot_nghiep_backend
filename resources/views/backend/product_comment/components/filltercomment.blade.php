@@ -13,7 +13,7 @@
             </div>
 
             <div class="col-md-2">
-                <label for="from-control">Ngày bắt đầu</label>
+                <label for="from-control">Từ ngày</label>
                 <input type="date" class="form-control" name="start_date" 
                     @if(request()->has('start_date')) 
                         value="{{ request()->get('start_date') }}" 
@@ -22,7 +22,7 @@
             </div>
 
             <div class="col-md-2">
-            <label for="from-control">Ngày kết thúc</label>
+            <label for="from-control">Đến ngày</label>
                 <input type="date" class="form-control" name="end_date" 
                     @if(request()->has('end_date')) 
                         value="{{ request()->get('end_date') }}" 

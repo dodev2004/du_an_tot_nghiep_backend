@@ -59,33 +59,33 @@ class ProductCommentController extends Controller
         $query = ProductComment::where('user_id', $id);
 
 
-    $searchText = $request->get('search_text');
-    if (!empty($searchText)) {
-        $query->where('comment', 'LIKE', '%' . $searchText . '%')
-        ->orWhereHas('product', function ($q) use ($searchText) {
-            $q->where('name', 'LIKE', '%' . $searchText . '%');
-        })->where('user_id', $id);
-    }
-
-
-    $startDate = $request->get('start_date');
-    $endDate = $request->get('end_date');
-
-    if (!empty($startDate) && !empty($endDate)) {
-        $query->whereBetween('created_at', [$startDate, $endDate]);
-    } elseif (!empty($startDate)) {
-        $query->where('created_at', '>=', $startDate);
-    } elseif (!empty($endDate)) {
-        $query->where('created_at', '<=', $endDate);
-    }
-
-    if ($request->has('date_order')) {
-        if ($request->date_order == 'newest') {
-            $query->orderBy('created_at', 'desc');
-        } elseif ($request->date_order == 'oldest') {
-            $query->orderBy('created_at', 'asc');
+        $searchText = $request->get('search_text');
+        if (!empty($searchText)) {
+            $query->where('comment', 'LIKE', '%' . $searchText . '%')
+            ->orWhereHas('product', function ($q) use ($searchText) {
+                $q->where('name', 'LIKE', '%' . $searchText . '%');
+            })->where('user_id', $id);
         }
-    }
+
+
+        $startDate = $request->get('start_date');
+        $endDate = $request->get('end_date');
+
+        if (!empty($startDate) && !empty($endDate)) {
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        } elseif (!empty($startDate)) {
+            $query->where('created_at', '>=', $startDate);
+        } elseif (!empty($endDate)) {
+            $query->where('created_at', '<=', $endDate);
+        }
+
+        if ($request->has('date_order')) {
+            if ($request->date_order == 'newest') {
+                $query->orderBy('created_at', 'desc');
+            } elseif ($request->date_order == 'oldest') {
+                $query->orderBy('created_at', 'asc');
+            }
+        }
 
         $data = $query->orderBy('created_at', 'desc')->paginate(10); 
     
@@ -93,6 +93,25 @@ class ProductCommentController extends Controller
     }
     
 
+    public function getUserDetails($id)
+    {
+        $user = User::withCount(['product_comments', 'product_reviews'])
+                    ->with('roles') // Lấy danh sách vai trò của người dùng
+                    ->findOrFail($id);
+
+        $roles = $user->roles->pluck('name')->join(', '); // Chuỗi vai trò
+
+        return response()->json([
+            'full_name' => $user->full_name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'birthday' => $user->birthday ? $user->birthday->format('d/m/Y') : null,
+            'created_at' => $user->created_at->format('d/m/Y'),
+            'roles' => $roles,
+            'comments_count' => $user->product_comments_count,
+            'reviews_count' => $user->product_reviews_count,
+        ]);
+    }
     public function destroy(Request $request)
     {
         $comment = ProductComment::onlyTrashed()->find($request->id);

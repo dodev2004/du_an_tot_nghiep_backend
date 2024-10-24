@@ -35,4 +35,5 @@
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
 @include("backend.product_comment.handles.delete");
+@include("backend.product_comment.handles.userdetail");
 @endpush

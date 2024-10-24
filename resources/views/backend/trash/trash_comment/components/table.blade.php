@@ -20,7 +20,7 @@
                                 <div>
                                     <form action="{{ route('admin.product_comment.restore', $comment->id) }}" method="POST" style="display: inline;">
                                         @csrf
-                                        <button type="submit" class="btn btn-success">Khôi phục</button>
+                                        <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Khôi phục"><i class="fa fa-undo"></i></button>
                                     </form>
                                 </div>
                                 <div>
@@ -28,7 +28,7 @@
                                         @method("DELETE")
                                         @csrf
                                         <input type="hidden" value="{{$comment->id}}" name="id">
-                                        <button class="btn btn-warning center"><i class="fa fa-trash-o"></i></button>
+                                        <button class="btn btn-warning center" data-toggle="tooltip" data-placement="top" title="Xóa"><i class="fa fa-trash-o"></i></button>
                                     </form>
                                 </div>
                             </div>
