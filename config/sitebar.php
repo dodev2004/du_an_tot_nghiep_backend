@@ -1,9 +1,22 @@
 <?php
 return [
     [
-        "childrenlevel" => false,
-        "name" => "Dashboards",
-        "route" => "admin.dashboard",
+        "childrenlevel" => true,
+        "name" => "Thống kê",
+        "route" => "#",
+        'children' =>
+        [
+            [
+                "name" => "Dashboard 1",
+                "route" => 'admin.dashboard',
+
+            ],
+            [
+                "name" => "Thống kê mã giảm giá",
+                "route" => 'admin.promotion.statistics',
+
+            ],
+        ]
     ],
     [
         "childrenlevel" => true,
