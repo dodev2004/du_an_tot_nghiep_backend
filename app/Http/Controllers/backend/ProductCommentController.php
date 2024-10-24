@@ -92,26 +92,6 @@ class ProductCommentController extends Controller
         return view("backend.product_comment.templates.comment", compact( 'users','title', 'breadcrumbs', 'data'));
     }
     
-
-    public function getUserDetails($id)
-    {
-        $user = User::withCount(['product_comments', 'product_reviews'])
-                    ->with('roles') // Lấy danh sách vai trò của người dùng
-                    ->findOrFail($id);
-
-        $roles = $user->roles->pluck('name')->join(', '); // Chuỗi vai trò
-
-        return response()->json([
-            'full_name' => $user->full_name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'birthday' => $user->birthday ? $user->birthday->format('d/m/Y') : null,
-            'created_at' => $user->created_at->format('d/m/Y'),
-            'roles' => $roles,
-            'comments_count' => $user->product_comments_count,
-            'reviews_count' => $user->product_reviews_count,
-        ]);
-    }
     public function destroy(Request $request)
     {
         $comment = ProductComment::onlyTrashed()->find($request->id);
