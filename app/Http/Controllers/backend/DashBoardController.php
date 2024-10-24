@@ -4,15 +4,46 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductComment;
+use App\Models\ProductReview;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashBoardController extends Controller
 {
     public function index()
     {
+        $ratingStats = ProductReview::select(DB::raw('rating, COUNT(*) as count'))
+                    ->groupBy('rating')
+                    ->orderBy('rating', 'asc')
+                    ->get();
 
-        return view('backend.dashboard.home');
+        $ratingLabels = [1, 2, 3, 4, 5]; // Các mốc sao
+        $ratingCounts = [0, 0, 0, 0, 0]; // Số lượng tương ứng cho từng mốc sao
+
+        foreach ($ratingStats as $stat) {
+            $ratingCounts[$stat->rating - 1] = $stat->count;
+        }
+
+        //Top 10 sản phẩm được đánh giá trung bình sao cao nhất
+        $topRatedProducts = ProductReview::select('product_id', DB::raw('AVG(rating) as average_rating'))
+        ->groupBy('product_id')
+        ->orderBy('average_rating', 'desc')
+        ->take(10)
+        ->with('product')
+        ->get();
+
+        //Top 10 sản phẩm được bình luận nhiều nhất
+        $mostCommentedProducts = ProductComment::select('product_id', DB::raw('COUNT(*) as comment_count'))
+        ->groupBy('product_id')
+        ->orderBy('comment_count', 'desc')
+        ->take(10)
+        ->with('product')
+        ->get();
+
+        return view('backend.dashboard.home', compact('ratingLabels', 'ratingCounts','topRatedProducts', 'mostCommentedProducts'));
     }
     public function OrderIndex()
     {

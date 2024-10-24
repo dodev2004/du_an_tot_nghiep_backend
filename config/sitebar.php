@@ -1,7 +1,7 @@
 <?php
 return [
     [
-        "childrenlevel" => true,
+        "childrenlevel" => false,
         "name" => "Dashboards",
         "route" => "admin.dashboard",
         "icon" => "fa-desktop"
