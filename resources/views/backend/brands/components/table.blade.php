@@ -17,7 +17,7 @@
                 <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->name }}</p>
             </td>
             <th>
-                <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->description }}</p>
+                <p style="width: 800px ;margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->description }}</p>
             </th>
 
             <td class="text-center">

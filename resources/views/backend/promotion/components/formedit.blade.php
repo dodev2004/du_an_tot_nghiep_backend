@@ -3,7 +3,7 @@
     method="POST" class="form-add" style="background-color: white; padding:40px" novalidate>
     @csrf
     @if(isset($promotion))
-        @method('PUT')
+    @method('PUT')
     @endif
 
     <div class="row">
@@ -17,17 +17,17 @@
             <div class="row" style="display: flex; flex-wrap:wrap">
                 <!-- Mã giảm giá -->
                 <div class="form-group col-md-6">
-                    <label for="code">Mã giảm giá*</label>
+                    <label for="code">Mã giảm giá <span style="color: red;">*</span></label>
                     <input type="text" name="code" class="form-control"
                         value="{{ old('code', isset($promotion) ? $promotion->code : '') }}" autocomplete="" required>
                     @if($errors->has('code'))
-                        <p class="text-danger">{{ $errors->first('code') }}</p>
+                    <p class="text-danger">{{ $errors->first('code') }}</p>
                     @endif
                 </div>
 
                 <!-- Loại giảm giá -->
                 <div class="form-group col-md-6">
-                    <label for="discount_type">Loại giảm giá*</label>
+                    <label for="discount_type">Loại giảm giá <span style="color: red;">*</span></label>
                     <select name="discount_type" class="form-control" required>
                         <option value="">Lựa chọn loại giảm giá</option>
                         <option value="percentage"
@@ -38,63 +38,66 @@
                             Cố định</option>
                     </select>
                     @if($errors->has('discount_type'))
-                        <p class="text-danger">{{ $errors->first('discount_type') }}</p>
+                    <p class="text-danger">{{ $errors->first('discount_type') }}</p>
                     @endif
                 </div>
 
                 <!-- Giá trị giảm -->
                 <div class="form-group col-md-6">
-                    <label for="discount_value">Giá trị giảm*</label>
+                    <label for="discount_value">Giá trị giảm <span style="color: red;">*</span></label>
                     <input type="number" name="discount_value" class="form-control"
-                        value="{{ old('discount_value', isset($promotion) ? $promotion->discount_value : '') }}" required>
+                        value="{{ old('discount_value', isset($promotion) ? $promotion->discount_value : '') }}"
+                        required>
                     @if($errors->has('discount_value'))
-                        <p class="text-danger">{{ $errors->first('discount_value') }}</p>
+                    <p class="text-danger">{{ $errors->first('discount_value') }}</p>
                     @endif
                 </div>
 
                 <!-- Trạng thái -->
                 <div class="form-group col-md-6">
-                    <label for="status">Trạng thái*</label>
+                    <label for="status">Trạng thái <span style="color: red;">*</span></label>
                     <select name="status" class="form-control" required>
                         <option value="">Chọn trạng thái</option>
-                        <option value="1" {{ old('status', $promotion->status) == 1 ? 'selected' : '' }}>Hoạt động</option>
-                        <option value="0" {{ old('status', $promotion->status) == 0 ? 'selected' : '' }}>Không hoạt động</option>
+                        <option value="1" {{ old('status', $promotion->status) == 1 ? 'selected' : '' }}>Hoạt động
+                        </option>
+                        <option value="0" {{ old('status', $promotion->status) == 0 ? 'selected' : '' }}>Không hoạt động
+                        </option>
                     </select>
                     @if($errors->has('status'))
-                        <p class="text-danger">{{ $errors->first('status') }}</p>
+                    <p class="text-danger">{{ $errors->first('status') }}</p>
                     @endif
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="start_date">Ngày bắt đầu*</label>
-                    <input type="datetime-local" name="start_date" class="form-control"
-                        value="{{ old('start_date')}}" required>
+                    <label for="start_date">Ngày bắt đầu <span style="color: red;">*</span></label>
+                    <input type="datetime-local" name="start_date" class="form-control" value="{{ old('start_date')}}"
+                        required>
                     @if($errors->has('start_date'))
-                        <p class="text-danger">{{ $errors->first('start_date') }}</p>
+                    <p class="text-danger">{{ $errors->first('start_date') }}</p>
                     @endif
                 </div>
-                
+
                 <div class="form-group col-md-6">
-                    <label for="end_date">Ngày kết thúc*</label>
-                    <input type="datetime-local" name="end_date" class="form-control"
-                        value="{{ old('end_date') }}" required>
+                    <label for="end_date">Ngày kết thúc <span style="color: red;">*</span></label>
+                    <input type="datetime-local" name="end_date" class="form-control" value="{{ old('end_date') }}"
+                        required>
                     @if($errors->has('end_date'))
-                        <p class="text-danger">{{ $errors->first('end_date') }}</p>
+                    <p class="text-danger">{{ $errors->first('end_date') }}</p>
                     @endif
                 </div>
 
 
                 <div class="form-group col-md-6">
-                    <label for="max_uses">Số lượt sử dụng tối đa*</label>
+                    <label for="max_uses">Số lượt sử dụng tối đa <span style="color: red;">*</span></label>
                     <input type="number" name="max_uses" class="form-control"
                         value="{{ old('max_uses', isset($promotion) ? $promotion->max_uses : '') }}" required>
                     @if($errors->has('max_uses'))
-                        <p class="text-danger">{{ $errors->first('max_uses') }}</p>
+                    <p class="text-danger">{{ $errors->first('max_uses') }}</p>
                     @endif
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="used_count">Số lượt đã sử dụng</label>
+                    <label for="used_count">Số lượt đã sử dụng </label>
                     <input type="number" name="used_count" class="form-control"
                         value="{{ old('used_count', isset($promotion) ? $promotion->used_count : 0) }}" readonly>
                 </div>
