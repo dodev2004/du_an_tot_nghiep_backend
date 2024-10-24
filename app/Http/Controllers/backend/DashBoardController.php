@@ -18,138 +18,131 @@ class DashBoardController extends Controller
     {
         $title = "Thống kê order";
 
-        // 1. Doanh thu theo từng tháng trong năm hiện tại
-        $monthlySales = Order::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, SUM(final_amount) as total_final_amount')
-            ->where('status', 1) // Giao hàng thành công
-            ->where('payment_status', 1) // Đã trả tiền
-            ->whereYear('created_at', date('Y')) // Chỉ lấy dữ liệu cho năm hiện tại
-            ->groupBy('year', 'month')
-            ->orderBy('year')
+        // 1. Tổng doanh thu trong toàn bộ thời gian (chỉ tính các đơn hàng đã thanh toán)
+        $totalRevenue = Order::whereIn('status', [Order::STATUS_COMPLETED])
+            ->where('payment_status', Order::PAYMENT_COMPLETED)
+            ->sum('final_amount');
+
+        // 2. Tổng số đơn hàng mới trong toàn bộ thời gian
+        $totalNewOrders = Order::where('status', Order::STATUS_PENDING)
+            ->count();
+
+        // 3. Tổng số đơn hàng đã hoàn thành trong toàn bộ thời gian
+        $totalCompletedOrders = Order::where('status', Order::STATUS_COMPLETED)
+            ->count();
+
+        // 4. Tổng số đơn hàng bị hủy trong toàn bộ thời gian
+        $totalCanceledOrders = Order::where('status', Order::STATUS_CANCELLED)
+            ->count();
+
+        // 5. Tổng số tiền của đơn hàng đã hoàn thành nhưng chưa thu tiền
+        $totalUnpaidAmount = Order::where('status', Order::STATUS_COMPLETED)
+            ->where('payment_status', Order::PAYMENT_PENDING)
+            ->sum('final_amount');
+
+        // 6. Số lượng đơn hàng đang giao
+        $totalShippingOrders = Order::where('status', Order::STATUS_SHIPPED)
+            ->count();
+
+        // 7. Doanh thu theo từng tháng trong năm hiện tại, sử dụng biểu đồ line
+        $salesMonthly = Order::selectRaw('MONTH(created_at) as month, SUM(final_amount) as total')
+            ->whereYear('created_at', date('Y'))
+            ->whereIn('status', [Order::STATUS_COMPLETED])
+            ->where('payment_status', Order::PAYMENT_COMPLETED)
+            ->groupByRaw('MONTH(created_at)')
             ->orderBy('month')
             ->get();
 
-        // 2. Doanh thu theo từng năm
-        $yearlySales = Order::selectRaw('YEAR(created_at) as year, SUM(final_amount) as total_final_amount')
-            ->where('status', 1) // Giao hàng thành công
-            ->where('payment_status', 1) // Đã trả tiền
-            ->groupBy('year')
+        // 8. Doanh thu theo từng năm sử dụng biểu đồ line
+        $salesYearly = Order::selectRaw('YEAR(created_at) as year, SUM(final_amount) as total')
+            ->whereIn('status', [Order::STATUS_COMPLETED])
+            ->where('payment_status', Order::PAYMENT_COMPLETED)
+            ->groupByRaw('YEAR(created_at)')
             ->orderBy('year')
             ->get();
 
-        // 3. Tổng doanh thu toàn bộ
-        $totalSales = Order::where('status', 1)
-            ->where('payment_status', 1)
-            ->sum('final_amount');
+        // 9. Số lượng đơn hàng đã hoàn thành và đã hủy theo từng tháng trong năm sử dụng biểu đồ line vẽ 2 cái vào trong 1 biểu đồ
+        $ordersMonthly = Order::selectRaw('MONTH(created_at) as month,
+            SUM(CASE WHEN status = ' . Order::STATUS_COMPLETED . ' THEN 1 ELSE 0 END) as completed,
+            SUM(CASE WHEN status = ' . Order::STATUS_CANCELLED . ' THEN 1 ELSE 0 END) as canceled')
+            ->whereYear('created_at', date('Y'))
+            ->groupByRaw('MONTH(created_at)')
+            ->orderBy('month')
+            ->get();
 
-        // 4. Số lượng đơn hàng đã hoàn thành trong tháng hiện tại
-        $completedOrdersMonthly = Order::where('status', 1)
+        // 10. Số lượng đơn hàng đã hoàn thành và đã hủy trong năm hiện tại sử dụng biểu đồ line vẽ 2 cái vào trong 1 biểu đồ
+        $ordersYearly = Order::selectRaw('YEAR(created_at) as year,
+            SUM(CASE WHEN status = ' . Order::STATUS_COMPLETED . ' THEN 1 ELSE 0 END) as completed,
+            SUM(CASE WHEN status = ' . Order::STATUS_CANCELLED . ' THEN 1 ELSE 0 END) as canceled')
+            ->whereYear('created_at', date('Y'))
+            ->groupByRaw('YEAR(created_at)')
+            ->orderBy('year')
+            ->get();
+
+        // 11. Số lượng đơn hàng đã hoàn thành và chưa thu tiền theo từng tháng trong năm sử dụng biểu đồ line vẽ 2 cái vào trong 1 biểu đồ
+        $paymentsMonthly = Order::selectRaw('MONTH(created_at) as month,
+            SUM(CASE WHEN payment_status = ' . Order::PAYMENT_COMPLETED . ' THEN 1 ELSE 0 END) as paid,
+            SUM(CASE WHEN payment_status = ' . Order::PAYMENT_PENDING . ' THEN 1 ELSE 0 END) as unpaid')
+            ->whereYear('created_at', date('Y'))
+            ->groupByRaw('MONTH(created_at)')
+            ->orderBy('month')
+            ->get();
+
+        // 12. Số lượng đơn hàng bị hủy theo tháng trong năm hiện tại
+        $canceledOrdersMonthly = Order::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+            ->where('status', Order::STATUS_CANCELLED)
+            ->whereYear('created_at', date('Y'))
+            ->groupByRaw('MONTH(created_at)')
+            ->orderBy('month')
+            ->get();
+
+        // 13. Số lượng đơn hàng bị hủy theo từng năm
+        $canceledOrdersYearly = Order::selectRaw('YEAR(created_at) as year, COUNT(*) as total')
+            ->where('status', Order::STATUS_CANCELLED)
+            ->groupByRaw('YEAR(created_at)')
+            ->orderBy('year')
+            ->get();
+        // 14. Số lượng đơn hàng đã hoàn thành và đã hủy trong tháng này
+        $currentMonth = date('m');
+        $currentYear = date('Y');
+
+        $totalCompletedThisMonth = Order::where('status', Order::STATUS_COMPLETED)
+            ->whereMonth('created_at', $currentMonth)
+            ->whereYear('created_at', $currentYear)
+            ->count();
+
+        $totalCanceledThisMonth = Order::where('status', Order::STATUS_CANCELLED)
+            ->whereMonth('created_at', $currentMonth)
+            ->whereYear('created_at', $currentYear)
+            ->count();
+        // 14. Số lượng đơn hàng đã thanh toán và chưa thanh toán trong tháng này
+        $paymentsThisMonth = Order::selectRaw('
+SUM(CASE WHEN payment_status = ' . Order::PAYMENT_COMPLETED . ' THEN 1 ELSE 0 END) as paid,
+SUM(CASE WHEN payment_status = ' . Order::PAYMENT_PENDING . ' THEN 1 ELSE 0 END) as unpaid
+')
+            ->whereYear('created_at', date('Y'))
             ->whereMonth('created_at', date('m'))
-            ->whereYear('created_at', date('Y'))
-            ->count();
-
-        // 5. Số lượng đơn hàng đã hoàn thành trong năm hiện tại
-        $completedOrdersYearly = Order::where('status', 1)
-            ->whereYear('created_at', date('Y'))
-            ->count();
-
-        // 6. Số lượng đơn hàng đã hoàn thành và đã thu tiền
-        $paidOrders = Order::where('status', 1)
-            ->where('payment_status', 1)
-            ->count();
-
-        // 7. Số lượng đơn hàng đang giao (trạng thái 2)
-        $inDeliveryOrders = Order::where('status', 2)
-            ->count();
-
-        // 8. Số lượng đơn hàng đã huỷ (trạng thái 0)
-        $cancelledOrders = Order::where('status', 0)
-            ->count();
-
-        // 9. Số lượng đơn hàng đã hoàn thành nhưng chưa thu tiền
-        $unpaidOrders = Order::where('status', 1)
-            ->where('payment_status', 0)
-            ->count();
-
-        // 10. Tổng số tiền của đơn hàng đã hoàn thành nhưng chưa thu tiền
-        $totalUnpaidOrdersAmount = Order::where('status', 1)
-            ->where('payment_status', 0)
-            ->sum('final_amount');
-
-        // 11. Chuyển đổi dữ liệu thành mảng dùng cho view
-        // Thống kê theo tháng
-        $monthlyLabels = [];
-        $monthlyData = [];
-        foreach ($monthlySales as $sale) {
-            $monthlyLabels[] = $sale->month . '-' . $sale->year; // Định dạng tháng-năm
-            $monthlyData[] = $sale->total_final_amount;
-        }
-
-        // Thống kê theo năm
-        $yearlyLabels = [];
-        $yearlyData = [];
-        foreach ($yearlySales as $sale) {
-            $yearlyLabels[] = $sale->year;
-            $yearlyData[] = $sale->total_final_amount;
-        }
-
-        // Số lượng đơn hàng hoàn thành theo tháng
-        $monthlyCompletedOrders = [];
-        foreach ($monthlyLabels as $month) {
-            $completedOrdersCount = Order::whereMonth('created_at', '=', $month)
-                ->whereYear('created_at', '=', date('Y'))
-                ->where('status', 1)
-                ->count();
-            $monthlyCompletedOrders[] = $completedOrdersCount;
-        }
-
-        // Số lượng đơn hàng hoàn thành theo năm
-        $yearlyCompletedOrders = [];
-        foreach ($yearlyLabels as $year) {
-            $completedOrdersCount = Order::whereYear('created_at', '=', $year)
-                ->where('status', 1)
-                ->count();
-            $yearlyCompletedOrders[] = $completedOrdersCount;
-        }
-
-        // Dữ liệu cho biểu đồ tròn
-        $orderStatusLabels = ['Completed Orders', 'Orders In Delivery', 'Cancelled Orders'];
-        $orderStatusData = [$paidOrders, $inDeliveryOrders, $cancelledOrders];
-
-        // 12. Số lượng đơn hàng bị huỷ theo tháng trong năm hiện tại
-        $cancelledOrdersMonthly = Order::selectRaw('MONTH(created_at) as month, COUNT(*) as cancelled_count')
-            ->where('status', 0) // Đơn hàng bị huỷ
-            ->whereYear('created_at', date('Y')) // Năm hiện tại
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get();
-        // 13. Số lượng đơn hàng bị huỷ theo từng năm
-        $cancelledOrdersYearly = Order::selectRaw('YEAR(created_at) as year, COUNT(*) as cancelled_count')
-            ->where('status', 0) // Đơn hàng bị huỷ
-            ->groupBy('year')
-            ->orderBy('year')
-            ->get();
+            ->first();
 
         // Truyền dữ liệu sang view
         return view('backend.dashboard.order', compact(
-            'monthlyLabels',
-            'monthlyData',
-            'yearlyLabels',
-            'yearlyData',
-            'totalSales',
-            'completedOrdersMonthly',
-            'completedOrdersYearly',
-            'paidOrders',
-            'inDeliveryOrders',
-            'cancelledOrders',
-            'unpaidOrders',
-            'totalUnpaidOrdersAmount',
-            'monthlyCompletedOrders',
-            'yearlyCompletedOrders',
-            'orderStatusLabels',  // Đưa biến vào
-            'orderStatusData',    // Đưa biến vào
-            'cancelledOrdersMonthly', // Thêm dữ liệu vào
-            'cancelledOrdersYearly',  // Thêm dữ liệu vào
-            'title'
+            'totalRevenue',
+            'totalNewOrders',
+            'totalCompletedOrders',
+            'totalCanceledOrders',
+            'totalUnpaidAmount',
+            'totalShippingOrders',
+            'salesMonthly',
+            'salesYearly',
+            'ordersMonthly',
+            'ordersYearly',
+            'paymentsMonthly',
+            'canceledOrdersMonthly',
+            'canceledOrdersYearly',
+            'totalCompletedThisMonth', // Số đơn hàng hoàn thành trong tháng hiện tại
+            'totalCanceledThisMonth', // Số đơn hàng bị hủy trong tháng hiện tại
+            'paymentsThisMonth', // thêm biến này
+            'title',
         ));
     }
 }

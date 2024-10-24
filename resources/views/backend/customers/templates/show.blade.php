@@ -2,7 +2,7 @@
 @section('style')
     @include('backend.components.head')
     <link rel="stylesheet" href="{{ asset('backend/css/upload.css') }}">
-    <style>
+    {{-- <style>
         .form-user_create .row .col-md-6 {
             flex: 0 0 auto !important;
             margin-bottom: 4px;
@@ -41,7 +41,7 @@
         .select2-selection__rendered {
             padding: 0 !important;
         }
-    </style>
+    </style> --}}
 @endsection
 @section('title')
     {{ $title }}

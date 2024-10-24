@@ -25,8 +25,8 @@
             </div>
             <div style="margin-top: 24px;">
             <button class="btn btn-primary seach"> <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm </button>
-            <a href="{{ route('admin.contact.create') }}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Thêm
-                mới form liên hệ</a>
+            {{-- <a href="{{ route('admin.contact.create') }}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Thêm
+                mới form liên hệ</a> --}}
             </div>
         </div>
     </form>

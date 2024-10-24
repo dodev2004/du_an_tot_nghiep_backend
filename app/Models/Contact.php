@@ -12,7 +12,8 @@ class Contact extends Model
         "title",
         "content",
         "user_id",
-
+        "response",
+        "status"
     ];
     protected $table = "contacts";
     public function user()

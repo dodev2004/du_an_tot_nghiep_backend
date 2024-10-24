@@ -2,7 +2,7 @@
     @csrf
     <div class="row">
         <div class="col-md-4">
-                <h2>Thông tin biến thể</h2>
+                <h2>Thông tin nhãn hàng</h2>
                 <span>
                     Những trường có dấu ("*") là những trường bắt buộc và không được bỏ trống
                 </span>

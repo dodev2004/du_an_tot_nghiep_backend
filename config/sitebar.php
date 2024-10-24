@@ -12,7 +12,7 @@ return [
 
             ],
             [
-                "name" => "Thống kê orders",
+                "name" => "Thống kê đơn hàng",
                 "route" => 'admin.dashboard_order',
 
             ],
