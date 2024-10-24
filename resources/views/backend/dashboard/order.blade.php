@@ -152,6 +152,10 @@
             </div>
         </div>
 
+
+
+    </div>
+    <div class="row">
         <!-- Biểu đồ Doanh thu theo năm -->
         <div class="col-md-12 chart-container">
             <div class="stat-box">
@@ -159,7 +163,6 @@
                 <canvas id="salesYearlyChart"></canvas>
             </div>
         </div>
-
     </div>
     <div class="row">
 
@@ -236,7 +239,7 @@
                     datasets: [{
                         label: 'Doanh thu',
                         data: @json($salesMonthly->pluck('total')),
-                        backgroundColor: 'rgba(52, 152, 219, 0.2)', // Xanh da trời nhạt
+                        backgroundColor: 'rgba(52, 152, 219, 0.5)', // Xanh da trời nhạt
                         borderColor: 'rgba(52, 152, 219, 1)', // Xanh da trời đậm
                         borderWidth: 5,
                         fill: true

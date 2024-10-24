@@ -6,9 +6,16 @@ return [
         "name" => "Dashboards",
         "route" => "admin.dashboard",
         "icon" => "fa-desktop",
+        'children' =>
         [
+            [
             "name" => "Thống kê đơn hàng",
             "route" => 'admin.dashboard_order',
+            ],
+            [
+                "name" => "Thống kê sản phẩm",
+                "route" => 'admin.dashboard_order',
+            ],
 
         ],
 
