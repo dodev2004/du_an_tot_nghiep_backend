@@ -1,22 +1,18 @@
 <?php
 return [
     [
+
         "childrenlevel" => true,
         "name" => "Dashboards",
-        "route" => "#",
-        'children' =>
+        "route" => "admin.dashboard",
+        "icon" => "fa-desktop",
         [
-            [
-                "name" => "Dashboards",
-                "route" => 'admin.dashboard',
+            "name" => "Thống kê đơn hàng",
+            "route" => 'admin.dashboard_order',
 
-            ],
-            [
-                "name" => "Thống kê đơn hàng",
-                "route" => 'admin.dashboard_order',
+        ],
 
-            ],
-        ]
+
     ],
     [
         "childrenlevel" => true,

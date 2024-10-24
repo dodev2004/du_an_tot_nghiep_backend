@@ -31,8 +31,6 @@ class BrandController extends Controller
     // Tạo truy vấn chung cho Brand
     $query = Brand::query();
     $table="brands";
-
-
     // Thêm điều kiện tìm kiếm theo tên nhãn hàng
     if ($searchText) {
         $query->where('name', 'LIKE', '%' . $searchText . '%');
