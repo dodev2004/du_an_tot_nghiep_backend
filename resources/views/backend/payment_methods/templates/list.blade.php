@@ -47,7 +47,7 @@
 @endsection
 @push('scripts')
     @include('backend.components.scripts');
-    @include('backend.payment_methods.handles.switchery');
+    @include("backend.components.handles.switchery");
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -55,7 +55,7 @@
 
             deleteButtons.forEach(function(button) {
                 button.addEventListener('click', function(e) {
-                    e.preventDefault(); 
+                    e.preventDefault();
 
                     Swal.fire({
                         title: 'Are you sure?',

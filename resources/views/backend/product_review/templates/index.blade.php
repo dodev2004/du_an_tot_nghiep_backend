@@ -14,25 +14,16 @@
         <div class="ibox float-e-margins">
          
             <div class="ibox-content">
-                <style>
-                    .form-group {
-                        display: flex; 
-                        flex-wrap: wrap; 
-                        gap: 10px; 
-                    }
-                    .btn {
-                        height: 30px;
-                    }
-                </style>
-                @include("backend.product_review.components.fillter")  
-                @include("backend.product_review.components.table")  
-                @include("backend.product_review.components.page")  
+                
+                @include("backend.product_review.components.fillter")
+                @include("backend.product_review.components.table")
+                @include("backend.product_review.components.page")
                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
                 {{ $data->links() }}
                 </div>
             </div>
         </div>
-    
+
     </div>
     </div>
 </div>

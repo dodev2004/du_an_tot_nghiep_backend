@@ -34,6 +34,7 @@
                 </div>
             </div>
             <div class="ibox-content">
+                
                 @include("backend.brands.components.fillter")
                 @include("backend.brands.components.table")
                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
@@ -54,7 +55,7 @@
 @endsection
 @push("scripts")
 @include('backend.components.scripts');
-@include("backend.brands.handles.switchery")
+@include("backend.components.handles.switchery")
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
 @include("backend.components.handles.delete");

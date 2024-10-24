@@ -15,26 +15,16 @@
          
             
             <div class="ibox-content">
-                <style>
-                    .form-group {
-                        display: flex; 
-                        flex-wrap: wrap; 
-                        gap: 10px; 
-                    }
-                    .btn {
-                        height: 30px;
-                    }
-                    
-                </style>
-                @include("backend.trash.trash_comment.components.fillter")  
-                @include("backend.trash.trash_comment.components.table")  
-                @include("backend.trash.trash_comment.components.page")  
+                
+                @include("backend.trash.trash_comment.components.fillter")
+                @include("backend.trash.trash_comment.components.table")
+                @include("backend.trash.trash_comment.components.page")
                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
                 {{ $data->links() }}
                 </div>
             </div>
         </div>
-    
+
     </div>
     </div>
 </div>
