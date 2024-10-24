@@ -4,7 +4,8 @@
             <input type="text" name="trash" value="trash" hidden>
             <div>
                 <label for="seach" class="me-2">Tìm kiếm</label>
-                <input type="text" class="form-control" name="seach_text" value="{{ request('seach_text') }}" placeholder="Tìm kiếm theo tên sản phẩm">
+                <input type="text" class="form-control" name="seach_text" value="{{ request('seach_text') }}"
+                    placeholder="Tìm kiếm theo tên">
             </div>
             <div>
                 <label for="start_date">Ngày bắt đầu:</label>
@@ -17,7 +18,7 @@
             <div>
                 <label for="date_order">Sắp xếp theo:</label>
                 <select name="date_order" class="form-control">
-                    <option value="">Chọn thứ tự</option>
+                    <option value="" hidden>Chọn thứ tự</option>
                     <option value="newest" {{ request('date_order') == 'newest' ? 'selected' : '' }}>Mới nhất</option>
                     <option value="oldest" {{ request('date_order') == 'oldest' ? 'selected' : '' }}>Cũ nhất</option>
                 </select>
@@ -28,7 +29,8 @@
         </div>
     </form>
     <div style="margin-bottom: 15px;">
-        <a href="{{ route('admin.shipping_fee') }}" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Trở về danh sách">
+        <a href="{{ route('admin.shipping_fee') }}" class="btn btn-secondary" data-toggle="tooltip" data-placement="top"
+            title="Trở về danh sách">
             <i class="fa fa-arrow-left"></i>
         </a>
     </div>

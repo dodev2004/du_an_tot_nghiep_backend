@@ -13,7 +13,7 @@
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
 
-                    <div class="ibox-title">
+                    <!-- <div class="ibox-title">
                         <h5>{{ $title }}</h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
@@ -32,8 +32,9 @@
                                 <i class="fa fa-times"></i>
                             </a>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="ibox-content">
+
                         @include('backend.shipping_fees.components.fillter')
                         @include('backend.shipping_fees.components.table')
                         <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
@@ -52,7 +53,7 @@
 @endsection
 @push('scripts')
     @include('backend.components.scripts');
-    @include('backend.shipping_fees.handles.switchery')
+    @include("backend.components.handles.switchery");
     @include('backend.components.toastmsg');
     <script src="{{ asset('backend/js/framework/delete2.js') }}"></script>
     @include('backend.components.handles.delete');

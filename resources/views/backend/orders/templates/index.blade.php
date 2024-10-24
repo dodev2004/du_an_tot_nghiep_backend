@@ -13,8 +13,8 @@
     <div class="row">
         <div class="col-lg-12">
         <div class="ibox float-e-margins">
-            <div class="ibox-title">    
-                <h5>{{$title}}</h5>
+            <div class="ibox-title">
+                <!-- <h5>{{$title}}</h5> -->
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
@@ -35,15 +35,15 @@
             </div>
             <div class="ibox-content">
                 <div class="">
-                    @include("backend.products.components.fillter")
-                    @include("backend.products.components.table")
-                    <div style="display:flex;justify-content: space-between;align-items: center">
+                    @include("backend.orders.components.fillter")
+                    @include("backend.orders.components.table")
+                    {{-- <div style="display:flex;justify-content: space-between;align-items: center">
                         <div class="per_page">
                             <p>Tồn tại tổng <strong>{{$products->count()}}</strong> tại trang thứ <strong>{{$products->currentPage()}}</strong></p>
                         </div>
-                        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                        {{-- <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
                             {{  $products->appends(request()->query())->links()}}
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -58,7 +58,4 @@
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
 @include("backend.components.handles.delete");
-<script src="{{asset("backend/js/plugins/dataTables/datatables.min.js")}}"></script>
-<script src="{{asset("backend/js/framework/table.js")}}"></script>
-
 @endpush

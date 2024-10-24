@@ -13,7 +13,7 @@
         <div class="col-lg-12">
         <div class="ibox float-e-margins">
 
-            <div class="ibox-title">
+            <!-- <div class="ibox-title">
                 <h5>{{$title}}</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
@@ -32,18 +32,9 @@
                         <i class="fa fa-times"></i>
                     </a>
                 </div>
-            </div>
+            </div> -->
             <div class="ibox-content">
-                <style>
-                    .form-group {
-                        display: flex;
-                        flex-wrap: wrap;
-                        gap: 10px;
-                    }
-                    .btn {
-                        height: 30px;
-                    }
-                </style>
+
                 @include("backend.contacts.components.fillter")
                     @include("backend.contacts.components.table")
 
