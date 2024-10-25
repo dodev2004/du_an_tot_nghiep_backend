@@ -53,7 +53,7 @@ class PaymentMethodsController extends Controller
     public function store(Request $request)
 {
     $validatedData = $request->validate([
-        'name' => 'required|string|max:255|unique:payment_methods',
+        'name' => 'required|string|max:255|unique:payment_methods,name,NULL,id,deleted_at,NULL',
     ], [
         'name.required' => 'Tên phương thức thanh toán không được để trống.',
         'name.unique' => 'Tên phương thức thanh toán đã tồn tại.',
