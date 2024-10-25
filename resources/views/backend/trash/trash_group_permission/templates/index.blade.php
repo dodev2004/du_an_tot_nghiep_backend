@@ -34,16 +34,7 @@
                 </div>
             </div>
             <div class="ibox-content">
-                <style>
-                    .form-group {
-                        display: flex;
-                        flex-wrap: wrap;
-                        gap: 10px;
-                    }
-                    .btn {
-                        height: 30px;
-                    }
-                </style>
+                
                 @include("backend.trash.trash_group_permission.components.fillter")
                 @include("backend.trash.trash_group_permission.components.table")
                 @include("backend.trash.trash_group_permission.components.page")

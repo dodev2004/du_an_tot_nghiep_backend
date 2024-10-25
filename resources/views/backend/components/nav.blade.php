@@ -30,21 +30,21 @@
             @foreach (config("sitebar") as $item)
             @if ($item["childrenlevel"])
             <li @foreach ($item['children'] as $route)
-                @if(request()->routeIs($route['route']. ".*") || request()->routeIs($route['route']))
-                class="active"
-                @endif
-                @endforeach >
-                <a href="#"><i class="fa fa-user-circle"></i> <span class="nav-label">{{$item["name"]}}</span><span class="fa arrow"></span></a>
+             @if(request()->routeIs($route['route']. ".*") || request()->routeIs($route['route']))
+              class="active"
+             @endif
+             @endforeach >
+                <a href="#"><i class="fa {{ isset($item['icon']) ? $item['icon'] : 'fa-user-circle' }}"></i> <span class="nav-label">{{$item["name"]}}</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
                     @foreach($item["children"] as $children)
                     <li class="{{request()->routeIs($children['route'] . ".*") || request()->routeIs($children['route']) ? 'active' : ""}}"><a href="{{route($children['route'])}}">{{$children["name"]}}</a></li>
                     @endforeach
 
                 </ul>
-            </li>
-            @else
-            <li class="{{ request()->routeIs($item['route'])  ? 'active' : '' }}">
-                <a href="{{route($item['route'])}}"><i class="fa fa-th-large"></i> <span class="nav-label">{{$item['name']}}</span></a>
+             </li>
+             @else
+             <li class="{{ request()->routeIs($item['route'])  ? 'active' : '' }}" >
+                <a href="{{route($item['route'])}}">  <i class="fa {{ isset($item['icon']) ? $item['icon'] : 'fa-user-circle' }}"></i><span class="nav-label">{{$item['name']}}</span></a>
             </li>
             @endif
             @endforeach

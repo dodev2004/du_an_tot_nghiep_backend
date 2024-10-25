@@ -4,7 +4,7 @@
             <input type="text" name="trash" value="trash" hidden>
             <div>
                 <label for="seach" class="me-2">Tìm kiếm</label>
-                <input type="text" class="form-control" name="seach_text" value="{{ request('seach_text') }}" placeholder="Tìm kiếm theo tên sản phẩm">
+                <input type="text" class="form-control" name="seach_text" value="{{ request('seach_text') }}" placeholder="Tìm kiếm theo tên">
             </div>
             <div>
                 <label for="start_date">Ngày bắt đầu:</label>

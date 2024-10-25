@@ -19,12 +19,11 @@
                     <input type="datetime-local" name="ngay_dang" @if(isset($_GET["ngay_dang"])) value="{{ $_GET["ngay_dang"]}}" @endif class="form-control">
                 </div>
             </div>
-            <div class="col-md-4 d-flex align-items-center" style="padding-left: 12px;display: flex; justify-content: space-between;">
-                <button type="submit" class="btn btn-outline-light seach">
+            <div class="col-md-4 d-flex align-items-center" style="padding-left: 12px;">
+                <button type="submit" class="btn btn-primary seach">
                     <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
                 </button>
-
-                <a class="btn btn-success ml-2" href="{{route('admin.post.create')}}" style="font-size: 13px;"><i class="fa-solid fa-plus"></i>Thêm mới</a>
+                <a class="btn btn-success ml-2" href="{{route('admin.product.create')}}">Thêm mới</a>
             </div>
         </form>
 

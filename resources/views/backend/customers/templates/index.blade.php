@@ -2,6 +2,7 @@
 @section("style")
 @include('backend.components.head')
 <link rel="stylesheet" href="{{asset("backend/css/customize.css")}}">
+
 @endsection
 @section("title")
 {{$title}}
@@ -34,16 +35,7 @@
                 </div>
             </div>
             <div class="ibox-content">
-                <style>
-                    .form-group {
-                        display: flex;
-                        flex-wrap: wrap;
-                        gap: 10px;
-                    }
-                    .btn {
-                        height: 30px;
-                    }
-                </style>
+
                 @include("backend.customers.components.fillter")
                     @include("backend.customers.components.table")
 
@@ -64,7 +56,7 @@
 @endsection
 @push("scripts")
 @include('backend.components.scripts');
-@include("backend.customers.handles.switchery")
+@include("backend.components.handles.switchery");
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
 @include("backend.components.handles.delete");
