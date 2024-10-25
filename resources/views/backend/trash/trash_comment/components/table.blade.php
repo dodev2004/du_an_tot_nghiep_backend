@@ -2,8 +2,8 @@
             <thead>
                 <tr>
                     <th>Người dùng</th>
-                    <th>Bình luận</th>
                     <th>Sản phẩm</th>
+                    <th>Bình luận</th>
                     <th>Ngày xóa</th>
                     <th>Hành động</th>
                 </tr>
@@ -12,15 +12,15 @@
                 @foreach($data as $comment)
                     <tr>
                         <td>{{ $comment->user->full_name }}</td>
-                        <td>{{ $comment->comment }}</td>
                         <td>{{ $comment->product->name }}</td>
+                        <td>{{ $comment->comment }}</td>
                         <td>{{ $comment->deleted_at }}</td>
                         <td>
                             <div class="form-group d-flex ">
                                 <div>
                                     <form action="{{ route('admin.product_comment.restore', $comment->id) }}" method="POST" style="display: inline;">
                                         @csrf
-                                        <button type="submit" class="btn btn-success">Khôi phục</button>
+                                        <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Khôi phục"><i class="fa fa-undo"></i></button>
                                     </form>
                                 </div>
                                 <div>
@@ -28,7 +28,7 @@
                                         @method("DELETE")
                                         @csrf
                                         <input type="hidden" value="{{$comment->id}}" name="id">
-                                        <button class="btn btn-warning center"><i class="fa fa-trash-o"></i></button>
+                                        <button class="btn btn-warning center" data-toggle="tooltip" data-placement="top" title="Xóa"><i class="fa fa-trash-o"></i></button>
                                     </form>
                                 </div>
                             </div>

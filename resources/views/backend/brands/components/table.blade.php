@@ -1,11 +1,10 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>STT</th>
             <th>Tên nhãn hàng</th>
             <th>Miêu tả</th>
             <th>Trạng thái</th>
-            <th class="text-center">Chỉnh sửa</th>
+            <th class="text-center">Hành động</th>
         </tr>
     </thead>
     <tbody>
@@ -24,12 +23,12 @@
             <td class="text-center">
                 <form name="form_status" action="">
                     @csrf
-                    <input type="hidden" name="table" value="">
-                    <input type="checkbox" data-id="{{ $item->id }}"
-                        @if ($item['status']==1) checked @endif
-                        class="js-switch js-switch_{{ $item->id }}" style="display: none;"
-                        data-switchery="true">
+                    <input type="hidden" name="attribute" value="status">
+                    <input type="hidden" name="table" value="{{$table}}">
+                    <input type="checkbox" data-id="{{ $item->id }}" @if ($item['status']==1) checked @endif
+                        class="js-switch js-switch_{{ $item->id }}" style="display: none;" data-switchery="true">
                 </form>
+
             </td>
 
             <th class="text-center">
@@ -39,12 +38,8 @@
                     <form action="" method="POST" data-url="brand" class="form-delete">
                         @method('DELETE')
                         @csrf
-                        <input type="hidden" name="attribute" value="status">
-                        <input type="hidden" name="table" value="{{$table}}">
-                        <input type="checkbox" data-id="{{ $item->id }}"
-                            @if ($item['status']==1) checked @endif
-                            class="js-switch js-switch_{{ $item->id }}" style="display: none;"
-                            data-switchery="true">
+                        <input type="hidden" value="{{ $item->id }}" name="id">
+                        <button class="btn btn-sm btn-warning" title="Thùng rác"><i class="fa fa-trash-o"></i></button>
                     </form>
                 </div>
             </th>

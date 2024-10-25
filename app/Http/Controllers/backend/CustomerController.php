@@ -58,7 +58,7 @@ class CustomerController extends Controller
 
     return view('backend.customers.templates.index', compact('title', 'breadcrumbs', 'data','table'));
 
-    
+
 
     }
 
@@ -83,20 +83,20 @@ class CustomerController extends Controller
      */
     public function show(string $id)
     {
-        $title = "Chi tiết tổng đơn mua hàng";
+        $title = "Chi tiết khách hàng và đơn mua hàng";
         array_push($this->breadcrumbs, [
             "active" => false,
-            "url" => route("admin.contact"),
+            "url" => route("admin.customer"),
             "name" => "Quản lý khách hàng",
         ], [
 
             "active" => true,
-            "url" => route("admin.contact.show", $id),
-            "name" => "Chi tiết tổng đơn mua hàng",
+            "url" => route("admin.customer.show", $id),
+            "name" => "Chi tiết khách hàng và đơn mua hàng",
 
         ]);
         $breadcrumbs = $this->breadcrumbs;
-        $user = User::with(['orders.orderItems'])->withSum('orders', 'final_amount')->findOrFail($id);
+        $user = User::with(['orders.orderItems','province', 'district', 'ward'])->withSum('orders', 'final_amount')->findOrFail($id);
 
         return view("backend.customers.templates.show", compact("title", "breadcrumbs", "user"));
     }

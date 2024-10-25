@@ -1,11 +1,30 @@
 <?php
 return [
     [
+<<<<<<< HEAD
         "childrenlevel" => false,
+=======
+        "childrenlevel" => true,
+>>>>>>> a5e72abbe90a250e69c92b1f7250d1d5147f7672
         "name" => "Thống kê",
         "route" => "admin.dashboard",
-        "icon" => "fa-desktop"
+        "icon" => "fa-desktop",
+        'children' =>
+        [
+            [
+            "name" => "Thống kê đơn hàng",
+            "route" => 'admin.dashboard_order',
+            ],
+            [
+                "name" => "Thống kê sản phẩm",
+                "route" => 'admin.dashboard_order',
+            ],
+            [
+                            "name" => "Thống kê mã giảm giá",
+                            "route" => 'admin.promotion.statistics',
 
+            ],
+        ],
     ],
     [
         "childrenlevel" => true,
@@ -99,11 +118,6 @@ return [
 
     ],
 
-    [
-        "childrenlevel" => false,
-        "name" => "Quản lý mã trang giới thiệu",
-        "route" => "admin.about",
-    ],
 
     [
         "childrenlevel" => false,

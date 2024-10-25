@@ -12,27 +12,9 @@
             </div>
 
             <div class="col-md-2">
-                <label for="from-control">Ngày bắt đầu</label>
-                <input type="date" class="form-control" name="start_date" 
-                    @if(request()->has('start_date')) 
-                        value="{{ request()->get('start_date') }}" 
-                    @endif 
-                    placeholder="Ngày bắt đầu">
-            </div>
-
-            <div class="col-md-2">
-                <label for="from-control">Ngày kết thúc</label>
-                <input type="date" class="form-control" name="end_date" 
-                    @if(request()->has('end_date')) 
-                        value="{{ request()->get('end_date') }}" 
-                    @endif 
-                    placeholder="Ngày kết thúc">
-            </div>
-
-            <div class="col-md-2">
                 <label for="from-control">Sắp xếp theo</label>
                 <select class="form-control" name="date_order">
-                    <option value="">Sắp xếp theo ngày bình luận</option>
+                    <option value="">Tất cả</option>
                     <option value="newest" 
                         {{ request()->get('date_order') == 'newest' ? 'selected' : '' }}>Mới nhất</option>
                     <option value="oldest" 

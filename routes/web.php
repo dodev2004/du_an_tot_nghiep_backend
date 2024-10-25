@@ -163,6 +163,7 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::get('/{id}/edit', [PromotionController::class, 'edit'])->name('admin.promotions.edit');
         Route::put('/{id}/update', [PromotionController::class, 'update'])->name('admin.promotions.update');
         Route::delete('/{id}', [PromotionController::class, 'deletePromotion'])->name('admin.promotions.delete');
+        Route::get('/promotion-statistics', [PromotionController::class, 'getPromotionStatistics'])->name('admin.promotion.statistics');
     });
     Route::prefix("about")->group(function() {
         Route::get("list", [AboutPageController::class, "index"])->name("admin.about");
@@ -179,7 +180,7 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::delete("/soft-delete", [ProductCommentController::class, "softDelete"])->name("admin.product_comment.soft_delete");//xóa mềm
         Route::post("{id}/restore", [ProductCommentController::class, "restore"])->name("admin.product_comment.restore");//khôi phục
         Route::delete("/hard-delete", [ProductCommentController::class, "destroy"])->name("admin.product_comment.hard_delete");//xóa cúng
-        Route::get("trash", [ProductCommentController::class, "trash"])->name("admin.product_comment.trash"); // Trang thùng rác
+        Route::get("trash", [ProductCommentController::class, "trash"])->name("admin.product_comment.trash");
     });
     Route::prefix("product_reviews")->group(function(){
         Route::get('admin/product-reviews', [ProductReviewController::class, 'index'])->name('admin.product_review');
@@ -197,11 +198,10 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
     });
     Route::prefix("contact")->group(function(){
         Route::get("list",[ContactController::class,"index"])->name("admin.contact");
-        Route::get("create",[ContactController::class,"create"])->name("admin.contact.create");
-        Route::post("postStore",[ContactController::class,"store"])->name("admin.contact.store");
-        Route::get("{id}/show",[ContactController::class,"show"])->name("admin.contact.show");
-        // Route::get("{id}/edit",[ContactController::class,"edit"])->name("admin.contact.edit");
-        // Route::put("{id}/update",[ContactController::class,"update"])->name("admin.contact.update");
+        // Route::get("create",[ContactController::class,"create"])->name("admin.contact.create");
+        // Route::post("postStore",[ContactController::class,"store"])->name("admin.contact.store");
+        Route::get("{id}/edit",[ContactController::class,"edit"])->name("admin.contact.edit");
+        Route::put("{id}/update",[ContactController::class,"update"])->name("admin.contact.update");
         // Route::delete("/delete",[ContactController::class,"destroy"])->name("admin.contact.delete");
     });
     Route::prefix("information")->group(function(){
@@ -267,9 +267,8 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::get("/trash", [RoleController::class, "trash"])->name("admin.role.trash"); // Trang thùng rác
     });
 
-    Route::prefix("dashboard")->group(function(){
+    Route::prefix("/dashboardd")->group(function(){
         Route::get("list",[DashBoardController::class,"Orderindex"])->name("admin.dashboard_order");
-
     });
 
 });

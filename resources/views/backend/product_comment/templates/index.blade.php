@@ -11,16 +11,15 @@
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
-            <div class="ibox float-e-margins">
-
-
-                <div class="ibox-content">
-                    @include("backend.product_comment.components.fillter")
-                    @include("backend.product_comment.components.table")
-                    @include("backend.product_comment.components.page")
-                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                        {{ $data->appends(request()->query())->links()}}
-                    </div>
+        <div class="ibox float-e-margins">
+         
+            
+            <div class="ibox-content">
+                @include("backend.product_comment.components.fillter")  
+                @include("backend.product_comment.components.table") 
+                @include("backend.product_comment.components.page")
+                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                    {{  $data->appends(request()->query())->links()}}
                 </div>
             </div>
 
@@ -35,4 +34,5 @@
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
 @include("backend.product_comment.handles.delete");
+@include("backend.product_comment.handles.userdetail");
 @endpush
