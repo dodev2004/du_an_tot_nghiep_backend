@@ -58,7 +58,7 @@
             <div style="display: grid; grid-template-columns:40% 60%; padding: 10px">
                 <div style="text-align: center">
                     <div><strong>Hình ảnh:</strong></div>
-                    <div><img id="productImage" src="" alt="Hình ảnh sản phẩm" width="55%" /></div>
+                    <div><img id="productImage" src="" alt="Hình ảnh sản phẩm" width="77%" /></div>
                 </div>
                 <div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr ; gap: 10px">
@@ -111,6 +111,13 @@
                                 #f9f9f9;border-radius: 5px"><span id="productStatus"></span></div>
                         </div>
                     </div>
+                    <div>
+                        <div><strong>Mô tả:</strong></div>
+                        <div><textarea style="margin-top: 10px; border : 1px solid #ccc;background-color:
+                                #f9f9f9;border-radius: 5px; padding: 8px; width: 100%;"
+                                id="productDescription"></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -119,9 +126,3 @@
         </div>
     </div>
 </div>
-<!-- <div>
-                            <div><strong>Mô tả:</strong></div>
-                            <div style="border : 1px solid #ccc; padding: 8px; width: 90%;"><span
-                                    id="productDescription"></span>
-                            </div>
-                        </div> -->
