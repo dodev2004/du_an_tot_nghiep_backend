@@ -23,7 +23,7 @@ class ProductCommentController extends Controller
          $breadcrumbs = $this->breadcrumbs;
 
          $searchText = request()->get('search_text');
-         $query = User::withCount('product_comments');
+         $query = User::has('product_comments')->withCount('product_comments');
 
          if (!empty($searchText)) {
              $query->where('full_name', 'LIKE', value: '%' . $searchText . '%');
