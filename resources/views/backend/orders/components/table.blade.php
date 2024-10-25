@@ -94,11 +94,11 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
         @endphp
             <tr id="order-row-{{$order->id}}">
                 <td class="text-center">{{$index + 1}}</td>
-                <td class="text-center"><a href="">BND-{{$order->id}}</a></td>
+                <td class="text-center"><a href="{{route("admin.orders.details",$order->id)}}">BND-{{$order->id}}</a></td>
                 <td class="text-start">
                     <b>{{$order->customer_name}}</b>
                     <br>
-                    <span>{{$order->customer_name}}</span>
+                    <b>SDT: {{$order->phone_number}}</b>
                     <br>
                     <b>Ngày lên đơn: </b> {{date_format($order->created_at,"d-m-Y")}}
                 </td>

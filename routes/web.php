@@ -113,6 +113,7 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::delete("/delete",[ProductController::class,"destroy"])->name("admin.product.delete");
 
     });
+    // 
     Route::prefix("orders")->group(function(){
         Route::get("list",[OrderController::class,"index"])->name("admin.orders");
         Route::get("create",[OrderController::class,"create"])->name("admin.orders.create");
@@ -120,6 +121,7 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::get("{id}/edit",[OrderController::class,"editPost"])->name("admin.orders.edit");
         Route::put("update-order-status",[OrderController::class,"update"])->name("admin.orders.update");
         Route::delete("/delete",[OrderController::class,"destroy"])->name("admin.orders.delete");
+        Route::get("details/{id}",[OrderController::class,"show"])->name("admin.orders.details");
 
     });
     Route::prefix("product-catelogue")->group(function(){
