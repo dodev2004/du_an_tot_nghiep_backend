@@ -2,21 +2,18 @@
 return [
     [
         "childrenlevel" => true,
-        "name" => "Thống kê",
-        "route" => "#",
+        "name" => "Dashboards",
+        "route" => "admin.dashboard",
+        "icon" => "fa-desktop",
         'children' =>
         [
-            [
-                "name" => "Dashboard 1",
-                "route" => 'admin.dashboard',
-
-            ],
             [
                 "name" => "Thống kê mã giảm giá",
                 "route" => 'admin.promotion.statistics',
 
             ],
         ]
+
     ],
     [
         "childrenlevel" => true,
@@ -109,24 +106,39 @@ return [
         "route" => "admin.promotions"
 
     ],
-        [
-            "childrenlevel" => false,
-            "name" => "Quản lý trang giới thiệu",
-            "route" => "admin.about",
-        ],
+
+
+    [
+        "childrenlevel" => false,
+        "name" => "Quản lý trang giới thiệu",
+        "route" => "admin.about",
+    ],
+
 
     [
         "childrenlevel" => false,
         "name" => "Quản lí nhãn hàng",
         "route" => "admin.brand",
     ],
-   
+
+    [
+        "childrenlevel" => false,
+        "name" => "Quản lí đơn hàng",
+        "route" => "admin.orders",
+    ],
+
+
     [
         "childrenlevel" => false,
         "name" => "Quản lí phí ship",
         "route" => "admin.shipping_fee",
     ],
     [
+
+        "childrenlevel" => false,
+        "name" => "Quản lí form liên hệ",
+        "route" => "admin.contact",
+
         "childrenlevel" => true,
         "name" => "Quản lí liên hệ",
         "route" => "#",
@@ -144,20 +156,12 @@ return [
 
         ]
 
+
     ],
     [
-        "childrenlevel" => true,
+        "childrenlevel" => false,
         "name" => "Quản lí khách hàng",
-        "route" => "#",
-        'children' =>
-        [
-
-            [
-                "name" => " QL khách hàng",
-                "route" => "admin.customer"
-            ],
-
-        ]
+        "route" => "admin.customer",
     ],
     [
         "childrenlevel" => true,

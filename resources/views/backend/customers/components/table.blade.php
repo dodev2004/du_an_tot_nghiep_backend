@@ -23,7 +23,8 @@
         <td>
             <form name="form_status" action="">
                 @csrf
-                <input type="hidden" name="table" value="table">
+                <input type="hidden" name="attribute" value="status">
+                <input type="hidden" name="table" value="{{$table}}">
                 <input type="checkbox" @if($user->status == 1) checked @endif data-id="{{$user->id}}" class="js-switch js-switch_{{$user->id}}" style="display: none;" data-switchery="true">
             </form>
 

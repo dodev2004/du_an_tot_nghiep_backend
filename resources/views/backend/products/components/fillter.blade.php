@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="col-md-4 d-flex align-items-center" style="padding-left: 12px;">
-                <button type="submit" class="btn btn-primary seach"> 
+                <button type="submit" class="btn btn-primary seach">
                     <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
                 </button>
                 <a class="btn btn-success ml-2" href="{{route('admin.product.create')}}">Thêm mới</a>

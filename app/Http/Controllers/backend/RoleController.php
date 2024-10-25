@@ -23,9 +23,9 @@ class RoleController extends Controller
             "name" => "Quản lý vai trò"
         ];
         $breadcrumbs = $this->breadcrumbs;
-
+        $table="roles";
         $roles = Role::with('permissions')->paginate(10); // Lấy danh sách vai trò và quyền liên kết
-        return view('backend.roles.templates.index', compact('roles', 'title', 'breadcrumbs'));
+        return view('backend.roles.templates.index', compact('roles', 'title', 'breadcrumbs',"table"));
     }
 
     /**

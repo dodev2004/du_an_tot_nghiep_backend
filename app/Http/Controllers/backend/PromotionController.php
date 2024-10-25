@@ -180,7 +180,7 @@ class PromotionController extends Controller
             ->limit(5) // Giới hạn số lượng mã giảm giá hiển thị
             ->get();
 
-        return view('backend.promotion.templates.promotion_statistics', [
+        return view('backend.dashboard.promotion_statistics', [
             'totalCouponsInMonth' => $totalCouponsInMonth,
             'activeCoupons' => $activeCoupons,
             'inactiveCoupons' => $inactiveCoupons,
