@@ -32,7 +32,7 @@
             <div class="col-md-2">
                 <label for="from-control">Sắp xếp theo</label>
                 <select class="form-control" name="date_order">
-                    <option value="">Tất cả bình luận</option>
+                    <option value="">Tất cả</option>
                     <option value="newest" 
                         {{ request()->get('date_order') == 'newest' ? 'selected' : '' }}>Mới nhất</option>
                     <option value="oldest" 

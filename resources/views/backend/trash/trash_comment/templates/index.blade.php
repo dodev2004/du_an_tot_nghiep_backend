@@ -13,7 +13,11 @@
         <div class="col-lg-12">
         <div class="ibox float-e-margins">
          
-            
+            <style>
+                    .col-md-2{
+                        width: 160px;
+                    }
+            </style>
             <div class="ibox-content">
                 
                 @include("backend.trash.trash_comment.components.fillter")
