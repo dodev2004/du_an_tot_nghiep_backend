@@ -163,6 +163,7 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::get('/{id}/edit', [PromotionController::class, 'edit'])->name('admin.promotions.edit');
         Route::put('/{id}/update', [PromotionController::class, 'update'])->name('admin.promotions.update');
         Route::delete('/{id}', [PromotionController::class, 'deletePromotion'])->name('admin.promotions.delete');
+        Route::get('/promotion-statistics', [PromotionController::class, 'getPromotionStatistics'])->name('admin.promotion.statistics');
     });
     Route::prefix("about")->group(function() {
         Route::get("list", [AboutPageController::class, "index"])->name("admin.about");

@@ -15,9 +15,14 @@ return [
                 "name" => "Thống kê sản phẩm",
                 "route" => 'admin.dashboard_order',
             ],
+            [
+                            "name" => "Thống kê mã giảm giá",
+                            "route" => 'admin.promotion.statistics',
 
+            ],
         ],
-
+       
+        
 
     ],
     [
@@ -112,11 +117,6 @@ return [
 
     ],
 
-    [
-        "childrenlevel" => false,
-        "name" => "Quản lý mã trang giới thiệu",
-        "route" => "admin.about",
-    ],
 
     [
         "childrenlevel" => false,
