@@ -100,7 +100,7 @@ class BrandController extends Controller
             "name" => "required|unique:App\Models\Brand",
             "description" => "required|",
         ], [
-            "name.required" => "Tên danh mục biến thể không được để trống",
+            "name.required" => "Tên nhãn hàng không được để trống",
             "name.unique" => "Có vẻ tên nhãn hàng đã tồn tại",
             "description.required" => "Miêu tả không được để trống",
         ]);
@@ -152,7 +152,7 @@ class BrandController extends Controller
                 "description" => "required|",
             ],
             [
-                "name.required" => "Tên danh mục biến thể không được để trống",
+                "name.required" => "Tên nhãn hàng không được để trống",
                 "description.required" => "Miêu tả không được để trống",
             ]
         );

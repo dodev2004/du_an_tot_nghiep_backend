@@ -4,7 +4,7 @@
             <!-- <th>ID</th> -->
             <th>Tên nhóm quyền</th>
             <th>Miêu tả</th>
-            <th>Trạng thái</th>
+
             <th class="text-center">Chỉnh sửa</th>
         </tr>
     </thead>
@@ -21,18 +21,7 @@
                     <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->description }}</p>
                 </th>
 
-                <td class="text-center">
-                    <form name="form_status" action="">
-                        @csrf
-                        <input type="hidden" name="attribute" value="status">
-                        <input type="hidden" name="table" value="{{$table}}">
-                        <input type="checkbox" data-id="{{ $item->id }}"
-                            @if ($item['status'] == 1) checked @endif
-                            class="js-switch js-switch_{{ $item->id }}" style="display: none;"
-                            data-switchery="true">
-                    </form>
 
-                </td>
 
                 <th class="text-center">
                     <div style="display: flex; justify-content: center;column-gap: 5px;">
