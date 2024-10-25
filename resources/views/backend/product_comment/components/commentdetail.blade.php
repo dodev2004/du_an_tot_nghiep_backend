@@ -58,7 +58,7 @@
             <div style="display: grid; grid-template-columns:40% 60%; padding: 10px">
                 <div style="text-align: center">
                     <div><strong>Hình ảnh:</strong></div>
-                    <div><img id="productImage" src="" alt="Hình ảnh sản phẩm" width="180px" /></div>
+                    <div><img id="productImage" src="" alt="Hình ảnh sản phẩm" width="55%" /></div>
                 </div>
                 <div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr ; gap: 10px">
