@@ -3,7 +3,7 @@ return [
     [
         "childrenlevel" => true,
         "name" => "Thống kê",
-        "route" => "admin.dashboard",
+        "route" => "#",
         "icon" => "fa-desktop",
         'children' =>
         [
@@ -16,8 +16,8 @@ return [
                 "route" => 'admin.dashboard_order',
             ],
             [
-                            "name" => "Thống kê mã giảm giá",
-                            "route" => 'admin.promotion.statistics',
+               "name" => "Thống kê mã giảm giá",
+               "route" => 'admin.promotion.statistics',
 
             ],
         ],

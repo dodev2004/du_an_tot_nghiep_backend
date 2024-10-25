@@ -159,14 +159,29 @@
 
                         <div class="">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <b>Trạng thái đơn hàng</b> : {{getOrderStatusLabel($orders->status)}}
                                     <br>
                                     <b>Phương thức thanh toán</b> : {{$orders->paymentMethod->name}}
                                     <br>
                                     <b>Trạng thái thanh toán</b> : {{getOrderPaymentStatusLabel($orders->payment_status)}}
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
+                        
+                                        <div style="display:flex;justify-content: space-between">
+                                            <div>
+                                                <p>Tạm tính</p>
+                                                <p>Khuyến mãi</p>
+                                                <p>Phí ship</p>
+                                                <p>Tổng tiền</p>
+                                            </div>
+                                            <div class="text-right">
+                                                <p style="font-weight: 700">{{number_format($orders->total_amount)}} đ</p>
+                                                <p style="font-weight: 700;color: red">{{ $orders->discount_amount ? number_format($orders->discount_amount) : 0}} đ</p>
+                                                <p style="font-weight: 700;color: red">{{ $orders->shipping_fee ? number_format($orders->shipping_fee) : 0}} đ</p>
+                                                <p style="font-weight: 700">{{ $orders->final_amount ? number_format($orders->final_amount) : 0}} đ</p>
+                                            </div>
+                                        </div>
                                     
                                 </div>
                             </div>
@@ -197,7 +212,27 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><b>Họ tên</b></p>
+                                <p>{{$orders->customer_name}}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><b>Địa chỉ</b></p>
+                                <p>{{$orders->shipping_address}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><b>Email</b></p>
+                                <p>{{$orders->customer->email}}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><b>Số điện thoại</b></p>
+                                <p>{{$orders->phone_number}}</p>
+                            </div>
+                        </div>
+            
                     </div>
                 </div>
             </div>

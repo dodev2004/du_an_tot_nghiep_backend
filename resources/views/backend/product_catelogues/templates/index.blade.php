@@ -50,7 +50,7 @@
 @endsection
 @push("scripts")
 @include('backend.components.scripts');
-@include("backend.user.handle.switchery")
+@include("backend.components.handles.switchery")
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
 @include("backend.product_catelogues.handles.delete");
