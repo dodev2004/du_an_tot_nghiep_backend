@@ -100,13 +100,38 @@ class PaymentMethodsController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        if ($request->isMethod('PUT')) {
+{
+    if ($request->isMethod('PUT')) {
+        try {
             $params = $request->except('_token', '_method');
+
+            // Thêm validation nếu cần
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+            ]);
+
             $this->paymentMethods->updatePaymentMethods($id, $params);
-            return redirect()->route('admin.payment_methods');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Cập nhật thành công',
+                'redirect' => route('admin.payment_methods')
+            ]); 
+        } catch (\Exception $e) {
+            // Xử lý lỗi, ví dụ: log lỗi, trả về response lỗi
+            return response()->json([
+                'success' => false,
+                'message' => 'Đã xảy ra lỗi khi cập nhật.',
+                'errors' => [
+                    'name' => ['Lỗi validate tên (nếu có)'],
+                    'description' => ['Lỗi validate mô tả (nếu có)'],
+                    // ... các lỗi khác ...
+                ]
+            ], 500); // Trả về status code 500
         }
     }
+}
 
     /**
      * Remove the specified resource from storage.
