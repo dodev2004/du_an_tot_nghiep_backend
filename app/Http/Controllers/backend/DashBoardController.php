@@ -17,9 +17,9 @@ class DashBoardController extends Controller
     public function index()
     {
         $ratingStats = ProductReview::select(DB::raw('rating, COUNT(*) as count'))
-                    ->groupBy('rating')
-                    ->orderBy('rating', 'asc')
-                    ->get();
+            ->groupBy('rating')
+            ->orderBy('rating', 'asc')
+            ->get();
 
         $ratingLabels = [1, 2, 3, 4, 5]; // Các mốc sao
         $ratingCounts = [0, 0, 0, 0, 0]; // Số lượng tương ứng cho từng mốc sao
@@ -30,21 +30,21 @@ class DashBoardController extends Controller
 
         //Top 10 sản phẩm được đánh giá trung bình sao cao nhất
         $topRatedProducts = ProductReview::select('product_id', DB::raw('AVG(rating) as average_rating'))
-        ->groupBy('product_id')
-        ->orderBy('average_rating', 'desc')
-        ->take(10)
-        ->with('product')
-        ->get();
+            ->groupBy('product_id')
+            ->orderBy('average_rating', 'desc')
+            ->take(10)
+            ->with('product')
+            ->get();
 
         //Top 10 sản phẩm được bình luận nhiều nhất
         $mostCommentedProducts = ProductComment::select('product_id', DB::raw('COUNT(*) as comment_count'))
-        ->groupBy('product_id')
-        ->orderBy('comment_count', 'desc')
-        ->take(10)
-        ->with('product')
-        ->get();
+            ->groupBy('product_id')
+            ->orderBy('comment_count', 'desc')
+            ->take(10)
+            ->with('product')
+            ->get();
 
-        return view('backend.dashboard.home', compact('ratingLabels', 'ratingCounts','topRatedProducts', 'mostCommentedProducts'));
+        return view('backend.dashboard.home', compact('ratingLabels', 'ratingCounts', 'topRatedProducts', 'mostCommentedProducts'));
     }
     public function OrderIndex()
     {
@@ -67,14 +67,22 @@ class DashBoardController extends Controller
         $totalCanceledOrders = Order::where('status', Order::STATUS_CANCELLED)
             ->count();
 
-        // 5. Doanh thu theo từng tháng trong năm hiện tại
-        $salesMonthly = Order::selectRaw('MONTH(created_at) as month, SUM(final_amount) as total')
+        // Khởi tạo mảng 12 tháng với giá trị mặc định là 0 cho mỗi tháng
+        $salesMonthly = array_fill(1, 12, 0);
+
+        // Lấy dữ liệu doanh thu cho từng tháng đã hoàn thành và thanh toán
+        $monthlySales = Order::selectRaw('MONTH(created_at) as month, SUM(final_amount) as total')
             ->whereYear('created_at', date('Y'))
-            ->whereIn('status', [Order::STATUS_COMPLETED])
+            ->where('status', Order::STATUS_COMPLETED)
             ->where('payment_status', Order::PAYMENT_COMPLETED)
             ->groupByRaw('MONTH(created_at)')
             ->orderBy('month')
             ->get();
+
+        // Gán doanh thu vào mảng 12 tháng
+        foreach ($monthlySales as $sale) {
+            $salesMonthly[$sale->month] = $sale->total;
+        }
         // 6. Số lượng đơn hàng hoàn thành theo tháng trong năm hiện tại
         $completedOrdersMonthly = Order::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
             ->whereYear('created_at', date('Y'))
@@ -125,6 +133,23 @@ class DashBoardController extends Controller
             $statusLabels[] = $this->getStatusLabel($status->status);
             $statusCounts[] = $status->total;
         }
+        $fromDate = now()->subYear()->format('Y-m-d'); // Ngày bắt đầu từ 1 năm trước
+        $toDate = now()->format('Y-m-d'); // Ngày hiện tại
+
+        // Lấy các đơn hàng đã hoàn thành và đã thanh toán trong 1 năm qua
+        $orders = Order::whereBetween('created_at', [$fromDate, $toDate])
+            ->where('status', Order::STATUS_COMPLETED)
+            ->where('payment_status', Order::PAYMENT_COMPLETED)
+            ->orderBy('created_at', 'ASC')
+            ->get(['final_amount', 'created_at']);
+
+        // Định dạng dữ liệu để truyền vào view
+        $chartData = $orders->map(function ($order) {
+            return [
+                'created_at' => $order->created_at->format('Y-m-d'),
+                'final_amount' => $order->final_amount
+            ];
+        });
 
 
         // Truyền dữ liệu sang view
@@ -142,9 +167,74 @@ class DashBoardController extends Controller
             'canceledOrdersToday',         // Số đơn hàng bị hủy hôm nay
             'statusLabels',
             'statusCounts',
+            'chartData',
             'title',
         ));
     }
+    public function filterSalesData(Request $request)
+    {
+        $data = $request->all();
+        $fromDate = $data['fromDate'];
+        $toDate = $data['toDate'];
+        // Lấy các đơn hàng đã hoàn thành và đã thanh toán
+        $get = Order::whereBetween(('created_at'), [$fromDate, $toDate])
+            ->where('status', Order::STATUS_COMPLETED) // Trạng thái hoàn thành
+            ->where('payment_status', Order::PAYMENT_COMPLETED) // Trạng thái đã thanh toán
+            ->orderby('created_at', 'ASC')
+            ->get();
+        foreach ($get as $value) {
+            $chart_data[] = array(
+                'final_amount' => $value->final_amount,
+                'created_at' => $value->created_at->format('Y-m-d'),
+            );
+        }
+
+        return response()->json($chart_data);
+        // echo $data=json_encode($chart_data);
+    }
+    public function selectSalesData(Request $request){
+
+        $data = $request->all();
+        $dauthangnay=now()->startOfmonth()->toDateString();
+        $dauthangtruoc=now()->subMonth()->startOfmonth()->toDateString();
+        $cuoithangtruoc=now()->subMonth()->endOfMonth()->toDateString();
+
+        $sub7days=now()->subdays(7)->toDateString();
+        $sub365days=now()->subdays(365)->toDateString();
+
+        if($data['dashboard_value']=='7ngay'){
+            $get=Order::where('created_at','>=',$sub7days)
+                ->where('status',Order::STATUS_COMPLETED)
+                ->where('payment_status',Order::PAYMENT_COMPLETED)
+                ->get();
+        }elseif($data['dashboard_value'] =='thangtruoc'){
+            $get=Order::where('created_at','>=',$dauthangtruoc)
+                ->where('created_at','<=',$cuoithangtruoc)
+                ->where('status',Order::STATUS_COMPLETED)
+                ->where('payment_status',Order::PAYMENT_COMPLETED)
+                ->get();
+        }else if($data['dashboard_value']=='thangnay'){
+            $get=Order::where('created_at','>=',$dauthangnay)
+                ->where('status',Order::STATUS_COMPLETED)
+                ->where('payment_status',Order::PAYMENT_COMPLETED)
+                ->get();
+        }else{
+            $get=Order::where('created_at','>=',$sub365days)
+                ->where('status',Order::STATUS_COMPLETED)
+                ->where('payment_status',Order::PAYMENT_COMPLETED)
+                ->get();
+        }
+        foreach ($get as $value) {
+            $chart_data[] = array(
+                'final_amount' => $value->final_amount,
+                'created_at' => $value->created_at->format('Y-m-d'),
+            );
+        }
+        return response()->json($chart_data);
+    }
+
+
+
     private function getStatusLabel($status)
     {
         switch ($status) {

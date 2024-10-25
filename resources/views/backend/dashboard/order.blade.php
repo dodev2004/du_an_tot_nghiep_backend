@@ -139,7 +139,12 @@
             background-color: #1a598d;
         }
     </style>
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 @endsection
+
 
 @section('title')
     {{ $title }}
@@ -238,29 +243,52 @@
 
 
     <div class="row">
+
+        <div class="col-md-7">
+            <form id="filterForm">
+
+                @csrf
+                <!-- Form lọc theo ngày -->
+
+                <div class="filter-box col-md-5">
+
+
+                    <div class="form-group">
+                        <label for="fromDate">Từ ngày:</label>
+                        <input type="text" class="form-control datepicker" id="fromDate" name="fromDate"
+                            placeholder="Chọn ngày bắt đầu" readonly>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="toDate">Đến ngày:</label>
+                        <input type="text" class="form-control datepicker" id="toDate" name="toDate"
+                            placeholder="Chọn ngày kết thúc" readonly>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id='filter' style="margin-top:23px">Lọc</button>
+
+            </form>
+        </div>
+        <div class="col-md-5" style="margin-top:23px">
+            <select class="dashboard-filter form-control">
+                <option value="">--chọn--</option>
+                <option value="7ngay">7 ngày qua</option>
+                <option value="thangnay">tháng này</option>
+                <option value="thangtruoc">tháng trước</option>
+                <option value="365ngayqua">365 ngày qua</option>
+            </select>
+        </div>
+    </div>
+    <div class="row" style="margin-top:50px">
         <!-- Biểu đồ Doanh thu theo tháng -->
         <div class="col-md-12 chart-container">
             <div class="stat-box">
-                <h4><i class="fas fa-chart-line"> </i> Biểu Đồ Doanh Thu Trong Năm</h4>
-                <canvas id="salesMonthlyChart"></canvas>
+                <h4><i class="fas fa-chart-line"> </i> Biểu Đồ Doanh Thu</h4>
+                <div id="salesMonthlyChart" style="height: 500px;"></div>
             </div>
         </div>
-        <div class="col-md-7 chart-container">
-            <div class="stat-box">
-                <h4><i class="fas fa-chart-line"> </i> Biểu Đồ Số Lượng Đơn Hàng Trong Năm</h4>
-                <canvas id="ordersMonthlyChart"></canvas>
-            </div>
-        </div>
-        <div class="col-md-1 chart-container">
-
-        </div>
-        <div class="col-md-4 chart-container">
-            <div class="stat-box">
-                <h4><i class="fas fa-chart-line"> </i> Trạng Thái Đơn Hàng Trong Tháng</h4>
-                <canvas id="orderStatusChart"></canvas>
-            </div>
-        </div>
-
 
     </div>
 
@@ -270,169 +298,206 @@
     <!-- Thêm Chart.js và jQuery để vẽ biểu đồ -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
-            var salesMonthly = @json($salesMonthly); // Nhận dữ liệu từ backend
-            var labels = [];
-            var data = [];
 
-            // Khởi tạo mảng tháng và doanh thu
-            for (var i = 1; i <= 12; i++) {
-                labels.push('Tháng ' + i);
-                var monthData = salesMonthly.find(item => item.month == i);
-                data.push(monthData ? monthData.total : 0); // Nếu không có doanh thu thì mặc định là 0
-            }
+            var chartData = @json($chartData); // Lấy dữ liệu từ controller
 
-            // Vẽ biểu đồ đường
-            var ctx = document.getElementById('salesMonthlyChart').getContext('2d');
-            var salesMonthlyChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Doanh Thu (VNĐ)',
-                        data: data,
-                        backgroundColor: 'rgba(41, 128, 185, 0.2)', // Màu nền mờ xanh dương
-                        borderColor: '#2980b9', // Màu xanh dương cho đường
-                        borderWidth: 2,
-                        fill: true, // Làm mờ dưới đường
-                        tension: 0.4 // Làm cho đường cong mềm mại
-                    }]
+            var chart = new Morris.Line({
+                element: 'salesMonthlyChart',
+                data: chartData, // Dữ liệu từ server
+                xkey: 'created_at',
+                ykeys: ['final_amount'],
+                labels: ['Doanh thu'],
+
+                // Tùy chỉnh giao diện
+                lineColors: ['#0b62a4'], // Màu đường
+                lineWidth: 2, // Độ rộng đường
+                pointSize: 4, // Kích thước điểm
+                pointFillColors: ['#ffffff'], // Màu điểm
+                pointStrokeColors: ['#0b62a4'], // Màu viền điểm
+                gridTextColor: '#333', // Màu chữ lưới
+                gridTextSize: 12, // Kích thước chữ lưới
+                hideHover: 'auto', // Tự động ẩn tooltip khi không hover
+
+                // Tùy chỉnh hiển thị trục Y
+                yLabelFormat: function(y) {
+                    return y.toLocaleString('vi-VN', {
+                        style: 'currency',
+                        currency: 'VND'
+                    });
                 },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return value.toLocaleString() + ' VNĐ'; // Format VNĐ
-                                }
-                            }
-                        }
+
+                // Tùy chỉnh trục X
+                xLabelAngle: 0, // Xoay trục X để dễ đọc
+                resize: true, // Tự động điều chỉnh kích thước khi cửa sổ thay đổi
+
+                // Thêm tooltip format
+                hoverCallback: function(index, options, content, row) {
+                    return `<div style="padding: 8px;"><strong>Ngày:</strong> ${row.created_at}<br><strong>Doanh thu:</strong> ${row.final_amount.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}</div>`;
+                }
+            });
+
+
+            $('.datepicker').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+                todayHighlight: true,
+                endDate: new Date(),
+                clearBtn: true,
+                todayBtn: "linked",
+                language: "vi",
+            });
+            // Thiết lập Datepicker cho từ ngày
+            $('#fromDate').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+                todayHighlight: true,
+                endDate: new Date(),
+                clearBtn: true,
+                todayBtn: "linked",
+                language: "vi"
+            }).on('changeDate', function(e) {
+                // Khi người dùng chọn từ ngày, thiết lập ngày bắt đầu cho đến ngày
+                $('#toDate').datepicker('setStartDate', e.date);
+            });
+
+            // Thiết lập Datepicker cho đến ngày
+            $('#toDate').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+                todayHighlight: true,
+                endDate: new Date(),
+                clearBtn: true,
+                todayBtn: "linked",
+                language: "vi"
+            }).on('changeDate', function(e) {
+                // Khi người dùng chọn đến ngày, thiết lập ngày kết thúc cho từ ngày
+                $('#fromDate').datepicker('setEndDate', e.date);
+            });
+
+            $('.dashboard-filter').on('change', function(event) {
+                event.preventDefault();
+
+                var dashboard_value = $(this).val();
+                var _token = $('meta[name="csrf-token"]').attr('content');
+                // Xóa dữ liệu trong form khi chọn select
+                $('#filterForm')[0].reset();
+                $.ajax({
+                    type: "POST",
+                    url: '{{ route('orders.select') }}',
+                    dataType: "json",
+                    data: {
+                        dashboard_value: dashboard_value,
+                        _token: _token
                     },
-                    plugins: {
-                        legend: {
-                            display: true,
-                            labels: {
-                                color: '#2c3e50' // Màu chữ
-                            }
-                        }
-                    }
-                }
-            });
-
-            var completedOrders = @json($completedOrdersMonthly); // Dữ liệu đơn hàng hoàn thành theo tháng
-            var canceledOrders = @json($canceledOrdersMonthly); // Dữ liệu đơn hàng bị hủy theo tháng
-            var labels = [];
-            var completedData = [];
-            var canceledData = [];
-
-            // Khởi tạo mảng tháng và số lượng đơn hàng
-            for (var i = 1; i <= 12; i++) {
-                labels.push('Tháng ' + i);
-                var completedMonth = completedOrders.find(item => item.month == i);
-                var canceledMonth = canceledOrders.find(item => item.month == i);
-                completedData.push(completedMonth ? completedMonth.total : 0); // Đơn hàng hoàn thành
-                canceledData.push(canceledMonth ? canceledMonth.total : 0); // Đơn hàng bị hủy
-            }
-
-            // Vẽ biểu đồ cột với hai bộ dữ liệu
-            var ctx = document.getElementById('ordersMonthlyChart').getContext('2d');
-            var ordersMonthlyChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                            label: 'Đơn hàng hoàn thành',
-                            data: completedData,
-                            backgroundColor: '#27ae60', // Màu xanh lá cho đơn hàng hoàn thành
-                            borderColor: '#2c3e50',
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'Đơn hàng bị hủy',
-                            data: canceledData,
-                            backgroundColor: '#c0392b', // Màu đỏ cho đơn hàng bị hủy
-                            borderColor: '#2c3e50',
-                            borderWidth: 1
-                        }
-                    ]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return value.toLocaleString(); // Format số lượng đơn hàng
-                                }
-                            }
-                        }
+                    headers: {
+                        "X-HTTP-Method-Override": "GET"
                     },
-                    plugins: {
-                        legend: {
-                            display: true,
-                            labels: {
-                                color: '#2c3e50' // Màu chữ
-                            }
-                        }
-                    }
-                }
-            });
-            var ctx = document.getElementById('orderStatusChart').getContext('2d');
+                    success: function(response) {
 
-            // Dữ liệu trạng thái đơn hàng
-            const statusLabels = @json($statusLabels);
-            const statusCounts = @json($statusCounts);
 
-            // Tạo biểu đồ tròn
-            const orderStatusChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: statusLabels,
-                    datasets: [{
-                        label: 'Số Lượng Đơn Hàng',
-                        data: statusCounts,
-                        backgroundColor: [
-                            'rgba(46, 204, 113, 0.6)', // Pending (Xanh lá)
-                            'rgba(52, 152, 219, 0.6)', // Confirm (Xanh dương)
-                            'rgba(241, 196, 15, 0.6)', // Processing (Vàng)
-                            'rgba(231, 76, 60, 0.6)', // Shipped (Đỏ)
-                            'rgba(39, 174, 96, 0.6)', // Completed (Xanh lá đậm)
-                            'rgba(231, 76, 60, 0.6)', // Cancelled (Đỏ) - Mặc định là đỏ
-                            'rgba(155, 89, 182, 0.6)', // Refunded (Tím)
-                        ],
-                        borderColor: [
-                            'rgba(46, 204, 113, 1)', // Pending (Xanh lá)
-                            'rgba(52, 152, 219, 1)', // Confirm (Xanh dương)
-                            'rgba(241, 196, 15, 1)', // Processing (Vàng)
-                            'rgba(231, 76, 60, 1)', // Shipped (Đỏ)
-                            'rgba(39, 174, 96, 1)', // Completed (Xanh lá đậm)
-                            'rgba(231, 76, 60, 1)', // Cancelled (Đỏ) - Mặc định là đỏ
-                            'rgba(155, 89, 182, 1)', // Refunded (Tím)
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: 'Trạng Thái Đơn Hàng Trong Tháng'
-                        }
+                        chart.setData(response);
+
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Không có doanh thu',
+                            text: 'Không có doanh thu cho khoảng thời gian này.',
+                            confirmButtonText: 'Đóng',
+                            customClass: {
+                                confirmButton: 'btn btn-primary'
+                            },
+                            buttonsStyling: false
+                        });
+                        // Đặt lại select khi submit form
+                        $('.dashboard-filter').val('');
+                        console.error(xhr.responseText);
                     }
-                }
+                });
             });
 
+            $('#filterForm').on('submit', function(event) {
+                event.preventDefault();
 
 
 
 
+                var fromDate = $('#fromDate').val();
+                var toDate = $('#toDate').val();
+                var _token = $('meta[name="csrf-token"]').attr('content');
+                // Kiểm tra nếu ngày bắt đầu lớn hơn ngày kết thúc
+                if (new Date(fromDate) > new Date(toDate)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Ngày kết thúc không thể nhỏ hơn ngày bắt đầu.',
+                    });
+                    return; // Ngừng thực hiện nếu không hợp lệ
+                }
+                // Kiểm tra xem người dùng đã chọn đủ ngày chưa
+                if (!fromDate) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Vui lòng chọn ngày bắt đầu.',
+                    });
+                    return; // Ngừng thực hiện nếu không đủ dữ liệu
+                }
+
+                if (!toDate) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Vui lòng chọn ngày kết thúc.',
+                    });
+                    return; // Ngừng thực hiện nếu không đủ dữ liệu
+                }
+                // Đặt lại select khi submit form
+                $('.dashboard-filter').val('');
+                $.ajax({
+                    type: "POST",
+                    url: '{{ route('orders.filter') }}',
+                    dataType: "json",
+                    data: {
+                        fromDate: fromDate,
+                        toDate: toDate,
+                        _token: _token
+                    },
+                    headers: {
+                        "X-HTTP-Method-Override": "GET"
+                    },
+                    success: function(response) {
+
+
+                        chart.setData(response);
+                        console.log(chart);
+
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Không có doanh thu',
+                            text: 'Không có doanh thu cho khoảng thời gian này.',
+                            confirmButtonText: 'Đóng',
+                            customClass: {
+                                confirmButton: 'btn btn-primary'
+                            },
+                            buttonsStyling: false
+                        });
+                        // Xóa dữ liệu trong form khi chọn select
+                        $('#filterForm')[0].reset();
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
         });
     </script>
 @endsection
