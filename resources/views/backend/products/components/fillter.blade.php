@@ -24,7 +24,7 @@
                     <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
                 </button>
 
-                <a class="btn btn-success ml-2" href="{{route('admin.post.create')}}" style="font-size: 13px;"><i class="fa-solid fa-plus"></i>Thêm mới</a>
+                <a class="btn btn-success ml-2" href="{{route('admin.product.create')}}" style="font-size: 13px;"><i class="fa-solid fa-plus"></i>Thêm mới</a>
             </div>
         </form>
 
