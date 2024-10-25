@@ -22,14 +22,6 @@ class UserSeeder extends Seeder
                 "full_name" => "Bùi Ngọc Đô",
                 "role_id" => 1
             ],
-            [
-                "username" => "buingocdo2004@ádasd",
-                "password" => Hash::make("admin"),
-                "email" => "budev@gmail.com",
-                "full_name" => "Trần hoàn",
-                "role_id" => 2
-            ]
-
         ]);
     }
 }

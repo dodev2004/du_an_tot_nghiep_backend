@@ -7,7 +7,7 @@
 {{$title}}
 @endsection
 @section("content")
-   @include("backend.components.breadcrumb")
+@include("backend.components.breadcrumb")
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
@@ -22,9 +22,8 @@
                     {{  $data->appends(request()->query())->links()}}
                 </div>
             </div>
+
         </div>
-    
-    </div>
     </div>
 </div>
 
