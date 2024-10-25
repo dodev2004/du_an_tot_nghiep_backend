@@ -12,15 +12,6 @@
             </div>
 
             <div class="col-md-2">
-                <label for="from-control">Lọc ngày</label>
-                <input type="date" class="form-control" name="start_date" 
-                    @if(request()->has('start_date')) 
-                        value="{{ request()->get('start_date') }}" 
-                    @endif 
-                    placeholder="Ngày bắt đầu">
-            </div>
-
-            <div class="col-md-2">
                 <label for="from-control">Sắp xếp theo</label>
                 <select class="form-control" name="date_order">
                     <option value="">Tất cả</option>

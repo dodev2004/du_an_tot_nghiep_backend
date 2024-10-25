@@ -151,22 +151,10 @@ class ProductCommentController extends Controller
         $query->where('comment', 'LIKE', '%' . $searchText . '%')
         ->orWhereHas('product', function ($q) use ($searchText) {
             $q->where('name', 'LIKE', '%' . $searchText . '%');
-        })
+        })->onlyTrashed()
         ->orWhereHas('user', function ($q) use ($searchText) {
             $q->where('full_name', 'LIKE', '%' . $searchText . '%');
         })->onlyTrashed();
-    }
-
-
-    $startDate = $request->get('start_date');
-    $endDate = $request->get('end_date');
-
-    if (!empty($startDate) && !empty($endDate)) {
-        $query->whereBetween('created_at', [$startDate, $endDate]);
-    } elseif (!empty($startDate)) {
-        $query->where('created_at', '>=', $startDate);
-    } elseif (!empty($endDate)) {
-        $query->where('created_at', '<=', $endDate);
     }
 
     if ($request->has('date_order')) {
