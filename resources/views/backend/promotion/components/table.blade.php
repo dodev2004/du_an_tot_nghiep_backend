@@ -1,7 +1,7 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>STT</th>
+            <!-- <th>STT</th> -->
             <th>Mã</th>
             <th>Loại giảm giá</th>
             <th>Giá trị giảm</th>
@@ -15,37 +15,37 @@
     </thead>
     <tbody>
         @foreach ($data as $index => $promotion)
-            <tr>
-                <td>{{ $index + 1 + ($data->currentPage() - 1) * $data->perPage() }}</td>
-                <td>{{ $promotion->code }}</td>
-                <td>{{ $promotion->discount_type == 'fixed' ? 'Cố định' : 'Phần trăm' }}</td>
-                <td>{{ $promotion->discount_value }}</td>
-                <td>
-                    <span class="badge {{ $promotion->status == 'active' ? 'badge-success' : 'badge-warning' }}">
-                        {{ $promotion->status == 'active' ? 'Hoạt động' : 'Không hoạt động' }}
-                    </span>
-                </td>
-                <td>{{ $promotion->start_date}}</td>
-                <td>{{ $promotion->end_date}}</td>
-                <td>{{ $promotion->max_uses }}</td>
-                <td>{{ $promotion->used_count }}</td>
-                <td>
-                    <a class="btn btn-sm btn-info" href="{{ route('admin.promotions.edit', $promotion->id) }}">
-                        <i class="fa fa-pencil"></i>
-                    </a>
-                    <form action="" method="POST" data-url="promotions" class="form-delete" style="display:inline;">
-                        @method('DELETE')
-                        @csrf
-                        <input type="hidden" value="{{ $promotion->id }}" name="id">
-                        <button class="btn btn-sm btn-warning" data-id="{{ $promotion->id }}">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </form>
-                </td>
-            </tr>
+        <tr>
+            <!-- <td>{{ $index + 1 + ($data->currentPage() - 1) * $data->perPage() }}</td> -->
+            <td>{{ $promotion->code }}</td>
+            <td>{{ $promotion->discount_type == 'fixed' ? 'Cố định' : 'Phần trăm' }}</td>
+            <td>{{ $promotion->discount_value }}</td>
+            <td>
+                <span class="badge {{ $promotion->status == 'active' ? 'badge-success' : 'badge-warning' }}">
+                    {{ $promotion->status == 'active' ? 'Hoạt động' : 'Không hoạt động' }}
+                </span>
+            </td>
+            <td>{{ $promotion->start_date}}</td>
+            <td>{{ $promotion->end_date}}</td>
+            <td>{{ $promotion->max_uses }}</td>
+            <td>{{ $promotion->used_count }}</td>
+            <td>
+                <a class="btn btn-sm btn-info" href="{{ route('admin.promotions.edit', $promotion->id) }}">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                <form action="" method="POST" data-url="promotions" class="form-delete" style="display:inline;">
+                    @method('DELETE')
+                    @csrf
+                    <input type="hidden" value="{{ $promotion->id }}" name="id">
+                    <button class="btn btn-sm btn-warning" data-id="{{ $promotion->id }}">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
         @endforeach
     </tbody>
-    
+
 </table>
 
 <div class="total_record text-right">
@@ -54,7 +54,3 @@
         {{ $data->appends(request()->input())->links() }}
     </div>
 </div>
-
-
-
-

@@ -13,7 +13,7 @@
         <div class="col-lg-12">
         <div class="ibox float-e-margins">
 
-            <div class="ibox-title">
+            <!-- <div class="ibox-title">
                 <h5>{{$title}}</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
@@ -32,7 +32,7 @@
                         <i class="fa fa-times"></i>
                     </a>
                 </div>
-            </div>
+            </div> -->
             <div class="ibox-content">
                 @include("backend.group_permissions.components.fillter")
                 @include("backend.group_permissions.components.table")

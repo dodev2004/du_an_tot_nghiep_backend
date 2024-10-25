@@ -14,8 +14,8 @@
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
-        <div class="ibox float-e-margins">
-            <div class="ibox-title">    
+            <div class="ibox float-e-margins">
+                <!-- <div class="ibox-title">
                 <h5>{{$title}}</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
@@ -34,15 +34,16 @@
                         <i class="fa fa-times"></i>
                     </a>
                 </div>
-            </div>
-            <div class="ibox-content">
-                <div class="table-responsive">
-                    <a style="margin-bottom: 20px" href="{{route("admin.about.create")}}" class="btn btn-success">Thêm mới <i class="fa fa-plus"></i> </a>
-                    @include("backend.about.components.table")
+            </div> -->
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        <a style="margin-bottom: 20px" href="{{route("admin.about.create")}}"
+                            class="btn btn-success">Thêm mới <i class="fa fa-plus"></i> </a>
+                        @include("backend.about.components.table")
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </div>
 @endsection
@@ -54,5 +55,6 @@
 @include("backend.about.handle.delete");
 <script src="{{asset("backend/js/plugins/dataTables/datatables.min.js")}}"></script>
 <script src="{{asset("backend/js/framework/table.js")}}"></script>
+
 
 @endpush

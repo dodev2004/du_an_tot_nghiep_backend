@@ -1,6 +1,6 @@
 <div class="ibox-content_top">
 
-    <form action="" method="GET" class="form_seach">
+    <form action="" method="GET" class="form_seach" style="width: 60%;">
         <div class="form-group d-flex align-items-center">
             <div>
                 <label for="seach" class="me-2">Tìm kiếm theo tên quyền:</label>
@@ -9,8 +9,8 @@
             </div>
             <div>
                 <label for="group_permission_id">Nhóm quyền:</label>
-                <select name="group_permission_id" class="form-control">
-                    <option value="">Chọn nhóm quyền</option>
+                <select name="group_permission_id"  class="form-control">
+                    <option value="">Toàn Bộ</option>
                     @foreach ($groupPermissions as $groupPermission)
                         <option value="{{ $groupPermission->id }}"
                             {{ request('group_permission_id') == $groupPermission->id ? 'selected' : '' }}>
@@ -30,7 +30,7 @@
             <div>
                 <label for="date_order">Sắp xếp theo:</label>
                 <select name="date_order" class="form-control">
-                    <option value="">Chọn thứ tự</option>
+                    <option value="">Toàn Bộ</option>
                     <option value="newest" {{ request('date_order') == 'newest' ? 'selected' : '' }}>Mới nhất</option>
                     <option value="oldest" {{ request('date_order') == 'oldest' ? 'selected' : '' }}>Cũ nhất</option>
                 </select>
@@ -38,24 +38,24 @@
             <div>
                 <label for="status">Sắp xếp theo:</label>
                 <select name="status" class="form-control">
-                    <option value="">Trạng thái</option>
+                    <option value="">Toàn Bộ</option>
                     <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Hoạt động</option>
                     <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Không hoạt động</option>
                 </select>
             </div>
             <div style="margin-top: 24px;">
                 <button class="btn btn-primary seach"> <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm </button>
-                <a href="{{ route('admin.permission.create') }}" class="btn btn-success"><i
-                        class="fa-solid fa-plus"></i> Thêm
-                    mới quyền</a>
+
             </div>
         </div>
     </form>
 
     <div class="total_record">
-
-        <div style="margin-top: 15px;">
-            <a href="{{ route('admin.permission.trash') }}" class="btn btn-danger" data-toggle="tooltip"
+        <div style="margin-top: 70px; display: flex; ">
+        <a href="{{ route('admin.permission.create') }}" class="btn btn-success"><i
+                        class="fa-solid fa-plus"></i> Thêm
+                    mới</a>
+            <a href="{{ route('admin.permission.trash') }}" class="btn btn-danger" style="margin-left: 10px" data-toggle="tooltip"
                 data-placement="top" title="Thùng rác"><i class="fa fa-trash-o"></i></a>
         </div>
     </div>

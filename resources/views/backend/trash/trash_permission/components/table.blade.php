@@ -1,7 +1,7 @@
 <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <!-- <th>ID</th> -->
                     <th>Tên quyền</th>
                     <th>Miêu tả</th>
                     <th>Tên nhóm quyền</th>
@@ -12,7 +12,7 @@
             <tbody>
                 @foreach($data as $item)
                     <tr>
-                        <td>{{ $item->id }}</td>
+                        <!-- <td>{{ $item->id }}</td> -->
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->description }}</td>
                         <td>{{ $item->groupPermission->name }}</td>

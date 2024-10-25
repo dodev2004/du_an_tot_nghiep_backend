@@ -118,6 +118,8 @@ return [
         "route" => "admin.brand",
     ],
 
+<<<<<<< HEAD
+=======
     [
         "childrenlevel" => false,
         "name" => "Quản lí đơn hàng",
@@ -125,6 +127,7 @@ return [
     ],
 
 
+>>>>>>> 4e4d4648334bb4c4499320f85ede164b3eb626f5
     [
         "childrenlevel" => false,
         "name" => "Quản lí phí ship",

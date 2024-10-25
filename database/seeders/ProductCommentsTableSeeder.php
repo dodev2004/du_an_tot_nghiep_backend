@@ -16,6 +16,7 @@ class ProductCommentsTableSeeder extends Seeder
         DB::table('product_comments')->insert([
             
             [
+<<<<<<< HEAD
                 'product_id' => 15, 
                 'user_id' => 1, 
                 'comment' => 'Sản phẩm này có thiết kế đẹp, nhưng chất lượng chưa được tốt lắm.',
@@ -86,6 +87,28 @@ class ProductCommentsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
 
+=======
+                'product_id' => 15,
+                'user_id' => 1,
+                'comment' => 'Sản phẩm này có thiết kế đẹp, nhưng chất lượng chưa được tốt lắm.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 19,
+                'user_id' => 2,
+                'comment' => 'Sản phẩm này rất phù hợp với nhu cầu của tôi. Giao hàng cũng nhanh chóng.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 20,
+                'user_id' => 3,
+                'comment' => 'Chất lượng sản phẩm trung bình. Dịch vụ giao hàng có thể cải thiện.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+>>>>>>> c3fa1b4444385379585a023b6a7131cecb88cad4
 
         ]);
     }

@@ -7,13 +7,13 @@
 {{$title}}
 @endsection
 @section("content")
-   @include("backend.components.breadcrumb")
+@include("backend.components.breadcrumb")
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
-        <div class="ibox float-e-margins">
+            <div class="ibox float-e-margins">
 
-            <div class="ibox-title">
+                <!-- <div class="ibox-title">
                 <h5>{{$title}}</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
@@ -32,18 +32,18 @@
                         <i class="fa fa-times"></i>
                     </a>
                 </div>
-            </div>
-            <div class="ibox-content">
+            </div> -->
+                <div class="ibox-content">
                     @include("backend.information.components.table")
                     @include("backend.information.components.fillter")
 
-                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                    {{-- {{  $data->appends(request()->query())->links()}} --}}
+                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                        {{-- {{  $data->appends(request()->query())->links()}} --}}
+                    </div>
                 </div>
             </div>
-        </div>
 
-    </div>
+        </div>
     </div>
 </div>
 
