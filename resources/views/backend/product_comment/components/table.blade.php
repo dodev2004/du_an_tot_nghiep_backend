@@ -39,25 +39,80 @@
 <!-- Modal -->
 <div class="modal fade" id="userDetailModal" tabindex="-1" role="dialog" aria-labelledby="userDetailModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="userDetailModalLabel">Chi Tiết Người Dùng</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+        <div class="modal-content" style="width: 800px;">
+            <div>
+                <h5 id="userDetailModalLabel" style="font-size: 16px; padding: 10px">Chi Tiết Người Dùng</h5>
+                <hr>
             </div>
-            <div class="modal-body">
-                <p><strong>Tên đầy đủ:</strong> <span id="userFullName"></span></p>
-                <p><strong>Email:</strong> <span id="userEmail"></span></p>
-                <p><strong>Tên người dùng:</strong> <span id="userName"></span></p>
-                <p><strong>Số điện thoại:</strong> <span id="userPhone"></span></p>
-                <p><strong>Địa chỉ:</strong> <span id="userAddress"></span></p>
-                <p><strong>Ngày sinh:</strong> <span id="userBirthday"></span></p>
-                <p><strong>Tỉnh/Thành phố:</strong> <span id="userProvince"></span></p>
-                <p><strong>Quận/Huyện:</strong> <span id="userDistrict"></span></p>
-                <p><strong>Phường/Xã:</strong> <span id="userWard"></span></p>
-                <p><strong>Avatar:</strong> <img id="userAvatar" src="" alt="Avatar" style="max-width: 100px;"></p>
-                <!-- Thêm các trường khác nếu cần -->
+            <div style="display: grid; grid-template-columns: 40% 60%; padding: 10px">
+                <div style="text-align: center">
+                    <div><strong>Avatar:</strong></div>
+                    <div><img id="userAvatar" src="" alt="Avatar người dùng" width="77%" /></div>
+                </div>
+                <div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
+                        <div>
+                            <div><strong>Tên đầy đủ:</strong></div>
+                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
+                                <span id="userFullName"></span>
+                            </div>
+                        </div>
+                        <div>
+                            <div><strong>Email:</strong></div>
+                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
+                                <span id="userEmail"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
+                        <div>
+                            <div><strong>Tên người dùng:</strong></div>
+                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
+                                <span id="userName"></span>
+                            </div>
+                        </div>
+                        <div>
+                            <div><strong>Số điện thoại:</strong></div>
+                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
+                                <span id="userPhone"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
+                        <div>
+                            <div><strong>Địa chỉ:</strong></div>
+                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
+                                <span id="userAddress"></span>
+                            </div>
+                        </div>
+                        <div>
+                            <div><strong>Ngày sinh:</strong></div>
+                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
+                                <span id="userBirthday"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
+                        <div>
+                            <div><strong>Tỉnh/Thành phố:</strong></div>
+                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
+                                <span id="userProvince"></span>
+                            </div>
+                        </div>
+                        <div>
+                            <div><strong>Quận/Huyện:</strong></div>
+                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
+                                <span id="userDistrict"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px">
+                        <div><strong>Phường/Xã:</strong></div>
+                        <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
+                            <span id="userWard"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
