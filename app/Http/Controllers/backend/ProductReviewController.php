@@ -53,7 +53,7 @@ class ProductReviewController extends Controller
         }
     }
 
-        $data = $query->paginate(10);
+        $data = $query->orderBy('created_at', 'desc')->paginate(10);
 
         return view('backend.product_review.templates.index', compact("title", "breadcrumbs", "data"));
     }

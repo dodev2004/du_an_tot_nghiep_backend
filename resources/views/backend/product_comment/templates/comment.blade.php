@@ -13,26 +13,6 @@
         <div class="col-lg-12">
         <div class="ibox float-e-margins">
          
-            <div class="ibox-title">
-                <h5>{{$title}}</h5>
-                <div class="ibox-tools">
-                    <a class="collapse-link">
-                        <i class="fa fa-chevron-up"></i>
-                    </a>
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-wrench"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#">Config option 1</a>
-                        </li>
-                        <li><a href="#">Config option 2</a>
-                        </li>
-                    </ul>
-                    <a class="close-link">
-                        <i class="fa fa-times"></i>
-                    </a>
-                </div>
-            </div>
             <div class="ibox-content">
                 <style>
                     .form-group {
@@ -40,12 +20,10 @@
                         flex-wrap: wrap; 
                         gap: 10px; 
                     }
-                    .btn {
-                        height: 30px;
-                    }
                     .col-md-2{
                         width: 160px;
                     }
+                    
                 </style>
                 @include("backend.product_comment.components.filltercomment") 
                 @include("backend.product_comment.components.commentdetail")  
@@ -67,4 +45,5 @@
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
 @include("backend.product_comment.handles.delete");
+@include("backend.product_comment.handles.productdetail");
 @endpush
