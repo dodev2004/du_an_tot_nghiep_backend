@@ -12,12 +12,12 @@ class OrderController extends Controller
   
     public function index(Request $request)
     {
-        $title = "Quản lý phương thức thanh toán";
+        $title = "Quản lý đơn hàng";
    
         $this->breadcrumbs[] = [
             "active" => true,
-            "url" => route("admin.payment_methods"),
-            "name" => "Quản lý phương thức thanh toán"
+            "url" => route("admin.orders"),
+            "name" => "Quản lý đơn hàng"
         ];
         $breadcrumbs = $this->breadcrumbs;
         $keywords = $request->input('keywords');
@@ -47,5 +47,20 @@ class OrderController extends Controller
     }
 
     return response()->json(['success' => false]);
+    }
+
+    public function show($id,Request $request){
+        
+        $title = "Chi tiết đơn hàng";
+   
+        $this->breadcrumbs[] = [
+            "active" => true,
+            "url" => route("admin.orders"),
+            "name" => "Quản lý đơn hàng"
+        ];
+        $breadcrumbs = $this->breadcrumbs;
+        $orders = Order::with(['customer', 'orderItems.product', 'promotion', 'paymentMethod'])->find($id);
+       
+        return view("backend.orders.templates.detail", compact("title", "breadcrumbs",'orders'));
     }
 }
