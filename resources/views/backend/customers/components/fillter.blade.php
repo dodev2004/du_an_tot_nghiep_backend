@@ -31,8 +31,7 @@
                 </select>
             </div>
             <div style="margin-top: 24px;">
-                <button class="btn btn-primary seach"> <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm </button>
-
+            <button class="btn btn-primary seach"> <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm </button>
             </div>
     </form>
 

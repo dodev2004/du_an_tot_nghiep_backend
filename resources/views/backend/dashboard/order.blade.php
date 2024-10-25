@@ -3,6 +3,142 @@
 @section('style')
     @include('backend.components.head')
     @include('backend.components.chartCss')
+    <style>
+        .stat-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .stat-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 10px;
+        }
+
+        .stat-title span {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .stat-title button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .stat-title button:hover {
+            background-color: #0056b3;
+        }
+
+        .stat-box h3 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .stat-box p {
+            margin-bottom: 0;
+            color: #888;
+        }
+
+        .chart-container {
+            margin-bottom: 20px;
+        }
+
+        .stat-icon {
+            font-size: 24px;
+            /* Kích thước biểu tượng */
+            margin-right: 2px;
+            /* Khoảng cách giữa biểu tượng và tiêu đề */
+        }
+
+        .total-revenue {
+            color: #27ae60;
+            /* Màu xanh lá cho doanh thu */
+        }
+
+        .new-orders {
+            color: #2980b9;
+            /* Màu xanh dương cho đơn hàng mới */
+        }
+
+        .completed-orders {
+            color: #8e44ad;
+            /* Màu tím cho đơn hàng hoàn thành */
+        }
+
+        .canceled-orders {
+            color: #c0392b;
+            /* Màu đỏ cho đơn hàng bị hủy */
+        }
+
+        .date-range-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .date-range-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            justify-content: center;
+        }
+
+        .date-range-item label {
+            margin-right: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            color: #2c3e50;
+        }
+
+        .date-range-item label i {
+            color: #2980b9;
+            margin-right: 5px;
+        }
+
+        input[type="date"] {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            width: 200px;
+        }
+
+        button#filterBtn {
+            background-color: #2980b9;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        button#filterBtn i {
+            margin-right: 5px;
+        }
+
+        button#filterBtn:hover {
+            background-color: #1a598d;
+        }
+    </style>
 @endsection
 
 @section('title')
@@ -11,109 +147,157 @@
 
 @section('content')
     <div class="row">
-        <!-- Tổng doanh thu toàn bộ -->
-        <div class="col-md-6">
-            <canvas id="monthlySalesChart"></canvas>
-        </div>
-
-        <!-- Biểu đồ doanh thu theo năm -->
-        <div class="col-md-6">
-            <canvas id="yearlySalesChart"></canvas>
-        </div>
-
-        <!-- Biểu đồ cột: số lượng đơn hàng hoàn thành theo tháng -->
-        <div class="col-md-6">
-            <canvas id="completedOrdersMonthlyChart"></canvas>
-        </div>
-
-        <!-- Biểu đồ cột: số lượng đơn hàng hoàn thành theo năm -->
-        <div class="col-md-6">
-            <canvas id="completedOrdersYearlyChart"></canvas>
-        </div>
-
-
-        <!-- Biểu đồ cột: số lượng đơn hàng bị huỷ theo tháng -->
-        <div class="col-md-6">
-            <canvas id="cancelledOrdersMonthlyChart"></canvas>
-        </div>
-
-        <!-- Biểu đồ cột: số lượng đơn hàng bị huỷ theo năm -->
-        <div class="col-md-6">
-            <canvas id="cancelledOrdersYearlyChart"></canvas>
-        </div>
-        <!-- Biểu đồ tròn: trạng thái đơn hàng -->
-        <div class="col-md-6">
-            <canvas id="orderStatusChart"></canvas>
-        </div>
-
-        <!-- Hiển thị số lượng đơn hàng hoàn thành trong tháng và năm -->
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Order Stats</h3>
+        <!-- Doanh thu -->
+        <div class="col-md-3">
+            <div class="stat-box">
+                <div class="stat-title">
+                    <span class="total-revenue"><i class="fas fa-dollar-sign"></i> Tổng Doanh Thu Cửa Hàng</span>
                 </div>
-                <div class="panel-body">
-                    <p><strong>Completed Orders This Month:</strong> {{ $completedOrdersMonthly }}</p>
-                    <p><strong>Completed Orders This Year:</strong> {{ $completedOrdersYearly }}</p>
-                    <p><strong>Unpaid Completed Orders:</strong> {{ $unpaidOrders }}</p>
-                    <p><strong>Total Amount of Unpaid Orders:</strong> ${{ number_format($totalUnpaidOrdersAmount, 2) }}</p>
-                    <div class="row text-left">
-                        <div class="col-xs-4">
-                            <div class="m-l-md">
-                                <span class="h4 font-bold m-t block">${{ number_format($totalSales, 2) }}</span>
-                                <small class="text-muted m-b block">Total Sales (All Time)</small>
-                            </div>
-                        </div>
-                    </div>
+                <h3>{{ number_format($totalRevenue, 0) }} VNĐ</h3>
+                <p>Tổng doanh thu</p>
+            </div>
+        </div>
+
+        <!-- Đơn hàng hoàn thành -->
+        <div class="col-md-3">
+            <div class="stat-box">
+                <div class="stat-title">
+                    <span class="completed-orders"><i class="fas fa-check-circle"></i> Đơn Hàng Đã Hoàn Thành</span>
                 </div>
+                <h3>{{ $totalCompletedOrders }}</h3>
+                <p>Đơn hàng đã hoàn thành</p>
+            </div>
+        </div>
+
+        <!-- Đơn hàng bị hủy -->
+        <div class="col-md-3">
+            <div class="stat-box">
+                <div class="stat-title">
+                    <span class="canceled-orders"><i class="fas fa-times-circle"></i> Đơn Hàng Đã Bị Hủy</span>
+                </div>
+                <h3>{{ $totalCanceledOrders }}</h3>
+                <p>Đơn hàng đã bị hủy</p>
+            </div>
+        </div>
+        <!-- Đơn hàng chưa thu tiền hôm nay -->
+        <div class="col-md-3">
+            <div class="stat-box">
+                <div class="stat-title">
+                    <span class="canceled-orders"><i class="fas fa-money-bill-wave"></i> Đơn Hàng Chưa Thu Tiền </span>
+                </div>
+                <h3>{{ $pendingPaymentOrdersToday }}</h3>
+                <p>Đơn hàng chưa thu tiền hôm nay</p>
             </div>
         </div>
     </div>
 
+    <div class="row">
+        <!-- Doanh thu hôm nay -->
+        <div class="col-md-3">
+            <div class="stat-box">
+                <div class="stat-title">
+                    <span class="total-revenue"><i class="fas fa-dollar-sign"></i> Doanh Thu Hôm Nay</span>
+                </div>
+                <h3>{{ number_format($todayRevenue, 0) }} VNĐ</h3>
+                <p>Doanh thu hôm nay</p>
+            </div>
+        </div>
+        <!-- Đơn hàng hoàn thành hôm nay -->
+        <div class="col-md-3">
+            <div class="stat-box">
+                <div class="stat-title">
+                    <span class="total-revenue"><i class="fas fa-check-circle"></i> Đơn Hàng Hoàn Thành Hôm Nay</span>
+                </div>
+                <h3>{{ $completedOrdersToday }}</h3>
+                <p>Đơn hàng hoàn thành hôm nay</p>
+            </div>
+        </div>
+        <!-- Đơn hàng mới -->
+        <div class="col-md-3">
+            <div class="stat-box">
+                <div class="stat-title">
+                    <span class="new-orders"><i class="fas fa-shopping-cart"></i> Đơn Hàng Mới</span>
+                </div>
+                <h3>{{ $totalNewOrders }}</h3>
+                <p>Đơn hàng mới</p>
+            </div>
+        </div>
+
+        <!-- Đơn hàng bị hủy hôm nay -->
+        <div class="col-md-3">
+            <div class="stat-box">
+                <div class="stat-title">
+                    <span class="canceled-orders"><i class="fas fa-times-circle"></i> Đơn Hàng Bị Hủy Hôm Nay</span>
+                </div>
+                <h3>{{ $canceledOrdersToday }}</h3>
+                <p>Đơn hàng bị hủy hôm nay</p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <!-- Biểu đồ Doanh thu theo tháng -->
+        <div class="col-md-12 chart-container">
+            <div class="stat-box">
+                <h4><i class="fas fa-chart-line"> </i> Biểu Đồ Doanh Thu Trong Năm</h4>
+                <canvas id="salesMonthlyChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-7 chart-container">
+            <div class="stat-box">
+                <h4><i class="fas fa-chart-line"> </i> Biểu Đồ Số Lượng Đơn Hàng Trong Năm</h4>
+                <canvas id="ordersMonthlyChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-1 chart-container">
+
+        </div>
+        <div class="col-md-4 chart-container">
+            <div class="stat-box">
+                <h4><i class="fas fa-chart-line"> </i> Trạng Thái Đơn Hàng Trong Tháng</h4>
+                <canvas id="orderStatusChart"></canvas>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
     <!-- Thêm Chart.js và jQuery để vẽ biểu đồ -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script>
         $(document).ready(function() {
-            // Dữ liệu cho biểu đồ doanh thu theo tháng
-            var monthlyLabels = {!! json_encode($monthlyLabels) !!}; // Nhãn cho các tháng
-            var monthlyData = {!! json_encode($monthlyData) !!}; // Dữ liệu doanh thu theo tháng
+            var salesMonthly = @json($salesMonthly); // Nhận dữ liệu từ backend
+            var labels = [];
+            var data = [];
 
-            // Dữ liệu cho biểu đồ doanh thu theo năm
-            var yearlyLabels = {!! json_encode($yearlyLabels) !!}; // Nhãn cho các năm
-            var yearlyData = {!! json_encode($yearlyData) !!}; // Dữ liệu doanh thu theo năm
+            // Khởi tạo mảng tháng và doanh thu
+            for (var i = 1; i <= 12; i++) {
+                labels.push('Tháng ' + i);
+                var monthData = salesMonthly.find(item => item.month == i);
+                data.push(monthData ? monthData.total : 0); // Nếu không có doanh thu thì mặc định là 0
+            }
 
-            // Dữ liệu cho số lượng đơn hàng hoàn thành theo tháng
-            var completedOrdersMonthlyData = {!! json_encode($monthlyCompletedOrders) !!}; // Dữ liệu đơn hàng hoàn thành theo tháng
-
-            // Dữ liệu cho số lượng đơn hàng hoàn thành theo năm
-            var completedOrdersYearlyData = {!! json_encode($yearlyCompletedOrders) !!}; // Dữ liệu đơn hàng hoàn thành theo năm
-
-            // Dữ liệu cho số lượng đơn hàng bị huỷ theo tháng
-            var cancelledOrdersMonthlyLabels = {!! json_encode($cancelledOrdersMonthly->pluck('month')) !!};
-            var cancelledOrdersMonthlyData = {!! json_encode($cancelledOrdersMonthly->pluck('cancelled_count')) !!};
-
-            // Dữ liệu cho số lượng đơn hàng bị huỷ theo năm
-            var cancelledOrdersYearlyLabels = {!! json_encode($cancelledOrdersYearly->pluck('year')) !!};
-            var cancelledOrdersYearlyData = {!! json_encode($cancelledOrdersYearly->pluck('cancelled_count')) !!};
-
-            // Dữ liệu cho biểu đồ tròn
-            var orderStatusLabels = {!! json_encode($orderStatusLabels) !!};
-            var orderStatusData = {!! json_encode($orderStatusData) !!};
-
-            // Vẽ biểu đồ cột doanh thu theo tháng bằng Chart.js
-            var monthlyCtx = document.getElementById('monthlySalesChart').getContext('2d');
-            var monthlySalesChart = new Chart(monthlyCtx, {
-                type: 'bar',
+            // Vẽ biểu đồ đường
+            var ctx = document.getElementById('salesMonthlyChart').getContext('2d');
+            var salesMonthlyChart = new Chart(ctx, {
+                type: 'line',
                 data: {
-                    labels: monthlyLabels,
+                    labels: labels,
                     datasets: [{
-                        label: 'Monthly Sales ($)',
-                        data: monthlyData,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
+                        label: 'Doanh Thu (VNĐ)',
+                        data: data,
+                        backgroundColor: 'rgba(41, 128, 185, 0.2)', // Màu nền mờ xanh dương
+                        borderColor: '#2980b9', // Màu xanh dương cho đường
+                        borderWidth: 2,
+                        fill: true, // Làm mờ dưới đường
+                        tension: 0.4 // Làm cho đường cong mềm mại
                     }]
                 },
                 options: {
@@ -121,110 +305,112 @@
                         y: {
                             beginAtZero: true,
                             ticks: {
-                                stepSize: 10000 // Đặt khoảng cách giữa các vạch là 10000
+                                callback: function(value) {
+                                    return value.toLocaleString() + ' VNĐ'; // Format VNĐ
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: '#2c3e50' // Màu chữ
                             }
                         }
                     }
                 }
             });
 
-            // Vẽ biểu đồ cột doanh thu theo năm bằng Chart.js
-            var yearlyCtx = document.getElementById('yearlySalesChart').getContext('2d');
-            var yearlySalesChart = new Chart(yearlyCtx, {
+            var completedOrders = @json($completedOrdersMonthly); // Dữ liệu đơn hàng hoàn thành theo tháng
+            var canceledOrders = @json($canceledOrdersMonthly); // Dữ liệu đơn hàng bị hủy theo tháng
+            var labels = [];
+            var completedData = [];
+            var canceledData = [];
+
+            // Khởi tạo mảng tháng và số lượng đơn hàng
+            for (var i = 1; i <= 12; i++) {
+                labels.push('Tháng ' + i);
+                var completedMonth = completedOrders.find(item => item.month == i);
+                var canceledMonth = canceledOrders.find(item => item.month == i);
+                completedData.push(completedMonth ? completedMonth.total : 0); // Đơn hàng hoàn thành
+                canceledData.push(canceledMonth ? canceledMonth.total : 0); // Đơn hàng bị hủy
+            }
+
+            // Vẽ biểu đồ cột với hai bộ dữ liệu
+            var ctx = document.getElementById('ordersMonthlyChart').getContext('2d');
+            var ordersMonthlyChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: yearlyLabels,
+                    labels: labels,
                     datasets: [{
-                        label: 'Yearly Sales ($)',
-                        data: yearlyData,
-                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                        borderColor: 'rgba(153, 102, 255, 1)',
-                        borderWidth: 1
-                    }]
+                            label: 'Đơn hàng hoàn thành',
+                            data: completedData,
+                            backgroundColor: '#27ae60', // Màu xanh lá cho đơn hàng hoàn thành
+                            borderColor: '#2c3e50',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Đơn hàng bị hủy',
+                            data: canceledData,
+                            backgroundColor: '#c0392b', // Màu đỏ cho đơn hàng bị hủy
+                            borderColor: '#2c3e50',
+                            borderWidth: 1
+                        }
+                    ]
                 },
                 options: {
                     scales: {
                         y: {
                             beginAtZero: true,
                             ticks: {
-                                stepSize: 10000 // Đặt bước tăng của vạch y-axis cho sự nhất quán
+                                callback: function(value) {
+                                    return value.toLocaleString(); // Format số lượng đơn hàng
+                                }
                             }
-
                         }
-                    }
-                }
-            });
-
-            // Vẽ biểu đồ cột số lượng đơn hàng hoàn thành theo tháng
-            var completedOrdersMonthlyCtx = document.getElementById('completedOrdersMonthlyChart').getContext('2d');
-            var completedOrdersMonthlyChart = new Chart(completedOrdersMonthlyCtx, {
-                type: 'bar',
-                data: {
-                    labels: monthlyLabels, // Nhãn tháng
-                    datasets: [{
-                        label: 'Completed Orders This Month',
-                        data: completedOrdersMonthlyData, // Số lượng đơn hàng đã hoàn thành theo tháng
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 10 // Hoặc bất kỳ giá trị nào phù hợp với dữ liệu của bạn
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: '#2c3e50' // Màu chữ
                             }
                         }
                     }
                 }
             });
+            var ctx = document.getElementById('orderStatusChart').getContext('2d');
 
-            // Vẽ biểu đồ cột số lượng đơn hàng hoàn thành theo năm
-            var completedOrdersYearlyCtx = document.getElementById('completedOrdersYearlyChart').getContext('2d');
-            var completedOrdersYearlyChart = new Chart(completedOrdersYearlyCtx, {
-                type: 'bar',
-                data: {
-                    labels: yearlyLabels, // Nhãn năm
-                    datasets: [{
-                        label: 'Completed Orders This Year',
-                        data: completedOrdersYearlyData, // Số lượng đơn hàng đã hoàn thành theo năm
-                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                        borderColor: 'rgba(255, 159, 64, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 10 // Hoặc bất kỳ giá trị nào phù hợp với dữ liệu của bạn
-                            }
-                        }
-                    }
-                }
-            });
+            // Dữ liệu trạng thái đơn hàng
+            const statusLabels = @json($statusLabels);
+            const statusCounts = @json($statusCounts);
 
-            // Vẽ biểu đồ tròn cho trạng thái đơn hàng
-            var orderStatusCtx = document.getElementById('orderStatusChart').getContext('2d');
-            var orderStatusChart = new Chart(orderStatusCtx, {
+            // Tạo biểu đồ tròn
+            const orderStatusChart = new Chart(ctx, {
                 type: 'pie',
                 data: {
-                    labels: orderStatusLabels,
+                    labels: statusLabels,
                     datasets: [{
-                        label: 'Order Status',
-                        data: orderStatusData,
+                        label: 'Số Lượng Đơn Hàng',
+                        data: statusCounts,
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)'
+                            'rgba(46, 204, 113, 0.6)', // Pending (Xanh lá)
+                            'rgba(52, 152, 219, 0.6)', // Confirm (Xanh dương)
+                            'rgba(241, 196, 15, 0.6)', // Processing (Vàng)
+                            'rgba(231, 76, 60, 0.6)', // Shipped (Đỏ)
+                            'rgba(39, 174, 96, 0.6)', // Completed (Xanh lá đậm)
+                            'rgba(231, 76, 60, 0.6)', // Cancelled (Đỏ) - Mặc định là đỏ
+                            'rgba(155, 89, 182, 0.6)', // Refunded (Tím)
                         ],
                         borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)'
+                            'rgba(46, 204, 113, 1)', // Pending (Xanh lá)
+                            'rgba(52, 152, 219, 1)', // Confirm (Xanh dương)
+                            'rgba(241, 196, 15, 1)', // Processing (Vàng)
+                            'rgba(231, 76, 60, 1)', // Shipped (Đỏ)
+                            'rgba(39, 174, 96, 1)', // Completed (Xanh lá đậm)
+                            'rgba(231, 76, 60, 1)', // Cancelled (Đỏ) - Mặc định là đỏ
+                            'rgba(155, 89, 182, 1)', // Refunded (Tím)
                         ],
                         borderWidth: 1
                     }]
@@ -237,33 +423,7 @@
                         },
                         title: {
                             display: true,
-                            text: 'Order Status Distribution'
-                        }
-                    }
-                }
-            });
-
-            // Vẽ biểu đồ cột số lượng đơn hàng bị huỷ theo tháng
-            var cancelledOrdersMonthlyCtx = document.getElementById('cancelledOrdersMonthlyChart').getContext('2d');
-            var cancelledOrdersMonthlyChart = new Chart(cancelledOrdersMonthlyCtx, {
-                type: 'bar',
-                data: {
-                    labels: cancelledOrdersMonthlyLabels,
-                    datasets: [{
-                        label: 'Cancelled Orders This Month',
-                        data: cancelledOrdersMonthlyData,
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 5
-                            }
+                            text: 'Trạng Thái Đơn Hàng Trong Tháng'
                         }
                     }
                 }
@@ -271,37 +431,8 @@
 
 
 
-            // Vẽ biểu đồ cột số lượng đơn hàng bị huỷ theo năm
-            var cancelledOrdersYearlyCtx = document.getElementById('cancelledOrdersYearlyChart').getContext('2d');
-            var cancelledOrdersYearlyChart = new Chart(cancelledOrdersYearlyCtx, {
-                type: 'bar',
-                data: {
-                    labels: cancelledOrdersYearlyLabels,
-                    datasets: [{
-                        label: 'Cancelled Orders This Year',
-                        data: cancelledOrdersYearlyData,
-                        backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                        borderColor: 'rgba(255, 159, 64, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 5
-                            }
-                        }
-                    }
-                }
-            });
+
+
         });
-        // Dữ liệu cho số lượng đơn hàng bị huỷ theo tháng
     </script>
 @endsection
-
-@push('scripts')
-    @include('backend.components.scripts')
-    @include('backend.components.chartJs')
-@endpush

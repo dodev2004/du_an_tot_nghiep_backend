@@ -69,18 +69,18 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="start_date">Ngày bắt đầu <span style="color: red;">*</span></label>
-                    <input type="datetime-local" name="start_date" class="form-control" value="{{ old('start_date')}}"
-                        required>
+                    <label for="start_date">Ngày bắt đầu*</label>
+                    <input type="datetime-local" name="start_date" class="form-control"
+                    value="{{ old('start_date', isset($promotion) ? Carbon\Carbon::parse($promotion->start_date)->format('Y-m-d\TH:i') : '') }}" required>
                     @if($errors->has('start_date'))
                     <p class="text-danger">{{ $errors->first('start_date') }}</p>
                     @endif
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="end_date">Ngày kết thúc <span style="color: red;">*</span></label>
-                    <input type="datetime-local" name="end_date" class="form-control" value="{{ old('end_date') }}"
-                        required>
+                    <label for="end_date">Ngày kết thúc*</label>
+                    <input type="datetime-local" name="end_date" class="form-control"
+                    value="{{ old('end_date', isset($promotion) ? Carbon\Carbon::parse($promotion->end_date)->format('Y-m-d\TH:i') : '') }}" required>
                     @if($errors->has('end_date'))
                     <p class="text-danger">{{ $errors->first('end_date') }}</p>
                     @endif

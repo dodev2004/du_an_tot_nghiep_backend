@@ -111,11 +111,11 @@
                                 #f9f9f9;border-radius: 5px"><span id="productStatus"></span></div>
                         </div>
                     </div>
-                    <div>
+                    <div style="margin-top: 10px">
                         <div><strong>Mô tả:</strong></div>
-                        <div><textarea style="margin-top: 10px; border : 1px solid #ccc;background-color:
-                                #f9f9f9;border-radius: 5px; padding: 8px; width: 100%;"
-                                id="productDescription"></textarea>
+                        <div><textarea readonly style=" border : 1px solid #ccc;background-color:
+                                #f9f9f9;border-radius: 5px; padding: 8px; width: 100%; height: 150px ; overflow: auto">
+                                </textarea>
                         </div>
                     </div>
                 </div>

@@ -102,4 +102,18 @@ class User extends Authenticatable
             $query->where('name', $permissionName);
         })->exists();
     }
+    public function province()
+    {
+        return $this->belongsTo(Province::class, 'province_id'); // Giả sử 'province_id' là khóa ngoại trong bảng users
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class, 'district_id'); // Giả sử 'district_id' là khóa ngoại trong bảng users
+    }
+
+    public function ward()
+    {
+        return $this->belongsTo(Ward::class, 'ward_id'); // Giả sử 'ward_id' là khóa ngoại trong bảng users
+    }
 }

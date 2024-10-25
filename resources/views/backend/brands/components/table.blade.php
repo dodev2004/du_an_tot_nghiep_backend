@@ -10,14 +10,14 @@
     <tbody>
         @foreach ($data as $index => $item)
         <tr>
-            <!-- <td>
-                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $index+1 }}</p>
-                </td> -->
+            <td>
+                <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $index+1 }}</p>
+            </td>
             <td>
                 <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->name }}</p>
             </td>
             <th>
-                <p style="width: 800px ;margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->description }}</p>
+                <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->description }}</p>
             </th>
 
             <td class="text-center">
@@ -33,13 +33,13 @@
 
             <th class="text-center">
                 <div style="display: flex; justify-content: center;column-gap: 5px;">
-                    <a class="btn btn-sm btn-info" href="{{ route('admin.brand.edit', $item->id) }}"><i
+                    <a class="btn btn-sm btn-info" href="{{ route('admin.brand.edit', $item->id) }}" title="Chỉnh sửa"><i
                             class="fa fa-pencil"></i></a>
                     <form action="" method="POST" data-url="brand" class="form-delete">
                         @method('DELETE')
                         @csrf
                         <input type="hidden" value="{{ $item->id }}" name="id">
-                        <button class="btn btn-sm btn-warning"><i class="fa fa-trash-o"></i></button>
+                        <button class="btn btn-sm btn-warning" title="Thùng rác"><i class="fa fa-trash-o"></i></button>
                     </form>
                 </div>
             </th>

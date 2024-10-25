@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Backend;
 
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Repositories\Interfaces\PromotionRepositoryInterface as PromotionRepository;
+use Carbon\Carbon;
 use App\Models\Promotion;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use App\Repositories\Interfaces\PromotionRepositoryInterface as PromotionRepository;
 
 class PromotionController extends Controller
 {
@@ -67,7 +69,7 @@ class PromotionController extends Controller
             'discount_value' => 'required|numeric|min:0',
             'discount_type' => 'required|in:percentage,fixed',
             'status' => 'required|boolean',
-            'start_date' => 'required|date',
+            'start_date' => 'required|date|after_or_equal:today',
             'end_date' => 'required|date|after_or_equal:start_date',
             'max_uses' => 'required|integer|min:1',
             'used_count' => 'integer|min:0',
@@ -79,6 +81,7 @@ class PromotionController extends Controller
             "discount_type.required" => "Vui lòng chọn loại giảm giá",
             "status.required" => "Vui lòng chọn trạng thái",
             "start_date.required" => "Vui lòng chọn ngày bắt đầu",
+            'start_date.after_or_equal' => 'Ngày bắt đầu phải sau hoặc bằng ngày hôm nay', 
             "end_date.required" => "Vui lòng chọn ngày kết thúc",
             "end_date.after_or_equal" => "Ngày kết thúc phải sau hoặc bằng ngày bắt đầu",
             "max_uses.required" => "Vui lòng nhập số lượt sử dụng tối đa",
@@ -113,8 +116,8 @@ class PromotionController extends Controller
             "code" => ["required", Rule::unique("promotions")->ignore($id)],
             "discount_value" => ["required", "numeric"],
             'discount_type' => 'required|in:percentage,fixed',
-            "status" => ["required", "boolean"], 
-            "start_date" => ["required", "date"],
+            "status" => ["required", "boolean"],
+            'start_date' => 'required|date|after_or_equal:today',
             "end_date" => ["required", "date", "after_or_equal:start_date"],
             "max_uses" => ["required", "integer", "min:1"],
         ], [
@@ -125,6 +128,7 @@ class PromotionController extends Controller
             "discount_type.required" => "Vui lòng chọn loại giảm giá",
             "status.required" => "Vui lòng chọn trạng thái",
             "start_date.required" => "Vui lòng chọn ngày bắt đầu",
+            'start_date.after_or_equal' => 'Ngày bắt đầu phải sau hoặc bằng ngày hôm nay', 
             "end_date.required" => "Vui lòng chọn ngày kết thúc",
             "end_date.after_or_equal" => "Ngày kết thúc phải sau hoặc bằng ngày bắt đầu",
             "max_uses.required" => "Vui lòng nhập số lượt sử dụng tối đa",
@@ -147,12 +151,42 @@ class PromotionController extends Controller
     {
         $id = $request->input('id');
         $promotion = Promotion::findOrFail($id);
-        
+
         if ($promotion) {
             $promotion->delete();
             return response()->json(['message' => 'Khuyến mãi đã được xóa thành công', 'status' => 'success'], 200);
         } else {
             return response()->json(['message' => 'Không tìm thấy khuyến mãi', 'status' => 'error'], 404);
         }
+    }
+    public function getPromotionStatistics()
+    {
+        $title = "Thống Kê Mã Giảm Giá";
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+
+        // Thống kê tổng số mã giảm giá tạo trong tháng hiện tại
+        $totalCouponsInMonth = Promotion::whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', $currentMonth)
+            ->count();
+
+        // Thống kê tổng số mã giảm giá còn hoạt động
+        $activeCoupons = Promotion::where('status', 'active')->count();
+
+        // Tính tổng số mã giảm giá không còn hoạt động
+        $inactiveCoupons = $totalCouponsInMonth - $activeCoupons;
+
+        // Lấy mã giảm giá được sử dụng nhiều nhất dựa trên trường used_count
+        $topCoupons = Promotion::select('code', 'used_count')
+            ->orderBy('used_count', 'desc')
+            ->limit(5) // Giới hạn số lượng mã giảm giá hiển thị
+            ->get();
+
+        return view('backend.dashboard.promotion_statistics', [
+            'totalCouponsInMonth' => $totalCouponsInMonth,
+            'activeCoupons' => $activeCoupons,
+            'inactiveCoupons' => $inactiveCoupons,
+            'topCoupons' => $topCoupons,
+        ],compact('title'));
     }
 }

@@ -3,7 +3,7 @@
     <tr>
         <th class="text-center">STT</th>
         <th>Danh mục sản phẩm</th>
-        <th class="text-center">Hành động</th>
+        <th class="text-center">Thao tác</th>
     </tr>
     </thead>
     <tbody>

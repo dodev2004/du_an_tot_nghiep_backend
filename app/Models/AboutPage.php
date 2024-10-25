@@ -13,6 +13,7 @@ class AboutPage extends Model
         'title', 
         'content', 
         'status', 
+        'image'
     ];
     protected $table = "about_pages";
 }

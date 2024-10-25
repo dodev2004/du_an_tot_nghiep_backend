@@ -12,8 +12,8 @@
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
-        <div class="ibox float-e-margins">
-            <div class="ibox-title">
+            <div class="ibox float-e-margins">
+                <!-- <div class="ibox-title">    
                 <h5>{{$title}}</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
@@ -32,23 +32,23 @@
                         <i class="fa fa-times"></i>
                     </a>
                 </div>
-            </div>
-            <div class="ibox-content">
-                <div class="">
-                    @include("backend.products.components.fillter")
-                    @include("backend.products.components.table")
-                    <div style="display:flex;justify-content: space-between;align-items: center">
-                        <div class="per_page">
-                            <p>Tồn tại tổng <strong>{{$products->count()}}</strong> tại trang thứ <strong>{{$products->currentPage()}}</strong></p>
-                        </div>
-                        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                            {{  $products->appends(request()->query())->links()}}
+            </div> -->
+                <div class="ibox-content">
+                    <div class="">
+                        @include("backend.products.components.fillter")
+                        @include("backend.products.components.table")
+                        <div style="display:flex;justify-content: space-between;align-items: center">
+                            <div class="per_page">
+                                <p>Tồn tại tổng <strong>{{$products->count()}}</strong> tại trang thứ <strong>{{$products->currentPage()}}</strong></p>
+                            </div>
+                            <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                {{ $products->appends(request()->query())->links()}}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </div>
 @endsection

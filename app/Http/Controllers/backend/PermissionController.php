@@ -138,6 +138,7 @@ class PermissionController extends Controller
      */
     public function edit(string $id)
     {
+        $title = "Sửa quyền";
         array_push($this->breadcrumbs, [
             "active" => true,
             "url" => route("admin.permission"),
@@ -151,10 +152,10 @@ class PermissionController extends Controller
         ]);
 
         $breadcrumbs = $this->breadcrumbs;
-        $permission = Permission::findOrFail($id);
+        $data = Permission::findOrFail($id);
         $groupPermissions = GroupPermission::all(); // Lấy danh sách nhóm quyền
 
-        return view('backend.permissions.templates.edit', compact('title', 'permission', 'groupPermissions', 'breadcrumbs'));
+        return view('backend.permissions.templates.edit', compact('title', 'data', 'groupPermissions', 'breadcrumbs','id'));
     }
 
     /**

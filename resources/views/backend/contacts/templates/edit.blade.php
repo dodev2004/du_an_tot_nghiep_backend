@@ -58,17 +58,8 @@
     @include('backend.contacts.components.js.ckfinder')
     @include('backend.contacts.handles.update');
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-
-
     <script src="{{ asset('backend/js/framework/seo.js') }}"></script>
     <script src="{{ asset('backend/js/framework/catelogue/select2.js') }}"></script>
 
-    <script>
-        $(document).ready(function() {
-            $(".attribute_id").select2({
 
-            });
-        })
-    </script>
 @endpush

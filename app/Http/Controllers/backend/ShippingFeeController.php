@@ -136,12 +136,12 @@ class ShippingFeeController extends Controller
         array_push($this->breadcrumbs, [
             "active" => false,
             "url" => route("admin.shipping_fee"),
-            "name" => "Quản lý nhãn hàng",
+            "name" => "Quản lý phí ship",
         ], [
 
             "active" => true,
             "url" => route("admin.shipping_fee.edit", $id),
-            "name" => "Sửa nhãn hàng",
+            "name" => "Sửa phí ship",
 
         ]);
         $data = Shipping_fee::query()->where("id", "=", $id)->first();
@@ -156,7 +156,7 @@ class ShippingFeeController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            "province_code" => "required|exists:provinces,code|unique:shipping_fees,province_code", // Đảm bảo thành phố chỉ được chọn một lần
+            "province_code" => "required|exists:provinces,code", // Đảm bảo thành phố chỉ được chọn một lần
             "fee" => "required|numeric|min:0", // Phí ship là số dương
             "weight_limit" => "required|numeric|min:0", // Trọng lượng tối đa là số dương
         ], [
