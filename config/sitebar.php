@@ -2,7 +2,7 @@
 return [
     [
         "childrenlevel" => true,
-        "name" => "Thống kê",
+        "name" => "#",
         "route" => "admin.dashboard",
         "icon" => "fa-desktop",
         'children' =>
