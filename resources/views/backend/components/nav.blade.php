@@ -45,6 +45,7 @@
             @else
             <li class="{{ request()->routeIs($item['route'])  ? 'active' : '' }}">
                 <a href="{{route($item['route'])}}"><i class="fa fa-th-large"></i> <span class="nav-label">{{$item['name']}}</span></a>
+
             </li>
             @endif
             @endforeach

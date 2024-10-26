@@ -37,6 +37,7 @@
 
                 @include("backend.contacts.components.fillter")
                     @include("backend.contacts.components.table")
+                    
 
 
                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
@@ -55,6 +56,7 @@
 @endsection
 @push("scripts")
 @include('backend.components.scripts');
+@include('backend.contacts.handles.contactDetail');
 
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>

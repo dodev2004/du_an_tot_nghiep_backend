@@ -9,7 +9,7 @@ class Contact extends Model
 {
     use HasFactory,SoftDeletes;
     protected $fillable = [
-        "title",
+        "image",
         "content",
         "user_id",
         "response",

@@ -10,9 +10,7 @@
     <tbody>
         @foreach ($data as $index => $item)
         <tr>
-            <td>
-                <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $index+1 }}</p>
-            </td>
+            
             <td>
                 <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->name }}</p>
             </td>

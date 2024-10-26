@@ -154,10 +154,10 @@ class ContactController extends Controller
             [
                 "response.required" => "Phản hồi không được để trống",
                 "response.string" => "Phản hồi không được để trống",
-                "response.regex" => "Địa chỉ không được chứa ký tự đặc biệt không hợp lệ",
+                "response.regex" => "Phản hồi không được chứa ký tự đặc biệt không hợp lệ",
             ]
         );
-        $data = $request->except('_token', '_method');
+        $data = $request->except('_token', '_method','image');
         $data['response'] = preg_replace('/<p>|<\/p>/', '', $request->response);
         $data['status'] = 1;
         $contact = Contact::find($id);

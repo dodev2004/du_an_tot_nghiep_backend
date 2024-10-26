@@ -7,7 +7,6 @@
             <div class="form-group">
                 <label>tài khoản </label>
                 <input type="text" value="{{ $user->username }}" name="username" class="form-control" readonly>
-
             </div>
             <div class="form-group">
                 <label>email</label>
@@ -22,8 +21,15 @@
                 <input type="text" value="{{ $user->phone }}" name="phone" class="form-control" readonly>
             </div>
             <div class="form-group">
+                @if($data->image)
+                <label>Hình ảnh</label>
+                    <img src="{{ $data->image }}" alt="image" width="50px">
+                @endif
+            </div>
+            <div class="form-group">
                 <label>nội dung</label>
-                <input type="text" value="{{ $data->content }}" name="content" class="form-control" readonly>
+                {{-- <input type="text" value="{{ $data->content }}" name="content" class="form-control" readonly> --}}
+                <textarea name="content" id="" cols="30" rows="10" class="form-control" readonly>{{ $data->content }}</textarea>
             </div>
             <form action="{{ route('admin.contact.update', $data->id) }}" method="POST" class="form-update"
                 style="background-color: white" novalidate enctype="multipart/form-data">
