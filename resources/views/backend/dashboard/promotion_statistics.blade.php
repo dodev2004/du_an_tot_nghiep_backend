@@ -29,14 +29,13 @@
         }
 
         .stat-box h2 {
-            margin: 0;
-            font-size: 24px;
+            font-size: 30px;
+            margin-bottom: 10px;
             color: #333;
         }
 
         .stat-box p {
-            margin: 10px 0 0;
-            font-size: 14px;
+            margin-bottom: 0;
             color: #888;
         }
 
@@ -61,7 +60,17 @@
             margin: 50px;
             flex-wrap: wrap;
         }
-
+        .total-revenue {
+            color: #27ae60;
+            font-weight: bold;
+            
+        }
+        .inactive{
+            color: red
+        }
+        .total {
+            color: #0a4aeb;
+        }
         .chart-container {
             width: 45%;
             text-align: center;
@@ -77,25 +86,24 @@
     </head>
 
     <body>
-        <h1>Thống Kê Mã Giảm Giá</h1>
+        
         <div class="row  border-bottom white-bg dashboard-header">
             <div class="statistics-container">
                 <div class="stat-box">
+                    <span class="total"><h3>Tổng số lượng mã giảm giá</h3></span>
                     <h2>{{ $totalCouponsInMonth }}</h2>
-                    <p>Mã giảm giá đã tạo</p>
+                    <p>Mã giảm giá</p>
                     <div class="status medium-value"></div>
                 </div>
-
                 <div class="stat-box">
+                    <span class="total-revenue"><h3>Mã giảm giá hoạt động</h3></span>
                     <h2>{{ $activeCoupons }}</h2>
-                    <p>Mã giảm giá hoạt động</p>
-                    <div class="status">Active</div>
+                    <div class="status">Hoạt động</div>
                 </div>
-
                 <div class="stat-box">
+                    <span class="inactive"><h3>Mã giảm giá không hoạt động</h3></span>
                     <h2>{{ $inactiveCoupons }}</h2>
-                    <p>Mã giảm giá không hoạt động</p>
-                    <div class="status low-value">Inactive</div>
+                    <div class="status low-value">Không hoạt động</div>
                 </div>
             </div>
 
