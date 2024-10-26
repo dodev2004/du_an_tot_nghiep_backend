@@ -321,6 +321,7 @@
                             </h6>
                             <p style="margin-bottom: 12px; font-size: 11px;">Một sản phẩm có thể có nhiều phiên bản
                                 khác nhau ví dụ áo có kích thước, độ rộng, màu sắc khách nhau</p>
+                                <span class="error_variant text-center"></span>
                             <div style="display: flex; align-items: center; margin-bottom: 20px;">
                                 <input style="height: 20px; margin: 0;" class="checkVariants"
                                     onchange="renderAttributeProduct()" @if (count($product->variants)) checked @endif

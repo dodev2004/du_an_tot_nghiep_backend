@@ -383,7 +383,7 @@
                             <span class="seo_url">
                                 http://127.0.0.1:5500/post.htm
                             </span>
-                            <h2 class="seo_title">Tiêu đề danh mục bài viết</h2>
+                            <h2 class="seo_title">Tiêu đề danh mục sản phẩm</h2>
 
                             <span class="seo_description">
                                 Cung cấp 1 thẻ mô tả bằng cách sửa đoạn trích dẫn bên dưới. Nếu bạn không có thẻ mô tả,
