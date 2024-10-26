@@ -153,7 +153,7 @@
 @section('content')
     <div class="row">
         <!-- Doanh thu -->
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="col-md-12">
                 <div class="stat-box">
                     <div class="stat-title">
@@ -207,8 +207,8 @@
 
         </div>
 
-        <div class="col-md-6">
-            <!-- Đơn hàng hoàn thành -->
+        <div class="col-md-4">
+            {{-- <!-- Đơn hàng hoàn thành -->
             <div class="col-md-3">
                 <div class="stat-box">
                     <div class="stat-title">
@@ -238,6 +238,12 @@
                     <h3>{{ $pendingPaymentOrdersToday }}</h3>
                     <p>Đơn hàng chưa thu tiền hôm nay</p>
                 </div>
+            </div> --}}
+            <div class="stat-box">
+                <div class="stat-title">
+                    <span class="canceled-orders"><i class="fas fa-box"></i> Trạng thái đơn hàng </span>
+                </div>
+                <div id="orderStatusChart" style="height: 369px;"></div>
             </div>
         </div>
 
@@ -502,6 +508,17 @@
                             console.error(xhr.responseText);
                         }
                     });
+                });
+                const orderStatusData = @json($orderStatusData);
+
+                Morris.Donut({
+                    element: 'orderStatusChart',
+                    data: orderStatusData,
+                    colors: ["#ffcc00", "#3366ff", "#33cc33", "#4caf50", "#ff4444", "#ff6384"],
+                    resize: true,
+                    formatter: function(value, data) {
+                        return value + " đơn hàng";
+                    }
                 });
             });
         </script>

@@ -37,7 +37,7 @@
 
     <div class="total_record">
         <!-- <div style="margin-top: 23px; margin-left: 140px">
-            <a href="{{ route('admin.contact.create') }}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Thêm
+            <a href="{{ route('admin.customer.create') }}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Thêm
                 mới</a>
         </div> -->
     </div>

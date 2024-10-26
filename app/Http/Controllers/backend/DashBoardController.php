@@ -104,6 +104,20 @@ class DashBoardController extends Controller
                 'final_amount' => $order->final_amount
             ];
         });
+        $orderStatusCounts = Order::whereNotIn('status', [Order::STATUS_PROCESSING])
+            ->select('status', DB::raw('count(*) as count'))
+            ->groupBy('status')
+            ->pluck('count', 'status')
+            ->toArray();
+
+        $orderStatusData = [
+            ['label' => 'Chờ xử lý', 'value' => $orderStatusCounts[Order::STATUS_PENDING] ?? 0],
+            ['label' => 'Xác nhận', 'value' => $orderStatusCounts[Order::STATUS_CONFIRM] ?? 0],
+            ['label' => 'Đang giao', 'value' => $orderStatusCounts[Order::STATUS_SHIPPED] ?? 0],
+            ['label' => 'Hoàn thành', 'value' => $orderStatusCounts[Order::STATUS_COMPLETED] ?? 0],
+            ['label' => 'Đã hủy', 'value' => $orderStatusCounts[Order::STATUS_CANCELLED] ?? 0],
+            ['label' => 'Hoàn tiền', 'value' => $orderStatusCounts[Order::STATUS_REFUNDED] ?? 0]
+        ];
 
 
         // Truyền dữ liệu sang view
@@ -117,6 +131,8 @@ class DashBoardController extends Controller
             'pendingPaymentOrdersToday',   // Số đơn hàng chưa thu tiền hôm nay
             'canceledOrdersToday',         // Số đơn hàng bị hủy hôm nay
             'chartData',
+            'orderStatusData',
+
             'title',
         ));
     }
@@ -141,36 +157,37 @@ class DashBoardController extends Controller
         return response()->json($chart_data);
         // echo $data=json_encode($chart_data);
     }
-    public function selectSalesData(Request $request){
+    public function selectSalesData(Request $request)
+    {
 
         $data = $request->all();
-        $dauthangnay=now()->startOfmonth()->toDateString();
-        $dauthangtruoc=now()->subMonth()->startOfmonth()->toDateString();
-        $cuoithangtruoc=now()->subMonth()->endOfMonth()->toDateString();
+        $dauthangnay = now()->startOfmonth()->toDateString();
+        $dauthangtruoc = now()->subMonth()->startOfmonth()->toDateString();
+        $cuoithangtruoc = now()->subMonth()->endOfMonth()->toDateString();
 
-        $sub7days=now()->subdays(7)->toDateString();
-        $sub365days=now()->subdays(365)->toDateString();
+        $sub7days = now()->subdays(7)->toDateString();
+        $sub365days = now()->subdays(365)->toDateString();
 
-        if($data['dashboard_value']=='7ngay'){
-            $get=Order::where('created_at','>=',$sub7days)
-                ->where('status',Order::STATUS_COMPLETED)
-                ->where('payment_status',Order::PAYMENT_COMPLETED)
+        if ($data['dashboard_value'] == '7ngay') {
+            $get = Order::where('created_at', '>=', $sub7days)
+                ->where('status', Order::STATUS_COMPLETED)
+                ->where('payment_status', Order::PAYMENT_COMPLETED)
                 ->get();
-        }elseif($data['dashboard_value'] =='thangtruoc'){
-            $get=Order::where('created_at','>=',$dauthangtruoc)
-                ->where('created_at','<=',$cuoithangtruoc)
-                ->where('status',Order::STATUS_COMPLETED)
-                ->where('payment_status',Order::PAYMENT_COMPLETED)
+        } elseif ($data['dashboard_value'] == 'thangtruoc') {
+            $get = Order::where('created_at', '>=', $dauthangtruoc)
+                ->where('created_at', '<=', $cuoithangtruoc)
+                ->where('status', Order::STATUS_COMPLETED)
+                ->where('payment_status', Order::PAYMENT_COMPLETED)
                 ->get();
-        }else if($data['dashboard_value']=='thangnay'){
-            $get=Order::where('created_at','>=',$dauthangnay)
-                ->where('status',Order::STATUS_COMPLETED)
-                ->where('payment_status',Order::PAYMENT_COMPLETED)
+        } else if ($data['dashboard_value'] == 'thangnay') {
+            $get = Order::where('created_at', '>=', $dauthangnay)
+                ->where('status', Order::STATUS_COMPLETED)
+                ->where('payment_status', Order::PAYMENT_COMPLETED)
                 ->get();
-        }else{
-            $get=Order::where('created_at','>=',$sub365days)
-                ->where('status',Order::STATUS_COMPLETED)
-                ->where('payment_status',Order::PAYMENT_COMPLETED)
+        } else {
+            $get = Order::where('created_at', '>=', $sub365days)
+                ->where('status', Order::STATUS_COMPLETED)
+                ->where('payment_status', Order::PAYMENT_COMPLETED)
                 ->get();
         }
         foreach ($get as $value) {

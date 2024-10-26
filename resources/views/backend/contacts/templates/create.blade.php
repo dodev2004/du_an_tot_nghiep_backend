@@ -57,7 +57,7 @@
     <script src="{{ asset('backend/js/framework/ckfinder.js') }}"></script>
     @include('backend.contacts.components.js.ckfinder')
     @include('backend.contacts.handles.add');
-
+    
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script src="{{ asset('backend/js/framework/seo.js') }}"></script>

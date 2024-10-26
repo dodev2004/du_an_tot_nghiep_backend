@@ -39,7 +39,7 @@
                 @include("backend.customers.components.fillter")
                     @include("backend.customers.components.table")
 
-
+                
                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
                     {{  $data->appends(request()->query())->links()}}
                 </div>
