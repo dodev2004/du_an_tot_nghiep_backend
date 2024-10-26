@@ -12,8 +12,8 @@
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
-        <div class="ibox float-e-margins">
-            <div class="ibox-title">
+            <div class="ibox float-e-margins">
+                <!-- <div class="ibox-title">
                 <h5>{{$table_name}}</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
@@ -32,23 +32,23 @@
                         <i class="fa fa-times"></i>
                     </a>
                 </div>
-            </div>
-            <div class="ibox-content">
-                <div class="table-responsive">
-                    @include("backend.posts.components.post_catelogue.fillter")
-                    @include("backend.posts.components.post_catelogue.table")
-                    <div style="display:flex;justify-content: space-between;align-items: center">
-                        <div class="per_page">
-                            <p>Tồn tại tổng <strong>{{$data->total()  + $data->onEachSide}}</strong> tại trang thứ <strong>{{$data->currentPage()}}</strong></p>
-                        </div>
-                        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                            {{  $data->appends(request()->query())->links()}}
+            </div> -->
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        @include("backend.posts.components.post_catelogue.fillter")
+                        @include("backend.posts.components.post_catelogue.table")
+                        <div style="display:flex;justify-content: space-between;align-items: center">
+                            <div class="per_page">
+                                <p>Tồn tại tổng <strong>{{$data->total() + $data->onEachSide}}</strong> tại trang thứ <strong>{{$data->currentPage()}}</strong></p>
+                            </div>
+                            <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                {{ $data->appends(request()->query())->links()}}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </div>
 @endsection
