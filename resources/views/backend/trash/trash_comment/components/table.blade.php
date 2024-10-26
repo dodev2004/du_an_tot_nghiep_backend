@@ -1,6 +1,7 @@
 <table class="table table-bordered">
             <thead>
                 <tr>
+                    <th>Tài khoản</th>
                     <th>Người dùng</th>
                     <th>Sản phẩm</th>
                     <th>Bình luận</th>
@@ -11,6 +12,7 @@
             <tbody>
                 @foreach($data as $comment)
                     <tr>
+                        <td>{{ $comment->user->username }}</td>
                         <td>{{ $comment->user->full_name }}</td>
                         <td>{{ $comment->product->name }}</td>
                         <td>{{ $comment->comment }}</td>
@@ -28,7 +30,7 @@
                                         @method("DELETE")
                                         @csrf
                                         <input type="hidden" value="{{$comment->id}}" name="id">
-                                        <button class="btn btn-warning center" data-toggle="tooltip" data-placement="top" title="Xóa"><i class="fa fa-trash-o"></i></button>
+                                        <button class="btn btn-danger center" data-toggle="tooltip" data-placement="top" title="Xóa"><i class="fa fa-trash-o"></i></button>
                                     </form>
                                 </div>
                             </div>

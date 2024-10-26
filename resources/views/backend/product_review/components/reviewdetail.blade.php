@@ -1,49 +1,39 @@
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Mã sản phẩm</th>
-            <th>Sản phẩm</th>
-            <th>Bình luận</th>
-            <th>Ngày tạo</th>
-            <th>Hành động</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($data as $comment)
-        <tr>
-            <td>
-                <a class="product" data-toggle="tooltip" data-placement="top" title="Chi tiết sản phẩm"
-                    data-name="{{ $comment->product->name }}"
-                    data-description="{{ $comment->product->detailed_description }}"
-                    data-price="{{ $comment->product->price }}"
-                    data-discount-price="{{ $comment->product->discount_price }}"
-                    data-stock="{{ $comment->product->stock }}" data-weight="{{ $comment->product->weight }}"
-                    data-ratings-avg="{{ $comment->product->ratings_avg }}"
-                    data-ratings-count="{{ $comment->product->ratings_count }}"
-                    data-status="{{ $comment->product->status }}"
-                    data-image-url="{{ asset($comment->product->image_url) }}">
+<table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>Mã sản phẩm</th>
+                <th>tên Sản phẩm</th>
+                <th>Đánh giá</th>
+                <th>Số sao</th>
+                <th>Ngày</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($data as $review)
+            <tr>
+                <td>
+                    <a class="product" data-toggle="tooltip" data-placement="top" title="Chi tiết sản phẩm"
+                        data-name="{{ $review->product->name }}"
+                        data-description="{{ $review->product->detailed_description }}"
+                        data-price="{{ $review->product->price }}"
+                        data-discount-price="{{ $review->product->discount_price }}"
+                        data-stock="{{ $review->product->stock }}" data-weight="{{ $review->product->weight }}"
+                        data-ratings-avg="{{ $review->product->ratings_avg }}"
+                        data-ratings-count="{{ $review->product->ratings_count }}"
+                        data-status="{{ $review->product->status }}"
+                        data-image-url="{{ asset($review->product->image_url) }}">
 
-                    {{ $comment->product->sku }}
-                </a>
-            </td>
-            <td>{{ $comment->product->name }}</td>
-            <td>{{ $comment->comment }}</td>
-            <td>{{ $comment->created_at }}</td>
-
-            <td>
-                <form action="" method="POST" data-url="product-comment" style="text-align: center;"
-                    class="form-delete">
-                    @method("DELETE")
-                    @csrf
-                    <input type="hidden" value="{{$comment->id}}" name="id">
-                    <button class="btn btn-danger center" data-toggle="tooltip" data-placement="top" title="Xóa"><i
-                            class="fa fa-trash-o"></i></button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+                        {{ $review->product->sku }}
+                    </a>
+                </td>
+                <td>{{ $review->product->name }}</td>
+                <td>{{ $review->review }}</td>
+                <td>{{ $review->rating }}*</td>
+                <td>{{ $review->created_at->format('d/m/Y') }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 
 <!-- Modal -->
 <div class="modal fade" id="productDetailModal" tabindex="-1" role="dialog" aria-labelledby="productDetailModalLabel"

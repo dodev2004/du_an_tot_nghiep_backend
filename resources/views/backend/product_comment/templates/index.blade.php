@@ -17,9 +17,9 @@
             <div class="ibox-content">
                 @include("backend.product_comment.components.fillter")  
                 @include("backend.product_comment.components.table") 
-                @include("backend.product_comment.components.page")
+                @include("backend.product_comment.components.pageuser")
                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                    {{  $data->appends(request()->query())->links()}}
+                    {{  $users->links()}}
                 </div>
             </div>
 

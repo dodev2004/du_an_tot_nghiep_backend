@@ -1,6 +1,7 @@
 <table class="table table-bordered">
     <thead>
         <tr>
+            <th>Tài khoản</th>
             <th>Người dùng</th>
             <th>Số lượng sản phẩm</th>
             <th>Số lượng bình luận</th>
@@ -18,14 +19,15 @@
                         data-phone="{{ $user->phone }}" 
                         data-address="{{ $user->address }}" 
                         data-birthday="{{ $user->birthday }}" 
-                        data-province="{{ $user->province_id }}" 
-                        data-district="{{ $user->district_id }}" 
-                        data-ward="{{ $user->ward_id }}" 
+                        data-province="{{ $user->province->name }}" 
+                        data-district="{{ $user->district->name }}" 
+                        data-ward="{{ $user->ward->name }}" 
                         data-avatar="{{ asset($user->avatar) }}"
                         style="cursor: pointer;">
-                        {{ $user->full_name }}
+                        {{ $user->username }}
                     </a>
                 </td>
+                <td>{{ $user->full_name }}</td>
                 <td>{{ $user->product_count }}</td>
                 <td>{{ $user->product_comments_count }}</td> 
                 <td>

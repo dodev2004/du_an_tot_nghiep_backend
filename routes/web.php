@@ -185,6 +185,7 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
     });
     Route::prefix("product_reviews")->group(function(){
         Route::get('admin/product-reviews', [ProductReviewController::class, 'index'])->name('admin.product_review');
+        Route::get("user/{id}/reviews", [ProductReviewController::class, "userReviews"])->name("admin.product_review.user_reviews");
     });
     Route::prefix("brand")->group(function(){
         Route::get("list",[BrandController::class,"index"])->name("admin.brand");
