@@ -286,7 +286,7 @@
                 <label for="">Lọc doanh thu theo</label>
                 <select class="dashboard-filter form-control">
                     <option value="7ngay">7 ngày qua</option>
-                    <option value="thangnay">tháng này</option>
+                    <option value="thangnay" selected>tháng này</option>
                     <option value="thangtruoc">tháng trước</option>
                     <option value="365ngayqua">365 ngày qua</option>
                 </select>
