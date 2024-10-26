@@ -2,21 +2,23 @@
     <div class="form_seach" style="padding-bottom: 12px">
         <form method="GET" class="row">
             <div class="col-md-2 p-2" style="padding-right: 2px;!important">
-                <input type="text" class="form-control" name="ky_tu" @if(isset($_GET["ky_tu"])) value="{{$_GET['ky_tu']}}" @endif placeholder="Tìm kiếm theo tên">
-            </div>
-            <div class="col-md-2 p-2" style="padding-right: 2px;!important">
-                <input type="text" class="form-control" name="chuyen_muc" @if(isset($_GET["chuyen_muc"])) value="{{ $_GET["chuyen_muc"]}}" @endif placeholder="Tìm kiếm theo chuyên mục">
+                <input type="text" class="form-control" name="ma_don_hang" @if(isset($_GET["ma_don_hang"])) value="{{$_GET['ma_don_hang']}}" @endif placeholder="Tìm kiếm theo mã đơn hàng">
             </div>
             <div class="col-md-2 p-2" style="padding-right: 2px;!important">
                 <select name="trang_thai" id="" class="form-control">
                     <option value="">Tìm kiếm theo trạng thái</option>
-                    <option @if(isset($_GET["trang_thai"]) && $_GET["trang_thai"] == 1 ) selected @endif value="1">Hoạt động</option>
-                    <option @if(isset($_GET["trang_thai"]) && $_GET["trang_thai"] == 0) selected @endif value="0">Không hoạt động</option>
+                    <option @if(isset($_GET["trang_thai"]) && $_GET["trang_thai"] == 1 ) selected @endif value="1">Chờ xử lý</option>
+                    <option @if(isset($_GET["trang_thai"]) && $_GET["trang_thai"] == 2) selected @endif value="2">Đã xác nhận</option>
+                    <option @if(isset($_GET["trang_thai"]) && $_GET["trang_thai"] == 3 ) selected @endif value="3">Đang xử lý</option>
+                    <option @if(isset($_GET["trang_thai"]) && $_GET["trang_thai"] == 4) selected @endif value="4">Xác nhận giao hàng</option>
+                    <option @if(isset($_GET["trang_thai"]) && $_GET["trang_thai"] == 5 ) selected @endif value="5">Đã giao hàng</option>
+                    <option @if(isset($_GET["trang_thai"]) && $_GET["trang_thai"] == 6) selected @endif value="6">Hoàn tất</option>
+                    <option @if(isset($_GET["trang_thai"]) && $_GET["trang_thai"] == 7 ) selected @endif value="7">Hủy</option>
                 </select>
             </div>
             <div class="col-md-2 p-2">
                 <div >
-                    <input type="datetime-local" name="ngay_dang" @if(isset($_GET["ngay_dang"])) value="{{ $_GET["ngay_dang"]}}" @endif class="form-control">
+                    <input type="text" class="form-control" id="dateRangePicker" name="dates" />
                 </div>
             </div>
             <div class="col-md-4 d-flex align-items-center" style="padding-left: 12px;">
