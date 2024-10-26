@@ -323,7 +323,8 @@
                                 khác nhau ví dụ áo có kích thước, độ rộng, màu sắc khách nhau</p>
                             <div style="display: flex; align-items: center; margin-bottom: 20px;">
                                 <input style="height: 20px; margin: 0;" class="checkVariants"
-                                    onchange="renderAttributeProduct()" @if(count($product->variants)) checked @endif type="checkbox">
+                                    onchange="renderAttributeProduct()" @if (count($product->variants)) checked @endif
+                                    type="checkbox">
                                 <p style="margin: 0 4px;">Sản phẩm có nhiều thể loại, nhiều mức giá</p>
 
                             </div>
@@ -615,13 +616,13 @@
                         ...res.attributes
                     }
 
-                    
-                   res.attribute_id.forEach(item => {
-                          selectedAttributes.push(item)
-                            
+
+                    res.attribute_id.forEach(item => {
+                        selectedAttributes.push(item)
+
                     });
                     productVariant = res.variants
-                    renderTableListVariant(res.attributes,productVariant)
+                    renderTableListVariant(res.attributes, productVariant)
                     Object.keys(res.attributes).forEach(function(item) {
                         handleAttributeAdd(item, res.attributes[item])
                     })
@@ -630,10 +631,10 @@
             }
         })
 
-     
-        // Khởi tạo mảng để lưu trữ các thuộc tính đã chọ
 
-        function createElementAttributeValue(options,selectedAttribute = null) {
+        // Khởi tạo mảng để lưu trữ các thuộc tính đã chọn
+
+        function createElementAttributeValue(options, selectedAttribute = null) {
             const select = document.createElement('select');
             select.className = "attribute_value";
             select.multiple = true;
@@ -641,7 +642,7 @@
                 const optionValue = document.createElement('option');
                 optionValue.value = option.id;
                 optionValue.text = option.name;
-                if(selectedAttribute){   
+                if (selectedAttribute) {
                     optionValue.selected = selectedAttribute.includes(String(option.id))
                 }
                 optionValue.disabled = false
@@ -655,7 +656,7 @@
 
 
         function handleAttributeAdd(optionSelect = null, attribute_selected = null) {
-  
+
 
             const attributeGroups = document.querySelector(".attribute");
             const rowElement = document.createElement("div");
@@ -689,14 +690,14 @@
                     if (attribute.name.trim() == optionSelect.trim()) {
                         option.selected = true;
 
-                    }  
-                
-                    
+                    }
+
+
                     // Disable thuộc tính đã được chọn trước đó
                     if (selectedAttributes.includes(attribute.id)) {
                         option.disabled = true;
-                     
-                        
+
+
                     }
                     selectAttribute.appendChild(option);
                 });
@@ -732,23 +733,32 @@
             rowElement.appendChild(attribute);
             rowElement.appendChild(attribute_value);
             rowElement.appendChild(remove_attribute);
-           
+
             attributeGroups.appendChild(rowElement);
             if (attribute_selected) {
-                    const options = attributesData.find(attribute => attribute.name == optionSelect).values;
-                    attribute_value.innerHTML = "";
-                    const newSelect = createElementAttributeValue(options,attribute_selected);
-                    attribute_value.appendChild(newSelect);
-                    $(newSelect).select2({
-                        width: "100%"
-                    });
-            
+                const key = selectAttribute[selectAttribute.options.selectedIndex].text.trim();
+                const attributeId = this.value;
+                const options = attributesData.find(attribute => attribute.name == optionSelect).values;
+                attribute_value.innerHTML = "";
+                const newSelect = createElementAttributeValue(options, attribute_selected);
+                attribute_value.appendChild(newSelect);
+                $(newSelect).select2({
+                    width: "100%"
+                });
+              
+                attribute_value.onchange = function() {
+                    data[key] = $(newSelect).val();
+
+                    renderTableListVariant(data);
+                };
             }
             updateSelectAttributes();
+            console.log(selectAttribute);
+
             // Xử lý sự kiện chọn thuộc tính
             selectAttribute.onchange = function() {
                 console.log("Checking");
-                
+
                 const key = selectAttribute[selectAttribute.options.selectedIndex].text.trim();
                 const attributeValueSelect = this.parentElement.parentElement.querySelector(".attribute_value");
                 const attributeId = this.value;
@@ -767,6 +777,7 @@
                 $(newSelect).select2({
                     width: "100%"
                 });
+                console.log(newSelect);
 
 
                 newSelect.onchange = function() {
@@ -777,7 +788,7 @@
             };
         }
 
-        function renderTableListVariant(data,first=false) {
+        function renderTableListVariant(data, first = false) {
             const nameColumn = Object.keys(data); // Lấy tất cả các keys
             const variants = [];
 
@@ -877,7 +888,7 @@
                     const price = document.querySelector("input[name='price']");
 
                     tbody.appendChild(listVariant);
-                    if(!first){
+                    if (!first) {
                         tbody.insertAdjacentHTML("beforeend", `
     <tr class="attribute_table-content">
     <td colspan="${4 + count}">
@@ -920,10 +931,9 @@
     </td>
 </tr>
 `);
-                    }
-                    else {
+                    } else {
                         const dataVariant = first[index];
-                    
+
                         tbody.insertAdjacentHTML("beforeend", `
     <tr class="attribute_table-content">
     <td colspan="${4 + count}">
@@ -967,7 +977,7 @@
 </tr>
 `);
                     }
-                    
+
                     table.appendChild(tbody);
                 });
             }
@@ -976,12 +986,12 @@
         function updateSelectAttributes() {
             const allSelects = document.querySelectorAll(".attribute select");
             const currentSelectedIds = Array.from(allSelects).map(select => select.value).filter(id => id);
-           
+
 
             allSelects.forEach(select => {
                 const options = select.querySelectorAll('option');
                 options.forEach(option => {
-                
+
                     option.disabled = currentSelectedIds.includes(option.value) && option.value !== select
                         .value; // Disable nếu đã chọn
                 });
@@ -994,7 +1004,7 @@
             // Tìm đến phần tử hàng cha và phần tử select trong hàng đó
             const parentNode = event.target.closest(".row");
             const selectElement = parentNode.querySelector("select");
-        
+
 
             const attributeId = selectElement.value;
             const attributeName = selectElement.options[selectElement.selectedIndex].text.trim();

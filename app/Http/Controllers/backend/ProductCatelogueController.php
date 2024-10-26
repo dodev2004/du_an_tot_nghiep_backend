@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use App\Services\Interfaces\ProductCatelogueServiceInterface;
 use App\Http\Requests\StoreProductCatelogueRequest ;
 use App\Http\Requests\UpdateProductCatelogueRequest;
+use App\Models\Product;
+use App\Models\ProductCatelogue;
 use App\Services\ProductCatelogueService;
+use Illuminate\Support\Facades\DB;
 
 class ProductCatelogueController extends Controller
 {
@@ -116,8 +119,18 @@ class ProductCatelogueController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        
+        DB::beginTransaction();
+        try {
+           
+           ProductCatelogue::find($request->id)->delete();
+            DB::commit();
+            return response()->json(["success","Xoá thành công" ]);
+        }
+        catch(\Exception $e){
+           DB::rollBack();
+           return response()->json(["error","Xóa không thành công"]);
+        }
     }
 }

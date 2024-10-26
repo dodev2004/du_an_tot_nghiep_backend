@@ -143,8 +143,8 @@ class DashBoardController extends Controller
         $toDate = $data['toDate'];
         // Lấy các đơn hàng đã hoàn thành và đã thanh toán
         $get = Order::whereBetween(('created_at'), [$fromDate, $toDate])
-            ->where('status', Order::STATUS_COMPLETED) // Trạng thái hoàn thành
-            ->where('payment_status', Order::PAYMENT_COMPLETED) // Trạng thái đã thanh toán
+            ->where('status', 6) // Trạng thái hoàn thành
+            ->where('payment_status', 2) // Trạng thái đã thanh toán
             ->orderby('created_at', 'ASC')
             ->get();
         foreach ($get as $value) {

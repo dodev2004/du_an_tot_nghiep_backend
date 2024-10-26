@@ -23,7 +23,7 @@ class ProductCatelogueService implements ProductCatelogueServiceInterface
         $this->nestedSetBuild->_set("product_catelogues"); 
         // return  $this->nestedSetBuild->renderListProductCatelogue($this->nestedSetBuild->Get());
         $data = $this->nestedSetBuild->Get("list");
-        
+   
         // Xây dựng cấu trúc danh mục cha-con
         $nestedCategories = $this->buildNestedCategories($data);
         // Phân trang danh mục cha
@@ -35,8 +35,8 @@ class ProductCatelogueService implements ProductCatelogueServiceInterface
             'path' => LengthAwarePaginator::resolveCurrentPath(),
             'query' => request()->query(), // Giữ lại các tham số truy vấn
         ]);
-        $post_catelogues = $this->nestedSetBuild->renderListPostCatelogue($paginatedItems); // Gọi hàm render với danh sách phân trang
-        
+        $post_catelogues = $this->nestedSetBuild->renderListProductCatelogue($paginatedItems); // Gọi hàm render với danh sách phân trang
+      
         return ["html" => $post_catelogues, "data" => $paginatedItems];
     }
     public function dropdownCatelogue($target = "create"){

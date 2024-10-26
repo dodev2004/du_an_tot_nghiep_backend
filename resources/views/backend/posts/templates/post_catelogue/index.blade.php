@@ -37,14 +37,14 @@
                     <div class="table-responsive">
                         @include("backend.posts.components.post_catelogue.fillter")
                         @include("backend.posts.components.post_catelogue.table")
-                        <div style="display:flex;justify-content: space-between;align-items: center">
-                            <div class="per_page">
-                                <p>Tồn tại tổng <strong>{{$data->total() + $data->onEachSide}}</strong> tại trang thứ <strong>{{$data->currentPage()}}</strong></p>
+                            <div style="display:flex;justify-content: space-between;align-items: center">
+                                <div class="per_page">
+                                    <p>Tồn tại tổng <strong>{{$total}}</strong> tại trang thứ <strong>{{$data->currentPage()}}</strong></p>
+                                </div>
+                                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                    {{ $data->appends(request()->query())->links()}}
+                                </div>
                             </div>
-                            <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                                {{ $data->appends(request()->query())->links()}}
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -57,7 +57,7 @@
 @include("backend.components.handles.switchery")
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
-@include("backend.posts.handle.delete");
+@include("backend.components.handles.delete");
 <script src="{{asset("backend/js/plugins/dataTables/datatables.min.js")}}"></script>
 <script src="{{asset("backend/js/framework/table.js")}}"></script>
 @endpush

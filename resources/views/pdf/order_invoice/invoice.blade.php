@@ -1,29 +1,22 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hóa Đơn Đơn Hàng</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        @font-face {
-            font-family: 'DejaVu';
-            src: url('{{ public_path('fonts/DejaVuMathTeXGyre.ttf') }}') format('truetype');
-        }
-
         @page {
             size: A4;
             margin: 20mm;
         }
-
         body {
-            font-family: 'DejaVu', sans-serif !important;
+            font-family: 'Roboto', sans-serif; /* Sử dụng font chữ Roboto */
             margin: 0;
             padding: 0;
             color: #555;
             background-color: #f9f9f9;
         }
-
         .container {
             max-width: 100%;
             background: #fff;
@@ -31,72 +24,67 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-
-        h1,
-        h2 {
+        h1, h2 {
             color: #333;
             text-align: center;
             margin-bottom: 10px;
         }
-
         h3 {
             color: #777;
             margin-bottom: 10px;
         }
-
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
-
-        table,
-        th,
-        td {
+        table, th, td {
             border: 1px solid #ddd;
         }
-
-        th,
-        td {
+        th, td {
             padding: 12px;
             text-align: left;
         }
-
         th {
             background-color: #f2f2f2;
             color: #333;
         }
-
         .text-right {
             text-align: right;
         }
-
         .text-center {
             text-align: center;
         }
-
         .summary {
             margin-top: 20px;
             padding: 10px;
             border-top: 2px solid #333;
         }
-
         .footer {
             margin-top: 30px;
             text-align: center;
             font-size: 12px;
             color: #777;
         }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            width: 150px; /* Chiều rộng logo */
+        }
     </style>
 </head>
-
 <body>
     <div class="container">
+        <div class="logo">
+            <img src="{{ asset('path/to/your/logo.png') }}" alt="Logo của bạn">
+        </div>
         <h1>Hóa Đơn Đơn Hàng</h1>
-
+        
         <h3>Thông Tin Khách Hàng</h3>
-        <p><strong>Họ Tên:</strong> Nguyễn Văn A</p>
-        <p><strong>Địa Chỉ:</strong> Hà Nội, Việt Nam</p>
+        <p><strong>Họ Tên:</strong> Nguy?n V?n A</p>
+        <p><strong>Địa Chỉ:</strong> Hà N?i, Vi?t Nam</p>
         <p><strong>Email:</strong> budev@gmail.com</p>
         <p><strong>Số Điện Thoại:</strong> 0123456789</p>
 
@@ -143,5 +131,4 @@
         </div>
     </div>
 </body>
-
 </html>

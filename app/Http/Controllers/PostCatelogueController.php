@@ -37,9 +37,13 @@ class PostCatelogueController extends Controller
         $post_catelogues = $this->postcatelogueService->getAllPosCatelogue();
         $data = $post_catelogues["data"];
         $post_catelogues = $post_catelogues["html"];
+        $total = 0;
+        foreach($data as $item) {
+            $total += $total +1 + count($item->children); 
+         };
    
         $breadcrumbs = $this->breadcrumbs;
-        return  view("backend.posts.templates.post_catelogue.index",compact("breadcrumbs","title","table_name","post_catelogues","data"));
+        return  view("backend.posts.templates.post_catelogue.index",compact("breadcrumbs","title","table_name","post_catelogues","data",'total'));
     }
   
     /**

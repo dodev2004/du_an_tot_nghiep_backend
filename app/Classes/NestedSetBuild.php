@@ -156,7 +156,7 @@ class NestedSetBuild
                 <td>" . str_repeat('---|', $item->level) . "$item->name</td>
                 <td class='text-center' style='display: flex; justify-content: center; column-gap: 5px;'>
                     <a href='$routeEdit' class='btn btn-info'><i class='fa fa-pencil'></i></a>
-                    <form action='' method='POST' class='form-delete'>
+                    <form action='' method='POST' class='form-delete' data-url='post-catelogue'>
                         " . csrf_field() . method_field('DELETE') . "
                         <input type='hidden' value='$item->id' name='id'>
                         <button type='submit' class='btn btn-warning center'><i class='fa fa-trash-o'></i></button>
@@ -176,31 +176,33 @@ class NestedSetBuild
     }
     public function renderListProductCatelogue($data, $parentId = 0)
     {
-        $resuilt = "<tr>";
+        $result = ""; // Chuỗi lưu HTML
+        
         foreach ($data as $index => $item) {
             $index = $index + 1;
-            if ($item->parent_id == $parentId) {
-                $routeEdit = route('admin.product_catelogue.edit', [$item->id]);
-                $resuilt .= "
-                    <td>$index</td>
-                    <td>" . str_repeat('---|', $item->level) . "$item->name</td>
-                    <td class='text-center' style='display: flex; justify-content: center;column-gap: 5px;'>
+            $routeEdit = route('admin.product_catelogue.edit', [$item->id]);
+            $result .= "<tr class='category-row' data-id='$item->id'>";
+            $result .= "
+                <td class='text-center'>$item->id</td>
+                <td>" . str_repeat('---|', $item->level) . "$item->name</td>
+                <td class='text-center' style='display: flex; justify-content: center; column-gap: 5px;'>
                     <a href='$routeEdit' class='btn btn-info'><i class='fa fa-pencil'></i></a>
-                    <form action='' method='POST' data-url='product-catelogue' class='form-delete'>
-                    <input type='hidden' name = '_token' value='" . csrf_token() . "' />" .
-                    "  <input type='hidden' value='$item->id' name='id'>
-                        <button class='btn btn-warning center'><i class='fa fa-trash-o'></i></button>
+                    <form action='' method='POST' class='form-delete' data-url='product-catelogue'>
+                        " . csrf_field() . method_field('DELETE') . "
+                        <input type='hidden' value='$item->id' name='id'>
+                        <button type='submit' class='btn btn-warning center'><i class='fa fa-trash-o'></i></button>
                     </form>
-                    </td>
-                ";
-                $resuilt .= "</tr>";
-                if (!empty($item->children)) {
-                    // Gọi lại hàm render cho các danh mục con
-                    $resuilt .= $this->renderListPostCatelogue($item->children);
-                }
+                </td>
+            ";
+            $result .= "</tr>";
+    
+            // Render danh mục con nếu có
+            if (!empty($item->children)) {
+                // Gọi lại hàm render cho các danh mục con
+                $result .= $this->renderListProductCatelogue($item->children);
             }
         }
-
-        return $resuilt;
+        
+        return $result; 
     }
 }
