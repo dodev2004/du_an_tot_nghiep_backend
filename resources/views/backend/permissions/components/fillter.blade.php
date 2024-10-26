@@ -20,11 +20,11 @@
                 </select>
             </div>
             <div>
-                <label for="start_date">Ngày bắt đầu:</label>
+                <label for="start_date">Từ ngày:</label>
                 <input type="date" class="form-control" name="start_date" value="{{ request('start_date') }}">
             </div>
             <div>
-                <label for="end_date">Ngày kết thúc:</label>
+                <label for="end_date">Đến ngày:</label>
                 <input type="date" class="form-control" name="end_date" value="{{ request('end_date') }}">
             </div>
             <div>
@@ -36,7 +36,7 @@
                 </select>
             </div>
             <div>
-                <label for="status">Sắp xếp theo:</label>
+                <label for="status">Trạng thái:</label>
                 <select name="status" class="form-control">
                     <option value="">Toàn Bộ</option>
                     <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Hoạt động</option>

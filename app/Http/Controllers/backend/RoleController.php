@@ -22,9 +22,18 @@ class RoleController extends Controller
             "url" => route("admin.role"),
             "name" => "Quản lý vai trò"
         ];
+        $query = Role::with('permissions');
+
+        // Kiểm tra nếu người dùng muốn xem các bản ghi đã bị xóa mềm
+        if ($request->input('seach_text')) {
+            $query->where('name', 'LIKE', '%' . $request->input('seach_text') . '%');
+        }
+        if (request()->input('status') !== null && request()->input('status') !== '') {
+            $query->where('status', request()->input('status'));
+        }
         $breadcrumbs = $this->breadcrumbs;
         $table="roles";
-        $roles = Role::with('permissions')->paginate(10); // Lấy danh sách vai trò và quyền liên kết
+        $roles = $query->paginate(10); // Lấy danh sách vai trò và quyền liên kết
         return view('backend.roles.templates.index', compact('roles', 'title', 'breadcrumbs',"table"));
     }
 

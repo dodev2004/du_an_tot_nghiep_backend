@@ -79,7 +79,8 @@ class DashBoardController extends Controller
         $canceledOrdersToday = Order::whereDate('created_at', date('Y-m-d'))
             ->where('status', Order::STATUS_CANCELLED)
             ->count();
-        $fromDate = now()->subYear()->format('Y-m-d'); // Ngày bắt đầu từ 1 năm trước
+
+        $fromDate = now()->startOfMonth()->format('Y-m-d');
         $toDate = now()->format('Y-m-d'); // Ngày hiện tại
 
         // Lấy các đơn hàng đã hoàn thành và đã thanh toán trong 1 năm qua
@@ -89,13 +90,16 @@ class DashBoardController extends Controller
             ->orderBy('created_at', 'ASC')
             ->get(['final_amount', 'created_at']);
 
-        // Định dạng dữ liệu để truyền vào view
-        $chartData = $orders->map(function ($order) {
+        // Nhóm các đơn hàng theo ngày và tính tổng doanh thu cho mỗi ngày
+        $chartData = $orders->groupBy(function ($order) {
+            return $order->created_at->format('Y-m-d'); // Nhóm theo ngày
+        })->map(function ($orders, $date) {
             return [
-                'created_at' => $order->created_at->format('Y-m-d'),
-                'final_amount' => $order->final_amount
+                'created_at' => $date,
+                'final_amount' => $orders->sum('final_amount') // Tổng doanh thu của các đơn hàng trong cùng một ngày
             ];
-        });
+        })->values(); // Reset các key của collection
+
         $orderStatusCounts = Order::whereNotIn('status', [Order::STATUS_PROCESSING])
             ->select('status', DB::raw('count(*) as count'))
             ->groupBy('status')
@@ -129,67 +133,89 @@ class DashBoardController extends Controller
         ));
     }
     public function filterSalesData(Request $request)
-    {
-        $data = $request->all();
-        $fromDate = $data['fromDate'];
-        $toDate = $data['toDate'];
-        // Lấy các đơn hàng đã hoàn thành và đã thanh toán
-        $get = Order::whereBetween(('created_at'), [$fromDate, $toDate])
-            ->where('status', 6) // Trạng thái hoàn thành
-            ->where('payment_status', 2) // Trạng thái đã thanh toán
-            ->orderby('created_at', 'ASC')
+{
+    $data = $request->all();
+    $fromDate = $data['fromDate'];
+    $toDate = $data['toDate'];
+
+    // Lấy các đơn hàng đã hoàn thành và đã thanh toán, nhóm theo ngày
+    $get = Order::whereBetween('created_at', [$fromDate, $toDate])
+        ->where('status', Order::STATUS_COMPLETED) // Trạng thái hoàn thành
+        ->where('payment_status', Order::PAYMENT_COMPLETED) // Trạng thái đã thanh toán
+        ->selectRaw('SUM(final_amount) as total_amount, DATE(created_at) as order_date')
+        ->groupBy('order_date')
+        ->orderBy('order_date', 'ASC')
+        ->get();
+
+
+    foreach ($get as $value) {
+        $chart_data[] = array(
+            'final_amount' => $value->total_amount,
+            'created_at' => $value->order_date,
+        );
+    }
+
+    return response()->json($chart_data);
+}
+public function selectSalesData(Request $request)
+{
+    $data = $request->all();
+    $dauthangnay = now()->startOfMonth()->toDateString();
+    $dauthangtruoc = now()->subMonth()->startOfMonth()->toDateString();
+    $cuoithangtruoc = now()->subMonth()->endOfMonth()->toDateString();
+
+    $sub7days = now()->subDays(7)->toDateString();
+    $sub365days = now()->subDays(365)->toDateString();
+
+    // Khởi tạo biến $get
+    $get = null;
+
+    if ($data['dashboard_value'] == '7ngay') {
+        $get = Order::where('created_at', '>=', $sub7days)
+            ->where('status', Order::STATUS_COMPLETED)
+            ->where('payment_status', Order::PAYMENT_COMPLETED)
+            ->selectRaw('SUM(final_amount) as total_amount, DATE(created_at) as order_date')
+            ->groupBy('order_date')
+            ->orderBy('order_date', 'ASC')
             ->get();
-        foreach ($get as $value) {
-            $chart_data[] = array(
-                'final_amount' => $value->final_amount,
-                'created_at' => $value->created_at->format('Y-m-d'),
-            );
-        }
-
-        return response()->json($chart_data);
-        // echo $data=json_encode($chart_data);
+    } elseif ($data['dashboard_value'] == 'thangtruoc') {
+        $get = Order::where('created_at', '>=', $dauthangtruoc)
+            ->where('created_at', '<=', $cuoithangtruoc)
+            ->where('status', Order::STATUS_COMPLETED)
+            ->where('payment_status', Order::PAYMENT_COMPLETED)
+            ->selectRaw('SUM(final_amount) as total_amount, DATE(created_at) as order_date')
+            ->groupBy('order_date')
+            ->orderBy('order_date', 'ASC')
+            ->get();
+    } elseif ($data['dashboard_value'] == 'thangnay') {
+        $get = Order::where('created_at', '>=', $dauthangnay)
+            ->where('status', Order::STATUS_COMPLETED)
+            ->where('payment_status', Order::PAYMENT_COMPLETED)
+            ->selectRaw('SUM(final_amount) as total_amount, DATE(created_at) as order_date')
+            ->groupBy('order_date')
+            ->orderBy('order_date', 'ASC')
+            ->get();
+    } else {
+        $get = Order::where('created_at', '>=', $sub365days)
+            ->where('status', Order::STATUS_COMPLETED)
+            ->where('payment_status', Order::PAYMENT_COMPLETED)
+            ->selectRaw('SUM(final_amount) as total_amount, DATE(created_at) as order_date')
+            ->groupBy('order_date')
+            ->orderBy('order_date', 'ASC')
+            ->get();
     }
-    public function selectSalesData(Request $request)
-    {
 
-        $data = $request->all();
-        $dauthangnay = now()->startOfmonth()->toDateString();
-        $dauthangtruoc = now()->subMonth()->startOfmonth()->toDateString();
-        $cuoithangtruoc = now()->subMonth()->endOfMonth()->toDateString();
-
-        $sub7days = now()->subdays(7)->toDateString();
-        $sub365days = now()->subdays(365)->toDateString();
-
-        if ($data['dashboard_value'] == '7ngay') {
-            $get = Order::where('created_at', '>=', $sub7days)
-                ->where('status', Order::STATUS_COMPLETED)
-                ->where('payment_status', Order::PAYMENT_COMPLETED)
-                ->get();
-        } elseif ($data['dashboard_value'] == 'thangtruoc') {
-            $get = Order::where('created_at', '>=', $dauthangtruoc)
-                ->where('created_at', '<=', $cuoithangtruoc)
-                ->where('status', Order::STATUS_COMPLETED)
-                ->where('payment_status', Order::PAYMENT_COMPLETED)
-                ->get();
-        } else if ($data['dashboard_value'] == 'thangnay') {
-            $get = Order::where('created_at', '>=', $dauthangnay)
-                ->where('status', Order::STATUS_COMPLETED)
-                ->where('payment_status', Order::PAYMENT_COMPLETED)
-                ->get();
-        } else {
-            $get = Order::where('created_at', '>=', $sub365days)
-                ->where('status', Order::STATUS_COMPLETED)
-                ->where('payment_status', Order::PAYMENT_COMPLETED)
-                ->get();
-        }
-        foreach ($get as $value) {
-            $chart_data[] = array(
-                'final_amount' => $value->final_amount,
-                'created_at' => $value->created_at->format('Y-m-d'),
-            );
-        }
-        return response()->json($chart_data);
+    
+    foreach ($get as $value) {
+        $chart_data[] = array(
+            'final_amount' => $value->total_amount,
+            'created_at' => $value->order_date,
+        );
     }
+
+    return response()->json($chart_data);
+}
+
 
 
 

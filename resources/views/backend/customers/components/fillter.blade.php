@@ -7,11 +7,11 @@
                     value="{{ $_GET['seach_text'] }}" @endif placeholder="Tìm kiếm">
             </div>
             <div>
-                <label for="start_date">Ngày bắt đầu:</label>
+                <label for="start_date">Từ ngày:</label>
                 <input type="date" class="form-control" name="start_date" value="{{ request('start_date') }}">
             </div>
             <div>
-                <label for="end_date">Ngày kết thúc:</label>
+                <label for="end_date">Đến ngày:</label>
                 <input type="date" class="form-control" name="end_date" value="{{ request('end_date') }}">
             </div>
             <div>

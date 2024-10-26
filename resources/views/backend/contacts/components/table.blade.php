@@ -56,7 +56,7 @@
                             <i class="fa fa-comment-dots"></i>
                         </a>
                     @elseif ($item->status == 1)
-                        <a type="button" class="view-user-detail" data-toggle="tooltip" data-placement="top"
+                        <a type="button" class="view-user-detail btn btn-info" data-toggle="tooltip" data-placement="top"
                             title="Chi tiết phản hồi" data-toggle="tooltip" data-placement="top" title="Xem chi tiết"
                             data-full-name="{{ $item->user->full_name }}" data-email="{{ $item->user->email }}"
                             data-username="{{ $item->user->username }}" data-phone="{{ $item->user->phone }}"
@@ -116,7 +116,7 @@
                     </div>
                     <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
                         <div>
-                            <div><strong>Tên người dùng:</strong></div>
+                            <div><strong>Tài khoản người dùng:</strong></div>
                             <div
                                 style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
                                 <span id="userName"></span>
