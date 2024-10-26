@@ -63,7 +63,8 @@ class ProductCommentController extends Controller
         if (!empty($searchText)) {
             $query->where('comment', 'LIKE', '%' . $searchText . '%')
             ->orWhereHas('product', function ($q) use ($searchText) {
-                $q->where('name', 'LIKE', '%' . $searchText . '%');
+                $q->where('name', 'LIKE', '%' . $searchText . '%')
+                ->orWhere('sku', 'LIKE', '%' . $searchText . '%');
             })->where('user_id', $id);
         }
 

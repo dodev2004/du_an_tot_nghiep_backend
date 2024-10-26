@@ -1,7 +1,7 @@
 <?php
 return [
     [
-        "childrenlevel" => false,
+        "childrenlevel" => true,
         "name" => "Thống kê",
         "route" => "#",
         "icon" => "fa-desktop",
