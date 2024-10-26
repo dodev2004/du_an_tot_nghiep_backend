@@ -1,30 +1,9 @@
 <?php
 return [
     [
-<<<<<<< HEAD
         "childrenlevel" => false,
-=======
-        "childrenlevel" => true,
->>>>>>> a5e72abbe90a250e69c92b1f7250d1d5147f7672
         "name" => "Thống kê",
         "route" => "admin.dashboard",
-        "icon" => "fa-desktop",
-        'children' =>
-        [
-            [
-            "name" => "Thống kê đơn hàng",
-            "route" => 'admin.dashboard_order',
-            ],
-            [
-                "name" => "Thống kê sản phẩm",
-                "route" => 'admin.dashboard_order',
-            ],
-            [
-                            "name" => "Thống kê mã giảm giá",
-                            "route" => 'admin.promotion.statistics',
-
-            ],
-        ],
     ],
     [
         "childrenlevel" => true,
@@ -117,39 +96,24 @@ return [
         "route" => "admin.promotions"
 
     ],
-
-
-    [
-        "childrenlevel" => false,
-        "name" => "Quản lý trang giới thiệu",
-        "route" => "admin.about",
-    ],
-
+        [
+            "childrenlevel" => false,
+            "name" => "Quản lý trang giới thiệu",
+            "route" => "admin.about",
+        ],
 
     [
         "childrenlevel" => false,
         "name" => "Quản lí nhãn hàng",
         "route" => "admin.brand",
     ],
-
-    [
-        "childrenlevel" => false,
-        "name" => "Quản lí đơn hàng",
-        "route" => "admin.orders",
-    ],
-
-
+   
     [
         "childrenlevel" => false,
         "name" => "Quản lí phí ship",
         "route" => "admin.shipping_fee",
     ],
     [
-
-        "childrenlevel" => false,
-        "name" => "Quản lí form liên hệ",
-        "route" => "admin.contact",
-
         "childrenlevel" => true,
         "name" => "Quản lí liên hệ",
         "route" => "#",
@@ -167,12 +131,20 @@ return [
 
         ]
 
-
     ],
     [
-        "childrenlevel" => false,
+        "childrenlevel" => true,
         "name" => "Quản lí khách hàng",
-        "route" => "admin.customer",
+        "route" => "#",
+        'children' =>
+        [
+
+            [
+                "name" => " QL khách hàng",
+                "route" => "admin.customer"
+            ],
+
+        ]
     ],
     [
         "childrenlevel" => true,
