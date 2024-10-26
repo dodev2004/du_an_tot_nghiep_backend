@@ -18,7 +18,6 @@ use App\Http\Controllers\backend\PostController;
 use App\Http\Controllers\backend\ProductCatelogueController;
 
 use App\Http\Controllers\backend\ProductController;
-use App\Http\Controllers\backend\ProductCommentController;
 use App\Http\Controllers\backend\ProductReviewController;
 use App\Http\Controllers\Backend\UserCatelogueController;
 use App\Http\Controllers\Backend\UserController;
