@@ -255,13 +255,13 @@
 
         <div class="row">
 
-            <div class="col-md-7">
+            <div class="col-md-8">
                 <form id="filterForm">
 
                     @csrf
                     <!-- Form lọc theo ngày -->
 
-                    <div class="filter-box col-md-5">
+                    <div class="filter-box col-md-3" style="width: 250px;margin-left: 11px">
 
 
                         <div class="form-group">
@@ -270,7 +270,7 @@
                                 placeholder="Chọn ngày bắt đầu" readonly>
                         </div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-3" style="width: 250px">
                         <div class="form-group">
                             <label for="toDate">Đến ngày:</label>
                             <input type="text" class="form-control datepicker" id="toDate" name="toDate"
@@ -282,9 +282,9 @@
 
                 </form>
             </div>
-            <div class="col-md-5" style="margin-top:23px">
+            <div class="col-md-2">
+                <label for="">Lọc doanh thu theo</label>
                 <select class="dashboard-filter form-control">
-                    <option value="">--Lọc doanh thu theo--</option>
                     <option value="7ngay">7 ngày qua</option>
                     <option value="thangnay">tháng này</option>
                     <option value="thangtruoc">tháng trước</option>
@@ -392,6 +392,7 @@
                     // Khi người dùng chọn đến ngày, thiết lập ngày kết thúc cho từ ngày
                     $('#fromDate').datepicker('setEndDate', e.date);
                 });
+                let previousValue = $('.dashboard-filter').val();
 
                 $('.dashboard-filter').on('change', function(event) {
                     event.preventDefault();
@@ -415,6 +416,7 @@
 
 
                             chart.setData(response);
+                            previousValue = dashboard_value;
 
                         },
                         error: function(xhr, status, error) {
@@ -429,7 +431,7 @@
                                 buttonsStyling: false
                             });
                             // Đặt lại select khi submit form
-                            $('.dashboard-filter').val('');
+                            $('.dashboard-filter').val(previousValue);
                             console.error(xhr.responseText);
                         }
                     });

@@ -71,8 +71,8 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
     Route::get("/showMessage",function(){
         return view("auths.showMessage");
     })->name("showMessage");
-    Route::prefix('users')->middleware(['checkRole:admin'])->group(function(){
-        Route::get("list",[UserController::class,"listGroupMember"])->middleware(['checkPermission:view_products'])->name("admin.users");
+    Route::prefix('users')->group(function(){
+        Route::get("list",[UserController::class,"listGroupMember"])->name("admin.users");
         Route::put("list/change_status",[UserController::class,"updateUserStatus"])->name("admin.users.user_status");
         Route::get("create",[UserController::class,"create"])->name("admin.users.create");
         Route::post("store",[UserController::class,"store"])->name("admin.users.store");
@@ -269,7 +269,7 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::get("/trash", [RoleController::class, "trash"])->name("admin.role.trash"); // Trang thùng rác
     });
 
-    Route::prefix("/dashboardd")->group(function(){
+    Route::prefix("/dashboard")->group(function(){
         Route::get("list",[DashBoardController::class,"Orderindex"])->name("admin.dashboard_order");
         Route::get('/orders/filter', [DashBoardController::class, 'filterSalesData'])->name('orders.filter');
         Route::get('/orders/select', [DashBoardController::class, 'selectSalesData'])->name('orders.select');

@@ -8,8 +8,8 @@ return [
         'children' =>
         [
             [
-            "name" => "Thống kê đơn hàng",
-            "route" => 'admin.dashboard_order',
+                "name" => "Thống kê đơn hàng",
+                "route" => 'admin.dashboard_order',
             ],
             [
                 "name" => "Thống kê sản phẩm",
@@ -25,17 +25,17 @@ return [
     ],
     [
         "childrenlevel" => true,
-        "name" => "Quản lý thành viên",
+        "name" => "Quản lý nhân sự",
         "route" => "#",
         'children' =>
         [
             [
-                "name" => "QL nhóm  thành viên",
+                "name" => "Nhóm nhân viên",
                 "route" => 'admin.user_catelogue',
 
             ],
             [
-                "name" => "QL thành viên",
+                "name" => "Quản lý nhân viên",
                 "route" => 'admin.users',
 
             ],
@@ -48,12 +48,12 @@ return [
         'children' =>
         [
             [
-                "name" => "QL chuyên mục ",
+                "name" => "Quản Lý chuyên mục ",
                 "route" => 'admin.post-catelogue',
 
             ],
             [
-                "name" => "QL bài viết",
+                "name" => "Quản lý bài viết",
                 "route" => 'admin.post',
 
             ],
@@ -66,20 +66,20 @@ return [
         'children' =>
         [
             [
-                "name" => "QL danh mục sản phẩm",
+                "name" => "Danh mục sản phẩm",
                 "route" => 'admin.product_catelogue',
 
             ],
             [
-                "name" => "QL sản phẩm",
+                "name" => "Sản phẩm",
                 "route" => "admin.product"
             ],
             [
-                "name" => "QL danh mục biến thể",
+                "name" => "Danh mục biến thể",
                 "route" => "admin.variant_catelogue"
             ],
             [
-                "name" => "QL biến thể",
+                "name" => "Thuộc tính biến thể",
                 "route" => "admin.variant"
             ],
         ]
@@ -92,105 +92,108 @@ return [
         'children' =>
         [
             [
-                "name" => "QL bình luận",
+                "name" => "Quản lý bình luận",
                 "route" => 'admin.product_comment.users',
             ],
             [
-                "name" => "QL đánh giá",
+                "name" => "Quản Lý đánh giá",
                 "route" => 'admin.product_review',
             ],
         ]
 
     ],
     [
-        "childrenlevel" => false,
-        "name" => "Quản lý phương thức thanh toán",
-        "route" => "admin.payment_methods",
+        "childrenlevel" => true,
+        "name" => "Thông tin thanh toán",
+        "route" => "#",
 
-    ],
-    [
-        "childrenlevel" => false,
-        "name" => "Quản lý mã giảm giá",
-        "route" => "admin.promotions"
-
-    ],
+        'children' =>
         [
-            "childrenlevel" => false,
-            "name" => "Quản lý trang giới thiệu",
-            "route" => "admin.about",
-        ],
+            [
+                "name" => "Hình thức thanh toán",
+                "route" => "admin.payment_methods",
+            ],
+            [
+                "name" => "Mã giảm giá",
+                "route" => 'admin.promotions',
+            ],
+            [
+                "name" => "Phí vận chuyển",
+                "route" => "admin.shipping_fee",
+            ],
+        ]
+    ],
+
 
     [
         "childrenlevel" => false,
-        "name" => "Quản lí nhãn hàng",
-        "route" => "admin.brand",
-    ],
-    [
-        "childrenlevel" => false,
-        "name" => "Quản lí đơn hàng",
+        "name" => "Quản lý đơn hàng",
         "route" => "admin.orders",
     ],
-    [
-        "childrenlevel" => false,
-        "name" => "Quản lí phí ship",
-        "route" => "admin.shipping_fee",
-    ],
+
     [
         "childrenlevel" => true,
-        "name" => "Quản lí liên hệ",
+        "name" => "Thông tin & Hỗ trợ",
         "route" => "#",
         'children' =>
         [
 
             [
-                "name" => " QL form liên hệ",
+                "name" => "Hỗ Trợ người dùng",
                 "route" => "admin.contact"
             ],
             [
-                "name" => " QL form thông tin liên hệ",
+                "name" => " Quản lỷ trang liên hệ",
                 "route" => "admin.information"
             ],
-
+            [
+                "name" => "Quản lý trang giới thiệu",
+                "route" => "admin.about",
+            ],
         ]
 
     ],
     [
         "childrenlevel" => true,
-        "name" => "Quản lí khách hàng",
+        "name" => "Thông tin khách hàng",
         "route" => "#",
         'children' =>
         [
 
             [
-                "name" => " QL khách hàng",
+                "name" => " Quản lý khách hàng",
                 "route" => "admin.customer"
+            ],
+            [
+                "childrenlevel" => false,
+                "name" => "Quản lý nhãn hàng",
+                "route" => "admin.brand",
             ],
 
         ]
     ],
     [
         "childrenlevel" => true,
-        "name" => "Quản lí quyền",
+        "name" => "Quản lý phân quyền",
         "route" => "#",
         'children' =>
         [
 
             [
-                "name" => " quản lí nhóm quyền",
+                "name" => " quản lý nhóm quyền",
                 "route" => "admin.group_permission"
             ],
             [
-                "name" => " quản lí quyền",
+                "name" => " quản lý quyền",
                 "route" => "admin.permission"
             ],
-
+            [
+                "name" => "Quản lý vai trò",
+                "route" => "admin.role",
+            ],
         ]
     ],
-    [
-        "childrenlevel" => false,
-        "name" => "Quản lí vai trò",
-        "route" => "admin.role",
-    ],
+
 
 
 

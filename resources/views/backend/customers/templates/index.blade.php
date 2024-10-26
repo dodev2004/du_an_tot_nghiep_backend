@@ -39,7 +39,7 @@
                 @include("backend.customers.components.fillter")
                     @include("backend.customers.components.table")
 
-                
+
                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
                     {{  $data->appends(request()->query())->links()}}
                 </div>
@@ -60,5 +60,6 @@
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
 @include("backend.components.handles.delete");
+@include("backend.customers.handles.customerdetail");
 
 @endpush

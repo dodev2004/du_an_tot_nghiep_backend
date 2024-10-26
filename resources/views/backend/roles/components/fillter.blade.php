@@ -21,6 +21,14 @@
           <option value="oldest" {{ request('date_order') == 'oldest' ? 'selected' : '' }}>Cũ nhất</option>
         </select>
       </div> -->
+      <div>
+        <label for="status">Trạng thái:</label>
+        <select name="status" class="form-control">
+            <option value="">Toàn Bộ</option>
+            <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Hoạt động</option>
+            <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Không hoạt động</option>
+        </select>
+    </div>
       <div style="margin-top: 24px;">
         <button class="btn btn-primary seach"> <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm </button>
       </div>
