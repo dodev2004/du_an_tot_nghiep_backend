@@ -12,7 +12,6 @@ class OrderItemSeeder extends Seeder
                 'order_id' => 7, // ID của đơn hàng tương ứng
                 'product_id' => 1, // ID của sản phẩm
                 'product_name' => 'Sơn Đẹp trai Cao Cấp', // Tên sản phẩm
-                'variant_id' => 1,
                 "variant" => json_encode([
                     "Gỗ sồi","Màu đen"
                 ]),
