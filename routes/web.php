@@ -18,7 +18,6 @@ use App\Http\Controllers\backend\PostController;
 use App\Http\Controllers\backend\ProductCatelogueController;
 
 use App\Http\Controllers\backend\ProductController;
-use App\Http\Controllers\backend\ProductCommentController;
 use App\Http\Controllers\backend\ProductReviewController;
 use App\Http\Controllers\Backend\UserCatelogueController;
 use App\Http\Controllers\Backend\UserController;
@@ -175,14 +174,6 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::delete('/about/{id}', [AboutPageController::class, 'destroy'])->name('admin.about.delete');
     });
 
-    Route::prefix("product-comment")->group(function(){
-        Route::get("users", [ProductCommentController::class, "index"])->name("admin.product_comment.users");
-        Route::get("user/{id}/comments", [ProductCommentController::class, "userComments"])->name("admin.product_comment.user_comments");
-        Route::delete("/soft-delete", [ProductCommentController::class, "softDelete"])->name("admin.product_comment.soft_delete");//xóa mềm
-        Route::post("{id}/restore", [ProductCommentController::class, "restore"])->name("admin.product_comment.restore");//khôi phục
-        Route::delete("/hard-delete", [ProductCommentController::class, "destroy"])->name("admin.product_comment.hard_delete");//xóa cúng
-        Route::get("trash", [ProductCommentController::class, "trash"])->name("admin.product_comment.trash");
-    });
     Route::prefix("product_reviews")->group(function(){
         Route::get('admin/product-reviews', [ProductReviewController::class, 'index'])->name('admin.product_review');
         Route::get("user/{id}/reviews", [ProductReviewController::class, "userReviews"])->name("admin.product_review.user_reviews");

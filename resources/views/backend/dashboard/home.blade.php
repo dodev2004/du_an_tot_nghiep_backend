@@ -201,9 +201,6 @@
                                 <div">
                                     <canvas id="topRatedProductsChart" width="500" height="400"></canvas>
                                 </div>
-                                <div style="margin-top: 70px;">
-                                    <canvas id="mostCommentedProductsChart" width="500" height="400"></canvas>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -736,7 +733,7 @@
         data: {
             labels: productNames,
             datasets: [{
-                label: 'Đánh giá trung bình bình luận có nhiều sao nhất',
+                label: 'Top 10 Sản phẩm có đánh giá trung bình sao cao nhất',
                 data: averageRatings,
                 backgroundColor: 'rgba(255, 159, 64, 1)',
                 borderColor: 'rgba(255, 159, 64, 1)',
@@ -757,44 +754,6 @@
                 title: {
                     display: true,
                     text: 'Top 10 Sản phẩm có đánh giá trung bình sao cao nhất'
-                }
-            }
-        }
-    });
-</script>
-
-<!-- Top 10 Sản phẩm được bình luận nhiều nhất -->
-<script>
-    var productNames = {!! json_encode($mostCommentedProducts->pluck('product.name')) !!}; 
-    var commentCounts = {!! json_encode($mostCommentedProducts->pluck('comment_count')) !!};
-
-    var ctx = document.getElementById('mostCommentedProductsChart').getContext('2d');
-    var mostCommentedProductsChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: productNames,
-            datasets: [{
-                label: 'Số lượng bình luận',
-                data: commentCounts,
-                backgroundColor: 'rgba(75, 192, 192, 1)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            indexAxis: 'y',
-            scales: {
-                x: {
-                    beginAtZero: true
-                }
-            },
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: 'Top 10 Sản phẩm được bình luận nhiều nhất'
                 }
             }
         }
