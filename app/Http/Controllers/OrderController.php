@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Order;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 class OrderController extends Controller
 {
     public $paymentMethods;
@@ -14,52 +15,111 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $title = "Quản lý đơn hàng";
-        if ($request->has("dates")) {
+        $orders = Order::with(['user', 'orderItems', 'promotion', 'paymentMethod']);
+
+        if ($request->has("dates") && $request->dates) {
             // Giải mã chuỗi từ request
             $dates = urldecode($request->input('dates'));
 
-            // Tìm và tách khoảng ngày từ chuỗi
-            $dateRange = explode(': ', $dates)[1] ?? $dates;
+            // Loại bỏ phần text "Tháng này: " để lấy khoảng ngày thực tế
+            if (strpos($dates, ': ') !== false) {
+                $dateRange = explode(': ', $dates)[1];
+            } else {
+                $dateRange = $dates;
+            }
 
-            // Phân tách thành ngày bắt đầu và ngày kết thúc
-            [$start, $end] = explode(' - ', $dateRange);
+            // Tách khoảng ngày bắt đầu và kết thúc
+            $dateParts = explode(' - ', $dateRange);
 
-            // Loại bỏ khoảng trắng và ký tự không mong muốn
-            $start = trim(preg_replace('/[^0-9\s\p{L},]/u', '', $start));
-            $end = trim(preg_replace('/[^0-9\s\p{L},]/u', '', $end));
-            
+            // Kiểm tra nếu chỉ có ngày bắt đầu
+            if (count($dateParts) === 1) {
+                $start = trim($dateParts[0]);
+                // Chuyển đổi định dạng ngày từ "d [Tháng] m, Y" sang đối tượng Carbon
+                $startDate = Carbon::createFromFormat('d \T\h\á\n\g m, Y', $start);
 
-            
-            try {
-                // Sử dụng createFromFormat với định dạng rõ ràng
-                $startDate = Carbon::createFromFormat('d [Tháng] m, Y', $start);
-                $endDate = Carbon::createFromFormat('d [Tháng] m, Y', $end);
+                // Chuyển đổi sang định dạng Y-m-d
+                $startDateFormatted = $startDate->format('Y-m-d');
 
-                // Kiểm tra nếu định dạng không khớp
-                if (!$startDate || !$endDate) {
-                    throw new \Exception('Định dạng ngày không khớp.');
-                }
+                // Lọc đơn hàng theo ngày bắt đầu, không giới hạn ngày kết thúc
+                $orders->where('created_at', '>=', $startDateFormatted);
+            } else {
+                // Nếu có cả ngày bắt đầu và kết thúc
+                [$start, $end] = $dateParts;
 
-                // Bắt đầu và kết thúc ở đầu và cuối ngày
-                $startDate = $startDate->startOfDay();
-                $endDate = $endDate->endOfDay();
-            } catch (\Exception $e) {
-                return response()->json(['error' => 'Định dạng ngày không hợp lệ: ' . $e->getMessage()], 400);
+                // Loại bỏ khoảng trắng dư thừa
+                $start = trim($start);
+                $end = trim($end);
+
+                // Chuyển đổi định dạng ngày từ "d [Tháng] m, Y" sang đối tượng Carbon
+                $startDate = Carbon::createFromFormat('d \T\h\á\n\g m, Y', $start);
+                $endDate = Carbon::createFromFormat('d \T\h\á\n\g m, Y', $end);
+
+                // Chuyển đổi sang định dạng Y-m-d
+                $startDateFormatted = $startDate->format('Y-m-d');
+                $endDateFormatted = $endDate->format('Y-m-d');
+
+                // Lọc đơn hàng theo khoảng thời gian
+                $orders->whereBetween("created_at", [$startDateFormatted, $endDateFormatted]);
             }
         }
+        if($request->has("trang_thai") && $request->trang_thai){
+            $orders->where("status", $request->trang_thai);
+        }
 
-
-
+        // Thêm breadcrumbs
         $this->breadcrumbs[] = [
             "active" => true,
             "url" => route("admin.orders"),
             "name" => "Quản lý đơn hàng"
         ];
         $breadcrumbs = $this->breadcrumbs;
-        $keywords = $request->input('keywords');
-        $orders = Order::with(['user', 'orderItems', 'promotion', 'paymentMethod'])->get();
 
+        // Lấy từ khóa tìm kiếm
+       
+
+        // Nếu có từ khóa tìm kiếm, thêm điều kiện
+        if ($request->has("ma_don_hang") && $request->ma_don_hang) {
+            
+            $ma_don_hang = str_replace("BND-","",strtoupper($request->ma_don_hang));
+          
+            $orders->where('id', '=', trim($ma_don_hang)); // Thay 'some_column' bằng tên cột bạn muốn tìm kiếm
+        }
+
+        // Phân trang kết quả và giữ lại tham số truy vấn
+        $orders = $orders->paginate(3)->withQueryString();
         return view("backend.orders.templates.index", compact("title", "breadcrumbs", 'orders'));
+    }
+    function convertVietnameseDateToStandard($date)
+    {
+        // Các tên tháng tiếng Việt để thay thế bằng số
+        $vietnameseMonths = [
+            'Tháng 1' => '01',
+            'Tháng 2' => '02',
+            'Tháng 3' => '03',
+            'Tháng 4' => '04',
+            'Tháng 5' => '05',
+            'Tháng 6' => '06',
+            'Tháng 7' => '07',
+            'Tháng 8' => '08',
+            'Tháng 9' => '09',
+            'Tháng 10' => '10',
+            'Tháng 11' => '11',
+            'Tháng 12' => '12',
+        ];
+
+        // Thay thế "Tháng X" bằng số tháng tương ứng và loại bỏ dấu phẩy
+        foreach ($vietnameseMonths as $key => $value) {
+
+            $date = str_replace($key, $value, $date);
+        }
+        dd($date);
+        $date = trim(str_replace(',', '', $date));
+
+        // Tách các thành phần ngày, tháng, năm bằng khoảng trắng
+        $parts = preg_split('/\s+/', $date); // Tách ngày, tháng, năm
+
+        // Đảm bảo định dạng d-m-Y (ngày-tháng-năm)
+        return $parts[0] . '-' . $parts[1] . '-' . $parts[2];
     }
     public function update(Request $request)
     {
@@ -100,5 +160,19 @@ class OrderController extends Controller
         $orders = Order::with(['customer', 'orderItems.product', 'promotion', 'paymentMethod'])->find($id);
 
         return view("backend.orders.templates.detail", compact("title", "breadcrumbs", 'orders'));
+    }
+    public function exportPdf($orderId)
+    {
+        // Lấy thông tin đơn hàng
+        $orders = Order::with(['customer', 'orderItems.product', 'promotion', 'paymentMethod'])->find($orderId);
+
+        // Tạo view để hiển thị thông tin đơn hàng
+        $pdf = Pdf::loadView('pdf.order_invoice.invoice', compact('orders'));
+        $pdf->setOptions([
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true,
+        ]);
+        // Trả về file PDF cho người dùng tải về
+        return $pdf->download('hoadon_donhang_' . $orders->id . '.pdf');
     }
 }

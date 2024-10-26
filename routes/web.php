@@ -122,6 +122,7 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::put("update-order-status",[OrderController::class,"update"])->name("admin.orders.update");
         Route::delete("/delete",[OrderController::class,"destroy"])->name("admin.orders.delete");
         Route::get("details/{id}",[OrderController::class,"show"])->name("admin.orders.details");
+        Route::get('{id}/export-pdf', [OrderController::class, 'exportPdf'])->name("admin.orders.exportPdf");
 
     });
     Route::prefix("product-catelogue")->group(function(){

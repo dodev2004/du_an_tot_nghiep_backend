@@ -8,7 +8,6 @@
 @endsection
 @section('content')
     @php
-
         if (!function_exists('getStatusOption')) {
             function getStatusOption($order)
             {
@@ -126,6 +125,7 @@
                         </div>
                     </div>
                     <div class="ibox-content">
+                        <a href="{{route("admin.orders.exportPdf",$orders->id)}}" style="margin-bottom: 12px" class="btn btn-primary"><i class="fa fa-print"></i> In hóa đơn</a>
                         <table class="table table-striped table-bordered ">
                             <thead>
                                 <tr>
