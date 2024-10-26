@@ -145,7 +145,7 @@ return [
         "childrenlevel" => false,
         "name" => "Quản lí form liên hệ",
         "route" => "admin.contact",
-
+    ],[
         "childrenlevel" => true,
         "name" => "Quản lí liên hệ",
         "route" => "#",

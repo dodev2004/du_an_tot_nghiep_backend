@@ -196,12 +196,13 @@
                                     <canvas id="reviewRatingsDoughnutChart" ></canvas>
                                 </div>
                             </div>
+
                             <div class="ibox-tools" style="margin-top: 70px;">
                                 <div">
-                                    <canvas id="topRatedProductsChart" width="1200" height="400"></canvas>
+                                    <canvas id="topRatedProductsChart" width="500" height="400"></canvas>
                                 </div>
                                 <div style="margin-top: 70px;">
-                                    <canvas id="mostCommentedProductsChart" width="1200" height="400"></canvas>
+                                    <canvas id="mostCommentedProductsChart" width="500" height="400"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -717,7 +718,7 @@
                 },
                 title: {
                     display: true,
-                    text: 'Tỷ lệ đánh giá theo sao'
+                    text: 'Thống kê đánh giá theo sao'
                 }
             }
         }
