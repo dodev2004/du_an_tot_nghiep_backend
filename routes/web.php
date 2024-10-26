@@ -113,7 +113,7 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::delete("/delete",[ProductController::class,"destroy"])->name("admin.product.delete");
 
     });
-    // 
+    //
     Route::prefix("orders")->group(function(){
         Route::get("list",[OrderController::class,"index"])->name("admin.orders");
         Route::get("create",[OrderController::class,"create"])->name("admin.orders.create");
@@ -269,6 +269,8 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
 
     Route::prefix("/dashboardd")->group(function(){
         Route::get("list",[DashBoardController::class,"Orderindex"])->name("admin.dashboard_order");
+        Route::get('/orders/filter', [DashBoardController::class, 'filterSalesData'])->name('orders.filter');
+        Route::get('/orders/select', [DashBoardController::class, 'selectSalesData'])->name('orders.select');
     });
 
 });
