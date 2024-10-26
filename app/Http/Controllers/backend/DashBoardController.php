@@ -67,37 +67,6 @@ class DashBoardController extends Controller
         $totalCanceledOrders = Order::where('status', Order::STATUS_CANCELLED)
             ->count();
 
-        // Khởi tạo mảng 12 tháng với giá trị mặc định là 0 cho mỗi tháng
-        $salesMonthly = array_fill(1, 12, 0);
-
-        // Lấy dữ liệu doanh thu cho từng tháng đã hoàn thành và thanh toán
-        $monthlySales = Order::selectRaw('MONTH(created_at) as month, SUM(final_amount) as total')
-            ->whereYear('created_at', date('Y'))
-            ->where('status', Order::STATUS_COMPLETED)
-            ->where('payment_status', Order::PAYMENT_COMPLETED)
-            ->groupByRaw('MONTH(created_at)')
-            ->orderBy('month')
-            ->get();
-
-        // Gán doanh thu vào mảng 12 tháng
-        foreach ($monthlySales as $sale) {
-            $salesMonthly[$sale->month] = $sale->total;
-        }
-        // 6. Số lượng đơn hàng hoàn thành theo tháng trong năm hiện tại
-        $completedOrdersMonthly = Order::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
-            ->whereYear('created_at', date('Y'))
-            ->where('status', Order::STATUS_COMPLETED)
-            ->groupByRaw('MONTH(created_at)')
-            ->orderBy('month')
-            ->get();
-
-        // 7. Số lượng đơn hàng bị hủy theo tháng trong năm hiện tại
-        $canceledOrdersMonthly = Order::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
-            ->whereYear('created_at', date('Y'))
-            ->where('status', Order::STATUS_CANCELLED)
-            ->groupByRaw('MONTH(created_at)')
-            ->orderBy('month')
-            ->get();
         // 8. Doanh thu hôm nay
         $todayRevenue = Order::whereDate('created_at', date('Y-m-d'))
             ->where('payment_status', Order::PAYMENT_COMPLETED)
@@ -118,21 +87,6 @@ class DashBoardController extends Controller
         $canceledOrdersToday = Order::whereDate('created_at', date('Y-m-d'))
             ->where('status', Order::STATUS_CANCELLED)
             ->count();
-        // Thống kê trạng thái đơn hàng trong tháng
-        $orderStatusCount = Order::select('status', DB::raw('COUNT(*) as total'))
-            ->whereMonth('created_at', date('m'))
-            ->whereYear('created_at', date('Y'))
-            ->groupBy('status')
-            ->get();
-
-        // Chuyển đổi kết quả thành mảng để dễ dàng sử dụng trong biểu đồ
-        $statusLabels = [];
-        $statusCounts = [];
-
-        foreach ($orderStatusCount as $status) {
-            $statusLabels[] = $this->getStatusLabel($status->status);
-            $statusCounts[] = $status->total;
-        }
         $fromDate = now()->subYear()->format('Y-m-d'); // Ngày bắt đầu từ 1 năm trước
         $toDate = now()->format('Y-m-d'); // Ngày hiện tại
 
@@ -158,15 +112,10 @@ class DashBoardController extends Controller
             'totalNewOrders',
             'totalCompletedOrders',
             'totalCanceledOrders',
-            'salesMonthly',
-            'completedOrdersMonthly',  // Đơn hàng hoàn thành theo tháng
-            'canceledOrdersMonthly',   // Đơn hàng bị hủy theo tháng
             'todayRevenue',                // Doanh thu hôm nay
             'completedOrdersToday',        // Số đơn hàng đã hoàn thành hôm nay
             'pendingPaymentOrdersToday',   // Số đơn hàng chưa thu tiền hôm nay
             'canceledOrdersToday',         // Số đơn hàng bị hủy hôm nay
-            'statusLabels',
-            'statusCounts',
             'chartData',
             'title',
         ));

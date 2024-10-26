@@ -30,10 +30,6 @@
             @foreach (config("sitebar") as $item)
             @if ($item["childrenlevel"])
             <li @foreach ($item['children'] as $route)
-<<<<<<< HEAD
-
-=======
->>>>>>> thang/fe
                 @if(request()->routeIs($route['route']. ".*") || request()->routeIs($route['route']))
                 class="active"
                 @endif
@@ -49,10 +45,7 @@
             @else
             <li class="{{ request()->routeIs($item['route'])  ? 'active' : '' }}">
                 <a href="{{route($item['route'])}}"><i class="fa fa-th-large"></i> <span class="nav-label">{{$item['name']}}</span></a>
-<<<<<<< HEAD
 
-=======
->>>>>>> thang/fe
             </li>
             @endif
             @endforeach
