@@ -47,7 +47,7 @@
                     </div>
                     <div class="ibox-content">
                         <div class="avatar_title">
-                            <h5>Chọn ảnh đại diện</h5>
+                            <label>Ảnh</label>
                         </div>
                         <div class="ibox-content">
                             <div class="form-group">

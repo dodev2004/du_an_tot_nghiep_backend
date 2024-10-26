@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\AboutPage; // Thêm model AboutPage
-use Illuminate\Support\Facades\Log; // Thêm Log facade
+use App\Models\AboutPage; 
 
 use Illuminate\Http\Request;
 
@@ -43,23 +42,32 @@ class AboutPageController extends Controller
     }
     public function store(Request $request)
     {
-
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'status' => 'required|in:hoạt động,không hoạt động',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',  // Thay đổi ở đây
         ], [
             'title.required' => 'Tiêu đề không được để trống.',
             'content.required' => 'Nội dung không được để trống.',
             'status.required' => 'Vui lòng chọn trạng thái.',
             'status.in' => 'Trạng thái không hợp lệ.',
+            'image.image' => 'Tệp tải lên phải là hình ảnh.',
+            'image.mimes' => 'Hình ảnh phải ở định dạng jpeg, png, jpg, gif, hoặc svg.',
         ]);
+    
+        $imageName = null;
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $imagePath = $request->file('image')->store('public/images');
+            $imageName = basename($imagePath);
+        }
+    
         $aboutPage = AboutPage::create([
             'title' => $request->title,
             'content' => $request->content,
             'status' => $request->status,
+            'image' => $imageName,
         ]);
-
         if ($aboutPage) {
             return response()->json([
                 'message' => 'Trang giới thiệu đã được thêm mới thành công!',

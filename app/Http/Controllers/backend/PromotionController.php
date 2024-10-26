@@ -117,7 +117,7 @@ class PromotionController extends Controller
             "discount_value" => ["required", "numeric"],
             'discount_type' => 'required|in:percentage,fixed',
             "status" => ["required", "boolean"],
-            'start_date' => 'required|date|after_or_equal:today',
+            'start_date' => 'required|date',
             "end_date" => ["required", "date", "after_or_equal:start_date"],
             "max_uses" => ["required", "integer", "min:1"],
         ], [
@@ -128,7 +128,6 @@ class PromotionController extends Controller
             "discount_type.required" => "Vui lòng chọn loại giảm giá",
             "status.required" => "Vui lòng chọn trạng thái",
             "start_date.required" => "Vui lòng chọn ngày bắt đầu",
-            'start_date.after_or_equal' => 'Ngày bắt đầu phải sau hoặc bằng ngày hôm nay', 
             "end_date.required" => "Vui lòng chọn ngày kết thúc",
             "end_date.after_or_equal" => "Ngày kết thúc phải sau hoặc bằng ngày bắt đầu",
             "max_uses.required" => "Vui lòng nhập số lượt sử dụng tối đa",
