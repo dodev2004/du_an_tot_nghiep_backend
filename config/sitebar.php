@@ -1,7 +1,7 @@
 <?php
 return [
     [
-        "childrenlevel" => false,
+        "childrenlevel" => true,
         "name" => "Thống kê",
         "route" => "#",
         "icon" => "fa-desktop",
@@ -125,7 +125,7 @@ return [
         "name" => "Quản lí nhãn hàng",
         "route" => "admin.brand",
     ],
-   
+
     [
         "childrenlevel" => false,
         "name" => "Quản lí phí ship",
