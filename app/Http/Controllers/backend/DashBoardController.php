@@ -36,15 +36,7 @@ class DashBoardController extends Controller
             ->with('product')
             ->get();
 
-        //Top 10 sản phẩm được bình luận nhiều nhất
-        $mostCommentedProducts = ProductComment::select('product_id', DB::raw('COUNT(*) as comment_count'))
-            ->groupBy('product_id')
-            ->orderBy('comment_count', 'desc')
-            ->take(10)
-            ->with('product')
-            ->get();
-
-        return view('backend.dashboard.home', compact('ratingLabels', 'ratingCounts', 'topRatedProducts', 'mostCommentedProducts'));
+        return view('backend.dashboard.home', compact('ratingLabels', 'ratingCounts', 'topRatedProducts'));
     }
     public function OrderIndex()
     {
