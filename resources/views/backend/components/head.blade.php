@@ -10,3 +10,4 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/12.3.1/classic/ckeditor.js"></script>
 <script type="text/javascript" src="{{ asset('ckfinder/ckfinder.js') }}"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script src="{{asset("backend/js/jquery-3.1.1.min.js")}}"></script>

@@ -18,7 +18,7 @@
             </div>
             <div class="col-md-2 p-2">
                 <div >
-                    <input type="text" id="dateRangePicker" name="dates" />
+                    <input type="text" class="form-control" id="dateRangePicker" name="dates" />
                 </div>
             </div>
             <div class="col-md-4 d-flex align-items-center" style="padding-left: 12px;">
