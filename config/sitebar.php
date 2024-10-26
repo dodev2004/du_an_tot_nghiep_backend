@@ -125,7 +125,11 @@ return [
         "name" => "Quản lí nhãn hàng",
         "route" => "admin.brand",
     ],
-   
+    [
+        "childrenlevel" => false,
+        "name" => "Quản lí đơn hàng",
+        "route" => "admin.orders",
+    ],
     [
         "childrenlevel" => false,
         "name" => "Quản lí phí ship",
