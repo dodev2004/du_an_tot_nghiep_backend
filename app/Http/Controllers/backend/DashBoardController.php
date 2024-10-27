@@ -8,6 +8,8 @@ use App\Models\Product;
 use App\Models\ProductComment;
 use App\Models\ProductReview;
 use App\Models\OrderItem;
+use App\Models\Promotion;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -36,12 +38,7 @@ class DashBoardController extends Controller
             ->with('product')
             ->get();
 
-        return view('backend.dashboard.home', compact('ratingLabels', 'ratingCounts', 'topRatedProducts'));
-    }
-    public function OrderIndex()
-    {
-        $title = "Thống kê order";
-
+            
         // 1. Tổng doanh thu trong toàn bộ thời gian
         $totalRevenue = Order::whereIn('status', [Order::STATUS_COMPLETED])
             ->where('payment_status', Order::PAYMENT_COMPLETED)
@@ -115,10 +112,27 @@ class DashBoardController extends Controller
             ['label' => 'Hoàn tiền', 'value' => $orderStatusCounts[Order::STATUS_REFUNDED] ?? 0]
         ];
 
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
 
-        // Truyền dữ liệu sang view
-        return view('backend.dashboard.order', compact(
-            'totalRevenue',
+        // Thống kê tổng số mã giảm giá tạo trong tháng hiện tại
+        $totalCouponsInMonth = Promotion::whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', $currentMonth)
+            ->count();
+
+        // Thống kê tổng số mã giảm giá còn hoạt động
+        $activeCoupons = Promotion::where('status', 'active')->count();
+
+        // Tính tổng số mã giảm giá không còn hoạt động
+        $inactiveCoupons = $totalCouponsInMonth - $activeCoupons;
+
+        // Lấy mã giảm giá được sử dụng nhiều nhất dựa trên trường used_count
+        $topCoupons = Promotion::select('code', 'used_count')
+            ->orderBy('used_count', 'desc')
+            ->limit(5) // Giới hạn số lượng mã giảm giá hiển thị
+            ->get();
+
+        return view('backend.dashboard.home', compact('ratingLabels', 'ratingCounts', 'topRatedProducts','totalRevenue',
             'totalNewOrders',
             'totalCompletedOrders',
             'totalCanceledOrders',
@@ -128,10 +142,12 @@ class DashBoardController extends Controller
             'canceledOrdersToday',         // Số đơn hàng bị hủy hôm nay
             'chartData',
             'orderStatusData',
-
-            'title',
-        ));
+            'totalCouponsInMonth',
+            'activeCoupons',
+            'inactiveCoupons',
+            'topCoupons',));
     }
+    
     public function filterSalesData(Request $request)
 {
     $data = $request->all();

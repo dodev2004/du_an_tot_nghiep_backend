@@ -158,34 +158,4 @@ class PromotionController extends Controller
             return response()->json(['message' => 'Không tìm thấy khuyến mãi', 'status' => 'error'], 404);
         }
     }
-    public function getPromotionStatistics()
-    {
-        $title = "Thống Kê Mã Giảm Giá";
-        $currentMonth = Carbon::now()->month;
-        $currentYear = Carbon::now()->year;
-
-        // Thống kê tổng số mã giảm giá tạo trong tháng hiện tại
-        $totalCouponsInMonth = Promotion::whereYear('created_at', $currentYear)
-            ->whereMonth('created_at', $currentMonth)
-            ->count();
-
-        // Thống kê tổng số mã giảm giá còn hoạt động
-        $activeCoupons = Promotion::where('status', 'active')->count();
-
-        // Tính tổng số mã giảm giá không còn hoạt động
-        $inactiveCoupons = $totalCouponsInMonth - $activeCoupons;
-
-        // Lấy mã giảm giá được sử dụng nhiều nhất dựa trên trường used_count
-        $topCoupons = Promotion::select('code', 'used_count')
-            ->orderBy('used_count', 'desc')
-            ->limit(5) // Giới hạn số lượng mã giảm giá hiển thị
-            ->get();
-
-        return view('backend.dashboard.promotion_statistics', [
-            'totalCouponsInMonth' => $totalCouponsInMonth,
-            'activeCoupons' => $activeCoupons,
-            'inactiveCoupons' => $inactiveCoupons,
-            'topCoupons' => $topCoupons,
-        ],compact('title'));
-    }
 }
