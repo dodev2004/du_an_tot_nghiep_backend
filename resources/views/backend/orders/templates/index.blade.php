@@ -37,13 +37,13 @@
                 <div class="">
                     @include("backend.orders.components.fillter")
                     @include("backend.orders.components.table")
-                    {{-- <div style="display:flex;justify-content: space-between;align-items: center">
+                    <div style="display:flex;justify-content: space-between;align-items: center">
                         <div class="per_page">
-                            <p>Tồn tại tổng <strong>{{$products->count()}}</strong> tại trang thứ <strong>{{$products->currentPage()}}</strong></p>
+                            <p>Tồn tại tổng <strong>{{$orders->count()}}</strong> tại trang thứ <strong>{{$orders->currentPage()}}</strong></p>
                         </div>
-                        {{-- <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                            {{  $products->appends(request()->query())->links()}}
-                        </div> --}}
+                        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                            {{  $orders->appends(request()->query())->links()}}
+                        </div> 
                     </div>
                 </div>
             </div>
