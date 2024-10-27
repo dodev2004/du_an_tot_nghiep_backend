@@ -41,6 +41,9 @@ class ProductController extends Controller
             'name' => $product->name,
             'slug' => $product->slug,
             'sku' => $product->sku,
+            "price" => $product->price,
+            "stock" => $product->stock,
+            "discount_price" => $product->discount_price,
             'detailed_description' => $product->detailed_description,
             'image_url' => $product->image_url,
             'variants' => $product->variants->map(function ($variant) {
