@@ -38,7 +38,7 @@ class DashBoardController extends Controller
             ->with('product')
             ->get();
 
-            
+
         // 1. Tổng doanh thu trong toàn bộ thời gian
         $totalRevenue = Order::whereIn('status', [Order::STATUS_COMPLETED])
             ->where('payment_status', Order::PAYMENT_COMPLETED)
@@ -97,16 +97,19 @@ class DashBoardController extends Controller
             ];
         })->values(); // Reset các key của collection
 
-        $orderStatusCounts = Order::whereNotIn('status', [Order::STATUS_PROCESSING])
-            ->select('status', DB::raw('count(*) as count'))
+        $orderStatusCounts = Order::
+            select('status', DB::raw('count(*) as count'))
             ->groupBy('status')
+            ->orderBy('status')
             ->pluck('count', 'status')
             ->toArray();
 
         $orderStatusData = [
             ['label' => 'Chờ xử lý', 'value' => $orderStatusCounts[Order::STATUS_PENDING] ?? 0],
             ['label' => 'Xác nhận', 'value' => $orderStatusCounts[Order::STATUS_CONFIRM] ?? 0],
+            ['label' => 'Đang xử lí', 'value' => $orderStatusCounts[Order::STATUS_PROCESSING] ?? 0],
             ['label' => 'Đang giao', 'value' => $orderStatusCounts[Order::STATUS_SHIPPED] ?? 0],
+            ['label' => 'Đã giao', 'value' => $orderStatusCounts[Order::STATUS_SHIPPEDS] ?? 0],
             ['label' => 'Hoàn thành', 'value' => $orderStatusCounts[Order::STATUS_COMPLETED] ?? 0],
             ['label' => 'Đã hủy', 'value' => $orderStatusCounts[Order::STATUS_CANCELLED] ?? 0],
             ['label' => 'Hoàn tiền', 'value' => $orderStatusCounts[Order::STATUS_REFUNDED] ?? 0]
@@ -147,7 +150,7 @@ class DashBoardController extends Controller
             'inactiveCoupons',
             'topCoupons',));
     }
-    
+
     public function filterSalesData(Request $request)
 {
     $data = $request->all();
@@ -221,7 +224,7 @@ public function selectSalesData(Request $request)
             ->get();
     }
 
-    
+
     foreach ($get as $value) {
         $chart_data[] = array(
             'final_amount' => $value->total_amount,
@@ -235,25 +238,80 @@ public function selectSalesData(Request $request)
 
 
 
-    private function getStatusLabel($status)
-    {
-        switch ($status) {
-            case Order::STATUS_PENDING:
-                return 'Chờ Xác Nhận';
-            case Order::STATUS_CONFIRM:
-                return 'Đã Xác Nhận';
-            case Order::STATUS_PROCESSING:
-                return 'Đang Xử Lý';
-            case Order::STATUS_SHIPPED:
-                return 'Đã Giao';
-            case Order::STATUS_COMPLETED:
-                return 'Hoàn Thành';
-            case Order::STATUS_CANCELLED:
-                return 'Đã Hủy';
-            case Order::STATUS_REFUNDED:
-                return 'Đã Hoàn Tiền';
-            default:
-                return 'Khác';
-        }
+public function selectOrderStatusData(Request $request)
+{
+    $data = $request->all();
+    $startOfToday = now()->startOfDay();
+    $startOfMonth = now()->startOfMonth();
+    $startOfLastMonth = now()->subMonth()->startOfMonth();
+    $endOfLastMonth = now()->subMonth()->endOfMonth();
+    $sub7days = now()->subDays(7);
+    $sub365days = now()->subDays(365);
+
+    $query = Order::selectRaw('status, COUNT(*) as total')
+        ->groupBy('status')
+        ->orderBy('status');
+
+    // Thêm điều kiện dựa trên khoảng thời gian đã chọn
+    if ($data['order_value'] == 'homnay') {
+        $query->where('created_at', '>=', $startOfToday);
+    } elseif ($data['order_value'] == '7ngay') {
+        $query->where('created_at', '>=', $sub7days);
+    } elseif ($data['order_value'] == 'thangtruoc') {
+        $query->whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth]);
+    } elseif ($data['order_value'] == 'thangnay') {
+        $query->where('created_at', '>=', $startOfMonth);
+    } else {
+        $query->where('created_at', '>=', $sub365days);
     }
+
+    $statusData = $query->pluck('total', 'status')->toArray();
+
+    // Khởi tạo mảng mặc định với các trạng thái có giá trị 0
+    $orderStatusCounts = [
+        Order::STATUS_PENDING => 0,
+        Order::STATUS_CONFIRM => 0,
+        Order::STATUS_PROCESSING => 0,
+        Order::STATUS_SHIPPED => 0,
+        Order::STATUS_SHIPPEDS => 0,
+        Order::STATUS_COMPLETED => 0,
+        Order::STATUS_CANCELLED => 0,
+        Order::STATUS_REFUNDED => 0,
+    ];
+
+    // Ghi đè số lượng thực tế từ dữ liệu truy vấn
+    foreach ($statusData as $status => $total) {
+        $orderStatusCounts[$status] = $total;
+    }
+
+    // Chuẩn bị dữ liệu cho biểu đồ
+    $chartData = [];
+    foreach ($orderStatusCounts as $status => $total) {
+        $chartData[] = [
+            'label' => $this->getStatusLabel($status),
+            'value' => $total,
+        ];
+    }
+
+    return response()->json($chartData);
+}
+
+// Hàm để lấy nhãn trạng thái
+private function getStatusLabel($status)
+{
+    return match($status) {
+        Order::STATUS_PENDING => 'Chờ xử lý',
+        Order::STATUS_CONFIRM => 'Xác nhận',
+        Order::STATUS_PROCESSING => 'Đang xử lí',
+        Order::STATUS_SHIPPED => 'Đang giao',
+        Order::STATUS_SHIPPEDS => 'Đã giao',
+        Order::STATUS_COMPLETED => 'Hoàn thành',
+        Order::STATUS_CANCELLED => 'Đã hủy',
+        Order::STATUS_REFUNDED => 'Hoàn tiền',
+        default => 'Không xác định'
+    };
+}
+
+
+
 }

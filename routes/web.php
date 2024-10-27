@@ -264,6 +264,7 @@ Route::middleware("auth")->prefix("/admin")->group(function(){
         Route::get("list",[DashBoardController::class,"Orderindex"])->name("admin.dashboard_order");
         Route::get('/orders/filter', [DashBoardController::class, 'filterSalesData'])->name('orders.filter');
         Route::get('/orders/select', [DashBoardController::class, 'selectSalesData'])->name('orders.select');
+        Route::get('/orders/status/select', [DashBoardController::class, 'selectOrderStatusData'])->name('orders_status.select');
     });
 
 });
