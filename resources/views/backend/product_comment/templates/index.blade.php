@@ -13,23 +13,13 @@
         <div class="col-lg-12">
         <div class="ibox float-e-margins">
          
+            
             <div class="ibox-content">
-                <style>
-                    .form-group {
-                        display: flex; 
-                        flex-wrap: wrap; 
-                        gap: 10px; 
-                    }
-                    .col-md-2{
-                        width: 160px;
-                    }
-                    
-                </style>
-                @include("backend.product_review.components.fillterreview") 
-                @include("backend.product_review.components.reviewdetail")  
-                @include("backend.product_review.components.page")
+                @include("backend.product_comment.components.fillter")  
+                @include("backend.product_comment.components.table") 
+                @include("backend.product_comment.components.pageuser")
                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                {{ $data->links() }}
+                    {{  $users->links()}}
                 </div>
             </div>
 
@@ -43,5 +33,6 @@
 @include("backend.posts.handle.switchery")
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
-@include("backend.product_review.handles.productdetail");
+@include("backend.product_comment.handles.delete");
+@include("backend.product_comment.handles.userdetail");
 @endpush
