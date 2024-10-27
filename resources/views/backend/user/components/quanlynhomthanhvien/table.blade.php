@@ -43,7 +43,7 @@
                         @method("DELETE")
                         @csrf
                         <input type="hidden" value="{{$item->id}}" name="id">
-                        <button class="btn btn-danger center" title="Xóa"><i class="fa fa-trash-o"></i></button>
+                        <button class="btn btn-warning center" title="Xóa"><i class="fa fa-trash-o"></i></button>
                     </form>
                 </div>
 
