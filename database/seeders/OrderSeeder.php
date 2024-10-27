@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -21,8 +22,8 @@ class OrderSeeder extends Seeder
                 'total_amount' => 2000000.00,
                 'discount_amount' => 200000.00,
                 'final_amount' => 1800000.00,
-                'status' => 1,
-                'payment_status' => 1,
+                'status' => 6,
+                'payment_status' => 2,
                 'shipping_address' => 'Hà Nội, Việt Nam',
                 'shipping_fee' => 20000.00,
                 'payment_method_id' => 3,
@@ -30,8 +31,8 @@ class OrderSeeder extends Seeder
                 'email' => 'nguyenvana@example.com',
                 'phone_number' => '0123456789',
                 'note' => 'Giao hàng vào buổi tối',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'created_at' => Carbon::create(2024, 10, 10),
+                'updated_at' => Carbon::create(2024, 10, 10),
             ],
             [
                 'customer_id' => 3,
@@ -40,8 +41,8 @@ class OrderSeeder extends Seeder
                 'total_amount' => 1500000.00,
                 'discount_amount' => 150000.00,
                 'final_amount' => 1350000.00,
-                'status' => 1,
-                'payment_status' => 1,
+                'status' => 6,
+                'payment_status' => 2,
                 'shipping_address' => 'Hải Phòng, Việt Nam',
                 'shipping_fee' => 15000.00,
                 'payment_method_id' => 2,
@@ -49,8 +50,8 @@ class OrderSeeder extends Seeder
                 'email' => 'tranthib@example.com',
                 'phone_number' => '0987654321',
                 'note' => 'Giao hàng vào buổi sáng',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'created_at' => Carbon::create(2024, 10, 12),
+                'updated_at' => Carbon::create(2024,10, 12),
             ],
             [
                 'customer_id' => 4,
@@ -59,7 +60,7 @@ class OrderSeeder extends Seeder
                 'total_amount' => 2500000.00,
                 'discount_amount' => 250000.00,
                 'final_amount' => 2250000.00,
-                'status' => 2,
+                'status' => 6,
                 'payment_status' => 2,
                 'shipping_address' => 'Đà Nẵng, Việt Nam',
                 'shipping_fee' => 30000.00,
@@ -68,8 +69,8 @@ class OrderSeeder extends Seeder
                 'email' => 'levanc@example.com',
                 'phone_number' => '0912345678',
                 'note' => 'Giao hàng ngay',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'created_at' => Carbon::create(2024, 10, 16),
+                'updated_at' => Carbon::create(2024, 10, 16),
             ],
             [
                 'customer_id' => 5,
@@ -78,8 +79,8 @@ class OrderSeeder extends Seeder
                 'total_amount' => 1800000.00,
                 'discount_amount' => 180000.00,
                 'final_amount' => 1620000.00,
-                'status' => 1,
-                'payment_status' => 1,
+                'status' => 6,
+                'payment_status' => 2,
                 'shipping_address' => 'Nha Trang, Việt Nam',
                 'shipping_fee' => 25000.00,
                 'payment_method_id' => 3,
@@ -87,8 +88,8 @@ class OrderSeeder extends Seeder
                 'email' => 'nguyenthid@example.com',
                 'phone_number' => '0934567890',
                 'note' => 'Giao hàng vào buổi chiều',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'created_at' => Carbon::create(2024, 10, 18),
+                'updated_at' => Carbon::create(2024, 10, 18),
             ],
             [
                 'customer_id' => 6,
@@ -97,8 +98,8 @@ class OrderSeeder extends Seeder
                 'total_amount' => 3000000.00,
                 'discount_amount' => 300000.00,
                 'final_amount' => 2700000.00,
-                'status' => 1,
-                'payment_status' => 1,
+                'status' => 6,
+                'payment_status' => 2,
                 'shipping_address' => 'Cần Thơ, Việt Nam',
                 'shipping_fee' => 35000.00,
                 'payment_method_id' => 2,
@@ -106,8 +107,8 @@ class OrderSeeder extends Seeder
                 'email' => 'phamvane@example.com',
                 'phone_number' => '0981234567',
                 'note' => 'Giao hàng vào cuối tuần',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'created_at' => Carbon::create(2024, 10, 24),
+                'updated_at' => Carbon::create(2024, 10, 24),
             ],
         ]);
     }
