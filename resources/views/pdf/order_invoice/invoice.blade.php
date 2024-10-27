@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Hóa Đơn Đơn Hàng</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        @page {
-            size: A4;
-            margin: 20mm;
-        }
+     @page{
+         size: A4;
+   
+     }
+
         body {
-            font-family: 'Roboto', sans-serif; /* Sử dụng font chữ Roboto */
+            font-family: "DejaVu Sans", sans-serif;
             margin: 0;
             padding: 0;
             color: #555;
             background-color: #f9f9f9;
         }
+
         .container {
             max-width: 100%;
             background: #fff;
@@ -24,68 +26,86 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        h1, h2 {
+
+        h1,
+        h2 {
             color: #333;
             text-align: center;
             margin-bottom: 10px;
         }
+
         h3 {
             color: #777;
             margin-bottom: 10px;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
-        table, th, td {
+
+        table,
+        th,
+        td {
             border: 1px solid #ddd;
         }
-        th, td {
+
+        th,
+        td {
             padding: 12px;
             text-align: left;
         }
+
         th {
             background-color: #f2f2f2;
             color: #333;
         }
+
         .text-right {
             text-align: right;
         }
+
         .text-center {
             text-align: center;
         }
+
         .summary {
             margin-top: 20px;
             padding: 10px;
             border-top: 2px solid #333;
         }
+
         .footer {
             margin-top: 30px;
             text-align: center;
             font-size: 12px;
             color: #777;
         }
+
         .logo {
             text-align: center;
             margin-bottom: 20px;
         }
+
         .logo img {
-            width: 150px; /* Chiều rộng logo */
+            width: 150px;
+            /* Chiều rộng logo */
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="logo">
             <img src="{{ asset('path/to/your/logo.png') }}" alt="Logo của bạn">
         </div>
         <h1>Hóa Đơn Đơn Hàng</h1>
-        
+
         <h3>Thông Tin Khách Hàng</h3>
-        <p><strong>Họ Tên:</strong> Nguy?n V?n A</p>
-        <p><strong>Địa Chỉ:</strong> Hà N?i, Vi?t Nam</p>
-        <p><strong>Email:</strong> budev@gmail.com</p>
+        <p><strong>Họ Tên:</strong> {{$orders->customer_name}}</p>
+        <p><strong>Địa Chỉ:</strong> {{$orders->shipping_address}}</p>
+        <p><strong>Email:</strong> {{$orders->customer->email}}</p>
         <p><strong>Số Điện Thoại:</strong> 0123456789</p>
 
         <h3>Chi Tiết Đơn Hàng</h3>
@@ -101,27 +121,29 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach($orders->orderItems  as $index => $item)
                 <tr>
-                    <td class="text-center">1</td>
+                    <td class="text-center">{{$index + 1}}</td>
                     <td class="text-left">
-                        <img src="link_to_image" width="100" height="100" alt="Hình ảnh sản phẩm">
+                        <img  src="{{$item->product->image_url}}" width="100" height="100" alt="Hình ảnh sản phẩm">
                     </td>
                     <td class="text-left">
-                        <strong>Tên Sản Phẩm:</strong> Sản phẩm Cao Cấp<br>
-                        <strong>Lựa Chọn:</strong> Gối sưởi x Màu đen
+                        <strong>Tên Sản Phẩm:</strong>  {{$item->product->name}} <br>
+                        <strong>Lựa Chọn:</strong> {{implode("x",json_decode($item->variant, true))}}
                     </td>
-                    <td class="text-right">12,000 đ</td>
-                    <td class="text-right">2</td>
-                    <td class="text-right">24,000 đ</td>
+                    <td class="text-right">{{number_format($item->price,0)}} đ</td>
+                    <td class="text-right">{{$item->quantity}}</td>
+                    <td class="text-right">{{number_format($item->total,0)}} đ</td>
                 </tr>
+                @endforeach
             </tbody>
         </table>
 
         <div class="summary">
-            <p class="text-right"><strong>Tạm Tính: 24,000 đ</strong></p>
-            <p class="text-right"><strong>Khuyến Mãi: 2,000 đ</strong></p>
-            <p class="text-right"><strong>Phí Giao Hàng: 100 đ</strong></p>
-            <p class="text-right" style="font-weight: bold; font-size: 16px; color: #333;">Tổng Tiền: 21,900 đ</p>
+            <p class="text-right"><strong>{{number_format($orders->total_amount)}} đ</strong></p>
+            <p class="text-right"><strong>{{ $orders->discount_amount ? number_format($orders->discount_amount) : 0}} đ</strong></p>
+            <p class="text-right"><strong>{{ $orders->shipping_fee ? number_format($orders->shipping_fee) : 0}} đ</strong></p>
+            <p class="text-right" style="font-weight: bold; font-size: 16px; color: #333;">Tổng Tiền:{{ $orders->final_amount ? number_format($orders->final_amount) : 0}} đ</p>
         </div>
 
         <div class="footer">
@@ -131,4 +153,5 @@
         </div>
     </div>
 </body>
+
 </html>

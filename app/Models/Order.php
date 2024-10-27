@@ -18,9 +18,10 @@ class Order extends Model
      const STATUS_CONFIRM = 2;
      const STATUS_PROCESSING = 3;
      const STATUS_SHIPPED = 4;
-     const STATUS_COMPLETED = 5;
-     const STATUS_CANCELLED = 6;
-     const STATUS_REFUNDED = 7;
+     const STATUS_SHIPPEDS = 5;
+     const STATUS_COMPLETED = 6;
+     const STATUS_CANCELLED = 7;
+     const STATUS_REFUNDED = 8;
     protected $fillable = [
         'customer_id',
         'customer_name',

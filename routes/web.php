@@ -273,3 +273,6 @@ Route::get("/",function(){
 });
 Route::get("ajax/getLocaion/index",[GetLocaitonAjax::class,"index"])->name("ajax.getLocation");
 Route::put("ajax/change_status",[ChangeStatusAjax::class,"change_status"])->name("ajax.changeStatus");
+Route::get('/invoice', function () {
+    return view('pdf.order_invoice.invoice'); // 'invoice' là tên file view của bạn
+});

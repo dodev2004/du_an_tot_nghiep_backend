@@ -168,11 +168,11 @@ class OrderController extends Controller
 
         // Tạo view để hiển thị thông tin đơn hàng
         $pdf = Pdf::loadView('pdf.order_invoice.invoice', compact('orders'));
-        $pdf->setOptions([
-            'isHtml5ParserEnabled' => true,
-            'isRemoteEnabled' => true,
-        ]);
+        // $pdf->setOptions([
+        //     'isHtml5ParserEnabled' => true,
+        //     'isRemoteEnabled' => true,
+        // ]);
         // Trả về file PDF cho người dùng tải về
-        return $pdf->download('hoadon_donhang_' . $orders->id . '.pdf');
+        return $pdf->stream('hoadon_donhang_' . $orders->id . '.pdf');
     }
 }
