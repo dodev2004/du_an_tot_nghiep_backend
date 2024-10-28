@@ -75,6 +75,10 @@ return [
         'children' =>
         [
             [
+                "name" => "QL Bình Luận",
+                "route" => 'admin.product_comment.users',
+            ],
+            [
                 "name" => "QL đánh giá",
                 "route" => 'admin.product_review',
             ],

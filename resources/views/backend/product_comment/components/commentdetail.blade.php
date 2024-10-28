@@ -1,8 +1,7 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>Mã sản phẩm</th>
-            <th>Sản phẩm</th>
+            <th>Người dùng</th>
             <th>Bình luận</th>
             <th>Ngày tạo</th>
             <th>Hành động</th>
@@ -12,21 +11,21 @@
         @foreach($data as $comment)
         <tr>
             <td>
-                <a class="product" data-toggle="tooltip" data-placement="top" title="Chi tiết sản phẩm"
-                    data-name="{{ $comment->product->name }}"
-                    data-description="{{ $comment->product->detailed_description }}"
-                    data-price="{{ $comment->product->price }}"
-                    data-discount-price="{{ $comment->product->discount_price }}"
-                    data-stock="{{ $comment->product->stock }}" data-weight="{{ $comment->product->weight }}"
-                    data-ratings-avg="{{ $comment->product->ratings_avg }}"
-                    data-ratings-count="{{ $comment->product->ratings_count }}"
-                    data-status="{{ $comment->product->status }}"
-                    data-image-url="{{ asset($comment->product->image_url) }}">
-
-                    {{ $comment->product->sku }}
-                </a>
+            <a type="button" class="view-user-detail" data-toggle="tooltip" data-placement="top" title="Chi tiết người dùng"
+                        data-full-name="{{ $comment->user->full_name ?? ''}}" 
+                        data-email="{{ $comment->user->email ?? ''}}" 
+                        data-username="{{ $comment->user->username ?? ''}}" 
+                        data-phone="{{ $comment->user->phone ?? ''}}" 
+                        data-address="{{ $comment->user->address ?? ''}}" 
+                        data-birthday="{{ $comment->user->birthday ?? ''}}" 
+                        data-province="{{ $comment->user->province->name ?? ''}}" 
+                        data-district="{{ $comment->user->district->name ?? ''}}" 
+                        data-ward="{{ $comment->user->ward->name ?? ''}}" 
+                        data-avatar="{{ asset($comment->user->avatar) ?? '' }}"
+                        style="cursor: pointer;">
+                        {{ $comment->user->full_name }}
+                    </a>
             </td>
-            <td>{{ $comment->product->name }}</td>
             <td>{{ $comment->comment }}</td>
             <td>{{ $comment->created_at }}</td>
 
@@ -46,78 +45,79 @@
 </table>
 
 <!-- Modal -->
-<div class="modal fade" id="productDetailModal" tabindex="-1" role="dialog" aria-labelledby="productDetailModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="userDetailModal" tabindex="-1" role="dialog" aria-labelledby="userDetailModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content" style=" width: 800px;">
+        <div class="modal-content" style="width: 800px;">
             <div>
-                <h5 id="productDetailModalLabel" style="font-size: 16px; padding: 10px">Chi Tiết Sản Phẩm</h5>
-                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button> -->
+                <h5 id="userDetailModalLabel" style="font-size: 16px; padding: 10px">Chi Tiết Người Dùng</h5>
                 <hr>
             </div>
-            <div style="display: grid; grid-template-columns:40% 60%; padding: 10px">
+            <div style="display: grid; grid-template-columns: 40% 60%; padding: 10px">
                 <div style="text-align: center">
-                    <div><strong>Hình ảnh:</strong></div>
-                    <div><img id="productImage" src="" alt="Hình ảnh sản phẩm" width="77%" /></div>
+                    <div><strong>Avatar:</strong></div>
+                    <div><img id="userAvatar" src="" alt="Avatar người dùng" width="77%" /></div>
                 </div>
                 <div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr ; gap: 10px">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
                         <div>
-                            <div><strong>Tên sản phẩm:</strong></div>
-                            <div
-                                style="border: 1px solid #ccc; padding: 8px; width: 100%; background-color: #f9f9f9;border-radius: 5px">
-                                <span id="productName"></span>
+                            <div><strong>Tên đầy đủ:</strong></div>
+                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
+                                <span id="userFullName"></span>
                             </div>
                         </div>
                         <div>
-                            <div><strong>Giá:</strong></div>
-                            <div style="border: 1px solid #ccc; padding: 8px; width: 100%; background-color:
-                                #f9f9f9;border-radius: 5px"><span id="productPrice"></span></div>
+                            <div><strong>Email:</strong></div>
+                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
+                                <span id="userEmail"></span>
+                            </div>
                         </div>
                     </div>
-                    <div style="margin-top: 10px;display: grid; grid-template-columns: 1fr 1fr ; gap: 10px">
+                    <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
                         <div>
-                            <div><strong>Giá khuyến má:</strong></div>
-                            <div style="border: 1px solid #ccc; padding: 8px; width:100%; background-color:
-                                #f9f9f9;border-radius: 5px"><span id="productDiscountPrice"></span></div>
+                            <div><strong>Tên người dùng:</strong></div>
+                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
+                                <span id="userName"></span>
+                            </div>
                         </div>
                         <div>
-                            <div><strong>Tồn kho:</strong></div>
-                            <div style="border: 1px solid #ccc; padding: 8px; width: 100%; background-color:
-                                #f9f9f9;border-radius: 5px"><span id="productStock"></span></div>
-                        </div>
-                    </div>
-                    <div style="margin-top: 10px;display: grid; grid-template-columns: 1fr 1fr ; gap: 10px">
-                        <div>
-                            <div><strong>Cân nặng:</strong></div>
-                            <div style="border: 1px solid #ccc; padding: 8px; width: 100%; background-color:
-                                #f9f9f9;border-radius: 5px"><span id="productWeight"></span></div>
-                        </div>
-                        <div>
-                            <div><strong>Đánh giá trung bình:</strong></div>
-                            <div style="border: 1px solid #ccc; padding: 8px; width: 100%; background-color:
-                                #f9f9f9;border-radius: 5px"><span id="productRatingsAvg"></span></div>
+                            <div><strong>Số điện thoại:</strong></div>
+                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
+                                <span id="userPhone"></span>
+                            </div>
                         </div>
                     </div>
-                    <div style="margin-top: 10px;display: grid; grid-template-columns: 1fr 1fr ; gap: 10px">
+                    <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
                         <div>
-                            <div><strong>Số lượng đánh giá:</strong></div>
-                            <div style="border: 1px solid #ccc; padding: 8px; width: 100%; background-color:
-                                #f9f9f9;border-radius: 5px"><span id="productRatingsCount"></span></div>
+                            <div><strong>Địa chỉ:</strong></div>
+                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
+                                <span id="userAddress"></span>
+                            </div>
                         </div>
                         <div>
-                            <div><strong>Trạng thái:</strong></div>
-                            <div style="border: 1px solid #ccc; padding: 8px; width: 100%; background-color:
-                                #f9f9f9;border-radius: 5px"><span id="productStatus"></span></div>
+                            <div><strong>Ngày sinh:</strong></div>
+                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
+                                <span id="userBirthday"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
+                        <div>
+                            <div><strong>Tỉnh/Thành phố:</strong></div>
+                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
+                                <span id="userProvince"></span>
+                            </div>
+                        </div>
+                        <div>
+                            <div><strong>Quận/Huyện:</strong></div>
+                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
+                                <span id="userDistrict"></span>
+                            </div>
                         </div>
                     </div>
                     <div style="margin-top: 10px">
-                        <div><strong>Mô tả:</strong></div>
-                        <div><textarea id="productDescription" readonly style=" border : 1px solid #ccc;background-color:
-                                #f9f9f9;border-radius: 5px; padding: 8px; width: 100%; height: 150px ; overflow: auto">
-                                </textarea>
+                        <div><strong>Phường/Xã:</strong></div>
+                        <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
+                            <span id="userWard"></span>
                         </div>
                     </div>
                 </div>

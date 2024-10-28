@@ -43,5 +43,5 @@
 @include("backend.posts.handle.switchery")
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
-@include("backend.product_review.handles.productdetail");
+@include("backend.product_review.handles.userdetail");
 @endpush

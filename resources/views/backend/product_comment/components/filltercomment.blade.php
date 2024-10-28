@@ -1,6 +1,6 @@
-<h4>Bình luận của {{ $users->full_name }}</h4><br>
+<h4>Bình luận của {{ $products->name }}</h4><br>
 <div class="ibox-content_top">
-    <form action="{{ route('admin.product_comment.user_comments', ['id' => $users->id]) }}" method="GET" class="form_search">
+    <form action="{{ route('admin.product_comment.user_comments', ['id' => $products->id]) }}" method="GET" class="form_search">
         <div class="row">
 
             <div class="col-md-2">

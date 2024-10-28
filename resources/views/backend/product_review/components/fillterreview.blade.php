@@ -1,5 +1,5 @@
 <div class="ibox-content_top">  
-    <form action="{{ route('admin.product_review.user_reviews',['id' => $users->id]) }}" method="GET" class="form_search">
+    <form action="{{ route('admin.product_review.user_reviews',['id' => $products->id]) }}" method="GET" class="form_search">
     <div class="row">
 
     <div class="col-md-2">

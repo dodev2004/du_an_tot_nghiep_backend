@@ -17,9 +17,9 @@
             <div class="ibox-content">
                 @include("backend.product_comment.components.fillter")  
                 @include("backend.product_comment.components.table") 
-                @include("backend.product_comment.components.pageuser")
+                @include("backend.product_comment.components.pageproduct")
                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                    {{  $users->links()}}
+                    {{  $data->links()}}
                 </div>
             </div>
 
@@ -34,5 +34,5 @@
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
 @include("backend.product_comment.handles.delete");
-@include("backend.product_comment.handles.userdetail");
+@include("backend.product_comment.handles.productdetail");
 @endpush

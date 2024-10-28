@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\ProductComment;
 use App\Models\User;
 use App\Services\ProductCommentService;
@@ -14,58 +15,53 @@ class ProductCommentController extends Controller
     // Trang hiển thị danh sách bình luận
     public function index()
     {
-        $title = "Danh sách người dùng có bình luận";
+        $title = "Danh sách sản phẩm bình luận";
         array_push($this->breadcrumbs,[
             "active"=>true,
             "url"=> route("admin.product_comment.users"),
-            "name"=>"Danh sách người dùng có bình luận"
+            "name"=>"Danh sách sản phẩm có bình luận"
          ]);   
          $breadcrumbs = $this->breadcrumbs;
 
          $searchText = request()->get('search_text');
-         $query = User::has('product_comments')->withCount('product_comments');
+         $query = Product::has('product_comments')->withCount('product_comments');
 
          if (!empty($searchText)) {
-             $query->where('full_name', 'LIKE', value: '%' . $searchText . '%');
+             $query->where('name', 'LIKE', value: '%' . $searchText . '%')
+                    ->orWhere('sku', 'LIKE', '%' . $searchText . '%');
          }
-         $users = $query->paginate(10);
 
-         foreach ($users as $user) {
-            $user->product_count = ProductComment::where('user_id', $user->id)
-                ->distinct('product_id')
-                ->count('product_id');
-        }
-         $data = ProductComment::with(['product', 'user'])->orderBy('created_at', 'desc')->paginate(10);
-         return view("backend.product_comment.templates.index",compact("title","breadcrumbs", "users","data",));
+         $data = $query->paginate(10);
+         return view("backend.product_comment.templates.index",compact("title","breadcrumbs","data",));
     }
 
     public function userComments(Request $request, $id)
     {
-        session(['user_id' => $id]);
-        $users = User::findOrFail($id);
-        $title = "Chi tiết người dùng bình luận";
+        session(['product_id' => $id]);
+        $products = Product::findOrFail($id);
+        $title = "Chi tiết sản phẩm có bình luận";
         array_push($this->breadcrumbs,[
             "active"=>true,
             "url"=> route("admin.product_comment.users"),
-            "name"=>"Danh sách người dùng có bình luận"
+            "name"=>"Danh sách sản phẩm có bình luận"
         ],[
             "active"=>true,
             "url"=> route("admin.product_comment.user_comments", ['id' => $id]),
-            "name"=>"Chi tiết người dùng bình luận"
+            "name"=>"Chi tiết sản phẩm có bình luận"
  
         ]); 
         
         $breadcrumbs = $this->breadcrumbs;
-        $query = ProductComment::where('user_id', $id);
+        $query = ProductComment::where('product_id', $id);
 
 
         $searchText = $request->get('search_text');
         if (!empty($searchText)) {
             $query->where('comment', 'LIKE', '%' . $searchText . '%')
-            ->orWhereHas('product', function ($q) use ($searchText) {
-                $q->where('name', 'LIKE', '%' . $searchText . '%')
-                ->orWhere('sku', 'LIKE', '%' . $searchText . '%');
-            })->where('user_id', $id);
+            ->orWhereHas('user', function ($q) use ($searchText) {
+                $q->where('username', 'LIKE', '%' . $searchText . '%')
+                ->orWhere('full_name', 'LIKE', '%' . $searchText . '%');
+            })->where('product_id', $id);
         }
 
 
@@ -90,7 +86,7 @@ class ProductCommentController extends Controller
 
         $data = $query->orderBy('created_at', 'desc')->paginate(10); 
     
-        return view("backend.product_comment.templates.comment", compact( 'users','title', 'breadcrumbs', 'data'));
+        return view("backend.product_comment.templates.comment", compact( 'products','title', 'breadcrumbs', 'data'));
     }
     
     public function destroy(Request $request)
@@ -128,7 +124,7 @@ class ProductCommentController extends Controller
 
     public function trash(Request $request)
     {
-        $userId = session('user_id');
+        $productId = session('product_id');
         $title = "Danh sách bình luận đã xóa";
         array_push($this->breadcrumbs, [
             "active"=>true,
@@ -136,7 +132,7 @@ class ProductCommentController extends Controller
             "name"=>"Danh sách người dùng có bình luận"
         ], [
             "active"=>true,
-            "url"=> route("admin.product_comment.user_comments", ['id' => $userId]),
+            "url"=> route("admin.product_comment.user_comments", ['id' => $productId]),
             "name"=>"Chi tiết người dùng bình luận"
         ], [
             "active" => true,
