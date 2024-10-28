@@ -293,6 +293,12 @@ public function selectOrderStatusData(Request $request)
         ];
     }
 
+    if (array_sum(array_column($chartData, 'value')) === 0) {
+        return response()->json([
+            'error' => 'Không có đơn hàng nào cho khoảng thời gian này.'
+        ], 404); // Trả về mã lỗi 404
+    }
+
     return response()->json($chartData);
 }
 
