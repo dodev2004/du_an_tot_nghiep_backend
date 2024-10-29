@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\PromotionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\backend\AttributeController;
@@ -40,3 +41,11 @@ Route::get("/attribute",[AttributeController::class,"getAll"])->name("api.attrib
     Route::post('/products', [ProductController::class, 'store']);
     Route::put('/products/{id}', [ProductController::class, 'update']);
     Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+
+
+    
+Route::get('/promotions', [PromotionController::class, 'index']);
+Route::post('/promotions', [PromotionController::class, 'store']);
+Route::get('/promotions/{id}', [PromotionController::class, 'show']);
+Route::put('/promotions/{id}', [PromotionController::class, 'update']);
+Route::delete('/promotions/{id}', [PromotionController::class, 'destroy']);
