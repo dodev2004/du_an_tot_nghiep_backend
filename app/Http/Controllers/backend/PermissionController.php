@@ -26,7 +26,7 @@ class PermissionController extends Controller
         $breadcrumbs = $this->breadcrumbs;
         $table="permissions";
         // Tìm kiếm và lọc dữ liệu
-        $query = Permission::with('groupPermission');
+        $query = Permission::with('groupPermission')->orderBy('created_at', 'desc');
 
         // Kiểm tra nếu người dùng muốn xem các bản ghi đã bị xóa mềm
 
