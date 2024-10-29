@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\ProductReview;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,60 +18,48 @@ class ProductReviewController extends Controller
         array_push($this->breadcrumbs,[
             "active"=>true,
             "url"=> route("admin.product_review"),
-            "name"=>"Quản lý đánh giá"
+            "name"=>"Danh sách sản phẩm đánh giá"
          ]); 
         $breadcrumbs = $this->breadcrumbs;
 
         $searchText = request()->get('search_text');
-        $query = User::whereHas('product_reviews')
-        ->withCount([
-            'product_reviews as review_count', // Tổng số lượng đánh giá
-            'product_reviews as product_count' => function ($query) {
-                $query->select(DB::raw('COUNT(DISTINCT product_id)')); // Số lượng sản phẩm duy nhất
-            }
-        ]);
+        $query = Product::whereHas('product_reviews')->withCount('product_reviews as review_count');
         if (!empty($searchText)) {
-            $query->where('full_name', 'LIKE', value: '%' . $searchText . '%');
+            $query->where('name', 'LIKE', value: '%' . $searchText . '%')
+                    ->orWhere('sku', 'LIKE', '%' . $searchText . '%');
         }
 
-        $users = $query->paginate(10);
-        foreach ($users as $user) {
-            $user->product_count = ProductReview::where('user_id', $user->id)
-                ->distinct('product_id')
-                ->count('product_id');
-        }
+        $data = $query->orderBy('created_at', 'desc')->paginate(10);
 
-        $data = ProductReview::with(['product', 'user'])->orderBy('created_at', 'desc')->paginate(10);
-
-        return view('backend.product_review.templates.index', compact("title", "breadcrumbs","users", "data"));
+        return view('backend.product_review.templates.index', compact("title", "breadcrumbs","data"));
     }
 
     public function userReviews(Request $request, $id)
     {
-        $users = User::findOrFail($id);
+        $products = Product::findOrFail($id);
         $title = "Chi tiết người dùng đánh giá";
         array_push($this->breadcrumbs,[
             "active"=>true,
             "url"=> route("admin.product_review"),
-            "name"=>"Danh sách người dùng có bình luận"
+            "name"=>"Danh sách sản phẩm đánh giá"
         ],[
             "active"=>true,
             "url"=> route("admin.product_review.user_reviews", ['id' => $id]),
-            "name"=>"Chi tiết người dùng bình luận"
+            "name"=>"Chi tiết sản phẩm đánh giá"
  
         ]); 
         
         $breadcrumbs = $this->breadcrumbs;
-        $query = ProductReview::where('user_id', $id);
+        $query = ProductReview::where('product_id', $id);
 
 
         $searchText = $request->get('search_text');
         if (!empty($searchText)) {
             $query->where('review', 'LIKE', '%' . $searchText . '%')
-            ->orWhereHas('product', function ($q) use ($searchText) {
-                $q->where('name', 'LIKE', '%' . $searchText . '%')
-                ->orWhere('sku', 'LIKE', '%' . $searchText . '%');
-            })->where('user_id', $id);
+            ->orWhereHas('user', function ($q) use ($searchText) {
+                $q->where('username', 'LIKE', '%' . $searchText . '%')
+                ->orWhere('full_name', 'LIKE', '%' . $searchText . '%');
+            })->where('product_id', $id);
         }
 
         $ratingFilter = $request->get('rating');
@@ -98,6 +87,6 @@ class ProductReviewController extends Controller
 
         $data = $query->orderBy('created_at', 'desc')->paginate(10); 
     
-        return view("backend.product_review.templates.review", compact( 'users','title', 'breadcrumbs', 'data'));
+        return view("backend.product_review.templates.review", compact( 'products','title', 'breadcrumbs', 'data'));
     }
 }

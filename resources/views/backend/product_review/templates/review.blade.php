@@ -27,7 +27,7 @@
                 </style>
                 @include("backend.product_review.components.fillterreview") 
                 @include("backend.product_review.components.reviewdetail")  
-                @include("backend.product_comment.components.page")
+                @include("backend.product_review.components.page")
                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
                 {{ $data->links() }}
                 </div>
@@ -43,5 +43,5 @@
 @include("backend.posts.handle.switchery")
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
-@include("backend.product_comment.handles.productdetail");
+@include("backend.product_review.handles.userdetail");
 @endpush

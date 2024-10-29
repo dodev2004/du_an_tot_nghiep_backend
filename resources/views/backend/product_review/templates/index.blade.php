@@ -19,7 +19,7 @@
                 @include("backend.product_review.components.table")
                 @include("backend.product_review.components.pageuser")
                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                {{ $users->links() }}
+                    {{ $data->links() }}
                 </div>
             </div>
         </div>
@@ -34,5 +34,5 @@
 @include("backend.posts.handle.switchery")
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
-@include('backend.product_review.handles.userdetail');
+@include('backend.product_review.handles.productdetail');
 @endpush

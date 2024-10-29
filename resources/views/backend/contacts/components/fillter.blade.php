@@ -31,6 +31,9 @@
     </form>
 
     <div class="total_record">
-
+        <div style="margin-top: 15px;">
+            <a href="{{ route('admin.contact.trash') }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top"
+                title="Thùng rác"><i class="fa fa-trash-o"></i></a>
+        </div>
     </div>
 </div>
