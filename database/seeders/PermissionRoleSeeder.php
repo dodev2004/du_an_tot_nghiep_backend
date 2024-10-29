@@ -14,7 +14,7 @@ class PermissionRoleSeeder extends Seeder
     public function run(): void
     {
         $roleId = 1; // ID của role
-        $permissions = range(1, 147); // Tạo mảng ID permission từ 1 đến 147
+        $permissions = range(1, 150); // Tạo mảng ID permission từ 1 đến 147
 
         foreach ($permissions as $permissionId) {
             DB::table('permission_role')->insert([

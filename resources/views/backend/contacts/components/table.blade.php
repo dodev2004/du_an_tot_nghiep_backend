@@ -50,31 +50,36 @@
                 </th>
 
                 <th class="text-center">
-                    @if ($item->status == 0)
-                        <a class="btn btn-sm btn-success" href="{{ route('admin.contact.edit', $item->id) }}"
-                            data-toggle="tooltip" data-placement="top" title="Phản hồi">
-                            <i class="fa fa-comment-dots"></i>
-                        </a>
-                    @elseif ($item->status == 1)
-                        <a type="button" class="view-user-detail btn btn-info" data-toggle="tooltip" data-placement="top"
-                            title="Chi tiết phản hồi" data-toggle="tooltip" data-placement="top" title="Xem chi tiết"
-                            data-full-name="{{ $item->user->full_name }}" data-email="{{ $item->user->email }}"
-                            data-username="{{ $item->user->username }}" data-phone="{{ $item->user->phone }}"
-                            data-address="{{ $item->user->address }}" data-content="{{ $item->content }}"
-                            data-image="{{ $item->image!=null ? asset($item->image) : null }}"
-                            data-response="{{ $item->response }}" data-updated_at="{{ $item->updated_at }}"
-                            style="cursor: pointer;">
-                            <i class="fa fa-eye"></i>
-                        </a>
-                    @endif
-                    {{-- <form action="" method="POST" data-url="contact" class="form-delete">
-                        @method('DELETE')
-                        @csrf
-                        <input type="hidden" value="{{ $item->id }}" name="id">
-                <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Xóa"><i
-                        class="fa-solid fa-trash"></i> Xóa</button>
-                </form> --}}
+                    <div style="display: flex; justify-content: center;column-gap: 5px;">
+
+                        @if ($item->status == 0)
+                            <a class="btn btn-sm btn-success" href="{{ route('admin.contact.edit', $item->id) }}"
+                                data-toggle="tooltip" data-placement="top" title="Phản hồi">
+                                <i class="fa fa-comment-dots"></i>
+                            </a>
+                        @elseif ($item->status == 1)
+                            <a type="button" class="view-user-detail btn btn-info" data-toggle="tooltip"
+                                data-placement="top" title="Chi tiết phản hồi" data-toggle="tooltip"
+                                data-placement="top" title="Xem chi tiết" data-full-name="{{ $item->user->full_name }}"
+                                data-email="{{ $item->user->email }}" data-username="{{ $item->user->username }}"
+                                data-phone="{{ $item->user->phone }}" data-address="{{ $item->user->address }}"
+                                data-content="{{ $item->content }}"
+                                data-image="{{ $item->image != null ? asset($item->image) : null }}"
+                                data-response="{{ $item->response }}" data-updated_at="{{ $item->updated_at }}"
+                                style="cursor: pointer;">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        @endif
+                        <form action="" method="POST" data-url="contact" class="form-delete">
+                            @method('DELETE')
+                            @csrf
+                            <input type="hidden" value="{{ $item->id }}" name="id">
+                            <button class="btn btn-sm btn-danger btn-delete" title="Xoá"><i
+                                    class="fa fa-trash-o"></i></button>
+                        </form>
+                    </div>
                 </th>
+
             </tr>
         @endforeach
     </tbody>

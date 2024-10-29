@@ -87,7 +87,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::put("{id}/update", [UserCatelogueController::class, "UserCatelogueUpdate"])->name("admin.user_catelogue.update")->middleware('checkPermission:updateUserCatelogue');
         Route::delete("/delete", [UserCatelogueController::class, "UserCatelogueDelete"])->name("admin.user_catelogue.delete")->middleware('checkPermission:deleteUserCatelogue');
     });
-    Route::prefix("post_catelogue")->middleware('checkRole:admin')->group(function () {
+    Route::prefix("post-catelogue")->middleware('checkRole:admin')->group(function () {
         Route::get("list", [PostCatelogueController::class, "index"])->name("admin.post-catelogue")->middleware('checkPermission:viewPostCatelogue');
         Route::get("create", [PostCatelogueController::class, "create"])->name("admin.post-catelogue.create")->middleware('checkPermission:createPostCatelogue');
         Route::post("post-catelogueStore", [PostCatelogueController::class, "store"])->name("admin.post-catelogue.store")->middleware('checkPermission:storePostCatelogue');
@@ -112,7 +112,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::delete("/delete", [ProductController::class, "destroy"])->name("admin.product.delete")->middleware('checkPermission:deleteProduct');
     });
     //
-    Route::prefix("order")->middleware('checkRole:admin')->group(function () {
+    Route::prefix("orders")->middleware('checkRole:admin')->group(function () {
         Route::get("list", [OrderController::class, "index"])->name("admin.orders")->middleware('checkPermission:viewOrder');
         Route::get("create", [OrderController::class, "create"])->name("admin.orders.create")->middleware('checkPermission:createOrder');
         Route::post("store", [OrderController::class, "store"])->name("admin.orders.store")->middleware('checkPermission:storeOrder');
@@ -122,7 +122,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::get("details/{id}", [OrderController::class, "show"])->name("admin.orders.details")->middleware('checkPermission:viewOrderDetails');
         Route::get('{id}/export-pdf', [OrderController::class, 'exportPdf'])->name("admin.orders.exportPdf")->middleware('checkPermission:exportOrderPdf');
     });
-    Route::prefix("product_catelogue")->middleware('checkRole:admin')->group(function () {
+    Route::prefix("product-catelogue")->middleware('checkRole:admin')->group(function () {
         Route::get("list", [ProductCatelogueController::class, "index"])->name("admin.product_catelogue")->middleware('checkPermission:viewProductCatelogue');
         Route::get("create", [ProductCatelogueController::class, "create"])->name("admin.product_catelogue.create")->middleware('checkPermission:createProductCatelogue');
         Route::post("postStore", [ProductCatelogueController::class, "store"])->name("admin.product_catelogue.store")->middleware('checkPermission:storeProductCatelogue');
@@ -130,7 +130,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::put("{id}/update", [ProductCatelogueController::class, "update"])->name("admin.product_catelogue.update")->middleware('checkPermission:updateProductCatelogue');
         Route::delete("/delete", [ProductCatelogueController::class, "destroy"])->name("admin.product_catelogue.delete")->middleware('checkPermission:deleteProductCatelogue');
     });
-    Route::prefix("variant_catelogue")->middleware('checkRole:admin')->group(function () {
+    Route::prefix("variant-catelogue")->middleware('checkRole:admin')->group(function () {
         Route::get("list", [AttributeController::class, "index"])->name("admin.variant_catelogue")->middleware('checkPermission:viewVariantCatelogue');
         Route::get("create", [AttributeController::class, "create"])->name("admin.variant_catelogue.create")->middleware('checkPermission:createVariantCatelogue');
         Route::post("postStore", [AttributeController::class, "store"])->name("admin.variant_catelogue.store")->middleware('checkPermission:storeVariantCatelogue');
@@ -154,7 +154,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::put("{id}/update", [PaymentMethodsController::class, "update"])->name("admin.payment_methods.update")->middleware('checkPermission:updatePaymentMethod');
         Route::delete('{id}', [PaymentMethodsController::class, 'destroy'])->name('admin.payment_methods.delete')->middleware('checkPermission:deletePaymentMethod');
     });
-    Route::prefix('promotion')->middleware('checkRole:admin')->group(function () {
+    Route::prefix('promotions')->middleware('checkRole:admin')->group(function () {
         Route::get('/', [PromotionController::class, 'listPromotions'])->name('admin.promotions')->middleware('checkPermission:viewPromotion');
         Route::get('/create', [PromotionController::class, 'create'])->name('admin.promotions.create')->middleware('checkPermission:createPromotion');
         Route::post('/store', [PromotionController::class, 'store'])->name('admin.promotions.store')->middleware('checkPermission:storePromotion');
@@ -193,7 +193,10 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         // Route::post("postStore",[ContactController::class,"store"])->name("admin.contact.store")->middleware('checkPermission:storeContact');
         Route::get("{id}/edit", [ContactController::class, "edit"])->name("admin.contact.edit")->middleware('checkPermission:editContact');
         Route::put("{id}/update", [ContactController::class, "update"])->name("admin.contact.update")->middleware('checkPermission:updateContact');
-        // Route::delete("/delete",[ContactController::class,"destroy"])->name("admin.contact.delete")->middleware('checkPermission:deleteContact');
+        Route::delete("/delete",[ContactController::class,"destroy"])->name("admin.contact.delete")->middleware('checkPermission:deleteContact');
+        Route::delete("/force-delete", [ContactController::class, "force_destroy"])->name("admin.contact.force_delete")->middleware('checkPermission:forceDeleteContact');
+        Route::post("{id}/restore", [ContactController::class, "restore"])->name("admin.contact.restore")->middleware('checkPermission:restoreContact');
+        Route::get("/trash", [ContactController::class, "trash"])->name("admin.contact.trash")->middleware('checkPermission:viewTrashContact');
     });
     Route::prefix("information")->middleware('checkRole:admin')->group(function () {
         Route::get("list", [InformationController::class, "index"])->name("admin.information")->middleware('checkPermission:viewInformation');
@@ -203,7 +206,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::put("{id}/update", [InformationController::class, "update"])->name("admin.information.update")->middleware('checkPermission:updateInformation');
         Route::delete("/delete", [InformationController::class, "destroy"])->name("admin.information.delete")->middleware('checkPermission:deleteInformation');
     });
-    Route::prefix("shipping_fee")->middleware('checkRole:admin')->group(function () {
+    Route::prefix("shipping-fee")->middleware('checkRole:admin')->group(function () {
         Route::get("list", [ShippingFeeController::class, "index"])->name("admin.shipping_fee")->middleware('checkPermission:viewShippingFee');
         Route::get("create", [ShippingFeeController::class, "create"])->name("admin.shipping_fee.create")->middleware('checkPermission:createShippingFee');
         Route::post("postStore", [ShippingFeeController::class, "store"])->name("admin.shipping_fee.store")->middleware('checkPermission:storeShippingFee');
@@ -223,7 +226,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::put("{id}/update", [CustomerController::class, "update"])->name("admin.customer.update")->middleware('checkPermission:updateCustomer');
         Route::delete("/delete", [CustomerController::class, "destroy"])->name("admin.customer.delete")->middleware('checkPermission:deleteCustomer');
     });
-    Route::prefix("group_permission")->middleware('checkRole:admin')->group(function () {
+    Route::prefix("group-permission")->middleware('checkRole:admin')->group(function () {
         Route::get("list", [GroupPermissionController::class, "index"])->name("admin.group_permission")->middleware('checkPermission:viewGroupPermission');
         Route::get("create", [GroupPermissionController::class, "create"])->name("admin.group_permission.create")->middleware('checkPermission:createGroupPermission');
         Route::post("postStore", [GroupPermissionController::class, "store"])->name("admin.group_permission.store")->middleware('checkPermission:storeGroupPermission');
