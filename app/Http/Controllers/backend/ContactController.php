@@ -55,6 +55,16 @@ class ContactController extends Controller
         } elseif ($dateOrder === 'oldest') {
             $query->orderBy('created_at', 'asc');
         }
+        if (request()->input('trash')) {
+            if ($startDate) {
+                $query->where('deleted_at', '>=', $startDate);
+            }
+            if ($endDate) {
+                $query->where('deleted_at', '<=', $endDate);
+            }
+            $data=$query->onlyTrashed()->paginate(5); // Nếu có trash thì chỉ lấy dữ liệu đã xóa mềm
+            return view('backend.trash.trash_contact.templates.index',compact('breadcrumbs', "title", "data"));
+        }
 
         // Paginate the results
         $data = $query->paginate(10);
@@ -172,13 +182,51 @@ class ContactController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    // public function destroy(Request $request)
-    // {
-    //     $contact = Contact::find($request->id);
-    //     if ($contact->delete($request->id)) {
-    //         return response()->json(["success", "Xóa thành công"]);
-    //     } else {
-    //         return response()->json(["error", "Xóa thất bại"]);
-    //     }
-    // }
+    public function destroy(Request $request)
+    {
+        $contact = Contact::find($request->id);
+        // dd(Contact::all());
+        if ($contact->delete($request->id)) {
+            return response()->json(["success", "Xóa thành công"]);
+        } else {
+            return response()->json(["error", "Xóa thất bại"]);
+        }
+    }
+
+    public function force_destroy(Request $request)
+    {
+        // Tìm bản ghi đã bị xóa mềm bằng ID
+        $contact = Contact::onlyTrashed()->find($request->id);
+
+        // Kiểm tra nếu tồn tại và thực hiện xóa vĩnh viễn
+        if ($contact) {
+            $contact->forceDelete(); // Thực hiện xóa vĩnh viễn
+            return response()->json(["success" => "Xóa vĩnh viễn thành công"]);
+        } else {
+            return response()->json(["error" => "Bản ghi không tồn tại"]);
+        }
+    }
+    public function restore($id)
+    {
+        $contact = Contact::onlyTrashed()->findOrFail($id);
+        $contact->restore(); // Khôi phục bình luận
+
+        return redirect()->back()->with('success', 'form liên hệ đã được khôi phục thành công!');
+    }
+    public function trash()
+    {
+        $title = "Danh sách form liên hệ đã xóa";
+        array_push($this->breadcrumbs, [
+            "active" => true,
+            "url" => route("admin.contact.trash"),
+            "name" => "Danh sách form liên hệ đã xóa"
+        ]);
+        $breadcrumbs = $this->breadcrumbs;
+
+        // Lấy các bình luận đã xóa mềm
+        $data = Contact::onlyTrashed()->with('user')
+        ->orderBy('status', 'asc')->paginate(10);
+
+        return view("backend.trash.trash_contact.templates.index", compact("title", "breadcrumbs", "data"));
+    }
 }

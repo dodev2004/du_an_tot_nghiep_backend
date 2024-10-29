@@ -62,7 +62,6 @@
                     <div class="form-group col-md-6">
                         <label for="">Vai trò *</label>
                         <select class="form-control roles" name="role_id" id="" multiple>
-                            <option value="">Vui lòng chọn vai trò</option>
                             @foreach ($roles as $role)
                             <option value="{{ $role->id }}" {{ in_array($role->id, $data->roles->pluck('id')->toArray()) ? 'selected' : '' }}>
                                 {{ $role->name }}

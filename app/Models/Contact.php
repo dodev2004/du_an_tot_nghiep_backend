@@ -15,6 +15,7 @@ class Contact extends Model
         "response",
         "status"
     ];
+    protected $dates = ['deleted_at'];
     protected $table = "contacts";
     public function user()
     {

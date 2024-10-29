@@ -10,7 +10,7 @@
     <tbody>
         @foreach ($data as $index => $item)
         <tr>
-            
+
             <td>
                 <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->name }}</p>
             </td>
@@ -37,7 +37,7 @@
                         @method('DELETE')
                         @csrf
                         <input type="hidden" value="{{ $item->id }}" name="id">
-                        <button class="btn btn-sm btn-warning" title="Thùng rác"><i class="fa fa-trash-o"></i></button>
+                        <button class="btn btn-sm btn-danger" title="Xoá"><i class="fa fa-trash-o"></i></button>
                     </form>
                 </div>
             </th>

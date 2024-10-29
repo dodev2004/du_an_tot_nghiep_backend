@@ -191,7 +191,7 @@
         .total-revenue {
             color: #27ae60;
             font-weight: bold;
-            
+
         }
         .inactive{
             color: red
@@ -311,6 +311,15 @@
             <div class="stat-box">
                 <div class="stat-title">
                     <span class="canceled-orders"><i class="fas fa-box"></i> Trạng thái đơn hàng </span>
+                    <div>
+                        <select class="order-filter form-control">
+                            <option value="homnay">hôm nay</option>
+                            <option value="7ngay">7 ngày qua</option>
+                            <option value="thangnay" selected>tháng này</option>
+                            <option value="thangtruoc">tháng trước</option>
+                            <option value="365ngayqua">365 ngày qua</option>
+                        </select>
+                    </div>
                 </div>
                 <div id="orderStatusChart" style="height: 369px;"></div>
             </div>
@@ -370,7 +379,7 @@
                 </div>
             </div>
 
-        </div>    
+        </div>
 
 </div>
 
@@ -1113,14 +1122,60 @@
                 });
                 const orderStatusData = @json($orderStatusData);
 
-                Morris.Donut({
+                chartStatus=Morris.Donut({
                     element: 'orderStatusChart',
                     data: orderStatusData,
-                    colors: ["#ffcc00", "#3366ff", "#33cc33", "#4caf50", "#ff4444", "#ff6384"],
+                    colors: ["#ffcc00", "#3366ff", "#33cc33", "#8bc34a", "#00bcd4", "#4caf50", "#ff4444", "#ff6384"],
                     resize: true,
                     formatter: function(value, data) {
                         return value + " đơn hàng";
                     }
+                });
+
+                let previousStatusValue = $('.order-filter').val();
+
+                $('.order-filter').on('change', function(event) {
+                    event.preventDefault();
+
+                    var order_value = $(this).val();
+                    var _token = $('meta[name="csrf-token"]').attr('content');
+                    // Xóa dữ liệu trong form khi chọn select
+                    $('#filterForm')[0].reset();
+                    $.ajax({
+                        type: "POST",
+                        url: '{{ route('orders_status.select') }}',
+                        dataType: "json",
+                        data: {
+                            order_value: order_value,
+                            _token: _token
+                        },
+                        headers: {
+                            "X-HTTP-Method-Override": "GET"
+                        },
+                        success: function(response) {
+
+                            console.log(response);
+                            chartStatus.setData(response);
+
+                            previousStatusValue = order_value;
+
+                        },
+                        error: function(xhr, status, error) {
+                            Swal.fire({
+                                icon: 'info',
+                                title: 'Không có đơn hàng',
+                                text: 'Không có đơn hàng cho khoảng thời gian này.',
+                                confirmButtonText: 'Đóng',
+                                customClass: {
+                                    confirmButton: 'btn btn-primary'
+                                },
+                                buttonsStyling: false
+                            });
+                            // Đặt lại select khi submit form
+                            $('.order-filter').val(previousStatusValue);
+                            console.error(xhr.responseText);
+                        }
+                    });
                 });
             });
 </script>
@@ -1139,19 +1194,19 @@
             datasets: [{
                 label: 'Lượt đánh giá',
                 data: ratingCounts,
-                backgroundColor: [  
-                    'rgba(0, 204, 204, 0.8)',  
-                    'rgba(0, 204, 153, 0.8)',   
-                    'rgba(51, 153, 153, 0.8)',  
-                    'rgba(51, 204, 0, 0.8)',    
-                    'rgba(51, 153, 255, 0.8)'  
-                ],  
-                borderColor: [  
-                    'rgba(0, 204, 204, 1)',  
-                    'rgba(0, 204, 153, 1)', 
-                    'rgba(51, 153, 153, 1)',  
-                    'rgba(51, 204, 0, 1)',   
-                    'rgba(51, 153, 255, 1)' 
+                backgroundColor: [
+                    'rgba(0, 204, 204, 0.8)',
+                    'rgba(0, 204, 153, 0.8)',
+                    'rgba(51, 153, 153, 0.8)',
+                    'rgba(51, 204, 0, 0.8)',
+                    'rgba(51, 153, 255, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(0, 204, 204, 1)',
+                    'rgba(0, 204, 153, 1)',
+                    'rgba(51, 153, 153, 1)',
+                    'rgba(51, 204, 0, 1)',
+                    'rgba(51, 153, 255, 1)'
                 ],
                 borderWidth: 2
             }]
@@ -1277,5 +1332,5 @@
 @endsection
 @push('scripts')
     @include('backend.components.scripts')
-    @include("backend.components.chartJs")
+    {{-- @include("backend.components.chartJs") --}}
 @endpush
