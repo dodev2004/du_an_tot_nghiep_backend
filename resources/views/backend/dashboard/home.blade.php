@@ -385,7 +385,7 @@
 
 <div class="row  border-bottom white-bg dashboard-header">
     <h3>Thống Kê Ưu Đãi</h3>
-            {{-- <div class="statistics-container">
+            <div class="statistics-container">
                 <div class="stat-box2">
                     <span class="total"><h3>Tổng số lượng mã giảm giá</h3></span>
                     <h2>{{ $totalCouponsInMonth }}</h2>
@@ -402,7 +402,7 @@
                     <h2>{{ $inactiveCoupons }}</h2>
                     <div class="status low-value">Không hoạt động</div>
                 </div>
-            </div> --}}
+            </div>
 
             <div class="charts-container">
                 <!-- Biểu đồ tổng quan -->
