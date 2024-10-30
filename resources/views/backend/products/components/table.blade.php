@@ -17,7 +17,7 @@
                     {{ $index + 1 }}
                 </td>
                 <td>
-                    <img src="{{ asset($product->image_url) }}" alt="{{ $product->name }}" width="50">
+                    <img src="{{ asset($product->image_url) }}" alt="{{ $product->name }}" width="100%">
                 </td>
                 <td>
                     <strong>Tên sản phẩm:</strong> <a onclick="clickHandel('{{$product->id}}')" data-toggle="modal" data-id={{ $product->id }}
