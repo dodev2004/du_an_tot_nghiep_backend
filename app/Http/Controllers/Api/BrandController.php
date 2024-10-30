@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\backend;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
@@ -11,7 +11,7 @@ class BrandController extends Controller
     /**
      * Display a listing of the resource.
      */
-    protected $breadcrumbs = [];
+    
 
     public function index()
     {

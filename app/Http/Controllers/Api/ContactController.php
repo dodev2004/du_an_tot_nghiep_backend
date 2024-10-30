@@ -1,232 +1,164 @@
 <?php
 
-namespace App\Http\Controllers\backend;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ContactController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    protected $breadcrumbs = [];
+
 
     public function index()
     {
-        $title = "Quản lý form liên hệ";
-        $this->breadcrumbs[] = [
-            "active" => true,
-            "url" => route("admin.contact"),
-            "name" => "Quản lý form liên hệ"
-        ];
-        $breadcrumbs = $this->breadcrumbs;
+        // Lấy thông tin người dùng hiện tại và chọn các trường cần thiết
+        // $user = Auth::user();
+        // $userData = $user ? [
+        //     'full_name' => $user->full_name,
+        //     'phone' => $user->phone,
+        //     'email' => $user->email,
+        // ] : null;
 
-        $searchText = request()->input('seach_text');
-        $startDate = request()->input('start_date');
-        $endDate = request()->input('end_date');
-        $dateOrder = request()->input('date_order');
-
-        $query = Contact::with('user')
-            ->orderBy('status', 'asc');
-
-
-        // Search by username
-        if ($searchText) {
-            $query->whereHas('user', function ($query) use ($searchText) {
-                $query->where('full_name', 'LIKE', '%' . $searchText . '%');
-            });
-        }
-
-        // Filter by date range
-        if ($startDate) {
-            $query->where('created_at', '>=', $startDate);
-        }
-        if ($endDate) {
-            $query->where('created_at', '<=', $endDate);
-        }
-
-        // Sort by date
-        if ($dateOrder === 'newest') {
-            $query->orderBy('created_at', 'desc');
-        } elseif ($dateOrder === 'oldest') {
-            $query->orderBy('created_at', 'asc');
-        }
-        if (request()->input('trash')) {
-            if ($startDate) {
-                $query->where('deleted_at', '>=', $startDate);
+        // Lấy toàn bộ danh sách contact
+        $contacts = Contact::all();
+        $contacts->map(function ($contact) {
+            if ($contact->image) {
+                $contact->image = asset('storage/' . $contact->image); // Tạo URL đầy đủ cho ảnh
             }
-            if ($endDate) {
-                $query->where('deleted_at', '<=', $endDate);
-            }
-            $data=$query->onlyTrashed()->paginate(5); // Nếu có trash thì chỉ lấy dữ liệu đã xóa mềm
-            return view('backend.trash.trash_contact.templates.index',compact('breadcrumbs', "title", "data"));
+            return $contact;
+        });
+
+        // Trả về response JSON bao gồm cả user và contacts
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Thông tin người dùng và danh sách liên hệ',
+            'data' => [
+                // 'user' => $userData,
+                'contacts' => $contacts
+            ]
+        ], 200);
+    }
+    public function show($id)
+    {
+        // Lấy thông tin chi tiết một chương trình khuyến mãi
+        $contact = Contact::find($id);
+        if (!$contact) {
+            return response()->json(['message' => 'contact not found'], 404);
         }
-
-        // Paginate the results
-        $data = $query->paginate(10);
-
-        return view('backend.contacts.templates.index', compact('title', 'breadcrumbs', 'data'));
+        return response()->json($contact);
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    // public function create()
-    // {
-    //     $title = "Quản lý form liên hệ";
-    //     array_push($this->breadcrumbs, [
-    //         "active" => false,
-    //         "url" => route("admin.contact"),
-    //         "name" => "Quản lý form liên hệ",
-    //     ], [
-
-    //         "active" => true,
-    //         "url" => route("admin.contact.create"),
-    //         "name" => "Thêm form liên hệ",
-
-    //     ]);
-    //     $breadcrumbs = $this->breadcrumbs;
-    //     return view("backend.contacts.templates.create", compact("title", "breadcrumbs"));
-    // }
 
     /**
      * Store a newly created resource in storage.
      */
-    // public function store(Request $request)
-    // {
-    //     $request->validate([
-    //         "title" => "required|string|max:50|regex:/^[\p{L}\s]+$/u", // Tên không được để trống, phải là chuỗi, không có ký tự đặc biệt
-
-    //         "content" => "required|string", // Địa chỉ không được để trống, chỉ được phép chứa ký tự chữ, số, dấu cách, và một số ký tự đặc biệt
-
-    //     ], [
-    //         "title.required" => "Tên không được để trống",
-    //         "title.string" => "Tên phải là chuỗi",
-    //         "title.max" => "Tên không được vượt quá 50 ký tự",
 
 
-    //         "content.required" => "Địa chỉ không được để trống",
-    //         "content.string" => "Địa chỉ phải là chuỗi",
-    //         "content.regex" => "Địa chỉ không được chứa ký tự đặc biệt không hợp lệ",
-
-
-    //     ]);
-    //     $data = $request->except('_token');
-    //     $data['content'] = preg_replace('/<p>|<\/p>/', '', $request->content);
-    //     $data['user_id'] = Auth::user()->id;
-    //     if (Contact::create($data)) {
-    //         return response()->json(["success", "Thêm mới thành công"]);
-    //     } else {
-    //         return response()->json(["error", "Thêm mới thất bại"]);
-    //     }
-    // }
-
-    /**
-     * Display the specified resource.
-     */
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function store(Request $request)
     {
-        $title = "Phản hồi";
-        array_push($this->breadcrumbs, [
-            "active" => false,
-            "url" => route("admin.contact"),
-            "name" => "Quản lý form liên hệ",
+        // Xác thực dữ liệu
+        $request->validate([
+            "content" => "required|string|regex:/^[\p{L}\s]+$/u", // Địa chỉ không được để trống, chỉ chứa ký tự chữ và dấu cách
+            "image" => "nullable|max:2048", // Ảnh không bắt buộc, chỉ chấp nhận các định dạng ảnh, tối đa 2MB
         ], [
-
-            "active" => true,
-            "url" => route("admin.contact.edit", $id),
-            "name" => "Phản hồi",
-
+            "content.required" => "Địa chỉ không được để trống",
+            "content.string" => "Địa chỉ phải là chuỗi",
+            "content.regex" => "Địa chỉ không được chứa ký tự đặc biệt không hợp lệ",
+            "image.max" => "Ảnh không được vượt quá 2MB",
         ]);
-        $data = Contact::with('user')->where("id", "=", $id)->first();
-        $user = User::find($data->user_id);
-        $breadcrumbs = $this->breadcrumbs;
-        return view("backend.contacts.templates.edit", compact("title", "breadcrumbs", "data", "user"));
+
+        $data = $request->except('_token');
+        // $data['content'] = preg_replace('/<p>|<\/p>/', '', $request->content);
+        // $data['user_id'] = Auth::user()->id;
+
+        // Xử lý file ảnh nếu có
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('contact', 'public'); // Lưu ảnh vào thư mục 'images' trong storage/public
+            $data['image'] = $imagePath; // Lưu đường dẫn ảnh vào cơ sở dữ liệu
+        }
+
+        if (Contact::create($data)) {
+            return response()->json(["status" => 'success', "message" => "Thêm mới thành công"], 201);
+        } else {
+            return response()->json(["status" => 'error', "message" => "Thêm mới thất bại"], 500);
+        }
     }
+
+
+
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
+        // Xác thực dữ liệu
         $request->validate(
             [
-                "response" => "required|string|regex:/^[\p{L}\s]+$/u",
+                "response" => "required|string|regex:/^[\p{L}\s]+$/u", // Phản hồi không được để trống, chỉ chứa ký tự chữ và dấu cách
+
             ],
             [
                 "response.required" => "Phản hồi không được để trống",
-                "response.string" => "Phản hồi không được để trống",
+                "response.string" => "Phản hồi phải là chuỗi",
                 "response.regex" => "Phản hồi không được chứa ký tự đặc biệt không hợp lệ",
+
             ]
         );
-        $data = $request->except('_token', '_method','image');
+
+        // Lấy dữ liệu từ request và loại bỏ các trường không cần thiết
+        $data = $request->except('_token', '_method', 'image');
         $data['response'] = preg_replace('/<p>|<\/p>/', '', $request->response);
         $data['status'] = 1;
+
+        // Tìm kiếm bản ghi liên quan đến ID
         $contact = Contact::find($id);
 
+        if (!$contact) {
+            return response()->json(["status" => 'error', "message" => "Không tìm thấy bản ghi"], 404);
+        }
+
+        // Xử lý file ảnh nếu có
+        // Cập nhật dữ liệu
         if ($contact->update($data)) {
-            return response()->json(["success", "Cập nhật thành công"]);
+            return response()->json(["status" => 'success', "message" => "Cập nhật thành công"], 200);
         } else {
-            return response()->json(["error", "Cập nhật thất bại"]);
+            return response()->json(["status" => 'error', "message" => "Cập nhật thất bại"], 500);
         }
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Request $request)
     {
+        // Tìm bản ghi theo ID
         $contact = Contact::find($request->id);
-        // dd(Contact::all());
-        if ($contact->delete($request->id)) {
-            return response()->json(["success", "Xóa thành công"]);
-        } else {
-            return response()->json(["error", "Xóa thất bại"]);
+
+        // Kiểm tra xem bản ghi có tồn tại không
+        if (!$contact) {
+            return response()->json(["status" => 'error', "message" => "Không tìm thấy bản ghi"], 404);
         }
-    }
 
-    public function force_destroy(Request $request)
-    {
-        // Tìm bản ghi đã bị xóa mềm bằng ID
-        $contact = Contact::onlyTrashed()->find($request->id);
-
-        // Kiểm tra nếu tồn tại và thực hiện xóa vĩnh viễn
-        if ($contact) {
-            $contact->forceDelete(); // Thực hiện xóa vĩnh viễn
-            return response()->json(["success" => "Xóa vĩnh viễn thành công"]);
+        // Xóa bản ghi
+        if ($contact->delete()) {
+            // Nếu có ảnh liên quan, xóa ảnh từ storage
+            if ($contact->image) {
+                Storage::disk('public')->delete($contact->image);
+            }
+            return response()->json(["status" => 'success', "message" => "Xóa thành công"], 200);
         } else {
-            return response()->json(["error" => "Bản ghi không tồn tại"]);
+            return response()->json(["status" => 'error', "message" => "Xóa thất bại"], 500);
         }
-    }
-    public function restore($id)
-    {
-        $contact = Contact::onlyTrashed()->findOrFail($id);
-        $contact->restore(); // Khôi phục bình luận
-
-        return redirect()->back()->with('success', 'form liên hệ đã được khôi phục thành công!');
-    }
-    public function trash()
-    {
-        $title = "Danh sách form liên hệ đã xóa";
-        array_push($this->breadcrumbs, [
-            "active" => true,
-            "url" => route("admin.contact.trash"),
-            "name" => "Danh sách form liên hệ đã xóa"
-        ]);
-        $breadcrumbs = $this->breadcrumbs;
-
-        // Lấy các bình luận đã xóa mềm
-        $data = Contact::onlyTrashed()->with('user')
-        ->orderBy('status', 'asc')->paginate(10);
-
-        return view("backend.trash.trash_contact.templates.index", compact("title", "breadcrumbs", "data"));
     }
 }
