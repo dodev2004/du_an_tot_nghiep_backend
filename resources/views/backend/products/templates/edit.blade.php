@@ -679,6 +679,7 @@
             option.textContent = "Vui lòng chọn";
 
             const selectAttribute = document.createElement("select");
+            selectAttribute.classList.add("select_attribute")
             selectAttribute.appendChild(option);
 
             // Chỉ thêm các thuộc tính chưa được chọn vào danh sách
@@ -753,12 +754,12 @@
                     renderTableListVariant(data);
                 };
             }
-            updateSelectAttributes();
-            console.log(selectAttribute);
+         
+         
 
             // Xử lý sự kiện chọn thuộc tính
             selectAttribute.onchange = function() {
-                console.log("Checking");
+              
 
                 const key = selectAttribute[selectAttribute.options.selectedIndex].text.trim();
                 const attributeValueSelect = this.parentElement.parentElement.querySelector(".attribute_value");
@@ -778,7 +779,7 @@
                 $(newSelect).select2({
                     width: "100%"
                 });
-                console.log(newSelect);
+           
 
 
                 newSelect.onchange = function() {
@@ -985,16 +986,18 @@
         }
 
         function updateSelectAttributes() {
-            const allSelects = document.querySelectorAll(".attribute select");
+            const allSelects = document.querySelectorAll(".select_attribute");
             const currentSelectedIds = Array.from(allSelects).map(select => select.value).filter(id => id);
-
+            console.log(allSelects);
+            
 
             allSelects.forEach(select => {
                 const options = select.querySelectorAll('option');
+              
+                
                 options.forEach(option => {
-
                     option.disabled = currentSelectedIds.includes(option.value) && option.value !== select
-                        .value; // Disable nếu đã chọn
+                        .value; 
                 });
             });
         }
