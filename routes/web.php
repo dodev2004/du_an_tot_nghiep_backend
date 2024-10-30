@@ -106,6 +106,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
     });
     Route::prefix("product")->middleware('checkRole:admin')->group(function () {
         Route::get("list", [ProductController::class, "index"])->name("admin.product")->middleware('checkPermission:viewProduct');
+        Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
         Route::get("create", [ProductController::class, "create"])->name("admin.product.create")->middleware('checkPermission:createProduct');
         Route::post("postStore", [ProductController::class, "store"])->name("admin.product.store")->middleware('checkPermission:storeProduct');
         Route::get("{id}/edit", [ProductController::class, "editPost"])->name("admin.product.edit")->middleware('checkPermission:editProduct');

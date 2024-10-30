@@ -90,6 +90,49 @@ class ProductController extends Controller
         $brands = Brand::all();
      return view("backend.products.templates.create",compact("title","breadcrumbs","product_catelogue","brands"));
     }
+
+    public function show($id)
+    {
+
+        array_push($this->breadcrumbs,[
+            "active"=>true,
+            "url"=> route("admin.product"),
+            "name"=>"Quản lý sản phẩm"
+        ],[
+            "active"=>false,
+            "url"=> route("product.show", ['id' => $id]),
+            "name"=>"Chi tiết sản phẩm"
+ 
+        ]);  
+        $breadcrumbs = $this->breadcrumbs;
+        $product = Product::query()->with(['brand', 'catelogues', 'variants.attributeValues', 'galleries'])->findOrFail($id);
+        $title = "Chi tiết sản phẩm: " . $product->name;
+        // Tính giá hiển thị và tồn kho cho sản phẩm dựa trên các biến thể
+        if ($product->variants->isNotEmpty()) {
+            $product->display_stock = $product->variants->sum('stock');
+            $variantNames = $product->variants->pluck('name')->unique()->toArray();
+            $minPrice = $product->variants->min('price');
+            $maxPrice = $product->variants->max('price');
+            $minDiscountPrice = $product->variants->whereNotNull('discount_price')->min('discount_price');
+            $maxDiscountPrice = $product->variants->whereNotNull('discount_price')->max('discount_price');
+            
+            $product->display_price = $minDiscountPrice != 0.00 && $maxDiscountPrice != 0.00
+                ? "từ " . number_format($minDiscountPrice, 0, ',', '.') . "đ đến " . number_format($maxDiscountPrice, 0, ',', '.') . "đ"
+                : ($minPrice == $maxPrice
+                    ? number_format($minPrice, 0, ',', '.') . 'đ'
+                    : "từ " . number_format($minPrice, 0, ',', '.') . "đ đến " . number_format($maxPrice, 0, ',', '.') . "đ");
+        } else {
+            $product->display_stock = $product->stock;
+            $product->display_price = $product->discount_price 
+                ? number_format($product->discount_price, 0, ',', '.') . 'đ'
+                : number_format($product->price, 0, ',', '.') . 'đ';
+        }
+        $product->catelogues = $product->catelogues->pluck('name')->toArray();
+        
+        return view('backend.products.templates.detail', compact('breadcrumbs','product','title'));
+    }
+
+
     public function dropdownPostCatelogue($target = "create"){
         $this->nestedSetBuild->_set("product_catelogues"); 
         return $this->nestedSetBuild->renderDropdownCreate($this->nestedSetBuild->Get($target),0,$target, $this->nestedSetBuild->Get(),"post_catelogue_id");
@@ -207,12 +250,6 @@ class ProductController extends Controller
         $query = Product::with("catelogues")->where("id","=",$id)->first();
        
         return $query->catelogues->pluck("id");
-    }
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
     }
 
     /**

@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
                 "full_name" => "Nguyễn ngọc trường sơn",
                 "rule_id" => 1
             ],[
-                "username" => "hoant",
+                "username" => "hoantt",
                 "password" => Hash::make("admin"),
                 "email" => "hoant2004@gmail.com",
                 "full_name" => "Trần Hoàn",
@@ -54,21 +54,21 @@ class UserSeeder extends Seeder
                 "rule_id" => 2
             ],
             [
-                "username" => "asdfg",
+                "username" => "asdfgddjh",
                 "password" => Hash::make("user"),
                 "email" => "levanc@example.com",
                 "full_name" => "Lê Văn C",
                 "rule_id" => 2
             ],
             [
-                "username" => "qwerty",
+                "username" => "qwertyhh",
                 "password" => Hash::make("user"),
                 "email" => "nguyenthid@example.com",
                 "full_name" => "Nguyễn Thị D",
                 "rule_id" => 2
             ],
             [
-                "username" => "zxcvb",
+                "username" => "zxcvbhhhh",
                 "password" => Hash::make("user"),
                 "email" => "phamvane@example.com",
                 "full_name" => "Phạm Văn E",
