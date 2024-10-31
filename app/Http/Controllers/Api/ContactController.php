@@ -81,7 +81,7 @@ class ContactController extends Controller
 
         // Xử lý file ảnh nếu có
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('contact', 'public'); // Lưu ảnh vào thư mục 'images' trong storage/public
+            $imagePath = $request->file('image')->store('contact', 'public'); // Lưu ảnh vào thư mục 'contact' trong storage/public
             $data['image'] = $imagePath; // Lưu đường dẫn ảnh vào cơ sở dữ liệu
         }
 
