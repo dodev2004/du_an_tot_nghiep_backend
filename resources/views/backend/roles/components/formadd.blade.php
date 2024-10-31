@@ -15,6 +15,10 @@
                         value="{{ old('description') }}" placeholder="Mời nhập mô tả">
                     <p class=" text-danger message-error"></p>
                 </div>
+                <label>
+                    <input type="checkbox" id="selectAllPermissions" />
+                    Chọn tất cả
+                </label>
                 <div class="form-group">
                     <label for="permissions">Chọn quyền hạn</label>
                     @foreach ($groupPermissions as $group)
@@ -29,7 +33,7 @@
                             @endforeach
                         </div>
                     @endforeach
-                    <p class="text-danger message-error"></p>
+                    <p class="text-danger message-error-permissions"></p>
                 </div>
 
             </div>
