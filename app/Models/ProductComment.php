@@ -15,6 +15,7 @@ class ProductComment extends Model
         'product_id',
         'user_id',
         'comment',
+        'review_id'
     ];
 
 
@@ -25,6 +26,10 @@ class ProductComment extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
+    }
+    public function review()
+    {
+        return $this->belongsTo(ProductReview::class, 'review_id');
     }
 }

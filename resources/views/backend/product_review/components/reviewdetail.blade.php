@@ -5,6 +5,8 @@
                 <th>Đánh giá</th>
                 <th>Số sao</th>
                 <th>Ngày</th>
+                <th>Phản hồi khách hàng</th>
+                <th>Hoạt động</th>
             </tr>
         </thead>
         <tbody>
@@ -13,6 +15,7 @@
                 <td>
                     <a type="button" class="view-user-detail" data-toggle="tooltip" data-placement="top" title="Chi tiết người dùng"
                             data-full-name="{{ $review->user->full_name ?? ''}}" 
+                            data-username="{{ $review->user->username ?? ''}}" 
                             data-email="{{ $review->user->email ?? ''}}" 
                             data-reviewname="{{ $review->user->reviewname ?? ''}}" 
                             data-phone="{{ $review->user->phone ?? ''}}" 
@@ -23,12 +26,28 @@
                             data-ward="{{ $review->user->ward->name ?? ''}}" 
                             data-avatar="{{ asset($review->user->avatar) ?? '' }}"
                             style="cursor: pointer;">
-                            {{ $review->user->full_name }}
+                            {{ $review->user->username }}
                         </a>
                 </td>
                 <td>{{ $review->review }}</td>
-                <td>{{ $review->rating }}*</td>
+                <td>{{ $review->rating }} <i class="fa-solid fa-star" style="color: #FAB005;"></i></td>
                 <td>{{ $review->created_at->format('d/m/Y') }}</td>
+                <td>
+                    @if($review->comments->isNotEmpty())
+                        <ul>
+                            @foreach($review->comments as $comment)
+                                <li>
+                                     {{ $comment->comment }} 
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p>Chưa có phản hồi nào.</p>
+                    @endif
+                </td>
+                <td>
+                    <center><a href="{{ route('product_comment.create', ['id' => $review->id]) }}" class="btn btn-sm btn-info"><i class="fa-solid fa-comment-dots"></i></a></center>
+                </td>
             </tr>
             @endforeach
         </tbody>

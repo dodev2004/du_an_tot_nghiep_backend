@@ -28,4 +28,8 @@ class ProductReview extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function comments()
+    {
+        return $this->hasMany(ProductComment::class, 'review_id');
+    }
 }

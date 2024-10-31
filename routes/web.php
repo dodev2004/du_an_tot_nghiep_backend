@@ -176,6 +176,8 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
     Route::prefix("product-comment")->group(function(){
         Route::get("users", [ProductCommentController::class, "index"])->name("admin.product_comment.users");
         Route::get("user/{id}/comments", [ProductCommentController::class, "userComments"])->name("admin.product_comment.user_comments");
+        Route::get('/product-review/{id}/comment', [ProductCommentController::class, 'create'])->name('product_comment.create');
+        Route::post('/product-review/{id}/comment', [ProductCommentController::class, 'store'])->name('product_comment.store');
         Route::delete("/soft-delete", [ProductCommentController::class, "softDelete"])->name("admin.product_comment.soft_delete");//xóa mềm
         Route::post("{id}/restore", [ProductCommentController::class, "restore"])->name("admin.product_comment.restore");//khôi phục
         Route::delete("/hard-delete", [ProductCommentController::class, "destroy"])->name("admin.product_comment.hard_delete");//xóa cúng
