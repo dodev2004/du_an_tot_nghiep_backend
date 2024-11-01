@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\ProductController;
-use App\Http\Controllers\Api\PromotionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\AboutController;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\PromotionController;
 use App\Http\Controllers\backend\AttributeController;
 use App\Http\Controllers\api\BrandController;
 use App\Http\Controllers\api\ContactController;
@@ -32,7 +33,7 @@ Route::group([
     Route::post('register', [AuthController::class,'register']);
     Route::post('login', [AuthController::class,'login']);
     Route::get('profile', [AuthController::class,'profile']);
-    Route::post('logout', [AuthController::class,'logout']);
+    // Route::post('logout', [AuthController::class,'logout']);
     Route::post('refresh', [AuthController::class,'refresh']);
 
 });
@@ -44,7 +45,6 @@ Route::get("/attribute",[AttributeController::class,"getAll"])->name("api.attrib
     Route::post('/products', [ProductController::class, 'store']);
     Route::put('/products/{id}', [ProductController::class, 'update']);
     Route::delete('/products/{id}', [ProductController::class, 'destroy']);
-
 
 
 Route::get('/promotions', [PromotionController::class, 'index']);
@@ -64,3 +64,4 @@ Route::post('/contacts', [ContactController::class, 'store']);
 Route::get('/contacts/{id}', [ContactController::class, 'show']);
 Route::put('/contacts/{id}', [ContactController::class, 'update']);
 Route::delete('/contacts/{id}', [ContactController::class, 'destroy']);
+Route::get('/about', [AboutController::class, 'index']);
