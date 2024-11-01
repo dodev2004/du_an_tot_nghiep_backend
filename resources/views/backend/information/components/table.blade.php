@@ -3,7 +3,7 @@
     <div class="contact-info mt-4">
         @if (isset($item))
             <input type="checkbox" value="{{ $item->id }}" hidden>
-            <div class="mx-auto" style="width: 550px; display : flex ; padding:25px; justify-content:center;border-radius: 5px ; border : 1px solid gray;  flex-direction: column">
+            <div class="mx-auto" style="width: 700px; display : flex ; padding:25px; justify-content:center;border-radius: 5px ; border : 1px solid gray;  flex-direction: column">
                 <h1 style="text-align: center">Trang Liên Hệ </h1>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px;">
                     <div>
@@ -14,7 +14,7 @@
                     </div>
                     <div>
                         <h4 style="text-align: center">Ảnh địa chỉ</h4>
-                        <img src="{{ $item->image }}" alt="" width="100%" height="150px" >
+                        <img src="{{ $item->image }}" alt="" width="100%" height="250px" >
                     </div>
                 </div>
                 <div >

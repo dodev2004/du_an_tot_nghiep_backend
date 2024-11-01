@@ -12,7 +12,7 @@
           data.append("_token",_token);
           console.log(data);
            $.ajax({
-            url : '{{route('admin.contact.update',$id)}}',
+            url : '{{route('admin.customer.update',$id)}}',
             type: "POST",
             dataType: "json",
             data : data,
@@ -23,7 +23,7 @@
             },
             success : function(res){
 
-                toastMessage(res[1],res[0],'{{route('admin.contact')}}')
+                toastMessage(res[1],res[0],'{{route('admin.customer')}}')
 
             },
             error : function(error){

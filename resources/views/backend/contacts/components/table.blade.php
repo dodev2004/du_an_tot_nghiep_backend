@@ -14,21 +14,21 @@
         @foreach ($data as $item)
             <tr>
                 <td>
-                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->user->full_name }}</p>
+                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->user->full_name ?: 'không có dữ liệu' }}</p>
                 </td>
                 <th>
-                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->user->email }}</p>
+                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->user->email ?: 'không có dữ liệu' }}</p>
                 </th>
                 <th>
-                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->user->address }}</p>
+                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->user->address ?: 'không có dữ liệu' }}</p>
                 </th>
                 <th>
-                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->user->phone }}</p>
+                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->user->phone ?: 'không có dữ liệu' }}</p>
                 </th>
                 <th>
                     <p
                         style="margin-bottom: 0; font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 200px;">
-                        {{ $item->content }}
+                        {{ $item->content ?: 'không có dữ liệu' }}
                     </p>
                 </th>
                 <th>
@@ -65,18 +65,19 @@
                                 data-phone="{{ $item->user->phone }}" data-address="{{ $item->user->address }}"
                                 data-content="{{ $item->content }}"
                                 data-image="{{ $item->image != null ? asset($item->image) : null }}"
-                                data-response="{{ $item->response }}" data-updated_at="{{ $item->updated_at }}"
+                                data-response="{{ $item->response }}" data-updated_at="{{  \Carbon\Carbon::parse($item->updated_at) }}"
                                 style="cursor: pointer;">
                                 <i class="fa fa-eye"></i>
                             </a>
+                            <form action="" method="POST" data-url="contact" class="form-delete">
+                                @method('DELETE')
+                                @csrf
+                                <input type="hidden" value="{{ $item->id }}" name="id">
+                                <button class="btn btn-sm btn-danger btn-delete" title="Xoá"><i
+                                        class="fa fa-trash-o"></i></button>
+                            </form>
                         @endif
-                        <form action="" method="POST" data-url="contact" class="form-delete">
-                            @method('DELETE')
-                            @csrf
-                            <input type="hidden" value="{{ $item->id }}" name="id">
-                            <button class="btn btn-sm btn-danger btn-delete" title="Xoá"><i
-                                    class="fa fa-trash-o"></i></button>
-                        </form>
+
                     </div>
                 </th>
 

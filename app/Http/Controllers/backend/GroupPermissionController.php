@@ -27,7 +27,7 @@ class GroupPermissionController extends Controller
         $dateOrder = request()->input('date_order');
 
         // Tạo truy vấn cho GroupPermission
-        $query = GroupPermission::query();
+        $query = GroupPermission::query()->orderBy('created_at', 'desc');
 
         // Kiểm tra xem có tìm kiếm theo tên không
         if ($searchText) {

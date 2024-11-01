@@ -29,7 +29,7 @@ class ShippingFeeController extends Controller
         $endDate = request()->input('end_date');
         $dateOrder = request()->input('date_order');
         // Tạo truy vấn chung cho Shipping_fee
-        $query = Shipping_fee::with('province');
+        $query = Shipping_fee::with('province')->orderBy('created_at', 'desc');
 
         // Kiểm tra xem có yêu cầu trash không
 
@@ -132,7 +132,7 @@ class ShippingFeeController extends Controller
      */
     public function edit(string $id)
     {
-        $title = "Sửa nhãn hàng";
+        $title = "Sửa phí ship";
         array_push($this->breadcrumbs, [
             "active" => false,
             "url" => route("admin.shipping_fee"),

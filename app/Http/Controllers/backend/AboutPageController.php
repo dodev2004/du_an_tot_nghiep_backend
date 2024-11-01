@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\AboutPage; 
+use App\Models\AboutPage;
 
 use Illuminate\Http\Request;
 
@@ -13,7 +13,7 @@ class AboutPageController extends Controller
     public function index()
     {
         $title = "Quản lý trang giới thiệu";
-        $data = AboutPage::paginate(10);
+        $data = AboutPage::query()->orderBy('created_at', 'desc')->paginate(10);
         array_push($this->breadcrumbs, [
             "active" => true,
             "url" => route("admin.post"),
@@ -55,13 +55,13 @@ class AboutPageController extends Controller
             'image.image' => 'Tệp tải lên phải là hình ảnh.',
             'image.mimes' => 'Hình ảnh phải ở định dạng jpeg, png, jpg, gif, hoặc svg.',
         ]);
-    
+
         $imageName = null;
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $imagePath = $request->file('image')->store('public/images');
             $imageName = basename($imagePath);
         }
-    
+
         $aboutPage = AboutPage::create([
             'title' => $request->title,
             'content' => $request->content,
@@ -132,7 +132,7 @@ class AboutPageController extends Controller
 
     {
         $aboutPage = AboutPage::findOrFail($id);
-        
+
         if ($aboutPage) {
             $aboutPage->delete();
             return response()->json(['message' => 'Khuyến mãi đã được xóa thành công', 'status' => 'success'], 200);

@@ -30,7 +30,7 @@
                                 @csrf
                                 <button type="submit" class="btn btn-success"><i class="fa fa-undo"></i></button>
                             </form>
-                            <form action="" method="POST" data-url="group-role" class="form-delete" style="display: inline;">
+                            <form action="" method="POST" data-url="role" class="form-delete" style="display: inline;">
                                 @method('DELETE')
                                 @csrf
                                 <input type="hidden" value="{{ $item->id }}" name="id">

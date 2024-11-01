@@ -29,7 +29,7 @@ class BrandController extends Controller
 
     $breadcrumbs = $this->breadcrumbs;
     // Tạo truy vấn chung cho Brand
-    $query = Brand::query();
+    $query = Brand::query()->orderBy('created_at', 'desc');
     $table="brands";
     // Thêm điều kiện tìm kiếm theo tên nhãn hàng
     if ($searchText) {

@@ -25,7 +25,7 @@ class PromotionController extends Controller
         $title = "Quản lý mã giảm giá";
         $searchText = $request->get('search_text');
         $searchRule = $request->get('search_rule');
-        $query = Promotion::query();
+        $query = Promotion::query()->orderBy('created_at', 'desc');
         if (!empty($searchText)) {
             $query->where('code', 'LIKE', '%' . $searchText . '%');
         }
@@ -81,7 +81,7 @@ class PromotionController extends Controller
             "discount_type.required" => "Vui lòng chọn loại giảm giá",
             "status.required" => "Vui lòng chọn trạng thái",
             "start_date.required" => "Vui lòng chọn ngày bắt đầu",
-            'start_date.after_or_equal' => 'Ngày bắt đầu phải sau hoặc bằng ngày hôm nay', 
+            'start_date.after_or_equal' => 'Ngày bắt đầu phải sau hoặc bằng ngày hôm nay',
             "end_date.required" => "Vui lòng chọn ngày kết thúc",
             "end_date.after_or_equal" => "Ngày kết thúc phải sau hoặc bằng ngày bắt đầu",
             "max_uses.required" => "Vui lòng nhập số lượt sử dụng tối đa",

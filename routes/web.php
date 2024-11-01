@@ -229,7 +229,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::get("list", [CustomerController::class, "index"])->name("admin.customer")->middleware('checkPermission:viewCustomer');
         Route::get("create", [CustomerController::class, "create"])->name("admin.customer.create")->middleware('checkPermission:createCustomer');
         Route::post("postStore", [CustomerController::class, "store"])->name("admin.customer.store")->middleware('checkPermission:storeCustomer');
-        Route::get("{id}/show", [CustomerController::class, "show"])->name("admin.customer.show")->middleware('checkPermission:viewCustomerDetail');
+        // Route::get("{id}/show", [CustomerController::class, "show"])->name("admin.customer.show")->middleware('checkPermission:viewCustomerDetail');
         Route::get("{id}/edit", [CustomerController::class, "edit"])->name("admin.customer.edit")->middleware('checkPermission:editCustomer');
         Route::put("{id}/update", [CustomerController::class, "update"])->name("admin.customer.update")->middleware('checkPermission:updateCustomer');
         Route::delete("/delete", [CustomerController::class, "destroy"])->name("admin.customer.delete")->middleware('checkPermission:deleteCustomer');

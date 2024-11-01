@@ -31,8 +31,10 @@ class UserRepository extends BaseRespository  implements UserRepositoryInterface
               }
               if(request()->has('rule_id')){
                 $query->where("rule_id",request()->rule_id ) ;
-
-              }
+              }else {
+                // Nếu không có rule_id trong request, mặc định chỉ lấy người dùng có rule_id = 1
+                $query->where("rule_id", 1);
+            }
     });
     return $query->paginate(15)->withQueryString();
   }

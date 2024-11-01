@@ -14,6 +14,10 @@
                     <input type="text" class="form-control" id="description" name="description" value="{{ $role->description }}">
                     <p class=" text-danger message-error"></p>
                 </div>
+                <label>
+                    <input type="checkbox" id="selectAllPermissions" />
+                    Chọn tất cả
+                </label>
                 <div class="form-group">
                     <label for="permissions">Chọn quyền hạn</label>
                     @foreach ($groupPermissions as $group)
@@ -41,7 +45,7 @@
                             </optgroup>
                         @endforeach
                     </select> --}}
-                    <p class="text-danger message-error"></p>
+                    <p class="text-danger message-error-permissions"></p>
                 </div>
                 <button class="btn btn-success" style=" float: right; margin-right: 50px" type="submit">Cập nhật</button>
             </div>
