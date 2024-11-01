@@ -30,7 +30,16 @@
                         </a>
                 </td>
                 <td>{{ $review->review }}</td>
-                <td>{{ $review->rating }} <i class="fa-solid fa-star" style="color: #FAB005;"></i></td>
+                <td>
+                    @for($i = 1; $i <= 5; $i++)
+                        @if($i <= $review->rating)
+                            <i class="fas fa-star text-warning"></i> <!-- Sao sáng (vàng) -->
+                        @else
+                            <i class="far fa-star text-secondary"></i> <!-- Sao tối (màu xám) -->
+                        @endif
+                    @endfor
+                </td>
+                
                 <td>{{ $review->created_at->format('d/m/Y') }}</td>
                 <td>
                     @if($review->comments->isNotEmpty())

@@ -10,7 +10,15 @@
         <p><strong>Tên sản phẩm:</strong> {{ $reviews->product->name }}</p>
         <p><strong>Người dùng đánh giá:</strong> {{ $reviews->user->username }}</p>
         <p><strong>Đánh giá:</strong> {{ $reviews->review }}</p>
-        <p><strong>Số sao:</strong> {{ $reviews->rating }}</p>
+        <p><strong>Số sao:</strong> 
+            @for($i = 1; $i <= 5; $i++)
+                @if($i <= $reviews->rating)
+                    <i class="fas fa-star text-warning"></i> <!-- Sao sáng (vàng) -->
+                @else
+                    <i class="far fa-star text-secondary"></i> <!-- Sao tối (màu xám) -->
+                @endif
+            @endfor
+        </p>
     </div>
 
         <!-- Form để thêm bình luận mới cho đánh giá -->
