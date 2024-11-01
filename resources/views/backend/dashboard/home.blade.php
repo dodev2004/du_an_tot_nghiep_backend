@@ -416,36 +416,17 @@
                 </div>
             </div>
 </div>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="wrapper wrapper-content">
-            <div class="row">
-            <div class="col-lg-6">
-                    <div class="ibox">
-                        <div class="ibox-title">
-                            <!-- đánh gía & bình luận -->
-                            <div class="ibox-tools">
-                                <div style="width: 65%; margin-left: 20%;">
-                                    <canvas id="reviewRatingsDoughnutChart" ></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="ibox">
-                        <div class="ibox-title">
-                            <!-- đánh gía & bình luận -->
-                            <div class="ibox-tools">
-                                <div">
-                                    <canvas id="topRatedProductsChart" width="500" height="400"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @include("backend.components.footer")
+<div class="row border-bottom white-bg dashboard-header">
+<h3>Thống Kê đánh giá</h3>
+    <div class="charts-container">
+        <!-- Biểu đồ tổng quan -->
+        <div class="chart2-container">
+            <canvas id="reviewRatingsDoughnutChart"></canvas>
+        </div>
+
+        <!-- Biểu đồ mã giảm giá được sử dụng nhiều nhất -->
+        <div class="chart2-container">
+            <canvas id="topRatedProductsChart" width="500" height="500"></canvas>
         </div>
     </div>
 </div>

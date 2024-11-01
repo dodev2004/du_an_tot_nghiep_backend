@@ -2,6 +2,7 @@
     <thead>
         <tr>
             <th>Người dùng</th>
+            <th>Nhân viên phản hồi</th>
             <th>Bình luận</th>
             <th>Ngày tạo</th>
             <th>Hành động</th>
@@ -12,19 +13,37 @@
         <tr>
             <td>
             <a type="button" class="view-user-detail" data-toggle="tooltip" data-placement="top" title="Chi tiết người dùng"
-                        data-full-name="{{ $comment->user->full_name ?? ''}}" 
-                        data-email="{{ $comment->user->email ?? ''}}" 
-                        data-username="{{ $comment->user->username ?? ''}}" 
-                        data-phone="{{ $comment->user->phone ?? ''}}" 
-                        data-address="{{ $comment->user->address ?? ''}}" 
-                        data-birthday="{{ $comment->user->birthday ?? ''}}" 
-                        data-province="{{ $comment->user->province->name ?? ''}}" 
-                        data-district="{{ $comment->user->district->name ?? ''}}" 
-                        data-ward="{{ $comment->user->ward->name ?? ''}}" 
-                        data-avatar="{{ asset($comment->user->avatar) ?? '' }}"
-                        style="cursor: pointer;">
-                        {{ $comment->user->full_name }}
-                    </a>
+                    data-full-name="{{ $comment->review->user->full_name ?? ''}}" 
+                    data-username="{{ $comnent->review->user->username ?? ''}}" 
+                    data-email="{{ $comment->review->user->email ?? ''}}" 
+                    data-username="{{ $comment->review->user->username ?? ''}}" 
+                    data-phone="{{ $comment->review->user->phone ?? ''}}" 
+                    data-address="{{ $comment->review->user->address ?? ''}}" 
+                    data-birthday="{{ $comment->review->user->birthday ?? ''}}" 
+                    data-province="{{ $comment->review->user->province->name ?? ''}}" 
+                    data-district="{{ $comment->review->user->district->name ?? ''}}" 
+                    data-ward="{{ $comment->review->user->ward->name ?? ''}}" 
+                    data-avatar="{{ asset($comment->review->user->avatar) ?? '' }}"
+                    style="cursor: pointer;">
+                    {{ $comment->review->user->username }}
+                </a>
+            </td>
+            <td>
+                <a type="button" class="view-user-detail" data-toggle="tooltip" data-placement="top" title="Chi tiết người dùng"
+                    data-full-name="{{ $comment->user->full_name ?? ''}}" 
+                    data-username="{{ $comnent->user->username ?? ''}}" 
+                    data-email="{{ $comment->user->email ?? ''}}" 
+                    data-username="{{ $comment->user->username ?? ''}}" 
+                    data-phone="{{ $comment->user->phone ?? ''}}" 
+                    data-address="{{ $comment->user->address ?? ''}}" 
+                    data-birthday="{{ $comment->user->birthday ?? ''}}" 
+                    data-province="{{ $comment->user->province->name ?? ''}}" 
+                    data-district="{{ $comment->user->district->name ?? ''}}" 
+                    data-ward="{{ $comment->user->ward->name ?? ''}}" 
+                    data-avatar="{{ asset($comment->user->avatar) ?? '' }}"
+                    style="cursor: pointer;">
+                    {{ $comment->user->username }}
+                </a>
             </td>
             <td>{{ $comment->comment }}</td>
             <td>{{ $comment->created_at }}</td>

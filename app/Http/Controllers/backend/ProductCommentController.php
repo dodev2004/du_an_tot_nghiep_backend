@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductComment;
+use App\Models\ProductReview;
 use App\Models\User;
 use App\Services\ProductCommentService;
 use Illuminate\Http\Request;
@@ -52,7 +53,7 @@ class ProductCommentController extends Controller
         ]); 
         
         $breadcrumbs = $this->breadcrumbs;
-        $query = ProductComment::where('product_id', $id);
+        $query = ProductComment::with(['user', 'review.user'])->where('product_id', $id);
 
 
         $searchText = $request->get('search_text');
@@ -89,6 +90,54 @@ class ProductCommentController extends Controller
         return view("backend.product_comment.templates.comment", compact( 'products','title', 'breadcrumbs', 'data'));
     }
     
+    public function create($id)
+    {
+        
+        $reviews = ProductReview::with('product', 'user')->findOrFail($id);
+        $title = "Phản hồi người dùng đánh giá";
+        array_push($this->breadcrumbs,[
+            "active"=>true,
+            "url"=> route("admin.product_review"),
+            "name"=>"Danh sách sản phẩm đánh giá"
+        ],[
+            "active"=>true,
+            "url"=> route("admin.product_review.user_reviews", ['id' => $reviews->product->id]),
+            "name"=>"Chi tiết sản phẩm đánh giá"
+ 
+        ],[
+            "active"=>false,
+            "url"=> route("product_comment.create",['id' => $id]),
+            "name"=>"Phản hồi"
+ 
+        ]); 
+        $breadcrumbs = $this->breadcrumbs;
+
+        return view('backend.product_review.templates.feedbackreview', compact('reviews','title','breadcrumbs'));
+    }
+
+
+    public function store(Request $request, $reviewId)
+    {
+        // Xác thực dữ liệu
+        $request->validate([
+            'comment' => 'required|string|max:500',
+        ]);
+
+        // Tìm đánh giá theo ID
+        $review = ProductReview::findOrFail($reviewId);
+
+        // Tạo bình luận mới
+        ProductComment::create([
+            'product_id' => $review->product_id,
+            'user_id' => auth()->id(),
+            'comment' => $request->comment,
+            'review_id' => $reviewId,
+        ]);
+
+        // Quay về trang trước đó với thông báo thành công
+        return redirect()->back()->with('success', 'Bình luận của bạn đã được thêm thành công!');
+    }
+
     public function destroy(Request $request)
     {
         $comment = ProductComment::onlyTrashed()->find($request->id);

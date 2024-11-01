@@ -17,7 +17,7 @@
                     {{ $index + 1 }}
                 </td>
                 <td>
-                    <img src="{{ asset($product->image_url) }}" alt="{{ $product->name }}" width="50">
+                    <img src="{{ asset($product->image_url) }}" alt="{{ $product->name }}" width="100%">
                 </td>
                 <td>
                     <strong>Tên sản phẩm:</strong> <a onclick="clickHandel('{{$product->id}}')" data-toggle="modal" data-id={{ $product->id }}
@@ -25,7 +25,14 @@
                     <strong>Danh mục:</strong>
                     {{ $product->catelogues ? implode(',', $product->catelogues) : 'N/A' }}<br>
                     <strong>Nhãn hàng:</strong> {{ $product->brand->name ?? 'N/A' }}<br>
-                    <strong>Giá:</strong> {{ $product->display_price }}<br>
+                    <strong>Giá:</strong> 
+                    @if ($product->discount_price && $product->discount_price < $product->price)
+                        <span class="text-muted"><s>{{ number_format($product->price, 0, ',', '.') }} VND</s></span>
+                        <span class="text-danger font-weight-bold ml-2">{{ number_format($product->discount_price, 0, ',', '.') }} VND</span>
+                    @else
+                        <span class="text-danger font-weight-bold">{{ number_format($product->price, 0, ',', '.') }} VND</span>
+                    @endif
+                    <br>
                     <strong>Tồn kho:</strong> {{ $product->display_stock }}
                 </td>
                 <td>{{ $product->created_at->format('d/m/Y') }}</td>
@@ -53,7 +60,9 @@
                 </td>
                 <td style="text-align: center">
                     <div style="display: flex; justify-content: center;column-gap: 5px;">
-
+                        <a href="{{ route('product.show', $product->id) }}" class="btn btn-primary">
+                            <i class="fa fa-paste"></i>
+                        </a>
                         <a href="{{ route('admin.product.edit', $product->id) }}" class="btn btn-info" title="Sửa"><i
                                 class="fa fa-pencil"></i></a>
                         <form action="" method="POST" data-url="product" class="form-delete">

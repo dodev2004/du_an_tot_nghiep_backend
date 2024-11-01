@@ -106,6 +106,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
     });
     Route::prefix("product")->middleware('checkRole:admin')->group(function () {
         Route::get("list", [ProductController::class, "index"])->name("admin.product")->middleware('checkPermission:viewProduct');
+        Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
         Route::get("create", [ProductController::class, "create"])->name("admin.product.create")->middleware('checkPermission:createProduct');
         Route::post("postStore", [ProductController::class, "store"])->name("admin.product.store")->middleware('checkPermission:storeProduct');
         Route::get("{id}/edit", [ProductController::class, "editPost"])->name("admin.product.edit")->middleware('checkPermission:editProduct');
@@ -175,6 +176,8 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
     Route::prefix("product-comment")->group(function(){
         Route::get("users", [ProductCommentController::class, "index"])->name("admin.product_comment.users");
         Route::get("user/{id}/comments", [ProductCommentController::class, "userComments"])->name("admin.product_comment.user_comments");
+        Route::get('/product-review/{id}/comment', [ProductCommentController::class, 'create'])->name('product_comment.create');
+        Route::post('/product-review/{id}/comment', [ProductCommentController::class, 'store'])->name('product_comment.store');
         Route::delete("/soft-delete", [ProductCommentController::class, "softDelete"])->name("admin.product_comment.soft_delete");//xóa mềm
         Route::post("{id}/restore", [ProductCommentController::class, "restore"])->name("admin.product_comment.restore");//khôi phục
         Route::delete("/hard-delete", [ProductCommentController::class, "destroy"])->name("admin.product_comment.hard_delete");//xóa cúng
