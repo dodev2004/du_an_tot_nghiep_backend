@@ -65,7 +65,7 @@
                                 data-phone="{{ $item->user->phone }}" data-address="{{ $item->user->address }}"
                                 data-content="{{ $item->content }}"
                                 data-image="{{ $item->image != null ? asset($item->image) : null }}"
-                                data-response="{{ $item->response }}" data-updated_at="{{ $item->updated_at }}"
+                                data-response="{{ $item->response }}" data-updated_at="{{  \Carbon\Carbon::parse($item->updated_at) }}"
                                 style="cursor: pointer;">
                                 <i class="fa fa-eye"></i>
                             </a>

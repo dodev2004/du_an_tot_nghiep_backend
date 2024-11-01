@@ -49,14 +49,16 @@
 @section('content')
     @include('backend.components.breadcrumb')
     <div class="wrapper wrapper-content animated fadeInRight">
-        @include('backend.contacts.components.formedit')
+        @include('backend.customers.components.formedit')
     </div>
 @endsection
 @push('scripts')
     @include('backend.components.scripts');
+    @include('backend.user.handle.quanlythanhvien.selectTwo');
+
     <script src="{{ asset('backend/js/framework/ckfinder.js') }}"></script>
-    @include('backend.contacts.components.js.ckfinder')
-    @include('backend.contacts.handles.update');
+    @include('backend.customers.components.js.ckfinder')
+    @include('backend.customers.handles.update');
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 

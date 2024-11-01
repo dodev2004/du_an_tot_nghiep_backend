@@ -33,12 +33,6 @@
                 </td>
                 <td>
                     <div class="" style="display:flex;justify-content: center;column-gap: 12px">
-                        {{-- <a class="btn btn-sm" style="background-color: #ff6f61; color: white;"
-                            href="{{ route('admin.customer.show', $user->id) }}">
-                            <i class="fas fa-shopping-cart" style="color: white;"></i> <!-- Màu icon trắng -->
-                            Chi tiết các đơn hàng
-                        </a> --}}
-
                         <!-- Màu icon trắng -->
                         <a type="button" class="view-user-detail btn btn-info" data-toggle="tooltip"
                             data-placement="top" title="Chi tiết người dùng"
@@ -48,17 +42,21 @@
                             data-province="{{ $user->province->name ?? null }}"
                             data-district="{{ $user->district->name ?? null }}"
                             data-ward="{{ $user->ward->name ?? null }}"
-                            data-avatar="{{ $user->avatar ? asset($user->avatar) : null }}"
-                            data-created_at="{{ $user->created_at ?? null }}" style="cursor: pointer;">
+                            data-avatar="{{ $user->avatar ? $user->avatar : null }}"
+                            data-created_at="{{  \Carbon\Carbon::parse($user->created_at) ?? null }}" style="cursor: pointer;">
                             <i class="fa fa-eye"></i>
                         </a>
 
-                        {{-- <form action="" method="POST" data-url="users" class="form-delete">
-                    @method("DELETE")
-                    @csrf
-                    <input type="hidden" value="{{$user->id}}" name="user_id">
-                    <button class="btn btn-warning center"><i class="fa fa-trash-o"></i></button>
-                </form> --}}
+                        <div class="" style="display:flex;justify-content: center;column-gap: 12px">
+                            <a class="btn btn-sm btn-info" href="{{ route('admin.customer.edit', $user->id) }}" title="Chỉnh sửa"><i
+                                    class="fa fa-pencil"></i></a>
+                            <form action="" method="POST" data-url="customer" class="form-delete">
+                                @method('DELETE')
+                                @csrf
+                                <input type="hidden" value="{{ $user->id }}" name="id">
+                                <button class="btn btn-warning center" title="Xóa"><i class="fa fa-trash-o"></i></button>
+                            </form>
+                        </div>
                     </div>
 
 

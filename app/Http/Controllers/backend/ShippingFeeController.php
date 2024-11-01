@@ -132,7 +132,7 @@ class ShippingFeeController extends Controller
      */
     public function edit(string $id)
     {
-        $title = "Sửa nhãn hàng";
+        $title = "Sửa phí ship";
         array_push($this->breadcrumbs, [
             "active" => false,
             "url" => route("admin.shipping_fee"),
