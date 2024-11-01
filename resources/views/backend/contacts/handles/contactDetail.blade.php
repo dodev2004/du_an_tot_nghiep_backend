@@ -12,14 +12,14 @@
     var updated_at = $(this).data('updated_at');
 
     // Cập nhật thông tin vào modal
-    $('#userFullName').text(userFullName);
-    $('#userEmail').text(userEmail);
-    $('#userName').text(userName);
-    $('#userPhone').text(userPhone);
-    $('#userAddress').text(userAddress);
-    $('#response').text(response);
-    $('#updated_at').text(updated_at);
-    $('#content').text(content);
+    $('#userFullName').text(userFullName ?: 'không có dữ liệu');
+    $('#userEmail').text(userEmail ?: 'không có dữ liệu');
+    $('#userName').text(userName ?: 'không có dữ liệu');
+    $('#userPhone').text(userPhone ?: 'không có dữ liệu');
+    $('#userAddress').text(userAddress ?: 'không có dữ liệu');
+    $('#response').text(response ?: 'không có dữ liệu');
+    $('#updated_at').text(updated_at ?: 'không có dữ liệu');
+    $('#content').text(content ?: 'không có dữ liệu');
     // Kiểm tra xem hình ảnh có tồn tại hay không
     if (image) {
         $('#image').attr('src', image);
