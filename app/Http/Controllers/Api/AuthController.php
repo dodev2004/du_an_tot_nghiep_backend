@@ -16,39 +16,52 @@ class AuthController extends Controller
     }
     
     public function register(Request $request)
-{
-    // Xác thực các dữ liệu đầu vào
-    $validator = Validator::make($request->all(), [
-        'username' => 'required|string|max:255|unique:users',
-        'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'required|string|min:6|confirmed',
-    ]);
-
-    // Kiểm tra nếu xác thực không thành công
-    if ($validator->fails()) {
-        return response()->json($validator->errors(), 422);
+    {
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|string|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+    
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $customErrors = [];
+    
+            if ($errors->has('username')) {
+                $customErrors['username'] = 'Tên người dùng đã tồn tại.';
+            }
+    
+            if ($errors->has('email')) {
+                $customErrors['email'] = 'Email đã tồn tại.';
+            }
+    
+            if ($errors->has('password')) {
+                $customErrors['password'] = 'Mật khẩu không hợp lệ.';
+            }
+    
+            return response()->json($customErrors, 422);
+        }
+    
+        // Tạo người dùng mới
+        $user = User::create([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+    
+        // Tạo token cho người dùng mới đăng ký
+        $token = auth()->login($user);
+    
+        // Trả về thông tin người dùng và token
+        return $this->respondWithToken($token);
     }
-
-    // Tạo người dùng mới
-    $user = User::create([
-        'username' => $request->username,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-    ]);
-
-    // Tạo token cho người dùng mới đăng ký
-    $token = auth()->login($user);
-
-    // Trả về thông tin người dùng và token
-    return $this->respondWithToken($token);
-}
 
     public function login()
     {
         $credentials = request(['username', 'password']);
 
         if (! $token = auth("api")->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Tài khoản hoặc mật khẩu không đúng'], 401);
         }
 
         return $this->respondWithToken($token);
