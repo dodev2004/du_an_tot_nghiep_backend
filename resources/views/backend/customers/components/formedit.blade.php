@@ -51,6 +51,7 @@
                     <div class="input-group date">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="date" value="{{$data->birthday}}" name="birthday" class="form-control">
                     </div>
+                    <p  class=" text-danger"></p>
                 </div>
 
             </div>
@@ -74,6 +75,7 @@
                     @endforeach
                   </select>
                 @endif
+                <p  class=" text-danger"></p>
             </div>
             <div class="form-group col-md-6">
                 <label for="">Quận (Huyện)</label>
@@ -85,6 +87,7 @@
                     @endforeach
                     @endif
                 </select>
+                <p  class=" text-danger"></p>
             </div>
             <div class="form-group col-md-6">
                 <label for="">Phường (Xã)</label>
@@ -96,14 +99,17 @@
                     @endforeach
                     @endif
                 </select>
+                <p  class=" text-danger"></p>
             </div>
             <div class="form-group col-md-6">
                 <label for="">Địa chỉ</label>
                 <input type="text" name="address" class="form-control" value="{{$data->address}}">
+                <p  class=" text-danger"></p>
             </div>
             <div class="form-group col-md-12">
                 <label for="">Số điện thoại</label>
                 <input type="text" value="{{$data->phone}}" name="phone" class="form-control">
+                <p  class=" text-danger"></p>
             </div>
         </div>
     </div>

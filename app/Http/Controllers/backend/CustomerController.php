@@ -207,8 +207,13 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $customer = User::find($request->id);
+        if ($customer->delete($request->id)) {
+            return response()->json(["success", "Xóa thành công"]);
+        } else {
+            return response()->json(["error", "Xóa thất bại"]);
+        }
     }
 }
