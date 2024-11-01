@@ -59,6 +59,7 @@
 @include("backend.components.handles.switchery");
 @include('backend.components.toastmsg');
 @include("backend.user.handle.quanlythanhvien.handlerFillter")
+@include("backend.user.handle.quanlythanhvien.userdetail")
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
 @include("backend.components.handles.delete");
 @endpush
