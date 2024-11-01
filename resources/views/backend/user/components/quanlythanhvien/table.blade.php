@@ -1,7 +1,7 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>STT</th>
+            <th>Tài khoản</th>
             <th>Họ và tên</th>
             <th>Email</th>
             <th>Số điện thoại</th>
@@ -14,7 +14,7 @@
     <tbody>
         @foreach ($data as $index => $user)
         <tr>
-            <td>{{ $index + 1 }}</td>
+            <td>{{ $user->username }}</td>
             <td>{{ $user->full_name }}</td>
             <td>{{ $user->email }}</td>
             <td>{{ $user->phone ? $user->phone : 'Dữ liệu chưa có' }}</td>
@@ -47,7 +47,7 @@
                             data-placement="top" title="Chi tiết người dùng"
                             data-full-name="{{ $user->full_name ?: null }}" data-email="{{ $user->email ?: null }}"
                             data-username="{{ $user->username ?: null }}" data-phone="{{ $user->phone ?: null }}"
-                            data-address="{{ $user->address ?: null }}" data-birthday="{{ $user->birthday ?: null }}"
+                            data-address="{{ $user->address ?: null }}" data-birthday="{{ \Carbon\Carbon::parse($user->birthday)->format('d/m/Y') ?: null }}"
                             data-province="{{ $user->province->name ?? null }}"
                             data-district="{{ $user->district->name ?? null }}"
                             data-ward="{{ $user->ward->name ?? null }}"
