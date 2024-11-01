@@ -3,8 +3,8 @@
         <div class="form-group d-flex align-items-center">
             <div>
                 <label for="seach" class="me-2">Tìm kiếm theo tên người dùng:</label>
-                <input type="text" class="form-control" name="seach_text" @if (isset($_GET['seach_text']))
-                    value="{{ $_GET['seach_text'] }}" @endif placeholder="Tìm kiếm">
+                <input type="text" class="form-control" name="seach_text"
+                    @if (isset($_GET['seach_text'])) value="{{ $_GET['seach_text'] }}" @endif placeholder="Tìm kiếm">
             </div>
             <div>
                 <label for="start_date">Từ ngày:</label>
@@ -31,15 +31,17 @@
                 </select>
             </div>
             <div style="margin-top: 24px;">
-            <button class="btn btn-primary seach"> <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm </button>
+                <button class="btn btn-primary seach"> <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm </button>
             </div>
     </form>
 
-    <div class="total_record">
-        <!-- <div style="margin-top: 23px; margin-left: 140px">
-            <a href="{{ route('admin.customer.create') }}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Thêm
-                mới</a>
-        </div> -->
+
+</div>
+<div class="total_record">
+
+    <div style="margin-top: 15px;">
+        <a href="{{ route('admin.customer.trash') }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top"
+            title="Thùng rác"><i class="fa fa-trash-o"></i></a>
     </div>
 </div>
 </div>

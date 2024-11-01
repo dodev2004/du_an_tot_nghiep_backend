@@ -12,4 +12,11 @@
         <a class="btn btn-primary seach"> <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm </a>
         <a href="{{route("admin.users.create")}}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Thêm người dùng</a>
     </div>
+    <div class="total_record">
+
+        <div style="margin-top: 15px;">
+            <a href="{{ route('admin.users.trash') }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top"
+                title="Thùng rác"><i class="fa fa-trash-o"></i></a>
+        </div>
+    </div>
 </div>

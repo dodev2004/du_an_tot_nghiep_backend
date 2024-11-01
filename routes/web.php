@@ -79,6 +79,9 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::get("edit/{id}", [UserController::class, "editUser"])->name("admin.users.edit")->middleware('checkPermission:editUser');
         Route::put("update/{id}", [UserController::class, 'updateUser'])->name("admin.users.update")->middleware('checkPermission:updateUser');
         Route::delete("delete", [UserController::class, 'deleteUser'])->name("admin.users.delete")->middleware('checkPermission:deleteUser');
+        Route::delete("/force-delete", [UserController::class, "force_destroy"])->name("admin.users.force_delete");
+        Route::post("{id}/restore", [UserController::class, "restore"])->name("admin.users.restore"); //khôi phục
+        Route::get("/trash", [UserController::class, "trash"])->name("admin.users.trash"); // Trang thùng rác
     });
     Route::prefix("user_catelogue")->middleware('checkRole:admin')->group(function () {
         Route::get("list", [UserCatelogueController::class, "listGroupMember"])->name("admin.user_catelogue")->middleware('checkPermission:viewUserCatelogue');
@@ -236,6 +239,9 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::get("{id}/edit", [CustomerController::class, "edit"])->name("admin.customer.edit")->middleware('checkPermission:editCustomer');
         Route::put("{id}/update", [CustomerController::class, "update"])->name("admin.customer.update")->middleware('checkPermission:updateCustomer');
         Route::delete("/delete", [CustomerController::class, "destroy"])->name("admin.customer.delete")->middleware('checkPermission:deleteCustomer');
+        Route::delete("/force-delete", [CustomerController::class, "force_destroy"])->name("admin.customer.force_delete");
+        Route::post("{id}/restore", [CustomerController::class, "restore"])->name("admin.customer.restore"); //khôi phục
+        Route::get("/trash", [CustomerController::class, "trash"])->name("admin.customer.trash"); // Trang thùng rác
     });
     Route::prefix("group-permission")->middleware('checkRole:admin')->group(function () {
         Route::get("list", [GroupPermissionController::class, "index"])->name("admin.group_permission")->middleware('checkPermission:viewGroupPermission');
