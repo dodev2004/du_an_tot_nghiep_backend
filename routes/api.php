@@ -38,15 +38,8 @@ Route::group([
 
 });
 
-Route::get("/attribute",[AttributeController::class,"getAll"])->name("api.attribute");
-    Route::get('/products', [ProductController::class, 'index']);
-    Route::get('/products/{id}', [ProductController::class, 'show']);
-    Route::get('/products/showOne/{id}', [ProductController::class, 'showOne']);
-    Route::post('/products', [ProductController::class, 'store']);
-    Route::put('/products/{id}', [ProductController::class, 'update']);
-    Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 
-
+Route::get('/products/showOne/{id}', [ProductController::class, 'showOne']);
 Route::get('/promotions', [PromotionController::class, 'index']);
 Route::post('/promotions', [PromotionController::class, 'store']);
 Route::get('/promotions/{id}', [PromotionController::class, 'show']);

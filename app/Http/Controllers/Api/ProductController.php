@@ -18,62 +18,72 @@ class ProductController extends Controller
     public function show($id)
     {
         // Lấy thông tin sản phẩm dựa trên ID
-        $product = Product::with(['variants' => function ($query) {
-            $query->select('id', 'product_id', 'price', 'discount_price', 'stock', 'weight', 'sku', 'image_url', 'created_at', 'updated_at')
-                ->with([
-                    'variantAttributeValues' => function ($query) {
-                        $query->select('id', 'attribute_value_id', 'product_variant_id')
-                            ->with(["attributeValue" => function ($query) {
-                                $query->select('id', 'name', "attribute_id")
-                                    ->with(["attributes"])
-                                ;
-                            }]);
-                    }
-
-                ]);
-        }, "galleries"])->findOrFail($id);
-
-        // Trả về thông tin sản phẩm cùng với biến thể
-        return response()->json([
+        $product = Product::with([
+            'variants' => function ($query) {
+                $query->select('id', 'product_id', 'price', 'discount_price', 'stock', 'weight', 'sku', 'image_url', 'created_at', 'updated_at')
+                    ->with([
+                        'variantAttributeValues' => function ($query) {
+                            $query->select('id', 'attribute_value_id', 'product_variant_id')
+                                ->with([
+                                    'attributeValue' => function ($query) {
+                                        $query->select('id', 'name', 'attribute_id')
+                                            ->with('attributes:id,name');
+                                    }
+                                ]);
+                        }
+                    ]);
+            },
+            'galleries:id,product_id,image_url'
+        ])->findOrFail($id);
+        
+        // Tạo cấu trúc dữ liệu dễ hiểu hơn cho frontend
+        $response = [
             'id' => $product->id,
             'catalogue_id' => $product->catalogue_id,
             'brand_id' => $product->brand_id,
             'name' => $product->name,
             'slug' => $product->slug,
             'sku' => $product->sku,
-            "price" => $product->price,
-            "stock" => $product->stock,
-            "discount_price" => $product->discount_price,
+            'price' => $product->price,
+            'stock' => $product->stock,
+            'discount_price' => $product->discount_price,
             'detailed_description' => $product->detailed_description,
             'image_url' => $product->image_url,
             'variants' => $product->variants->map(function ($variant) {
+                // Xử lý biến thể và các thuộc tính của biến thể
+             
                 return [
                     'id' => $variant->id,
                     'price' => $variant->price,
                     'discount_price' => $variant->discount_price,
-                    'discount_percentage' => $variant->discount_percentage,
                     'stock' => $variant->stock,
                     'weight' => $variant->weight,
                     'sku' => $variant->sku,
                     'image_url' => $variant->image_url,
-                    'ratings_avg' => $variant->ratings_avg,
-                    'ratings_count' => $variant->ratings_count,
-                    'is_active' => $variant->is_active,
-                    'is_featured' => $variant->is_featured,
                     'created_at' => $variant->created_at,
                     'updated_at' => $variant->updated_at,
-                    'attributes' => $variant->variantAttributeValues,
-                    // 'attributes_selected' => $variant->variantAttributeValues->map() // Lấy thuộc tính biến thể nếu cần
+                    'attributes' => $variant->variantAttributeValues->map(function ($attributeValue) {
+                       
+                        // Xử lý từng thuộc tính của biến thể
+                        return [
+                            'id' => $attributeValue->attributeValue->id,
+                            'attribute' => $attributeValue->attributeValue->attributes->name,
+                            'value' => $attributeValue->attributeValue->name,
+                        ];
+                    })
                 ];
             }),
-            'geleries' => $product->galleries->map(function ($gallery) {
+            'galleries' => $product->galleries->map(function ($gallery) {
                 return [
-                    "image_url" => $gallery->image_url,
+                    'image_url' => $gallery->image_url,
                 ];
             }),
             'created_at' => $product->created_at,
             'updated_at' => $product->updated_at,
-        ], 200);
+        ];
+        
+        // Trả về dữ liệu JSON
+        return response()->json($response, 200);
     }
     public function showOne($id)
     {
@@ -159,8 +169,6 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         // Tạo mới sản phẩm
-        $product = Product::create($request->all());
-        return response()->json($product, 201);
     }
 
     public function update(Request $request, $id)
