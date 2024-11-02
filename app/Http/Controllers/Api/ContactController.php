@@ -19,40 +19,56 @@ class ContactController extends Controller
     public function index()
     {
         // Lấy thông tin người dùng hiện tại và chọn các trường cần thiết
-        // $user = Auth::user();
-        // $userData = $user ? [
-        //     'full_name' => $user->full_name,
-        //     'phone' => $user->phone,
-        //     'email' => $user->email,
-        // ] : null;
-
-        // Lấy toàn bộ danh sách contact
-        $contacts = Contact::all();
-        $contacts->map(function ($contact) {
-            if ($contact->image) {
-                $contact->image = asset('storage/' . $contact->image); // Tạo URL đầy đủ cho ảnh
-            }
-            return $contact;
-        });
+        $user = Auth::user();
+        $userData = $user ? [
+            'id' => $user->id,
+            'full_name' => $user->full_name,
+            'phone' => $user->phone,
+            'email' => $user->email,
+        ] : null;
 
         // Trả về response JSON bao gồm cả user và contacts
         return response()->json([
             'status' => 'success',
-            'message' => 'Thông tin người dùng và danh sách liên hệ',
+            'message' => 'Thông tin người dùng',
             'data' => [
-                // 'user' => $userData,
-                'contacts' => $contacts
+                'user' => $userData,
+
             ]
         ], 200);
     }
-    public function show($id)
+    public function show()
     {
-        // Lấy thông tin chi tiết một chương trình khuyến mãi
-        $contact = Contact::find($id);
-        if (!$contact) {
+        // Lấy thông tin người dùng hiện tại và chọn các trường cần thiết
+        $user = Auth::user();
+        $userData = $user ? [
+            'id' => $user->id,
+            'full_name' => $user->full_name,
+            'phone' => $user->phone,
+            'email' => $user->email,
+        ] : null;
+        // Lấy toàn bộ danh sách contact theo người dùng hiện tại
+        $contacts = Contact::where('user_id', $user->id)->select('content', 'image', 'response', 'status')->get();
+        $contacts->map(function ($contact) {
+            if ($contact->image) {
+                $contact->image = asset('storage/' . $contact->image); // Tạo URL đầy đủ cho ảnh
+            }
+            // Chuyển đổi status từ số sang trạng thái văn bản
+            $contact->status = $contact->status == 1 ? 'đã phản hồi' : 'chưa phản hồi';
+            return $contact;
+        });
+        if (!$contacts) {
             return response()->json(['message' => 'contact not found'], 404);
         }
-        return response()->json($contact);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Thông tin người dùng',
+            'data' => [
+                'user' => $userData,
+                'contacts' => $contacts
+
+            ]
+        ], 200);
     }
 
 
@@ -77,7 +93,7 @@ class ContactController extends Controller
 
         $data = $request->except('_token');
         // $data['content'] = preg_replace('/<p>|<\/p>/', '', $request->content);
-        // $data['user_id'] = Auth::user()->id;
+        $data['user_id'] = Auth::id();
 
         // Xử lý file ảnh nếu có
         if ($request->hasFile('image')) {
@@ -147,7 +163,18 @@ class ContactController extends Controller
 
         // Kiểm tra xem bản ghi có tồn tại không
         if (!$contact) {
-            return response()->json(["status" => 'error', "message" => "Không tìm thấy bản ghi"], 404);
+            return response()->json([
+                "status" => 'error',
+                "message" => "Không tìm thấy bản ghi"
+            ], 404);
+        }
+
+        // Kiểm tra status, chỉ cho phép xóa khi status = 1
+        if ($contact->status != 1) {
+            return response()->json([
+                "status" => 'error',
+                "message" => "Chỉ có thể xóa các bản ghi đã phản hồi"
+            ], 403); // 403 Forbidden
         }
 
         // Xóa bản ghi
@@ -156,9 +183,15 @@ class ContactController extends Controller
             if ($contact->image) {
                 Storage::disk('public')->delete($contact->image);
             }
-            return response()->json(["status" => 'success', "message" => "Xóa thành công"], 200);
+            return response()->json([
+                "status" => 'success',
+                "message" => "Xóa thành công"
+            ], 200);
         } else {
-            return response()->json(["status" => 'error', "message" => "Xóa thất bại"], 500);
+            return response()->json([
+                "status" => 'error',
+                "message" => "Xóa thất bại"
+            ], 500);
         }
     }
 }

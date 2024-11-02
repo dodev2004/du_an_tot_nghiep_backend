@@ -61,11 +61,11 @@ Route::get('/brands/{id}', [BrandController::class, 'show']);
 Route::put('/brands/{id}', [BrandController::class, 'update']);
 Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
 
-Route::get('/contacts', [ContactController::class, 'index']);
-Route::post('/contacts', [ContactController::class, 'store']);
-Route::get('/contacts/{id}', [ContactController::class, 'show']);
-Route::put('/contacts/{id}', [ContactController::class, 'update']);
-Route::delete('/contacts/{id}', [ContactController::class, 'destroy']);
+Route::get('/contacts', [ContactController::class, 'index'])->middleware('auth:api');
+Route::post('/contacts', [ContactController::class, 'store'])->middleware('auth:api');
+Route::get('/contacts/show', [ContactController::class, 'show'])->middleware('auth:api');
+Route::put('/contacts/{id}', [ContactController::class, 'update'])->middleware('auth:api');
+Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->middleware('auth:api');
 
 Route::get('/about', [AboutController::class, 'index']);
 
