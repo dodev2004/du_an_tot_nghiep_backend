@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\PromotionController;
 use App\Http\Controllers\backend\AttributeController;
 use App\Http\Controllers\api\BrandController;
 use App\Http\Controllers\api\ContactController;
+use App\Http\Controllers\Api\PostCatelogueController;
+use App\Http\Controllers\Api\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,4 +66,9 @@ Route::post('/contacts', [ContactController::class, 'store']);
 Route::get('/contacts/{id}', [ContactController::class, 'show']);
 Route::put('/contacts/{id}', [ContactController::class, 'update']);
 Route::delete('/contacts/{id}', [ContactController::class, 'destroy']);
+
 Route::get('/about', [AboutController::class, 'index']);
+
+Route::apiResource('posts', PostController::class);
+
+Route::apiResource('post-catelogues', PostCatelogueController::class);
