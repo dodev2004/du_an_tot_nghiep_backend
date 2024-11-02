@@ -11,6 +11,8 @@ use App\Repositories\Interfaces\WardRepositoryInterface as WardRepository;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Role;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -107,5 +109,42 @@ class UserController extends Controller
         if ($this->users->delete(request()->id)) {
             return response()->json(["success", "thanhf conbg"]);
         }
+    }
+
+    public function force_destroy(Request $request)
+    {
+        // Tìm bản ghi đã bị xóa mềm bằng ID
+        $user = User::onlyTrashed()->where('rule_id', 1)->find($request->id);
+
+
+        // Kiểm tra nếu tồn tại và thực hiện xóa vĩnh viễn
+        if ($user) {
+            $user->forceDelete(); // Thực hiện xóa vĩnh viễn
+            return response()->json(["success" => "Xóa vĩnh viễn thành công"]);
+        } else {
+            return response()->json(["error" => "Bản ghi không tồn tại"]);
+        }
+    }
+    public function restore($id)
+    {
+        $user = User::onlyTrashed()->where('rule_id', 1)->findOrFail($id);
+        $user->restore(); // Khôi phục bình luận
+
+        return redirect()->back()->with('success', 'Người dùng đã được khôi phục thành công!');
+    }
+    public function trash()
+    {
+        $title = "Danh sách người dùng đã xóa";
+        array_push($this->breadcrumbs, [
+            "active" => true,
+            "url" => route("admin.users.trash"),
+            "name" => "Danh sách Người dùng đã xóa"
+        ]);
+        $breadcrumbs = $this->breadcrumbs;
+
+        // Lấy các bình luận đã xóa mềm
+        $data = User::onlyTrashed()->where('rule_id', 1)->paginate(10);
+
+        return view("backend.trash.trash_user.templates.index", compact("title", "breadcrumbs", "data"));
     }
 }

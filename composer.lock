@@ -4296,7 +4296,7 @@
                 "source": "https://github.com/MyIntervals/PHP-CSS-Parser/tree/v8.7.0"
             },
             "time": "2024-10-27T17:38:32+00:00"
-<<<<<<< HEAD
+
         },
         {
             "name": "stella-maris/clock",
@@ -4344,8 +4344,7 @@
                 "source": "https://github.com/stella-maris-solutions/clock/tree/0.1.7"
             },
             "time": "2022-11-25T16:15:06+00:00"
-=======
->>>>>>> cuong
+
         },
         {
             "name": "symfony/console",

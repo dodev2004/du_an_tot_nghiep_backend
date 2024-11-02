@@ -66,7 +66,17 @@ class CustomerController extends Controller
     } elseif ($dateOrder === 'oldest') {
         $query->orderBy('created_at', 'asc');
     }
-
+    // Kiểm tra xem có yêu cầu trash không
+    if (request()->input('trash')) {
+        if ($startDate) {
+            $query->where('deleted_at', '>=', $startDate);
+        }
+        if ($endDate) {
+            $query->where('deleted_at', '<=', $endDate);
+        }
+        $data=$query->onlyTrashed()->paginate(5); // Nếu có trash thì chỉ lấy dữ liệu đã xóa mềm
+        return view('backend.trash.trash_customer.templates.index',compact('breadcrumbs', "title", "data"));
+    }
     // Paginate the results
     $data = $query->paginate(10);
 
@@ -215,5 +225,40 @@ class CustomerController extends Controller
         } else {
             return response()->json(["error", "Xóa thất bại"]);
         }
+    }
+    public function force_destroy(Request $request)
+    {
+        // Tìm bản ghi đã bị xóa mềm bằng ID
+        $customer = User::onlyTrashed()->where('rule_id', 2)->find($request->id);
+
+        // Kiểm tra nếu tồn tại và thực hiện xóa vĩnh viễn
+        if ($customer) {
+            $customer->forceDelete(); // Thực hiện xóa vĩnh viễn
+            return response()->json(["success" => "Xóa vĩnh viễn thành công"]);
+        } else {
+            return response()->json(["error" => "Bản ghi không tồn tại"]);
+        }
+    }
+    public function restore($id)
+    {
+        $customer = User::onlyTrashed()->where('rule_id', 2)->findOrFail($id);
+        $customer->restore(); // Khôi phục bình luận
+
+        return redirect()->back()->with('success', 'Người dùng đã được khôi phục thành công!');
+    }
+    public function trash()
+    {
+        $title = "Danh sách người dùng đã xóa";
+        array_push($this->breadcrumbs, [
+            "active" => true,
+            "url" => route("admin.customer.trash"),
+            "name" => "Danh sách Người dùng đã xóa"
+        ]);
+        $breadcrumbs = $this->breadcrumbs;
+
+        // Lấy các bình luận đã xóa mềm
+        $data = User::onlyTrashed()->where('rule_id', 2)->paginate(10);
+
+        return view("backend.trash.trash_customer.templates.index", compact("title", "breadcrumbs", "data"));
     }
 }
