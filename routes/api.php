@@ -40,7 +40,8 @@ Route::group([
 
 });
 
-
+Route::get("/products",[ProductController::class,"index"]);
+Route::get("/products/{slug}",[ProductController::class,"index"]);
 Route::get('/products/showOne/{id}', [ProductController::class, 'showOne']);
 Route::get('/promotions', [PromotionController::class, 'index']);
 Route::post('/promotions', [PromotionController::class, 'store']);
