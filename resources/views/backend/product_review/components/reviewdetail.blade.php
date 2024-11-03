@@ -2,6 +2,7 @@
         <thead>
             <tr>
                 <th>Người dùng</th>
+                <th>Ảnh</th>
                 <th>Đánh giá</th>
                 <th>Số sao</th>
                 <th>Ngày</th>
@@ -29,6 +30,14 @@
                             {{ $review->user->username }}
                         </a>
                 </td>
+                <td>
+                    @if (!empty($review->image))
+                        <img src="{{ asset($review->image) }}" alt="Review image" />
+                    @else
+                        <p>Không có ảnh.</p>
+                    @endif
+                </td>
+
                 <td>{{ $review->review }}</td>
                 <td>
                     @for($i = 1; $i <= 5; $i++)

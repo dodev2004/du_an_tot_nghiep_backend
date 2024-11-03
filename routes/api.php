@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\PromotionController;
 use App\Http\Controllers\backend\AttributeController;
 use App\Http\Controllers\api\BrandController;
 use App\Http\Controllers\api\ContactController;
+use App\Http\Controllers\Api\ProductReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,3 +66,7 @@ Route::get('/contacts/{id}', [ContactController::class, 'show']);
 Route::put('/contacts/{id}', [ContactController::class, 'update']);
 Route::delete('/contacts/{id}', [ContactController::class, 'destroy']);
 Route::get('/about', [AboutController::class, 'index']);
+
+Route::get('products/{id}/reviews', [ProductReviewController::class, 'index']);
+Route::post('/products/{id}/reviews', [ProductReviewController::class, 'store']);
+Route::get('/products/{id}/reviews/{reviewId}', [ProductReviewController::class, 'show']);
