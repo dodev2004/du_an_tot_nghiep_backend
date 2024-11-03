@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\PromotionController;
 use App\Http\Controllers\backend\AttributeController;
 use App\Http\Controllers\api\BrandController;
 use App\Http\Controllers\api\ContactController;
+use App\Http\Controllers\Api\InformationController;
 use App\Http\Controllers\Api\PostCatelogueController;
 use App\Http\Controllers\Api\PostController;
 
@@ -59,6 +60,8 @@ Route::post('/contacts', [ContactController::class, 'store'])->middleware('auth:
 Route::get('/contacts/show', [ContactController::class, 'show'])->middleware('auth:api');
 Route::put('/contacts/{id}', [ContactController::class, 'update'])->middleware('auth:api');
 Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->middleware('auth:api');
+
+Route::get('/information', [InformationController::class, 'index'])->middleware('auth:api');
 
 Route::get('/about', [AboutController::class, 'index']);
 
