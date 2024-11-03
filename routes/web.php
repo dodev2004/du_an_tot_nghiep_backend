@@ -176,7 +176,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::put("{id}/update", [AboutPageController::class, "update"])->name("admin.about.update")->middleware('checkPermission:updateAboutPage');
         Route::delete('/about/{id}', [AboutPageController::class, 'destroy'])->name('admin.about.delete')->middleware('checkPermission:deleteAboutPage');
     });
-    Route::prefix("product-comment")->group(function(){
+    Route::prefix("product-comment")->middleware('checkRole:admin')->group(function(){
         Route::get("users", [ProductCommentController::class, "index"])->name("admin.product_comment.users");
         Route::get("user/{id}/comments", [ProductCommentController::class, "userComments"])->name("admin.product_comment.user_comments");
         Route::get('/product-review/{id}/comment', [ProductCommentController::class, 'create'])->name('product_comment.create');
@@ -186,7 +186,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::delete("/hard-delete", [ProductCommentController::class, "destroy"])->name("admin.product_comment.hard_delete");//xóa cúng
         Route::get("trash", [ProductCommentController::class, "trash"])->name("admin.product_comment.trash");
     });
-    Route::prefix("product_reviews")->group(function(){
+    Route::prefix("product_reviews")->middleware('checkRole:admin')->group(function(){
         Route::get('admin/product-reviews', [ProductReviewController::class, 'index'])->name('admin.product_review');
         Route::get("user/{id}/reviews", [ProductReviewController::class, "userReviews"])->name("admin.product_review.user_reviews");
     });

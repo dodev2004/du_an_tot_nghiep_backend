@@ -9,9 +9,15 @@ use App\Http\Controllers\Api\PromotionController;
 use App\Http\Controllers\backend\AttributeController;
 use App\Http\Controllers\api\BrandController;
 use App\Http\Controllers\api\ContactController;
+
 use App\Http\Controllers\Api\InformationController;
+
+
 use App\Http\Controllers\Api\PostCatelogueController;
 use App\Http\Controllers\Api\PostController;
+
+use App\Http\Controllers\Api\ProductReviewController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +47,8 @@ Route::group([
 
 });
 
-
+Route::get("/products",[ProductController::class,"index"]);
+Route::get("/products/{slug}",[ProductController::class,"index"]);
 Route::get('/products/showOne/{id}', [ProductController::class, 'showOne']);
 Route::get('/promotions', [PromotionController::class, 'index']);
 Route::post('/promotions', [PromotionController::class, 'store']);
@@ -65,6 +72,12 @@ Route::get('/information', [InformationController::class, 'index'])->middleware(
 
 Route::get('/about', [AboutController::class, 'index']);
 
+
 Route::apiResource('posts', PostController::class);
 
 Route::apiResource('post-catelogues', PostCatelogueController::class);
+
+Route::get('products/{id}/reviews', [ProductReviewController::class, 'index']);
+Route::post('/products/{id}/reviews', [ProductReviewController::class, 'store']);
+Route::get('/products/{id}/reviews/{reviewId}', [ProductReviewController::class, 'show']);
+
