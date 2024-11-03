@@ -34,10 +34,7 @@ class ProductReviewController extends Controller
                     'rating' => $review->rating,
                     'review' => $review->review,
                     'created_at' => $review->created_at,
-                    'media' => [
-                        'images' => $media['images'] ?? [], // Các URL của ảnh
-                        'videos' => $media['videos'] ?? [], // Các URL của video
-                    ],
+                    'image' => $review->image,
                     'comments' => $review->comments->map(function ($comment) {
                         return [
                             'comment' => $comment->comment,
