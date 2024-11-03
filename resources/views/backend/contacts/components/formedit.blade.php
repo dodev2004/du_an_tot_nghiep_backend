@@ -23,7 +23,7 @@
             <div class="form-group">
                 @if($data->image)
                 <label>Hình ảnh</label>
-                    <img src="{{ $data->image }}" alt="image" width="50px">
+                    <img src="{{ Storage::url($data->image) }}" alt="image" width="50px">
                 @endif
             </div>
             <div class="form-group">
