@@ -35,7 +35,6 @@ Route::group([
     Route::get('profile', [AuthController::class,'profile']);
     // Route::post('logout', [AuthController::class,'logout']);
     Route::post('refresh', [AuthController::class,'refresh']);
-
 });
 
 Route::get("/attribute",[AttributeController::class,"getAll"])->name("api.attribute");
@@ -64,4 +63,9 @@ Route::post('/contacts', [ContactController::class, 'store']);
 Route::get('/contacts/{id}', [ContactController::class, 'show']);
 Route::put('/contacts/{id}', [ContactController::class, 'update']);
 Route::delete('/contacts/{id}', [ContactController::class, 'destroy']);
+
 Route::get('/about', [AboutController::class, 'index']);
+Route::post('/about', [AboutController::class, 'store']);  
+Route::get('/about/{id}', [AboutController::class, 'show']);
+Route::put('/about/{id}', [AboutController::class, 'update']);
+Route::delete('/about/{id}', [AboutController::class, 'destroy']);

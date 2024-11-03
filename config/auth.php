@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'api',
         'passwords' => 'users',
     ],
 
@@ -45,6 +45,7 @@ return [
             'provider' => 'users',
         ],
     ],
+
     /*
     |--------------------------------------------------------------------------
     | User Providers
