@@ -9,7 +9,7 @@ class OrderItemSeeder extends Seeder
     {
         DB::table('order_items')->insert([
             [
-                'order_id' => rand(1, 6), // ID của đơn hàng ngẫu nhiên từ 11 đến 15
+                'order_id' => rand(1, 5), // ID của đơn hàng ngẫu nhiên từ 11 đến 15
                 'product_id' => 1,
                 'product_name' => 'Sofa Vải Cao Cấp',
                 'variant' => json_encode(["Gỗ sồi", "Màu đen"]),
@@ -20,7 +20,7 @@ class OrderItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'order_id' => rand(1, 6),
+                'order_id' => rand(1, 5),
                 'product_id' => 2,
                 'product_name' => 'Giường Gỗ Sồi',
                 'variant' => json_encode(["Gỗ sồi", "Màu xám"]),
@@ -31,7 +31,7 @@ class OrderItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'order_id' => rand(1, 6),
+                'order_id' => rand(1, 5),
                 'product_id' => 3,
                 'product_name' => 'Tủ Quần Áo Gỗ Xoan Đào',
                 'variant' => json_encode(["Gỗ xoan đào", "Màu nâu"]),
@@ -42,7 +42,7 @@ class OrderItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'order_id' => rand(1, 6),
+                'order_id' => rand(1, 5),
                 'product_id' => 4,
                 'product_name' => 'Bàn Trà Gỗ Óc Chó',
                 'variant' => json_encode(["Gỗ óc chó", "Màu đen"]),
@@ -53,7 +53,7 @@ class OrderItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'order_id' => rand(1, 6),
+                'order_id' => rand(1, 5),
                 'product_id' => 5,
                 'product_name' => 'Sofa Da Thật Sang Trọng',
                 'variant' => json_encode(["Da thật", "Màu nâu"]),
@@ -64,7 +64,7 @@ class OrderItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'order_id' => rand(1, 6),
+                'order_id' => rand(1, 5),
                 'product_id' => 6,
                 'product_name' => 'Bàn Trang Điểm Gỗ Sồi',
                 'variant' => json_encode(["Gỗ sồi", "Màu trắng"]),

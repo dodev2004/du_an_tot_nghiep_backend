@@ -9,8 +9,12 @@ use App\Http\Controllers\Api\PromotionController;
 use App\Http\Controllers\backend\AttributeController;
 use App\Http\Controllers\api\BrandController;
 use App\Http\Controllers\api\ContactController;
+<<<<<<< HEAD
 use App\Http\Controllers\Api\PostCatelogueController;
 use App\Http\Controllers\Api\PostController;
+=======
+use App\Http\Controllers\Api\ProductReviewController;
+>>>>>>> cuong
 
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +67,12 @@ Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->middlewa
 
 Route::get('/about', [AboutController::class, 'index']);
 
+<<<<<<< HEAD
 Route::apiResource('posts', PostController::class);
 
 Route::apiResource('post-catelogues', PostCatelogueController::class);
+=======
+Route::get('products/{id}/reviews', [ProductReviewController::class, 'index']);
+Route::post('/products/{id}/reviews', [ProductReviewController::class, 'store']);
+Route::get('/products/{id}/reviews/{reviewId}', [ProductReviewController::class, 'show']);
+>>>>>>> cuong
