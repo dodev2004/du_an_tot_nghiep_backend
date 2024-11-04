@@ -16,10 +16,19 @@ class InformationController extends Controller
     public function index()
     {
         $information = Information::all();
-        return response()->json($information);
+        if ($information->isEmpty()) {
+            return response()->json(['message' => 'admin không có thông tin liên hệ'], 404);
+        }
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Thông tin liên hệ của admin',
+            'data' => [
+                 $information,
+            ]
+        ], 200);
     }
 
-    
+
 
 
 }

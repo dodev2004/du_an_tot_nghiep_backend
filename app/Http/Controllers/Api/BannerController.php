@@ -17,13 +17,16 @@ class BannerController extends Controller
 
     public function index()
     {
-        $banner = Banner::query()->select('title','content','image')->get();
+        $banner = Banner::query()->select('id','title','content','image')->get();
 
+        if ($banner->isEmpty()) {
+            return response()->json(['message' => 'không có banner'], 404);
+        }
         return response()->json([
             'status' => 'success',
-            'message' => 'Thông tin người dùng',
+            'message' => 'dữ liệu Banner',
             'data' => [
-                'banner' => $banner,
+                 $banner,
             ]
         ], 200);
     }
