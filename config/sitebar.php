@@ -75,7 +75,7 @@ return [
         'children' =>
         [
             [
-                "name" => "Quản lý Bình Luận",
+                "name" => "Phản hồi đánh giá",
                 "route" => 'admin.product_comment.users',
             ],
             [

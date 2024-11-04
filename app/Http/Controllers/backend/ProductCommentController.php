@@ -59,9 +59,8 @@ class ProductCommentController extends Controller
         $searchText = $request->get('search_text');
         if (!empty($searchText)) {
             $query->where('comment', 'LIKE', '%' . $searchText . '%')
-            ->orWhereHas('user', function ($q) use ($searchText) {
-                $q->where('username', 'LIKE', '%' . $searchText . '%')
-                ->orWhere('full_name', 'LIKE', '%' . $searchText . '%');
+            ->orWhereHas('review.user', function ($q) use ($searchText) {
+                $q->where('username', 'LIKE', '%' . $searchText . '%');
             })->where('product_id', $id);
         }
 
