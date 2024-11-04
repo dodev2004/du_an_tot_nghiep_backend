@@ -163,7 +163,7 @@ class ContactController extends Controller
             ],
             [
                 "response.required" => "Phản hồi không được để trống",
-                "response.string" => "Phản hồi không được để trống",
+                "response.string" => "Phản hồi phải là chuỗi",
                 "response.regex" => "Phản hồi không được chứa ký tự đặc biệt không hợp lệ",
             ]
         );
@@ -182,16 +182,16 @@ class ContactController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
-    {
-        $contact = Contact::find($request->id);
-        // dd(Contact::all());
-        if ($contact->delete($request->id)) {
-            return response()->json(["success", "Xóa thành công"]);
-        } else {
-            return response()->json(["error", "Xóa thất bại"]);
-        }
-    }
+    // public function destroy(Request $request)
+    // {
+    //     $contact = Contact::find($request->id);
+    //     // dd(Contact::all());
+    //     if ($contact->delete($request->id)) {
+    //         return response()->json(["success", "Xóa thành công"]);
+    //     } else {
+    //         return response()->json(["error", "Xóa thất bại"]);
+    //     }
+    // }
 
     public function force_destroy(Request $request)
     {

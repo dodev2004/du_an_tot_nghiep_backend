@@ -68,13 +68,13 @@
                                 style="cursor: pointer;">
                                 <i class="fa fa-eye"></i>
                             </a>
-                            <form action="" method="POST" data-url="contact" class="form-delete">
+                            {{-- <form action="" method="POST" data-url="contact" class="form-delete">
                                 @method('DELETE')
                                 @csrf
                                 <input type="hidden" value="{{ $item->id }}" name="id">
                                 <button class="btn btn-sm btn-danger btn-delete" title="Xoá"><i
                                         class="fa fa-trash-o"></i></button>
-                            </form>
+                            </form> --}}
                         @endif
 
                     </div>

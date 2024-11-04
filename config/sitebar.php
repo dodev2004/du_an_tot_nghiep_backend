@@ -126,12 +126,16 @@ return [
                 "route" => "admin.contact"
             ],
             [
-                "name" => " Quản lỷ trang liên hệ",
+                "name" => " Quản lý trang liên hệ",
                 "route" => "admin.information"
             ],
             [
                 "name" => "Quản lý trang giới thiệu",
                 "route" => "admin.about",
+            ],
+            [
+                "name" => "Quản lý banner",
+                "route" => "admin.banner",
             ],
         ]
 
