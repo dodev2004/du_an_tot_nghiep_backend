@@ -14,14 +14,14 @@
             data.append("_token",_token);
 
             $.ajax({
-            url : '{{route('admin.brand.store')}}',
+            url : '{{route('admin.banner.store')}}',
             type: "POST",
             dataType: "json",
             data : data,
             contentType: false,
             processData: false,
             success : function(res){
-                toastMessage(res[1],res[0],'{{route('admin.brand')}}')
+                toastMessage(res[1],res[0],'{{route('admin.banner')}}')
 
             },
             error : function(error){
@@ -31,7 +31,8 @@
             })
                 Object.keys(errors).forEach(function(error){
                     const input = document.querySelector(`input[name="${error}"]`);
-                    const select = document.querySelector(`select[name="${error}"]`)
+                    const select = document.querySelector(`select[name="${error}"]`);
+                    const textarea = document.querySelector(`textarea[name="${error}"]`)
                     if(input){
                     const message = input.parentElement.querySelector("p");
                         message.innerText = errors[error]
@@ -42,6 +43,11 @@
 
                         message.innerText = errors[error]
 
+                    }
+                    if(textarea){
+                        const message = textarea.parentElement.querySelector(".text-danger");
+
+                        message.innerText = errors[error]
                     }
                 })
             }

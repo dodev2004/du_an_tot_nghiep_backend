@@ -20,7 +20,7 @@
             </th>
             <th>
                 @if ( $item->image != null || $item->image!="")
-                <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;"><img src="{{$item->image}}" alt=""></p>
+                <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;"><img src="{{$item->image}}" alt="" style="height: 150px"></p>
                 @else
                 <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">Không có ảnh</p>
                 @endif

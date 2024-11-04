@@ -69,7 +69,7 @@ Route::get('/contacts/show/{id}', [ContactController::class, 'showOne'])->middle
 Route::put('/contacts/{id}', [ContactController::class, 'update'])->middleware('auth:api');
 // Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->middleware('auth:api');
 
-Route::get('/information', [InformationController::class, 'index'])->middleware('auth:api');
+Route::get('/information', [InformationController::class, 'index']);
 
 Route::get('/about', [AboutController::class, 'index']);
 

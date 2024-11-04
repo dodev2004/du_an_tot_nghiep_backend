@@ -23,8 +23,7 @@ class BannerController extends Controller
         ];
         $searchText = request()->input('seach_text');
         $status = request()->input('status');
-        $startDate = request()->input('start_date');
-        $endDate = request()->input('end_date');
+
         $dateOrder = request()->input('date_order');
 
         $breadcrumbs = $this->breadcrumbs;
@@ -38,12 +37,7 @@ class BannerController extends Controller
         if ($status !== null && $status !== '') {
             $query->where('status', $status);
         }
-        if ($startDate) {
-            $query->where('created_at', '>=', $startDate);
-        }
-        if ($endDate) {
-            $query->where('created_at', '<=', $endDate);
-        }
+
         if ($dateOrder === 'newest') {
             $query->orderBy('created_at', 'desc');
         } elseif ($dateOrder === 'oldest') {
@@ -87,21 +81,21 @@ class BannerController extends Controller
     {
         $request->validate([
             "title" => "required|string|min:3|max:255|regex:/^[\p{L}\s]+$/u",
-            "content" => "required|string|min:10|regex:/^[\p{L}\s]+$/u",
+            "content" => "required|string|min:10",
             "image" => "nullable|",
         ], [
-            "title.required" => "Tên nhãn hàng không được để trống",
-            "title.string" => "Phản hồi phải là chuỗi",
-            "title.regex" => "Phản hồi không được chứa ký tự đặc biệt không hợp lệ",
-            "title.min" => "Tên nhãn hàng phải có ít nhất 3 ký tự",
-            "title.max" => "Tên nhãn hàng không được vượt quá 255 ký tự",
+            "title.required" => "Tiêu đề không được để trống",
+            "title.string" => "Tiêu đề phải là chuỗi",
+            "title.regex" => "Tiêu đề không được chứa ký tự đặc biệt không hợp lệ",
+            "title.min" => "Tiêu đề phải có ít nhất 3 ký tự",
+            "title.max" => "Tiêu đề không được vượt quá 255 ký tự",
 
-            "content.required" => "Miêu tả không được để trống",
-            "content.string" => "Phản hồi phải là chuỗi",
-            "content.regex" => "Phản hồi không được chứa ký tự đặc biệt không hợp lệ",
-            "content.min" => "Miêu tả phải có ít nhất 10 ký tự",
+            "content.required" => "Nội dung không được để trống",
+            "content.string" => "Nội dung phải là chuỗi",
+            "content.regex" => "Nội dung không được chứa ký tự đặc biệt không hợp lệ",
+            "content.min" => "Nội dung phải có ít nhất 10 ký tự",
         ]);
-
+        $request['content']=preg_replace('/<p>|<\/p>/', '', $request['content']);
         if (Banner::create($request->all())) {
             return response()->json(["success", "Thêm mới thành công"]);
         } else {
@@ -141,7 +135,7 @@ class BannerController extends Controller
     {
         $data = $request->validate([
             "title" => "required|string|min:3|max:255|regex:/^[\p{L}\s]+$/u",
-            "content" => "required|string|min:10|regex:/^[\p{L}\s]+$/u",
+            "content" => "required|string|min:10|",
             "image" => "nullable|",
         ], [
             "title.required" => "Tên nhãn hàng không được để trống",
@@ -152,14 +146,12 @@ class BannerController extends Controller
 
             "content.required" => "Miêu tả không được để trống",
             "content.string" => "Phản hồi phải là chuỗi",
-            "content.regex" => "Phản hồi không được chứa ký tự đặc biệt không hợp lệ",
+
             "content.min" => "Miêu tả phải có ít nhất 10 ký tự",
         ]);
+        $data['content']=preg_replace('/<p>|<\/p>/', '', $request['content']);
 
         $banner = Banner::find($id);
-        if ($data['image'] == null || $data['image'] == "") {
-            $data['image'] = $banner->image;
-        }
         if ($banner->update($data)) {
             return response()->json(["success", "Cập nhật thành công"]);
         } else {

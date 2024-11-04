@@ -1,30 +1,49 @@
-<form action="{{route("admin.brand.store")}}" method="POST" class="form-add" style="background-color: white; padding:40px" novalidate >
+<form action="{{ route('admin.banner.store') }}" method="POST" class="form-add"
+    style="background-color: white; padding:40px" enctype="multipart/form-data" novalidate>
     @csrf
     <div class="row">
-        <div class="col-md-4">
-                <h2>Thông tin nhãn hàng</h2>
-                <span>
-                    Những trường có dấu ("*") là những trường bắt buộc và không được bỏ trống
-                </span>
-
-        </div>
-        <div class="col-md-8" style="padding:20px 0 0 50px">
-            <div class="row" style="display: flex; flex-wrap:wrap">
-                <div class="form-group col-md-6">
-                    <label for="">Tên nhãn hàng*</label>
-                    <input type="text"  name="name" class="form-control" value="{{old("name")}}" autocomplete="">
-                     <p  class=" text-danger message-error"></p>
+        <div class="col-md-9">
+            <div class="ibox-title">
+                <h5>Thông tin chung</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="form-group">
+                    <label>Tiêu đề</label>
+                    <input type="text" placeholder="Tiêu đề danh mục" name="title" class="form-control">
+                    <p  class=" text-danger message-error"></p>
                 </div>
-                <div class="form-group col-md-6">
-                    <label for="">Miêu tả*</label>
-                    <input type="text"  name="description" class="form-control" value="{{old("description")}}" autocomplete="">
+                <div class="form-group">
+                    <label>Nội dung </label>
+                    <textarea cols="50" rows="50" class="form-control" name="content" id="editor"></textarea>
                     <p  class=" text-danger message-error"></p>
                 </div>
 
             </div>
         </div>
-    </div>
-    <div class="row text-right mt-4">
-          <button class="btn btn-primary">Thêm mới</button>
+        <div class="col-md-3">
+            <div class="ibox-content">
+                <div>
+                    <button class="btn btn-success" type="submit">Thêm mới</button>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="avatar_title">
+                    <h5>Chọn ảnh đại diện</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="form-group">
+                        <input type="text" name="image" class="form-control" id="avatar" class="avatar"
+                            style="display: none;">
+                        <div class="seo_avatar" id="seo_avatar">
+                            <img class="" src="https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                                alt="" style="height: 245px">
+                        </div>
+                        <p  class=" text-danger message-error"></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </form>
+

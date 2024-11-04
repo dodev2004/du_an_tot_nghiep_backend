@@ -44,13 +44,28 @@
 @section("content")
 @include("backend.components.breadcrumb")
 <div class="wrapper wrapper-content animated fadeInRight">
-    @include("backend.brands.components.formadd")
+    @include("backend.banners.components.formadd")
 </div>
 @endsection
 @push("scripts")
+<style>
+    .form-user_create .row .col-md-6{
+    flex: 0 0 auto !important;
+    margin-bottom: 4px;
+
+}
+.form-user_create .row .col-md-6 > p{
+    margin: 0;
+}
+</style>
+<link rel="stylesheet" href="{{asset("backend/css/catelogue/custom.css")}}">
+<link rel="stylesheet" href="{{asset("backend/css/customdropdown.css")}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 @include('backend.components.scripts');
-@include("backend.brands.handles.add");
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="{{asset("backend/js/framework/ckfinder.js")}}"></script>
+@include("backend.posts.components.post.js.ckfinder")
+
+@include("backend.banners.handles.add");
 <script>
    $(document).ready(function(){
     $(".attribute_id").select2({
