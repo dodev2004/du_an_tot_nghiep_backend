@@ -48,7 +48,7 @@ class ContactController extends Controller
             'email' => $user->email,
         ] : null;
         // Lấy toàn bộ danh sách contact theo người dùng hiện tại
-        $contacts = Contact::where('user_id', $user->id)->select('id','content', 'image', 'response', 'status','created_at','updated_at')->get();
+        $contacts = Contact::where('user_id', $user->id)->where('deleted_at',0)->select('id','content', 'image', 'response', 'status','created_at','updated_at')->get();
         $contacts->map(function ($contact) {
             if ($contact->image) {
                 $contact->image = asset('storage/' . $contact->image); // Tạo URL đầy đủ cho ảnh
@@ -81,7 +81,7 @@ class ContactController extends Controller
             'email' => $user->email,
         ] : null;
         // Lấy toàn bộ danh sách contact theo người dùng hiện tại
-        $contacts = Contact::where('user_id', $user->id)->where('id',$id)->select('id','content', 'image', 'response', 'status','created_at','updated_at')->get();
+        $contacts = Contact::where('user_id', $user->id)->where('id',$id)->where('deleted_at',0)->select('id','content', 'image', 'response', 'status','created_at','updated_at')->get();
         $contacts->map(function ($contact) {
             if ($contact->image) {
                 $contact->image = asset('storage/' . $contact->image); // Tạo URL đầy đủ cho ảnh
@@ -189,42 +189,38 @@ class ContactController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    // public function destroy(Request $request)
-    // {
-    //     // Tìm bản ghi theo ID
-    //     $contact = Contact::find($request->id);
+    public function destroy(Request $request)
+    {
+        // Tìm bản ghi theo ID
+        $contact = Contact::find($request->id);
 
-    //     // Kiểm tra xem bản ghi có tồn tại không
-    //     if (!$contact) {
-    //         return response()->json([
-    //             "status" => 'error',
-    //             "message" => "Không tìm thấy bản ghi"
-    //         ], 404);
-    //     }
+        // Kiểm tra xem bản ghi có tồn tại không
+        if (!$contact) {
+            return response()->json([
+                "status" => 'error',
+                "message" => "Không tìm thấy bản ghi"
+            ], 404);
+        }
 
-    //     // Kiểm tra status, chỉ cho phép xóa khi status = 1
-    //     if ($contact->status != 1) {
-    //         return response()->json([
-    //             "status" => 'error',
-    //             "message" => "Chỉ có thể xóa các bản ghi đã phản hồi"
-    //         ], 403); // 403 Forbidden
-    //     }
+        // Kiểm tra status, chỉ cho phép xóa khi status = 1
+        if ($contact->status != 1) {
+            return response()->json([
+                "status" => 'error',
+                "message" => "Chỉ có thể xóa các bản ghi đã phản hồi"
+            ], 403); // 403 Forbidden
+        }
 
-    //     // Xóa bản ghi
-    //     if ($contact->delete()) {
-    //         // Nếu có ảnh liên quan, xóa ảnh từ storage
-    //         if ($contact->image) {
-    //             Storage::disk('public')->delete($contact->image);
-    //         }
-    //         return response()->json([
-    //             "status" => 'success',
-    //             "message" => "Xóa thành công"
-    //         ], 200);
-    //     } else {
-    //         return response()->json([
-    //             "status" => 'error',
-    //             "message" => "Xóa thất bại"
-    //         ], 500);
-    //     }
-    // }
+        // Xóa bản ghi
+        if ($contact->customer_delete=1) {
+            return response()->json([
+                "status" => 'success',
+                "message" => "Xóa thành công"
+            ], 200);
+        } else {
+            return response()->json([
+                "status" => 'error',
+                "message" => "Xóa thất bại"
+            ], 500);
+        }
+    }
 }

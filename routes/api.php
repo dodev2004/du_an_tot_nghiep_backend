@@ -11,6 +11,7 @@ use App\Http\Controllers\api\BrandController;
 use App\Http\Controllers\api\ContactController;
 
 use App\Http\Controllers\Api\InformationController;
+use App\Http\Controllers\Api\BannerController;
 
 
 use App\Http\Controllers\Api\PostCatelogueController;
@@ -70,6 +71,7 @@ Route::put('/contacts/{id}', [ContactController::class, 'update'])->middleware('
 // Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->middleware('auth:api');
 
 Route::get('/information', [InformationController::class, 'index']);
+Route::get('/banners', [BannerController::class, 'index']);
 
 Route::get('/about', [AboutController::class, 'index']);
 

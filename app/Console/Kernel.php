@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
         // Lập lịch cho command xóa bình luận hàng ngày
         $schedule->command('comments:delete-old-soft-deleted')->daily();
         //xoá contact sau phản hồi 30 ngày
-        $schedule->command('model:prune')->daily();
+        $schedule->command('records:prune')->daily();
     }
 
     /**

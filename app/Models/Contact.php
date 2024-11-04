@@ -10,7 +10,7 @@ class Contact extends Model
 {
     use HasFactory,SoftDeletes, Prunable;
 
-    protected function pruning()
+    protected function prunable()
     {
         // Xác định các bản ghi có updated_at cũ hơn 30 ngày
         return static::where('updated_at', '<', now()->subDays(1));
@@ -21,9 +21,9 @@ class Contact extends Model
         "content",
         "user_id",
         "response",
-        "status"
+        "status",
+        "customer_delete"
     ];
-    protected $dates = ['deleted_at'];
     protected $table = "contacts";
     public function user()
     {
