@@ -68,7 +68,7 @@ Route::post('/contacts', [ContactController::class, 'store'])->middleware('auth:
 Route::get('/contacts/show', [ContactController::class, 'show'])->middleware('auth:api');
 Route::get('/contacts/show/{id}', [ContactController::class, 'showOne'])->middleware('auth:api');
 Route::put('/contacts/{id}', [ContactController::class, 'update'])->middleware('auth:api');
-// Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->middleware('auth:api');
+Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->middleware('auth:api');
 
 Route::get('/information', [InformationController::class, 'index']);
 Route::get('/banners', [BannerController::class, 'index']);

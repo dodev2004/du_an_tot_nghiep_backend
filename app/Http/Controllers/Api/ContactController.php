@@ -48,7 +48,7 @@ class ContactController extends Controller
             'email' => $user->email,
         ] : null;
         // Lấy toàn bộ danh sách contact theo người dùng hiện tại
-        $contacts = Contact::where('user_id', $user->id)->where('deleted_at',0)->select('id','content', 'image', 'response', 'status','created_at','updated_at')->get();
+        $contacts = Contact::where('user_id', $user->id)->where('customer_delete',0)->select('id','content', 'image', 'response', 'status','created_at','updated_at')->get();
         $contacts->map(function ($contact) {
             if ($contact->image) {
                 $contact->image = asset('storage/' . $contact->image); // Tạo URL đầy đủ cho ảnh
@@ -81,7 +81,7 @@ class ContactController extends Controller
             'email' => $user->email,
         ] : null;
         // Lấy toàn bộ danh sách contact theo người dùng hiện tại
-        $contacts = Contact::where('user_id', $user->id)->where('id',$id)->where('deleted_at',0)->select('id','content', 'image', 'response', 'status','created_at','updated_at')->get();
+        $contacts = Contact::where('user_id', $user->id)->where('id',$id)->where('customer_delete',0)->select('id','content', 'image', 'response', 'status','created_at','updated_at')->get();
         $contacts->map(function ($contact) {
             if ($contact->image) {
                 $contact->image = asset('storage/' . $contact->image); // Tạo URL đầy đủ cho ảnh
@@ -211,7 +211,7 @@ class ContactController extends Controller
         }
 
         // Xóa bản ghi
-        if ($contact->customer_delete=1) {
+        if ($contact->update(['customer_delete'=>1])) {
             return response()->json([
                 "status" => 'success',
                 "message" => "Xóa thành công"
