@@ -25,9 +25,8 @@ class BannerController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'dữ liệu Banner',
-            'data' => [
-                 $banner,
-            ]
+            'data' => $banner,
+
         ], 200);
     }
 

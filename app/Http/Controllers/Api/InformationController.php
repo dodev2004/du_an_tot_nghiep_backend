@@ -22,9 +22,8 @@ class InformationController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Thông tin liên hệ của admin',
-            'data' => [
-                 $information,
-            ]
+            'data' => $information,
+
         ], 200);
     }
 

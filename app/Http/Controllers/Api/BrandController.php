@@ -15,16 +15,15 @@ class BrandController extends Controller
 
     public function index()
     {
-        $brand = Brand::all();
+        $brand = Brand::query()->get();
         if ($brand->isEmpty()) {
             return response()->json(['message' => 'không có nhãn hàng'], 404);
         }
         return response()->json([
             'status' => 'success',
             'message' => 'Thông tin nhãn hàng',
-            'data' => [
-                 $brand,
-            ]
+            'data' =>   $brand,
+
         ], 200);
     }
 
