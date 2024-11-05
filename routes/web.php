@@ -21,6 +21,7 @@ use App\Http\Controllers\backend\ProductController;
 use App\Http\Controllers\backend\ProductReviewController;
 use App\Http\Controllers\Backend\UserCatelogueController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\backend\BannerController;
 
 
 
@@ -277,7 +278,14 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::post("{id}/restore", [RoleController::class, "restore"])->name("admin.role.restore")->middleware('checkPermission:restoreRole'); //khôi phục
         Route::get("/trash", [RoleController::class, "trash"])->name("admin.role.trash")->middleware('checkPermission:viewRoleTrash'); // Trang thùng rác
     });
-
+    Route::prefix("banner")->middleware('checkRole:admin')->group(function () {
+        Route::get("list", [BannerController::class, "index"])->name("admin.banner");
+        Route::get("create", [BannerController::class, "create"])->name("admin.banner.create");
+        Route::post("postStore", [BannerController::class, "store"])->name("admin.banner.store");
+        Route::get("{id}/edit", [BannerController::class, "edit"])->name("admin.banner.edit");
+        Route::put("{id}/update", [BannerController::class, "update"])->name("admin.banner.update");
+        Route::delete("/delete", [BannerController::class, "destroy"])->name("admin.banner.delete");
+    });
     Route::prefix("/dashboard")->middleware('checkRole:admin')->group(function () {
         Route::get("list", [DashBoardController::class, "Orderindex"])->name("admin.dashboard_order")->middleware('checkPermission:viewDashboardOrder');
         Route::get('/orders/filter', [DashBoardController::class, 'filterSalesData'])->name('orders.filter')->middleware('checkPermission:filterSalesData');

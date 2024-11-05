@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,8 +32,8 @@ class ContactController extends Controller
         $dateOrder = request()->input('date_order');
 
         $query = Contact::with('user')
-            ->orderBy('status', 'asc');
-
+            ->orderBy('status', 'asc')
+            ->orderBy('updated_at', 'asc');
 
         // Search by username
         if ($searchText) {
@@ -62,13 +63,17 @@ class ContactController extends Controller
             if ($endDate) {
                 $query->where('deleted_at', '<=', $endDate);
             }
-            $data=$query->onlyTrashed()->paginate(5); // Nếu có trash thì chỉ lấy dữ liệu đã xóa mềm
-            return view('backend.trash.trash_contact.templates.index',compact('breadcrumbs', "title", "data"));
+            $data = $query->onlyTrashed()->paginate(5); // Nếu có trash thì chỉ lấy dữ liệu đã xóa mềm
+            return view('backend.trash.trash_contact.templates.index', compact('breadcrumbs', "title", "data"));
         }
 
         // Paginate the results
         $data = $query->paginate(10);
-
+        // Thêm cột 'is_updated_over_30_days' cho mỗi bản ghi
+        $data->getCollection()->transform(function ($contact) {
+            $contact->is_updated_over_30_days = $contact->updated_at && $contact->updated_at->lt(Carbon::now()->subDays(30));
+            return $contact;
+        });
         return view('backend.contacts.templates.index', compact('title', 'breadcrumbs', 'data'));
     }
 
@@ -163,11 +168,11 @@ class ContactController extends Controller
             ],
             [
                 "response.required" => "Phản hồi không được để trống",
-                "response.string" => "Phản hồi không được để trống",
+                "response.string" => "Phản hồi phải là chuỗi",
                 "response.regex" => "Phản hồi không được chứa ký tự đặc biệt không hợp lệ",
             ]
         );
-        $data = $request->except('_token', '_method','image');
+        $data = $request->except('_token', '_method', 'image');
         $data['response'] = preg_replace('/<p>|<\/p>/', '', $request->response);
         $data['status'] = 1;
         $contact = Contact::find($id);
@@ -225,7 +230,7 @@ class ContactController extends Controller
 
         // Lấy các bình luận đã xóa mềm
         $data = Contact::onlyTrashed()->with('user')
-        ->orderBy('status', 'asc')->paginate(10);
+            ->orderBy('status', 'asc')->paginate(10);
 
         return view("backend.trash.trash_contact.templates.index", compact("title", "breadcrumbs", "data"));
     }

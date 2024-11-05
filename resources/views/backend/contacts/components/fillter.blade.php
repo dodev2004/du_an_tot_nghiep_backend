@@ -30,10 +30,12 @@
         </div>
     </form>
 
-    <div class="total_record">
-        <div style="margin-top: 15px;">
+    <div class="total_record" >
+        <div style="margin-top: 33px;">
             <a href="{{ route('admin.contact.trash') }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top"
                 title="Thùng rác"><i class="fa fa-trash-o"></i></a>
         </div>
+        <small class="text-muted ms-2">(Chỉ có thể xoá phản hồi đã quá 30 ngày)</small>
+
     </div>
 </div>

@@ -14,21 +14,21 @@
         @foreach ($data as $item)
             <tr>
                 <td>
-                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->user->full_name ?: 'không có dữ liệu' }}</p>
+                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->user->full_name ?? 'không có dữ liệu' }}</p>
                 </td>
                 <th>
-                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->user->email ?: 'không có dữ liệu' }}</p>
+                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->user->email ?? 'không có dữ liệu' }}</p>
                 </th>
                 <th>
-                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->user->address ?: 'không có dữ liệu' }}</p>
+                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->user->address ?? 'không có dữ liệu' }}</p>
                 </th>
                 <th>
-                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->user->phone ?: 'không có dữ liệu' }}</p>
+                    <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->user->phone ?? 'không có dữ liệu' }}</p>
                 </th>
                 <th>
                     <p
                         style="margin-bottom: 0; font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 200px;">
-                        {{ $item->content ?: 'không có dữ liệu' }}
+                        {{ $item->content ?? 'không có dữ liệu' }}
                     </p>
                 </th>
                 <th>
@@ -59,7 +59,6 @@
                             </a>
                         @elseif ($item->status == 1)
                             <a type="button" class="view-user-detail btn btn-info" data-toggle="tooltip"
-                                data-placement="top" title="Chi tiết phản hồi" data-toggle="tooltip"
                                 data-placement="top" title="Xem chi tiết" data-full-name="{{ $item->user->full_name }}"
                                 data-email="{{ $item->user->email }}" data-username="{{ $item->user->username }}"
                                 data-phone="{{ $item->user->phone }}" data-address="{{ $item->user->address }}"
@@ -69,13 +68,16 @@
                                 style="cursor: pointer;">
                                 <i class="fa fa-eye"></i>
                             </a>
-                            <form action="" method="POST" data-url="contact" class="form-delete">
+                            @if ($item->is_updated_over_30_days)
+                                <form action="" method="POST" data-url="contact" class="form-delete">
                                 @method('DELETE')
                                 @csrf
                                 <input type="hidden" value="{{ $item->id }}" name="id">
                                 <button class="btn btn-sm btn-danger btn-delete" title="Xoá"><i
                                         class="fa fa-trash-o"></i></button>
                             </form>
+                            @endif
+
                         @endif
 
                     </div>

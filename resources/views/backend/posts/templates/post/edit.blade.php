@@ -16,7 +16,7 @@
 </style>
 @endsection
 @section("title")
-{{$title}} 
+{{$title}}
 @endsection
 @section("content")
 @include("backend.components.breadcrumb")
@@ -46,7 +46,7 @@
                         <textarea cols="50" rows="50" class="form-control" name="content" id="editor">{{$post["content"]}}</textarea>
                         <span style="display:block" class="text-danger"></span>
                     </div>
-               
+
             </div>
             <div class="ibox-title">
                 <h5>Cấu hình nâng cao </h5>
@@ -63,7 +63,7 @@
                         http://127.0.0.1:5500/post.htm
                     </span>
                     <h2 class="seo_title">Tiêu đề danh mục bài viết</h2>
-                   
+
                     <span class="seo_description">
                         Cung cấp 1 thẻ mô tả bằng cách sửa đoạn trích dẫn bên dưới. Nếu bạn không có thẻ mô tả, Google sẽ thử tìm 1 phần thích hợp trong bài viết của bạn để hiển thị cho kết quả tìm kiếm.
                     </span>
@@ -90,9 +90,9 @@
                             <i class="fa-solid fa-caret-right"></i>
                         </div>
                         <div class="collapse collapse-show">
-                            @php 
+                            @php
                             echo $post_catelogues
-                            @endphp 
+                            @endphp
                         </div>
                         <p class="message-error text-danger"></p>
                     <div>
@@ -111,14 +111,14 @@
                             <img class="" src="{{$post["image"]}}" alt="">
                             @else
                             <img class="" src="https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg" alt="">
-                           
+
                             @endif
-                            
+
                            </div>
                            <button style="margin-top:20px" class="remove_avatar btn btn-danger">Xóa ảnh</button>
                         </div>
                     </div>
-                   
+
                 </div>
                 <div class="ibox-content">
                     <div class="avatar_title">
@@ -131,18 +131,18 @@
                             <option value="0" @if(!$post["status"]) selected @endif>Không kích hoạt</option>
                             <option value="1" @if($post["status"]) selected @endif>Kích hoạt</option>
                           </select>
-                           
+
                         </div>
                         <div class="form-group">
                             <label for="">Flows</label>
                             <select name="flow" id="" class="form-control">
                                 <option value="1">Xuất bản</option>
                               <option value="0">Bản nháp</option>
-                             
+
                             </select>
-                             
+
                           </div>
-                    </div>  
+                    </div>
                 </div>
         </div>
     </div>

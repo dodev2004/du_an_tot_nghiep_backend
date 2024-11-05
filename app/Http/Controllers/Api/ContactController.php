@@ -48,7 +48,40 @@ class ContactController extends Controller
             'email' => $user->email,
         ] : null;
         // Lấy toàn bộ danh sách contact theo người dùng hiện tại
-        $contacts = Contact::where('user_id', $user->id)->select('content', 'image', 'response', 'status')->get();
+        $contacts = Contact::where('user_id', $user->id)->where('customer_delete',0)->select('id','content', 'image', 'response', 'status','created_at','updated_at')->get();
+        $contacts->map(function ($contact) {
+            if ($contact->image) {
+                $contact->image = asset('storage/' . $contact->image); // Tạo URL đầy đủ cho ảnh
+            }
+            // Chuyển đổi status từ số sang trạng thái văn bản
+            $contact->status = $contact->status == 1 ? 'đã phản hồi' : 'chưa phản hồi';
+            return $contact;
+        });
+        if (!$contacts) {
+            return response()->json(['message' => 'contact not found'], 404);
+        }
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Thông tin người dùng',
+            'data' => [
+                'user' => $userData,
+                'contacts' => $contacts
+
+            ]
+        ], 200);
+    }
+    public function showOne(string $id)
+    {
+        // Lấy thông tin người dùng hiện tại và chọn các trường cần thiết
+        $user = Auth::user();
+        $userData = $user ? [
+            'id' => $user->id,
+            'full_name' => $user->full_name,
+            'phone' => $user->phone,
+            'email' => $user->email,
+        ] : null;
+        // Lấy toàn bộ danh sách contact theo người dùng hiện tại
+        $contacts = Contact::where('user_id', $user->id)->where('id',$id)->where('customer_delete',0)->select('id','content', 'image', 'response', 'status','created_at','updated_at')->get();
         $contacts->map(function ($contact) {
             if ($contact->image) {
                 $contact->image = asset('storage/' . $contact->image); // Tạo URL đầy đủ cho ảnh
@@ -178,11 +211,7 @@ class ContactController extends Controller
         }
 
         // Xóa bản ghi
-        if ($contact->delete()) {
-            // Nếu có ảnh liên quan, xóa ảnh từ storage
-            if ($contact->image) {
-                Storage::disk('public')->delete($contact->image);
-            }
+        if ($contact->update(['customer_delete'=>1])) {
             return response()->json([
                 "status" => 'success',
                 "message" => "Xóa thành công"

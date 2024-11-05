@@ -9,9 +9,15 @@ use App\Http\Controllers\Api\PromotionController;
 use App\Http\Controllers\backend\AttributeController;
 use App\Http\Controllers\api\BrandController;
 use App\Http\Controllers\api\ContactController;
-use App\Http\Controllers\Api\ProductReviewController;
+
+use App\Http\Controllers\Api\InformationController;
+use App\Http\Controllers\Api\BannerController;
+
+
 use App\Http\Controllers\Api\PostCatelogueController;
 use App\Http\Controllers\Api\PostController;
+
+use App\Http\Controllers\Api\ProductReviewController;
 
 
 /*
@@ -64,8 +70,12 @@ Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
 Route::get('/contacts', [ContactController::class, 'index'])->middleware('auth:api');
 Route::post('/contacts', [ContactController::class, 'store'])->middleware('auth:api');
 Route::get('/contacts/show', [ContactController::class, 'show'])->middleware('auth:api');
+Route::get('/contacts/show/{id}', [ContactController::class, 'showOne'])->middleware('auth:api');
 Route::put('/contacts/{id}', [ContactController::class, 'update'])->middleware('auth:api');
 Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->middleware('auth:api');
+
+Route::get('/information', [InformationController::class, 'index']);
+Route::get('/banners', [BannerController::class, 'index']);
 
 Route::get('/about', [AboutController::class, 'index']);
 

@@ -11,12 +11,21 @@ class BrandController extends Controller
     /**
      * Display a listing of the resource.
      */
-    
+
 
     public function index()
     {
         $brand = Brand::all();
-        return response()->json($brand);
+        if ($brand->isEmpty()) {
+            return response()->json(['message' => 'không có nhãn hàng'], 404);
+        }
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Thông tin nhãn hàng',
+            'data' => [
+                 $brand,
+            ]
+        ], 200);
     }
 
     /**
@@ -29,7 +38,13 @@ class BrandController extends Controller
         if (!$brand) {
             return response()->json(['message' => 'brand not found'], 404);
         }
-        return response()->json($brand);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Thông tin nhãn hàng',
+            'data' => [
+                 $brand,
+            ]
+        ], 200);
     }
 
     /**
