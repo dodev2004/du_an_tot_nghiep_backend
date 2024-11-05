@@ -83,6 +83,7 @@ class BannerController extends Controller
             "title" => "required|string|min:3|max:255|regex:/^[\p{L}\s]+$/u",
             "content" => "required|string|min:10",
             "image" => "nullable|",
+            "page"=>"required|"
         ], [
             "title.required" => "Tiêu đề không được để trống",
             "title.string" => "Tiêu đề phải là chuỗi",
@@ -94,6 +95,9 @@ class BannerController extends Controller
             "content.string" => "Nội dung phải là chuỗi",
             "content.regex" => "Nội dung không được chứa ký tự đặc biệt không hợp lệ",
             "content.min" => "Nội dung phải có ít nhất 10 ký tự",
+
+            "page.required" => "Chọn trang cho banner",
+
         ]);
         $request['content']=preg_replace('/<p>|<\/p>/', '', $request['content']);
         if (Banner::create($request->all())) {
@@ -137,6 +141,7 @@ class BannerController extends Controller
             "title" => "required|string|min:3|max:255|regex:/^[\p{L}\s]+$/u",
             "content" => "required|string|min:10|",
             "image" => "nullable|",
+            "page"=>"required|"
         ], [
             "title.required" => "Tên nhãn hàng không được để trống",
             "title.string" => "Phản hồi phải là chuỗi",
@@ -148,6 +153,7 @@ class BannerController extends Controller
             "content.string" => "Phản hồi phải là chuỗi",
 
             "content.min" => "Miêu tả phải có ít nhất 10 ký tự",
+            "page.required" => "Chọn trang cho banner",
         ]);
         $data['content']=preg_replace('/<p>|<\/p>/', '', $request['content']);
 

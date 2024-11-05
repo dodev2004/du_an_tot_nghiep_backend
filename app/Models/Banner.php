@@ -13,6 +13,7 @@ class Banner extends Model
         "title",
         "content",
         "image",
+        "page",
         'status',
     ];
 }

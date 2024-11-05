@@ -17,7 +17,7 @@ class BannerController extends Controller
 
     public function index()
     {
-        $banner = Banner::query()->select('id','title','content','image')->get();
+        $banner = Banner::query()->select('id','title','content','image','page')->get();
 
         if ($banner->isEmpty()) {
             return response()->json(['message' => 'không có banner'], 404);
