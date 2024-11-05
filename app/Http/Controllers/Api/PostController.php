@@ -13,7 +13,7 @@ class PostController extends Controller
     public function index()
     {
         // Lấy tất cả các bài viết
-        $posts = Post::all();
+        $posts = Post::with('catelogues')->where('status',1)->get()->makeHidden(['status']);
         return response()->json($posts, Response::HTTP_OK);
     }
 
