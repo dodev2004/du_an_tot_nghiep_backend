@@ -208,7 +208,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         // Route::post("postStore",[ContactController::class,"store"])->name("admin.contact.store")->middleware('checkPermission:storeContact');
         Route::get("{id}/edit", [ContactController::class, "edit"])->name("admin.contact.edit")->middleware('checkPermission:editContact');
         Route::put("{id}/update", [ContactController::class, "update"])->name("admin.contact.update")->middleware('checkPermission:updateContact');
-        // Route::delete("/delete",[ContactController::class,"destroy"])->name("admin.contact.delete")->middleware('checkPermission:deleteContact');
+        Route::delete("/delete",[ContactController::class,"destroy"])->name("admin.contact.delete")->middleware('checkPermission:deleteContact');
         Route::delete("/force-delete", [ContactController::class, "force_destroy"])->name("admin.contact.force_delete")->middleware('checkPermission:forceDeleteContact');
         Route::post("{id}/restore", [ContactController::class, "restore"])->name("admin.contact.restore")->middleware('checkPermission:restoreContact');
         Route::get("/trash", [ContactController::class, "trash"])->name("admin.contact.trash")->middleware('checkPermission:viewTrashContact');
