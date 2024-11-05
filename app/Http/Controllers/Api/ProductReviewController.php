@@ -16,33 +16,38 @@ class ProductReviewController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($id)
+    public function index($id, Request $request)
     {
-        $reviews = ProductReview::where('product_id', $id)
-            ->with(['user:id,username', 'comments:id,comment,created_at,review_id']) // Chỉ lấy các trường cần thiết
-            ->get()
-            ->map(function ($review) {
-                // Giải mã JSON của trường media nếu có
-                $media = $review->media ? json_decode($review->media, true) : [];
+        // Kiểm tra xem có tham số rating trong request hay không
+    $query = ProductReview::where('product_id', $id)
+    ->with(['user:id,username', 'comments:id,comment,created_at,review_id']); // Chỉ lấy các trường cần thiết
 
+    // Nếu có tham số rating, thêm điều kiện lọc
+    if ($request->has('rating')) {
+        $minRating = $request->query('rating');
+        $query->where('rating', '>=', $minRating);
+    }
+
+    // Phân trang với 10 kết quả mỗi trang
+    $reviews = $query->paginate(10)->through(function ($review) {
+        return [
+            'id' => $review->id,
+            'product_id' => $review->product_id,
+            'user' => [
+                'username' => $review->user->username,
+            ],
+            'rating' => $review->rating,
+            'review' => $review->review,
+            'created_at' => $review->created_at,
+            'image' => $review->image, // Sử dụng image thay vì media
+            'comments' => $review->comments->map(function ($comment) {
                 return [
-                    'id' => $review->id,
-                    'product_id' => $review->product_id,
-                    'user' => [
-                        'username' => $review->user->username,
-                    ],
-                    'rating' => $review->rating,
-                    'review' => $review->review,
-                    'created_at' => $review->created_at,
-                    'image' => $review->image,
-                    'comments' => $review->comments->map(function ($comment) {
-                        return [
-                            'comment' => $comment->comment,
-                            'created_at' => $comment->created_at,
-                        ];
-                    }),
+                    'comment' => $comment->comment,
+                    'created_at' => $comment->created_at,
                 ];
-            });
+            }),
+        ];
+    });
 
         return response()->json($reviews);
     }

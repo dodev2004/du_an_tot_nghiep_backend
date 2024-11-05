@@ -10,6 +10,9 @@ use App\Http\Controllers\backend\AttributeController;
 use App\Http\Controllers\api\BrandController;
 use App\Http\Controllers\api\ContactController;
 use App\Http\Controllers\Api\ProductReviewController;
+use App\Http\Controllers\Api\PostCatelogueController;
+use App\Http\Controllers\Api\PostController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +68,9 @@ Route::put('/contacts/{id}', [ContactController::class, 'update'])->middleware('
 Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->middleware('auth:api');
 
 Route::get('/about', [AboutController::class, 'index']);
+
+Route::apiResource('posts', PostController::class);
+Route::apiResource('post-catelogues', PostCatelogueController::class);
 
 Route::get('products/{id}/reviews', [ProductReviewController::class, 'index']);
 Route::post('/products/{id}/reviews', [ProductReviewController::class, 'store']);

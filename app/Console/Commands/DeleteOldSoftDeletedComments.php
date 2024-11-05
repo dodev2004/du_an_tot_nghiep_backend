@@ -27,7 +27,7 @@ class DeleteOldSoftDeletedComments extends Command
     public function handle()
     {
         // Tính toán thời gian 30 ngày trước
-        $dateThreshold = now()->subDays(30);
+        $dateThreshold = now()->subDays(1);
 
         // Lấy tất cả bình luận đã xóa mềm và đã qua 30 ngày
         $deletedComments = ProductComment::onlyTrashed()->where('deleted_at', '<=', $dateThreshold)->get();
