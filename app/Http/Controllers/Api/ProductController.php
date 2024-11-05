@@ -8,13 +8,34 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // Lấy danh sách tất cả sản phẩm
-        $products = Product::all();
+    
+        $products = Product::with('variants')->where("status",1)->get();
         return response()->json($products);
     }
+    public function spNoiBat()
+    {
+    
+        // Lấy danh sách tất cả sản phẩm
+        $products = Product::with('variants')->where("is_featured",1)->limit(10)->get();
+        return response()->json($products);
+    }
+    public function spLienQuan(Request $request){
+      
+        $products = Product::with([
+            'catelogues',
+            'variants' => function($query) {
+                $query->select('id', 'product_id', 'price', 'discount_price', 'stock', 'weight', 'sku', 'image_url', 'created_at', 'updated_at');
+            }
+        ])->whereHas('catelogues', function($query) use ($request) {
+           
+            $query->whereIn('product_catelogues.id', explode(",",$request->catelogues));
+        })->limit(10)->get();
 
+        return response()->json($products,200);
+    }
     public function show($id)
     {
         // Lấy thông tin sản phẩm dựa trên ID
@@ -33,13 +54,17 @@ class ProductController extends Controller
                         }
                     ]);
             },
-            'galleries:id,product_id,image_url'
+            'galleries:id,product_id,image_url',"catelogues"
         ])->findOrFail($id);
-        
+      
         // Tạo cấu trúc dữ liệu dễ hiểu hơn cho frontend
         $response = [
             'id' => $product->id,
-            'catalogue_id' => $product->catalogue_id,
+            'catalogue_id' => $product->catelogues->map(function($catelogue){
+                return $catelogue->id;
+            })
+               
+            ,
             'brand_id' => $product->brand_id,
             'name' => $product->name,
             'slug' => $product->slug,
