@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -70,6 +71,38 @@ class AuthController extends Controller
     public function profile()
     {
         return response()->json(auth()->user());
+    }
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+
+        // Xác thực dữ liệu
+        $validatedData = $request->validate([
+            'username' => 'sometimes|string|max:255|unique:users,username,' . $user->id,
+            'email' => 'sometimes|string|email|max:255|unique:users,email,' . $user->id,
+            'full_name' => 'sometimes|string|max:255',
+            'phone' => 'sometimes|string|max:15',
+            'province_id' => 'sometimes|integer|exists:provinces,id',
+            'district_id' => 'sometimes|integer|exists:districts,id',
+            'ward_id' => 'sometimes|integer|exists:wards,id',
+            'address' => 'sometimes|string|max:255',
+            'birthday' => 'sometimes|date',
+            'avatar' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Xử lý ảnh đại diện
+        if ($request->hasFile('avatar')) {
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $validatedData['avatar'] = $path;
+        }
+
+        // Cập nhật thông tin người dùng
+        $user->update($validatedData);
+
+        return response()->json([
+            'message' => 'Cập nhật hồ sơ thành công!',
+            'user' => User::find($user->id), // Lấy dữ liệu mới nhất từ DB
+        ], 200);
     }
 
     // public function logout()

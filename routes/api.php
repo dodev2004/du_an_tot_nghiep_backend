@@ -45,7 +45,7 @@ Route::group([
     Route::get('profile', [AuthController::class,'profile']);
     // Route::post('logout', [AuthController::class,'logout']);
     Route::post('refresh', [AuthController::class,'refresh']);
-
+    Route::post('update-profile', [AuthController::class, 'updateProfile']);
 });
 Route::get("/attribute",[AttributeController::class,"getAll"])->name("api.attribute");
 Route::get('/products', [ProductController::class, 'index']);
@@ -67,21 +67,22 @@ Route::get('/brands/{id}', [BrandController::class, 'show']);
 Route::put('/brands/{id}', [BrandController::class, 'update']);
 Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
 
-Route::get('/contacts', [ContactController::class, 'index'])->middleware('auth:api');
-Route::post('/contacts', [ContactController::class, 'store'])->middleware('auth:api');
-Route::get('/contacts/show', [ContactController::class, 'show'])->middleware('auth:api');
-Route::get('/contacts/show/{id}', [ContactController::class, 'showOne'])->middleware('auth:api');
-Route::put('/contacts/{id}', [ContactController::class, 'update'])->middleware('auth:api');
-Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->middleware('auth:api');
-
 Route::get('/information', [InformationController::class, 'index']);
 Route::get('/banners', [BannerController::class, 'index']);
-
-Route::get('/about', [AboutController::class, 'index']);
-
 Route::apiResource('posts', PostController::class);
 Route::apiResource('post-catelogues', PostCatelogueController::class);
 
 Route::get('products/{id}/reviews', [ProductReviewController::class, 'index']);
 Route::post('/products/{id}/reviews', [ProductReviewController::class, 'store']);
 Route::get('/products/{id}/reviews/{reviewId}', [ProductReviewController::class, 'show']);
+Route::get('/contacts', [ContactController::class, 'index']);
+Route::post('/contacts', [ContactController::class, 'store']);
+Route::get('/contacts/{id}', [ContactController::class, 'show']);
+Route::put('/contacts/{id}', [ContactController::class, 'update']);
+Route::delete('/contacts/{id}', [ContactController::class, 'destroy']);
+
+Route::get('/about', [AboutController::class, 'index']);
+Route::post('/about', [AboutController::class, 'store']);  
+Route::get('/about/{id}', [AboutController::class, 'show']);
+Route::put('/about/{id}', [AboutController::class, 'update']);
+Route::delete('/about/{id}', [AboutController::class, 'destroy']);

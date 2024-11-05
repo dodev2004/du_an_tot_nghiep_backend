@@ -20,7 +20,7 @@ class PromotionController extends Controller
         // Lấy thông tin chi tiết một chương trình khuyến mãi
         $promotion = Promotion::find($id);
         if (!$promotion) {
-            return response()->json(['message' => 'Promotion not found'], 404);
+            return response()->json(['message' => 'Không có thông tin'], 404);
         }
         return response()->json($promotion);
     }
@@ -39,7 +39,7 @@ class PromotionController extends Controller
             $promotion->update($request->all());
             return response()->json($promotion);
         } else {
-            return response()->json(['message' => 'promotion not found'], 404);
+            return response()->json(['message' => 'Không có thông tin'], 404);
         }
     }
 
@@ -51,9 +51,9 @@ class PromotionController extends Controller
 
         if ($promotion) {
             $promotion->delete();
-            return response()->json(['message' => 'promotion deleted']);
+            return response()->json(['message' => 'Xóa thành công']);
         } else {
-            return response()->json(['message' => 'promotion not found'], 404);
+            return response()->json(['message' => 'Không có thông tin'], 404);
         }
     }
     
