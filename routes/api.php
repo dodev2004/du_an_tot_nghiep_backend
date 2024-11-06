@@ -68,7 +68,8 @@ Route::put('/brands/{id}', [BrandController::class, 'update']);
 Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
 
 Route::get('/information', [InformationController::class, 'index']);
-Route::get('/banners', [BannerController::class, 'index']);
+Route::get('/banners-home', [BannerController::class, 'HomeBanner']);
+Route::get('/banners-product', [BannerController::class, 'ProductBanner']);
 Route::apiResource('posts', PostController::class);
 Route::apiResource('post-catelogues', PostCatelogueController::class);
 
@@ -82,7 +83,7 @@ Route::put('/contacts/{id}', [ContactController::class, 'update']);
 Route::delete('/contacts/{id}', [ContactController::class, 'destroy']);
 
 Route::get('/about', [AboutController::class, 'index']);
-Route::post('/about', [AboutController::class, 'store']);  
+Route::post('/about', [AboutController::class, 'store']);
 Route::get('/about/{id}', [AboutController::class, 'show']);
 Route::put('/about/{id}', [AboutController::class, 'update']);
 Route::delete('/about/{id}', [AboutController::class, 'destroy']);
