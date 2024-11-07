@@ -48,12 +48,13 @@ Route::group([
     Route::post('update-profile', [AuthController::class, 'updateProfile']);
 });
 Route::get("/attribute",[AttributeController::class,"getAll"])->name("api.attribute");
-Route::get('/products', [ProductController::class, 'index']);
-Route::get('{id}/products/', [ProductController::class, 'show']);
-
-Route::get('/products/showOne/{id}', [ProductController::class, 'showOne']);
-Route::get('/products/spnb',[ProductController::class, 'spNoiBat']);
-Route::get("/products/splq",[ProductController::class, 'spLienQuan']);
+Route::prefix('products')->group(function () {
+    Route::get('/', [ProductController::class, 'index']);
+    Route::get('/chi-tiet-san-pham/{id}', [ProductController::class, 'show']);
+    Route::get('/showOne/{id}', [ProductController::class, 'showOne']);
+    Route::get('/san-pham-noi-bat', [ProductController::class, 'index']);
+    Route::get('/splq', [ProductController::class, 'spLienQuan']);
+});
 
 Route::get('/promotions', [PromotionController::class, 'index']);
 Route::post('/promotions', [PromotionController::class, 'store']);
