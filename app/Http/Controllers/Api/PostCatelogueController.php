@@ -13,9 +13,7 @@ class PostCatelogueController extends Controller
     public function index()
     {
         // Lấy tất cả các danh mục
-        $catelogues = PostCatelogue::where('status',1)->get()->makeHidden(['status'])->each(function($catelogue) {
-            $catelogue->post->makeHidden(['status']);  // Ẩn trường status trong catelogues
-        });
+        $catelogues = PostCatelogue::where('status',1)->get();
         return response()->json($catelogues, Response::HTTP_OK);
     }
 
@@ -46,7 +44,7 @@ class PostCatelogueController extends Controller
     public function show($id)
     {
         // Lấy thông tin chi tiết của danh mục
-        $catelogue = PostCatelogue::find($id);
+        $catelogue = PostCatelogue::with('post')->where('status',1)->find($id);
         if (!$catelogue) {
             return response()->json(['message' => 'Catelogue not found'], Response::HTTP_NOT_FOUND);
         }

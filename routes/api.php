@@ -71,6 +71,7 @@ Route::get('/information', [InformationController::class, 'index']);
 Route::get('/banners-home', [BannerController::class, 'HomeBanner']);
 Route::get('/banners-product', [BannerController::class, 'ProductBanner']);
 Route::apiResource('posts', PostController::class);
+Route::get('/posts/related-posts/{id}', [PostController::class, 'relatedPosts']);
 Route::apiResource('post-catelogues', PostCatelogueController::class);
 
 Route::get('products/{id}/reviews', [ProductReviewController::class, 'index']);
