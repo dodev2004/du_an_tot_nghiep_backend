@@ -22,6 +22,15 @@
         </div>
         <div class="col-md-3">
             <div class="ibox-content">
+                <div class="form-group">
+                    <label for="page">Trang</label>
+                    <select name="page" id="" class="form-control">
+                        <option value="" hidden>- Chọn trang -</option>
+                        <option value="home" {{ $data->page == "home" ? 'selected' : '' }}>home</option>
+                        <option value="product" {{ $data->page == "product" ? 'selected' : '' }}>product</option>
+                    </select>
+                    <p class=" text-danger message-error"></p>
+                </div>
                 <div>
                     <button class="btn btn-success" type="submit">Sửa</button>
                 </div>
@@ -49,7 +58,7 @@
                              @endif
 
                             </div>
-                            <button style="margin-top:20px" class="remove_avatar btn btn-danger">Xóa ảnh</button>
+                            
                          </div>
                         <p  class=" text-danger message-error"></p>
                     </div>

@@ -13,7 +13,9 @@ class PostCatelogueController extends Controller
     public function index()
     {
         // Lấy tất cả các danh mục
-        $catelogues = PostCatelogue::where('status',1)->get()->makeHidden(['status']);
+        $catelogues = PostCatelogue::where('status',1)->get()->makeHidden(['status'])->each(function($catelogue) {
+            $catelogue->post->makeHidden(['status']);  // Ẩn trường status trong catelogues
+        });
         return response()->json($catelogues, Response::HTTP_OK);
     }
 

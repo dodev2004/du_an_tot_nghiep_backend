@@ -12,9 +12,10 @@ class PostController extends Controller
 {
     public function index()
     {
-        // Lấy tất cả các bài viết
-        $posts = Post::with('catelogues')->where('status',1)->get()->makeHidden(['status']);
-        return response()->json($posts, Response::HTTP_OK);
+        // Lấy tất cả các bài viết với phân trang
+    $posts = Post::with('catelogues')->where('status', 1)->paginate(1);
+
+return response()->json($posts, Response::HTTP_OK);
     }
 
     public function store(Request $request)

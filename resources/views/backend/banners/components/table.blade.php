@@ -4,6 +4,7 @@
             <th>Tiêu đề</th>
             <th>Nội dung</th>
             <th>ảnh</th>
+            <th>Trang</th>
             <th>Trạng thái</th>
             <th class="text-center">Hành động</th>
         </tr>
@@ -24,6 +25,9 @@
                 @else
                 <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">Không có ảnh</p>
                 @endif
+            </th>
+            <th>
+                <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->page ?: 'không có dữ liệu' }}</p>
             </th>
             <td class="text-center">
                 <form name="form_status" action="">
