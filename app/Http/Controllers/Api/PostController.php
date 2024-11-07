@@ -13,7 +13,7 @@ class PostController extends Controller
     public function index()
     {
         // Lấy tất cả các bài viết với phân trang
-    $posts = Post::with('catelogues')->where('status', 1)->paginate(1);
+    $posts = Post::with('catelogues')->where('status', 1)->paginate(5);
 
 return response()->json($posts, Response::HTTP_OK);
     }

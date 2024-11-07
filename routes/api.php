@@ -12,8 +12,7 @@ use App\Http\Controllers\api\ContactController;
 
 use App\Http\Controllers\Api\InformationController;
 use App\Http\Controllers\Api\BannerController;
-
-
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PostCatelogueController;
 use App\Http\Controllers\Api\PostController;
 
@@ -70,6 +69,7 @@ Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
 Route::get('/information', [InformationController::class, 'index']);
 Route::get('/banners-home', [BannerController::class, 'HomeBanner']);
 Route::get('/banners-product', [BannerController::class, 'ProductBanner']);
+
 Route::apiResource('posts', PostController::class);
 Route::get('/posts/related-posts/{id}', [PostController::class, 'relatedPosts']);
 Route::apiResource('post-catelogues', PostCatelogueController::class);
@@ -88,3 +88,5 @@ Route::post('/about', [AboutController::class, 'store']);
 Route::get('/about/{id}', [AboutController::class, 'show']);
 Route::put('/about/{id}', [AboutController::class, 'update']);
 Route::delete('/about/{id}', [AboutController::class, 'destroy']);
+
+Route::apiResource('orders', OrderController::class);

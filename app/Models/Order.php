@@ -66,4 +66,32 @@ class Order extends Model
     public function customer(){
         return $this->belongsTo(User::class,"customer_id");
     }
+    public function getStatusTextAttribute()
+    {
+        $statuses = [
+            self::STATUS_PENDING => 'Chờ xử lý',
+            self::STATUS_CONFIRM => 'Đã xác nhận',
+            self::STATUS_PROCESSING => 'Đang xử lý',
+            self::STATUS_SHIPPED => 'Đã giao hàng',
+            self::STATUS_SHIPPEDS => 'Đang giao hàng',
+            self::STATUS_COMPLETED => 'Hoàn tất',
+            self::STATUS_CANCELLED => 'Đã hủy',
+            self::STATUS_REFUNDED => 'Đã hoàn tiền',
+        ];
+
+        return $statuses[$this->status] ?? 'Không xác định';
+    }
+
+    // Chuyển đổi trạng thái thanh toán sang tiếng Việt
+    public function getPaymentStatusTextAttribute()
+    {
+        $paymentStatuses = [
+            self::PAYMENT_PENDING => 'Chưa thanh toán',
+            self::PAYMENT_COMPLETED => 'Đã thanh toán',
+            self::PAYMENT_FAILED => 'Thanh toán thất bại',
+            self::PAYMENT_REFUNDED => 'Đã hoàn tiền',
+        ];
+
+        return $paymentStatuses[$this->payment_status] ?? 'Không xác định';
+    }
 }
