@@ -18,9 +18,12 @@ class ProductReviewController extends Controller
      */
     public function index($id, Request $request)
     {
+        // Tính toán trung bình đánh giá của sản phẩm
+    $averageRating = ProductReview::where('product_id', $id)->avg('rating');
+
         // Kiểm tra xem có tham số rating trong request hay không
     $query = ProductReview::where('product_id', $id)
-    ->with(['user:id,username', 'comments:id,comment,created_at,review_id']); // Chỉ lấy các trường cần thiết
+    ->with(['user:id,username,avatar', 'comments:id,comment,created_at,review_id']); // Chỉ lấy các trường cần thiết
 
     // Nếu có tham số rating, thêm điều kiện lọc
     if ($request->has('rating')) {
@@ -34,6 +37,7 @@ class ProductReviewController extends Controller
             'id' => $review->id,
             'product_id' => $review->product_id,
             'user' => [
+                'avatar'=> $review->avatar,
                 'username' => $review->user->username,
             ],
             'rating' => $review->rating,
@@ -49,7 +53,10 @@ class ProductReviewController extends Controller
         ];
     });
 
-        return response()->json($reviews);
+    return response()->json([
+        'average_rating' => round($averageRating, 2), // Làm tròn trung bình đánh giá đến 2 chữ số thập phân
+        'reviews' => $reviews,
+    ]);
     }
 
     /**
@@ -100,7 +107,7 @@ class ProductReviewController extends Controller
      */
     public function show($id, $reviewId)
     {
-        $review = ProductReview::with(['user:id,username', 'comments:id,review_id,comment,created_at'])
+        $review = ProductReview::with(['user:id,username,avatar', 'comments:id,review_id,comment,created_at'])
             ->where('product_id', $id)
             ->findOrFail($reviewId);
 
