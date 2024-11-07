@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\PromotionController;
 use App\Http\Controllers\backend\AttributeController;
 use App\Http\Controllers\api\BrandController;
 use App\Http\Controllers\api\ContactController;
-
+use App\Http\Controllers\Api\ProductCatelogueController;
 use App\Http\Controllers\Api\InformationController;
 use App\Http\Controllers\Api\BannerController;
 
@@ -86,3 +86,6 @@ Route::post('/about', [AboutController::class, 'store']);
 Route::get('/about/{id}', [AboutController::class, 'show']);
 Route::put('/about/{id}', [AboutController::class, 'update']);
 Route::delete('/about/{id}', [AboutController::class, 'destroy']);
+
+
+Route::get('/product-catalogues', [ProductCatelogueController::class, 'index']);
