@@ -15,7 +15,7 @@ class BrandController extends Controller
 
     public function index()
     {
-        $brand = Brand::query()->get();
+        $brand = Brand::query()->paginate(2);
         if ($brand->isEmpty()) {
             return response()->json(['message' => 'không có nhãn hàng'], 404);
         }

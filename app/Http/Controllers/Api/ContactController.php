@@ -48,7 +48,7 @@ class ContactController extends Controller
             'email' => $user->email,
         ] : null;
         // Lấy toàn bộ danh sách contact theo người dùng hiện tại
-        $contacts = Contact::where('user_id', $user->id)->where('customer_delete',0)->select('id','content', 'image', 'response', 'status','created_at','updated_at')->get();
+        $contacts = Contact::where('user_id', $user->id)->where('customer_delete',0)->select('id','content', 'image', 'response', 'status','created_at','updated_at')->paginate(2);
         $contacts->map(function ($contact) {
             if ($contact->image) {
                 $contact->image = asset('storage/' . $contact->image); // Tạo URL đầy đủ cho ảnh
