@@ -3,21 +3,22 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\AboutController;
-use App\Http\Controllers\Api\ProductController;
-use App\Http\Controllers\Api\PromotionController;
-use App\Http\Controllers\backend\AttributeController;
 use App\Http\Controllers\api\BrandController;
+use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\api\ContactController;
 
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\PromotionController;
+
+
 use App\Http\Controllers\Api\InformationController;
-use App\Http\Controllers\Api\BannerController;
-
-
 use App\Http\Controllers\Api\PostCatelogueController;
-use App\Http\Controllers\Api\PostController;
 
 use App\Http\Controllers\Api\ProductReviewController;
+use App\Http\Controllers\backend\AttributeController;
 
 
 /*
@@ -46,6 +47,7 @@ Route::group([
     // Route::post('logout', [AuthController::class,'logout']);
     Route::post('refresh', [AuthController::class,'refresh']);
     Route::post('update-profile', [AuthController::class, 'updateProfile']);
+    Route::post('/cart/add', [CartController::class, 'addToCart']);
 });
 Route::get("/attribute",[AttributeController::class,"getAll"])->name("api.attribute");
 Route::get('/products', [ProductController::class, 'index']);
