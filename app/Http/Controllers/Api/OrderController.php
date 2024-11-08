@@ -65,7 +65,9 @@ class OrderController extends Controller
 
         // Sắp xếp và phân trang
         $orders = $query->orderBy('created_at', 'desc')->paginate(10);
-
+        if ($orders->isEmpty()) {
+            return response()->json(['message' => 'người dùng không có đơn hàng nào'], 404);
+        }
         $data = $orders->map(function ($order) {
             return [
                 'id' => $order->id,
