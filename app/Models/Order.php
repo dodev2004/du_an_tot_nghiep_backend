@@ -72,9 +72,9 @@ class Order extends Model
             self::STATUS_PENDING => 'Chờ xử lý',
             self::STATUS_CONFIRM => 'Đã xác nhận',
             self::STATUS_PROCESSING => 'Đang xử lý',
-            self::STATUS_SHIPPED => 'Đã giao hàng',
-            self::STATUS_SHIPPEDS => 'Đang giao hàng',
-            self::STATUS_COMPLETED => 'Hoàn tất',
+            self::STATUS_SHIPPED => 'Đang giao hàng',
+            self::STATUS_SHIPPEDS => 'Đã giao hàng',
+            self::STATUS_COMPLETED => 'Hoàn thành',
             self::STATUS_CANCELLED => 'Đã hủy',
             self::STATUS_REFUNDED => 'Đã hoàn tiền',
         ];

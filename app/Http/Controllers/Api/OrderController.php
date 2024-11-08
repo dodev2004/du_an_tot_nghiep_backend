@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -15,35 +16,56 @@ class OrderController extends Controller
 
     public function index(Request $request)
     {
+        $userId = Auth::id();
+        $statusFilter = $request->input('status');
         // Kiểm tra nếu có yêu cầu xác nhận đơn hàng
         if ($request->has('confirm_order_id')) {
             $orderId = $request->input('confirm_order_id');
 
             // Tìm đơn hàng theo ID
             $order = Order::find($orderId);
-
             if ($order) {
                 // Kiểm tra trạng thái thanh toán và cập nhật
-                if ($order->payment_status == Order::PAYMENT_COMPLETED) {
+                // if ($order->payment_status == Order::PAYMENT_COMPLETED) {
                     $order->status = Order::STATUS_COMPLETED;
-                } else {
-                    $order->status = Order::STATUS_COMPLETED;
-                    $order->payment_status = Order::PAYMENT_COMPLETED;
-                }
+                // } else {
+                //     $order->status = Order::STATUS_COMPLETED;
+                //     $order->payment_status = Order::PAYMENT_COMPLETED;
+                // }
                 $order->save();
             }
         }
 
+
+        // Điều kiện lọc trạng thái
         // Query danh sách đơn hàng với các trường cần thiết
-        $orders = Order::with([
+        $query = Order::with([
             'customer:id,full_name',
             'promotion:id,code,discount_value',
             'paymentMethod:id,name'
-        ])
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        ])->where('customer_id', $userId);
 
-        // Ánh xạ dữ liệu để thêm status và payment_status bằng tiếng Việt
+        // Áp dụng bộ lọc theo trạng thái
+        if ($statusFilter) {
+            switch ($statusFilter) {
+                case 'pending': // Chờ xác nhận
+                    $query->where('status', 1);
+                    break;
+                case 'processing': // Đang xử lý
+                    $query->whereIn('status', [2, 3]);
+                    break;
+                case 'shipping': // Đang giao
+                    $query->whereIn('status', [4, 5]);
+                    break;
+                case 'completed': // Hoàn thành
+                    $query->where('status', 6);
+                    break;
+            }
+        }
+
+        // Sắp xếp và phân trang
+        $orders = $query->orderBy('created_at', 'desc')->paginate(10);
+
         $data = $orders->map(function ($order) {
             return [
                 'id' => $order->id,
@@ -72,6 +94,8 @@ class OrderController extends Controller
             ];
         });
 
+
+
         // Cập nhật lại collection của paginator
         $orders->setCollection(collect($data));
 
@@ -88,8 +112,9 @@ class OrderController extends Controller
      */
     public function show($id)
     {
+        $userId = Auth::id();
         // Query danh sách đơn hàng, có thể thêm điều kiện lọc nếu cần thiết
-        $order = Order::with(['orderItems', 'customer:id,full_name', 'promotion:id,code,discount_value', 'paymentMethod:id,name'])
+        $order = Order::with(['orderItems', 'customer:id,full_name', 'promotion:id,code,discount_value', 'paymentMethod:id,name'])->where('customer_id', $userId)
             ->find($id);
         // Kiểm tra nếu không tìm thấy đơn hàng
         if (!$order) {
