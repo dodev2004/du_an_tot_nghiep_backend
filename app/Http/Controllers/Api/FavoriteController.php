@@ -16,7 +16,7 @@ class FavoriteController extends Controller
     {
         $user = Auth::user();
         $favorites = Favorite::where('user_id', $user->id)
-            ->with('product') // Lấy thông tin chi tiết của sản phẩm nếu cần
+            ->with('product')
             ->get();
 
         return response()->json($favorites);
