@@ -35,19 +35,22 @@ use App\Http\Controllers\backend\AttributeController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-Route::group([
-    'middleware' => ['api', 'auth:api'], // Thêm 'auth:api' để yêu cầu đăng nhập
-    'prefix' => 'auth'
+Route::group(['middleware' => ['api'], 'prefix' => 'auth'], function () {
+    // Các route không yêu cầu đăng nhập
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+});
 
-], function ($router) {
-    Route::post('register', [AuthController::class, 'register'])->withoutMiddleware('auth:api'); // Không yêu cầu đăng nhập
-    Route::post('login', [AuthController::class, 'login'])->withoutMiddleware('auth:api');       // Không yêu cầu đăng nhập
-
+Route::middleware(['api', 'jwt.auth'])->group(function () {
     // Các route yêu cầu đăng nhập
-    Route::get('profile', [AuthController::class, 'profile']);
-    Route::post('refresh', [AuthController::class, 'refresh']);
-    Route::post('update-profile', [AuthController::class, 'updateProfile']);
-    Route::post('/cart/add', [CartController::class, 'addToCart']);
+    Route::get('auth/profile', [AuthController::class, 'profile']);
+    Route::post('auth/refresh', [AuthController::class, 'refresh']);
+    Route::post('auth/update-profile', [AuthController::class, 'updateProfile']);
+    
+    // Route liên quan đến giỏ hàng
+    Route::post('cart/add', [CartController::class, 'addToCart']);
+    
+    // Thêm các route đơn hàng khác ở đây
 });
 
 Route::get("/attribute",[AttributeController::class,"getAll"])->name("api.attribute");
