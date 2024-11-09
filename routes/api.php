@@ -36,19 +36,20 @@ use App\Http\Controllers\backend\AttributeController;
 //     return $request->user();
 // });
 Route::group([
-
-    'middleware' => 'api',
+    'middleware' => ['api', 'auth:api'], // Thêm 'auth:api' để yêu cầu đăng nhập
     'prefix' => 'auth'
 
 ], function ($router) {
-    Route::post('register', [AuthController::class,'register']);
-    Route::post('login', [AuthController::class,'login']);
-    Route::get('profile', [AuthController::class,'profile']);
-    // Route::post('logout', [AuthController::class,'logout']);
-    Route::post('refresh', [AuthController::class,'refresh']);
+    Route::post('register', [AuthController::class, 'register'])->withoutMiddleware('auth:api'); // Không yêu cầu đăng nhập
+    Route::post('login', [AuthController::class, 'login'])->withoutMiddleware('auth:api');       // Không yêu cầu đăng nhập
+
+    // Các route yêu cầu đăng nhập
+    Route::get('profile', [AuthController::class, 'profile']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('update-profile', [AuthController::class, 'updateProfile']);
     Route::post('/cart/add', [CartController::class, 'addToCart']);
 });
+
 Route::get("/attribute",[AttributeController::class,"getAll"])->name("api.attribute");
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('{id}/products/', [ProductController::class, 'show']);
