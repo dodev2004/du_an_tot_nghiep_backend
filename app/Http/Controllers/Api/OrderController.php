@@ -18,6 +18,8 @@ class OrderController extends Controller
     {
         $userId = Auth::id();
         $statusFilter = $request->input('status');
+        $searchQuery = $request->input('search'); // Ô input chung cho mã đơn và tên khách hàng
+        $orderDate = $request->input('order_date'); // Ngày đặt hàng
         // Kiểm tra nếu có yêu cầu xác nhận đơn hàng
         if ($request->has('confirm_order_id')) {
             $orderId = $request->input('confirm_order_id');
@@ -27,7 +29,7 @@ class OrderController extends Controller
             if ($order) {
                 // Kiểm tra trạng thái thanh toán và cập nhật
                 // if ($order->payment_status == Order::PAYMENT_COMPLETED) {
-                    $order->status = Order::STATUS_COMPLETED;
+                $order->status = Order::STATUS_COMPLETED;
                 // } else {
                 //     $order->status = Order::STATUS_COMPLETED;
                 //     $order->payment_status = Order::PAYMENT_COMPLETED;
@@ -62,6 +64,28 @@ class OrderController extends Controller
                     break;
             }
         }
+        if ($searchQuery) {
+            // Chuyển `$searchQuery` về viết hoa để không phân biệt chữ hoa - chữ thường
+            $normalizedQuery = strtoupper($searchQuery);
+
+            if (str_starts_with($normalizedQuery, 'BND-') || is_numeric($searchQuery)) {
+                // Loại bỏ tiền tố 'BND-' (không phân biệt hoa thường) nếu có và tìm theo mã đơn hàng (id)
+                $orderId = ltrim($normalizedQuery, 'BND-');
+                $query->where('id', $orderId);
+            } else {
+                // Tìm kiếm theo tên khách hàng trong bảng `order`
+                $query->where('customer_name', 'like', '%' . $searchQuery . '%');
+            }
+        }
+
+        // Áp dụng bộ lọc theo ngày đặt hàng
+        if ($orderDate) {
+            // Chuyển đổi định dạng 'DD-MM-YYYY' thành 'Y-m-d'
+    $orderDateFormatted = \Carbon\Carbon::createFromFormat('d-m-Y', $orderDate)->format('Y-m-d');
+
+    // Tìm kiếm theo ngày trong trường 'created_at'
+    $query->whereDate('created_at', $orderDateFormatted);
+        }
 
         // Sắp xếp và phân trang
         $orders = $query->orderBy('created_at', 'desc')->paginate(10);
@@ -69,8 +93,10 @@ class OrderController extends Controller
             return response()->json(['message' => 'người dùng không có đơn hàng nào'], 404);
         }
         $data = $orders->map(function ($order) {
+
             return [
                 'id' => $order->id,
+                'order_code' => 'BND-' . $order->id, // Mã đơn hàng theo yêu cầu
                 'customer_name' => $order->customer_name,
                 'customer' => [
                     'id' => $order->customer->id,
@@ -91,8 +117,8 @@ class OrderController extends Controller
                 'payment_status' => $order->payment_status_text, // Trạng thái thanh toán bằng tiếng Việt
                 'shipping_address' => $order->shipping_address,
                 'shipping_fee' => $order->shipping_fee,
-                'created_at' => $order->created_at,
-                'updated_at' => $order->updated_at,
+                'created_at' => $order->created_at->format('d-m-Y'),
+                'updated_at' => $order->updated_at->format('d-m-Y'),
             ];
         });
 
