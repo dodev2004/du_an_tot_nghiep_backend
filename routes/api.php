@@ -50,7 +50,6 @@ Route::middleware(['api', 'jwt.auth'])->group(function () {
     // Route liên quan đến giỏ hàng
     Route::post('cart/add', [CartController::class, 'addToCart']);
     
-    // Thêm các route đơn hàng khác ở đây
 });
 
 Route::get("/attribute",[AttributeController::class,"getAll"])->name("api.attribute");
