@@ -16,10 +16,9 @@ use App\Http\Controllers\Api\PromotionController;
 
 
 use App\Http\Controllers\Api\InformationController;
-
-use App\Http\Controllers\Api\FavoriteController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PostCatelogueController;
-
+use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\ProductReviewController;
 use App\Http\Controllers\backend\AttributeController;
 
@@ -49,10 +48,10 @@ Route::middleware(['api', 'jwt.auth'])->group(function () {
     Route::get('auth/profile', [AuthController::class, 'profile']);
     Route::post('auth/refresh', [AuthController::class, 'refresh']);
     Route::post('auth/update-profile', [AuthController::class, 'updateProfile']);
-    
-    // Route liên quan đến giỏ hàng
-    Route::post('cart/add', [CartController::class, 'addToCart']);
-    
+   
+    Route::get('/favorites', [FavoriteController::class, 'index']);
+    Route::post('/favorites/toggle', [FavoriteController::class, 'toggleFavorite']);
+    Route::apiResource('orders', OrderController::class);
 });
 
 Route::get("/attribute",[AttributeController::class,"getAll"])->name("api.attribute");
@@ -79,7 +78,9 @@ Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
 Route::get('/information', [InformationController::class, 'index']);
 Route::get('/banners-home', [BannerController::class, 'HomeBanner']);
 Route::get('/banners-product', [BannerController::class, 'ProductBanner']);
+
 Route::apiResource('posts', PostController::class);
+Route::get('/posts/related-posts/{id}', [PostController::class, 'relatedPosts']);
 Route::apiResource('post-catelogues', PostCatelogueController::class);
 
 Route::get('products/{id}/reviews', [ProductReviewController::class, 'index']);
@@ -101,7 +102,4 @@ Route::delete('/about/{id}', [AboutController::class, 'destroy']);
 
 Route::get('/product-catalogues', [ProductCatelogueController::class, 'index']);
 
-Route::middleware('auth:api')->group(function () {
-    Route::get('/favorites', [FavoriteController::class, 'index']);
-    Route::post('/favorites/toggle', [FavoriteController::class, 'toggleFavorite']);
-});
+

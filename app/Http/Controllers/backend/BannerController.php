@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class BannerController extends Controller
 {
@@ -80,26 +81,34 @@ class BannerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "title" => "required|string|min:3|max:255|regex:/^[\p{L}\s]+$/u",
+            "title" => "required|string|min:3|max:255",
             "content" => "required|string|min:10",
             "image" => "nullable|",
-            "page"=>"required|"
+            "page" => [
+            "required",
+            Rule::in(['product', 'home']),
+            Rule::unique('banners')->where(function ($query) use ($request) {
+                return $query->where('page', $request->page);
+            }),
+        ],
         ], [
             "title.required" => "Tiêu đề không được để trống",
             "title.string" => "Tiêu đề phải là chuỗi",
-            "title.regex" => "Tiêu đề không được chứa ký tự đặc biệt không hợp lệ",
+
             "title.min" => "Tiêu đề phải có ít nhất 3 ký tự",
             "title.max" => "Tiêu đề không được vượt quá 255 ký tự",
 
             "content.required" => "Nội dung không được để trống",
             "content.string" => "Nội dung phải là chuỗi",
-            "content.regex" => "Nội dung không được chứa ký tự đặc biệt không hợp lệ",
+
             "content.min" => "Nội dung phải có ít nhất 10 ký tự",
 
             "page.required" => "Chọn trang cho banner",
-
+            "page.in" => "Giá trị của trang không hợp lệ",
+            "page.unique" => "Đã tồn tại banner cho trang này",
         ]);
         $request['content']=preg_replace('/<p>|<\/p>/', '', $request['content']);
+        // Kiểm tra nếu banner đã tồn tại cho trang được chọn
         if (Banner::create($request->all())) {
             return response()->json(["success", "Thêm mới thành công"]);
         } else {
@@ -138,21 +147,21 @@ class BannerController extends Controller
     public function update(Request $request, string $id)
     {
         $data = $request->validate([
-            "title" => "required|string|min:3|max:255|regex:/^[\p{L}\s]+$/u",
+            "title" => "required|string|min:3|max:255",
             "content" => "required|string|min:10|",
             "image" => "nullable|",
             "page"=>"required|"
         ], [
-            "title.required" => "Tên nhãn hàng không được để trống",
-            "title.string" => "Phản hồi phải là chuỗi",
-            "title.regex" => "Phản hồi không được chứa ký tự đặc biệt không hợp lệ",
-            "title.min" => "Tên nhãn hàng phải có ít nhất 3 ký tự",
-            "title.max" => "Tên nhãn hàng không được vượt quá 255 ký tự",
+            "title.required" => "Tiêu đề không được để trống",
+            "title.string" => "Tiêu đề phải là chuỗi",
 
-            "content.required" => "Miêu tả không được để trống",
-            "content.string" => "Phản hồi phải là chuỗi",
+            "title.min" => "Tiêu đề phải có ít nhất 3 ký tự",
+            "title.max" => "Tiêu đề không được vượt quá 255 ký tự",
 
-            "content.min" => "Miêu tả phải có ít nhất 10 ký tự",
+            "content.required" => "Nội dung không được để trống",
+            "content.string" => "Nội dung phải là chuỗi",
+
+            "content.min" => "Nội dung phải có ít nhất 10 ký tự",
             "page.required" => "Chọn trang cho banner",
         ]);
         $data['content']=preg_replace('/<p>|<\/p>/', '', $request['content']);
