@@ -3,21 +3,23 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\AboutController;
-use App\Http\Controllers\Api\ProductController;
-use App\Http\Controllers\Api\PromotionController;
-use App\Http\Controllers\backend\AttributeController;
 use App\Http\Controllers\api\BrandController;
+use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\api\ContactController;
 use App\Http\Controllers\Api\ProductCatelogueController;
+
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\PromotionController;
+
+
 use App\Http\Controllers\Api\InformationController;
-use App\Http\Controllers\Api\BannerController;
-
-
 use App\Http\Controllers\Api\PostCatelogueController;
-use App\Http\Controllers\Api\PostController;
 
 use App\Http\Controllers\Api\ProductReviewController;
+use App\Http\Controllers\backend\AttributeController;
 
 
 /*
@@ -34,19 +36,23 @@ use App\Http\Controllers\Api\ProductReviewController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-Route::group([
-
-    'middleware' => 'api',
-    'prefix' => 'auth'
-
-], function ($router) {
-    Route::post('register', [AuthController::class,'register']);
-    Route::post('login', [AuthController::class,'login']);
-    Route::get('profile', [AuthController::class,'profile']);
-    // Route::post('logout', [AuthController::class,'logout']);
-    Route::post('refresh', [AuthController::class,'refresh']);
-    Route::post('update-profile', [AuthController::class, 'updateProfile']);
+Route::group(['middleware' => ['api'], 'prefix' => 'auth'], function () {
+    // Các route không yêu cầu đăng nhập
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
 });
+
+Route::middleware(['api', 'jwt.auth'])->group(function () {
+    // Các route yêu cầu đăng nhập
+    Route::get('auth/profile', [AuthController::class, 'profile']);
+    Route::post('auth/refresh', [AuthController::class, 'refresh']);
+    Route::post('auth/update-profile', [AuthController::class, 'updateProfile']);
+    
+    // Route liên quan đến giỏ hàng
+    Route::post('cart/add', [CartController::class, 'addToCart']);
+    
+});
+
 Route::get("/attribute",[AttributeController::class,"getAll"])->name("api.attribute");
 Route::prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'index']);

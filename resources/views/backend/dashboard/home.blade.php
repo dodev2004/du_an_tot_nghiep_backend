@@ -274,8 +274,27 @@
                 </div>
             </div>
 
+            <h3>Thống Kê Ưu Đãi</h3>
+            <div class="statistics-container">
+                <div class="stat-box2">
+                    <span class="total"><h3>Tổng số lượng mã giảm giá</h3></span>
+                    <h2>{{ $totalCouponsInMonth }}</h2>
+                    <p>Mã giảm giá</p>
+                    <div class="status medium-value"></div>
+                </div>
+                <div class="stat-box2">
+                    <span class="total-revenue"><h3>Mã giảm giá hoạt động</h3></span>
+                    <h2>{{ $activeCoupons }}</h2>
+                    <div class="status">Hoạt động</div>
+                </div>
+                <div class="stat-box2">
+                    <span class="inactive"><h3>Mã giảm giá không hoạt động</h3></span>
+                    <h2>{{ $inactiveCoupons }}</h2>
+                    <div class="status low-value">Không hoạt động</div>
+                </div>
+            </div>
         </div>
-
+        
         <div class="col-md-4">
             {{-- <!-- Đơn hàng hoàn thành -->
             <div class="col-md-3">
@@ -384,25 +403,7 @@
 </div>
 
 <div class="row  border-bottom white-bg dashboard-header">
-    <h3>Thống Kê Ưu Đãi</h3>
-            <div class="statistics-container">
-                <div class="stat-box2">
-                    <span class="total"><h3>Tổng số lượng mã giảm giá</h3></span>
-                    <h2>{{ $totalCouponsInMonth }}</h2>
-                    <p>Mã giảm giá</p>
-                    <div class="status medium-value"></div>
-                </div>
-                <div class="stat-box2">
-                    <span class="total-revenue"><h3>Mã giảm giá hoạt động</h3></span>
-                    <h2>{{ $activeCoupons }}</h2>
-                    <div class="status">Hoạt động</div>
-                </div>
-                <div class="stat-box2">
-                    <span class="inactive"><h3>Mã giảm giá không hoạt động</h3></span>
-                    <h2>{{ $inactiveCoupons }}</h2>
-                    <div class="status low-value">Không hoạt động</div>
-                </div>
-            </div>
+    
 
             <div class="charts-container">
                 <!-- Biểu đồ tổng quan -->
