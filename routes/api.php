@@ -52,7 +52,7 @@ Route::prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/chi-tiet-san-pham/{id}', [ProductController::class, 'show']);
     Route::get('/showOne/{id}', [ProductController::class, 'showOne']);
-    Route::get('/san-pham-noi-bat', [ProductController::class, 'index']);
+    Route::get('/san-pham-noi-bat', [ProductController::class, 'spNoiBat']);
     Route::get('/splq', [ProductController::class, 'spLienQuan']);
 });
 

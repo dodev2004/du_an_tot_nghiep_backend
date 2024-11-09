@@ -23,7 +23,7 @@ class ProductController extends Controller
         return response()->json($products);
     }
     public function spLienQuan(Request $request){
-      
+     
         $products = Product::with([
             'catelogues',
             'variants' => function($query) {
