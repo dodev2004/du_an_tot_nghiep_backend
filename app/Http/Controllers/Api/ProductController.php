@@ -29,7 +29,7 @@ class ProductController extends Controller
             'variants' => function($query) {
                 $query->select('id', 'product_id', 'price', 'discount_price', 'stock', 'weight', 'sku', 'image_url', 'created_at', 'updated_at');
             }
-        ])->whereHas('catelogues', function($query) use ($request) {
+        ])->where("id","!=",$request->product_id)->whereHas('catelogues', function($query) use ($request) {
            
             $query->whereIn('product_catelogues.id', explode(",",$request->catelogues));
         })->limit(10)->get();
