@@ -17,9 +17,9 @@ class BannerController extends Controller
 
     public function HomeBanner()
     {
-        $banner = Banner::query()->select('id','title','content','image','page')->where('page','home')->get();
+        $banner = Banner::query()->select('id','title','content','image','page')->where('page','home')->first();
 
-        if ($banner->isEmpty()) {
+        if ($banner==null||$banner==''){
             return response()->json(['message' => 'không có banner'], 404);
         }
         return response()->json([
@@ -31,9 +31,9 @@ class BannerController extends Controller
     }
     public function ProductBanner()
     {
-        $banner = Banner::query()->select('id','title','content','image','page')->where('page','product')->get();
+        $banner = Banner::query()->select('id','title','content','image','page')->where('page','product')->first();
 
-        if ($banner->isEmpty()) {
+        if ($banner==null||$banner=='') {
             return response()->json(['message' => 'không có banner'], 404);
         }
         return response()->json([

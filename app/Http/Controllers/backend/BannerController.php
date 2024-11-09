@@ -5,6 +5,7 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class BannerController extends Controller
 {
@@ -83,7 +84,13 @@ class BannerController extends Controller
             "title" => "required|string|min:3|max:255|regex:/^[\p{L}\s]+$/u",
             "content" => "required|string|min:10",
             "image" => "nullable|",
-            "page"=>"required|"
+            "page" => [
+            "required",
+            Rule::in(['product', 'home']),
+            Rule::unique('banners')->where(function ($query) use ($request) {
+                return $query->where('page', $request->page);
+            }),
+        ],
         ], [
             "title.required" => "Tiêu đề không được để trống",
             "title.string" => "Tiêu đề phải là chuỗi",
@@ -97,9 +104,11 @@ class BannerController extends Controller
             "content.min" => "Nội dung phải có ít nhất 10 ký tự",
 
             "page.required" => "Chọn trang cho banner",
-
+            "page.in" => "Giá trị của trang không hợp lệ",
+            "page.unique" => "Đã tồn tại banner cho trang này",
         ]);
         $request['content']=preg_replace('/<p>|<\/p>/', '', $request['content']);
+        // Kiểm tra nếu banner đã tồn tại cho trang được chọn
         if (Banner::create($request->all())) {
             return response()->json(["success", "Thêm mới thành công"]);
         } else {
