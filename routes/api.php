@@ -16,6 +16,8 @@ use App\Http\Controllers\Api\PromotionController;
 
 
 use App\Http\Controllers\Api\InformationController;
+
+use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\PostCatelogueController;
 
 use App\Http\Controllers\Api\ProductReviewController;
@@ -83,6 +85,7 @@ Route::apiResource('post-catelogues', PostCatelogueController::class);
 Route::get('products/{id}/reviews', [ProductReviewController::class, 'index']);
 Route::post('/products/{id}/reviews', [ProductReviewController::class, 'store']);
 Route::get('/products/{id}/reviews/{reviewId}', [ProductReviewController::class, 'show']);
+
 Route::get('/contacts', [ContactController::class, 'index']);
 Route::post('/contacts', [ContactController::class, 'store']);
 Route::get('/contacts/{id}', [ContactController::class, 'show']);
@@ -97,3 +100,8 @@ Route::delete('/about/{id}', [AboutController::class, 'destroy']);
 
 
 Route::get('/product-catalogues', [ProductCatelogueController::class, 'index']);
+
+Route::middleware('auth:api')->group(function () {
+    Route::get('/favorites', [FavoriteController::class, 'index']);
+    Route::post('/favorites/toggle', [FavoriteController::class, 'toggleFavorite']);
+});

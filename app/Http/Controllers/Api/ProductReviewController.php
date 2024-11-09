@@ -99,7 +99,7 @@ class ProductReviewController extends Controller
             'image' => $imagePath,
         ]);
 
-        return response()->json($review, 201); // Trả về đánh giá vừa tạo
+        return response()->json($review, 201);
     }
 
     /**

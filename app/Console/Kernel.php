@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // Lập lịch cho command xóa bình luận hàng ngày
-        $schedule->command('comments:delete-old-soft-deleted')->daily();
+        $schedule->command('comments:delete-old-soft-deleted-comments')->daily();
+
         //xoá contact sau phản hồi 30 ngày
         $schedule->command('records:prune')->daily();
     }
