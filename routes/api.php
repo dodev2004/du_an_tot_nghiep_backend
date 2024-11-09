@@ -52,6 +52,10 @@ Route::middleware(['api', 'jwt.auth'])->group(function () {
     Route::get('/favorites', [FavoriteController::class, 'index']);
     Route::post('/favorites/toggle', [FavoriteController::class, 'toggleFavorite']);
     Route::apiResource('orders', OrderController::class);
+    Route::get('/cart', [CartController::class, 'index']); // Lấy danh sách giỏ hàng
+    Route::post('/cart', [CartController::class, 'store']); // Thêm sản phẩm vào giỏ hàng
+    Route::put('/cart/{id}', [CartController::class, 'update']); // Cập nhật số lượng
+    Route::delete('/cart/{id}', [CartController::class, 'destroy']); // Xóa sản phẩm khỏi giỏ hàng
 });
 
 Route::get("/attribute",[AttributeController::class,"getAll"])->name("api.attribute");
