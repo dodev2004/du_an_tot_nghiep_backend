@@ -1,13 +1,11 @@
 <?php
 
-<<<<<<< HEAD
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\Api;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
-
+use App\Http\Controllers\Controller;
 class CartController extends Controller
 {
     /**
@@ -60,7 +58,7 @@ class CartController extends Controller
 
         $cartItem = Cart::where('user_id', $userId)
             ->where('product_id', $validatedData['product_id'])
-            ->where('product_variant_id', $validatedData['product_variant_id'])
+            ->where('product_variants_id', $validatedData['product_variant_id'])
             ->first();
 
         if ($cartItem) {
@@ -72,11 +70,11 @@ class CartController extends Controller
                 'data' => $cartItem,
             ], 200);
         }
-
+        
         $newCartItem = Cart::create([
             'user_id' => $userId,
             'product_id' => $validatedData['product_id'],
-            'product_variant_id' => $validatedData['product_variant_id'],
+            'product_variants_id' => $validatedData['product_variant_id'],
             'quantity' => $validatedData['quantity'],
         ]);
 
@@ -140,43 +138,6 @@ class CartController extends Controller
 
         return response()->json([
             'message' => 'Xóa sản phẩm khỏi giỏ hàng thành công.',
-=======
-namespace App\Http\Controllers\Api;
-
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Product;
-use App\Models\Cart;
-
-class CartController extends Controller
-{
-    public function addToCart(Request $request)
-    {
-        if (!Auth::guard('api')->check()) {
-            return response()->json([
-                'message' => 'Vui lòng đăng nhập để thực hiện hành động này.'
-            ], 401); 
-        }
-
-       
-        $validated = $request->validate([
-            'product_variants_id' => 'required|exists:product_variants,id',
-            'quantity' => 'required|integer|min:1',
-        ]);
-
-        $user = Auth::guard('api')->user();
-
-        $cart = Cart::updateOrCreate(
-            ['user_id' => $user->id, 'product_variants_id' => $validated['product_variants_id']],
-            ['quantity' => $validated['quantity']]
-        );
-
-        return response()->json([
-            'message' => 'Sản phẩm đã được thêm vào giỏ hàng.',
-            'cart' => $cart
->>>>>>> hoan
         ], 200);
     }
 }

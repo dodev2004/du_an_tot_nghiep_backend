@@ -9,16 +9,18 @@ class Cart extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'product_variants_id', 'quantity'];
+    protected $fillable = ['user_id', 'product_variants_id', 'quantity',"product_id"];
 
     // Mối quan hệ với bảng Users
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
+    public function product(){
+        return $this->belongsTo(Product::class, 'product_id');
+    }
     // Mối quan hệ với bảng ProductVariants
-    public function variant()
+    public function productVariant()
     {
         return $this->belongsTo(ProductVariant::class, 'product_variants_id');
     }
