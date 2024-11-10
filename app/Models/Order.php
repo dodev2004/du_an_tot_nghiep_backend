@@ -44,12 +44,17 @@ class Order extends Model
     protected $table = "orders";
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'customer_id');
     }
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
     }
+    public function reviews()
+    {
+        return $this->hasMany(ProductReview::class, 'user_id', 'customer_id');
+    }
+    
     public function promotion()
     {
         return $this->belongsTo(Promotion::class);

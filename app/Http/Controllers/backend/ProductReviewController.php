@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ProductReview;
 use App\Models\User;
@@ -23,7 +24,7 @@ class ProductReviewController extends Controller
         $breadcrumbs = $this->breadcrumbs;
 
         $searchText = request()->get('search_text');
-        $query = Product::whereHas('product_reviews')->withCount('product_reviews as review_count');
+        $query = OrderItem::whereHas('product_reviews')->withCount('product_reviews as review_count');
         if (!empty($searchText)) {
             $query->where('name', 'LIKE', value: '%' . $searchText . '%')
                     ->orWhere('sku', 'LIKE', '%' . $searchText . '%');
@@ -36,7 +37,7 @@ class ProductReviewController extends Controller
 
     public function userReviews(Request $request, $id)
     {
-        $products = Product::findOrFail($id);
+        $products = OrderItem::findOrFail($id);
         $title = "Chi tiết người dùng đánh giá";
         array_push($this->breadcrumbs,[
             "active"=>true,
@@ -50,7 +51,7 @@ class ProductReviewController extends Controller
         ]); 
         
         $breadcrumbs = $this->breadcrumbs;
-        $query = ProductReview::where('product_id', $id);
+        $query = ProductReview::with(['order.user'])->where('product_id', $id);
 
 
         $searchText = $request->get('search_text');

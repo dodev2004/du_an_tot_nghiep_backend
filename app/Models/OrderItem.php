@@ -37,5 +37,10 @@ class OrderItem extends Model
     {
         return $this->belongsTo(ProductVariant::class, 'variant_id');
     }
+
+    public function product_reviews()
+    {
+        return $this->hasOne(ProductReview::class, 'order_item_id');
+    }
 }
 
