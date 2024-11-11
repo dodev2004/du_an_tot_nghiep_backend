@@ -18,46 +18,51 @@ class ProductReviewController extends Controller
      */
     public function index($id, Request $request)
     {
-        // Tính toán trung bình đánh giá của sản phẩm
-    $averageRating = ProductReview::where('product_id', $id)->avg('rating');
+        
+        $averageRating = ProductReview::where('product_id', $id)->avg('rating');
 
         // Kiểm tra xem có tham số rating trong request hay không
-    $query = ProductReview::where('product_id', $id)
-    ->with(['user:id,username,avatar', 'comments:id,comment,created_at,review_id']); // Chỉ lấy các trường cần thiết
+        $query = ProductReview::where('product_id', $id)
+            ->with([
+                'user:id,username,avatar', 
+                'comments:id,comment,created_at,review_id',
+                'orderItem:id,variant'
+            ]);
 
-    // Nếu có tham số rating, thêm điều kiện lọc
-    if ($request->has('rating')) {
-        $minRating = $request->query('rating');
-        $query->where('rating', '>=', $minRating);
+            if ($request->has('rating')) {
+                $rating = $request->query('rating');
+                $query->where('rating', '=', $rating);
+            }
+
+        // Phân trang với 10 kết quả mỗi trang
+        $reviews = $query->paginate(10)->through(function ($review) {
+            return [
+                'id' => $review->id,
+                'product_id' => $review->product_id,
+                'user' => [
+                    'avatar'=> $review->avatar,
+                    'username' => $review->user->username,
+                ],
+                'rating' => $review->rating,
+                'review' => $review->review,
+                'created_at' => $review->created_at,
+                'image' => $review->image, 
+                'comments' => $review->comments->map(function ($comment) {
+                    return [
+                        'comment' => $comment->comment,
+                        'created_at' => $comment->created_at,
+                    ];
+                }),
+                'variant' => json_decode($review->orderItem->variant), 
+            ];
+        });
+
+        return response()->json([
+            'average_rating' => round($averageRating, 2), 
+            'reviews' => $reviews,
+        ]);
     }
 
-    // Phân trang với 10 kết quả mỗi trang
-    $reviews = $query->paginate(10)->through(function ($review) {
-        return [
-            'id' => $review->id,
-            'product_id' => $review->product_id,
-            'user' => [
-                'avatar'=> $review->avatar,
-                'username' => $review->user->username,
-            ],
-            'rating' => $review->rating,
-            'review' => $review->review,
-            'created_at' => $review->created_at,
-            'image' => $review->image, // Sử dụng image thay vì media
-            'comments' => $review->comments->map(function ($comment) {
-                return [
-                    'comment' => $comment->comment,
-                    'created_at' => $comment->created_at,
-                ];
-            }),
-        ];
-    });
-
-    return response()->json([
-        'average_rating' => round($averageRating, 2), // Làm tròn trung bình đánh giá đến 2 chữ số thập phân
-        'reviews' => $reviews,
-    ]);
-    }
 
     /**
      * Store a newly created review for a product.
@@ -66,8 +71,8 @@ class ProductReviewController extends Controller
     {
         // Xác thực dữ liệu đầu vào
         $validator = Validator::make($request->all(), [
-            'rating' => 'required|integer|min:1|max:5', // Đánh giá từ 1 đến 5
-            'review' => 'nullable|string', // Đánh giá có thể để trống
+            'rating' => 'required|integer|min:1|max:5', 
+            'review' => 'nullable|string', 
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 

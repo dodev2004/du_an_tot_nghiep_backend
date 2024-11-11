@@ -16,7 +16,7 @@ class OrderSeeder extends Seeder
     {
         DB::table('orders')->insert([
             [
-                'customer_id' => 2,
+                'customer_id' => 5,
                 'customer_name' => 'Nguyễn Văn A',
                 'promotion_id' => null,
                 'total_amount' => 2000000.00,
@@ -35,7 +35,7 @@ class OrderSeeder extends Seeder
                 'updated_at' => Carbon::create(2024, 10, 10),
             ],
             [
-                'customer_id' => 3,
+                'customer_id' => 6,
                 'customer_name' => 'Trần Thị B',
                 'promotion_id' => null,
                 'total_amount' => 1500000.00,
@@ -54,7 +54,7 @@ class OrderSeeder extends Seeder
                 'updated_at' => Carbon::create(2024,10, 12),
             ],
             [
-                'customer_id' => 4,
+                'customer_id' => 7,
                 'customer_name' => 'Lê Văn C',
                 'promotion_id' => null,
                 'total_amount' => 2500000.00,
@@ -73,7 +73,7 @@ class OrderSeeder extends Seeder
                 'updated_at' => Carbon::create(2024, 10, 16),
             ],
             [
-                'customer_id' => 5,
+                'customer_id' => 8,
                 'customer_name' => 'Nguyễn Thị D',
                 'promotion_id' => null,
                 'total_amount' => 1800000.00,
@@ -92,7 +92,7 @@ class OrderSeeder extends Seeder
                 'updated_at' => Carbon::create(2024, 10, 18),
             ],
             [
-                'customer_id' => 6,
+                'customer_id' => 9,
                 'customer_name' => 'Phạm Văn E',
                 'promotion_id' => null,
                 'total_amount' => 3000000.00,
