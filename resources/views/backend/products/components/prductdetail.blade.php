@@ -13,7 +13,7 @@
                     </tr>
                     <tr>
                         <th>Nhãn hàng</th>
-                        <td>{{ $product->brand->name }}</td>
+                        <td>{{ $product->brand->name ?? ''}}</td>
                     </tr>
                     <tr>
                         <th>Trọng lượng</th>
