@@ -17,9 +17,7 @@
                         <td>{{ $item->description }}</td>
                         <td>
                             @if($item->permissions->isNotEmpty())
-                                    @foreach($item->permissions as $permission)
-                                        <span class="badge badge-info">{{ $permission->name }}</span>
-                                    @endforeach
+                            <span class="badge badge-info" style="padding: 8px">{{ $item->permissions->count() }} / {{ $totalPermissions }}</span>
                             @else
                                 Không có quyền
                             @endif
