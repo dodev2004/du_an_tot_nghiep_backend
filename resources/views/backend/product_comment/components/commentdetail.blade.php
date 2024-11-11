@@ -4,6 +4,7 @@
             <th>Người dùng</th>
             <th>Nhân viên phản hồi</th>
             <th>Bình luận</th>
+            <th>Mã đơn hàng</th>
             <th>Ngày tạo</th>
             <th>Hành động</th>
         </tr>
@@ -46,6 +47,7 @@
                 </a>
             </td>
             <td>{{ $comment->comment }}</td>
+            <td style="text-align: center;">FA-{{ $comment->review->order_item_id }}</td>
             <td>{{ $comment->created_at }}</td>
 
             <td>

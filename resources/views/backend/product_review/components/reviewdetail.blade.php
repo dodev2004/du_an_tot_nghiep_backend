@@ -5,6 +5,8 @@
                 <th>Ảnh</th>
                 <th>Đánh giá</th>
                 <th>Số sao</th>
+                <th>Mã đơn hàng</th>
+                <th>Loại hàng</th>
                 <th>Ngày</th>
                 <th>Phản hồi khách hàng</th>
                 <th>Hoạt động</th>
@@ -15,30 +17,24 @@
             <tr>
                 <td>
                     <a type="button" class="view-user-detail" data-toggle="tooltip" data-placement="top" title="Chi tiết người dùng"
-                            data-full-name="{{ $review->user->full_name ?? ''}}" 
-                            data-username="{{ $review->user->username ?? ''}}" 
-                            data-email="{{ $review->user->email ?? ''}}" 
-                            data-reviewname="{{ $review->user->reviewname ?? ''}}" 
-                            data-phone="{{ $review->user->phone ?? ''}}" 
-                            data-address="{{ $review->user->address ?? ''}}" 
-                            data-birthday="{{ $review->user->birthday ?? ''}}" 
-                            data-province="{{ $review->user->province->name ?? ''}}" 
-                            data-district="{{ $review->user->district->name ?? ''}}" 
-                            data-ward="{{ $review->user->ward->name ?? ''}}" 
-                            data-avatar="{{ asset($review->user->avatar) ?? '' }}"
+                            data-full-name="{{ $review->order->customer_name ?? ''}}" 
+                            data-email="{{ $review->order->email ?? ''}}" 
+                            data-phone="{{ $review->order->phone_number ?? ''}}" 
+                            data-address="{{ $review->order->shipping_address ?? ''}}" 
+                            
                             style="cursor: pointer;">
-                            {{ $review->user->username }}
+                            {{ $review->order->customer_name }}
                         </a>
                 </td>
                 <td>
                     @if (!empty($review->image))
-                        <img src="{{ asset($review->image) }}" alt="Review image" />
+                        <img src="{{ asset($review->image) }}" alt="image" />
                     @else
                         <p>Không có ảnh.</p>
                     @endif
                 </td>
 
-                <td>{{ $review->review }}</td>
+                <td style="width: 150px;">{{ $review->review }}</td>
                 <td>
                     @for($i = 1; $i <= 5; $i++)
                         @if($i <= $review->rating)
@@ -48,9 +44,10 @@
                         @endif
                     @endfor
                 </td>
-                
+                <td style="text-align: center;">FA-{{ $review->order_item_id }}</td>
+                <td style="width: 150px;">Lựa chọn : {{implode(" x ",json_decode($review->orderitem->variant, true))}} </td>
                 <td>{{ $review->created_at->format('d/m/Y') }}</td>
-                <td>
+                <td style="width: 200px;">
                     @if($review->comments->isNotEmpty())
                         <ul>
                             @foreach($review->comments as $comment)
@@ -100,53 +97,21 @@
                         </div>
                     </div>
                     <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
-                        <div>
-                            <div><strong>Tên người dùng:</strong></div>
-                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
-                                <span id="userName"></span>
-                            </div>
-                        </div>
+                        
                         <div>
                             <div><strong>Số điện thoại:</strong></div>
                             <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
                                 <span id="userPhone"></span>
                             </div>
                         </div>
-                    </div>
-                    <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
                         <div>
                             <div><strong>Địa chỉ:</strong></div>
                             <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
                                 <span id="userAddress"></span>
                             </div>
                         </div>
-                        <div>
-                            <div><strong>Ngày sinh:</strong></div>
-                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
-                                <span id="userBirthday"></span>
-                            </div>
-                        </div>
                     </div>
-                    <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
-                        <div>
-                            <div><strong>Tỉnh/Thành phố:</strong></div>
-                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
-                                <span id="userProvince"></span>
-                            </div>
-                        </div>
-                        <div>
-                            <div><strong>Quận/Huyện:</strong></div>
-                            <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
-                                <span id="userDistrict"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="margin-top: 10px">
-                        <div><strong>Phường/Xã:</strong></div>
-                        <div style="border: 1px solid #ccc; padding: 8px; background-color: #f9f9f9; border-radius: 5px">
-                            <span id="userWard"></span>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
             <div class="modal-footer">
