@@ -1,32 +1,52 @@
 <script>
-    // Hàm kiểm tra trạng thái của tất cả checkbox quyền
-    function updateSelectAllCheckbox() {
-        const checkboxes = document.querySelectorAll('input[name="permissions[]"]');
-        const selectAllCheckbox = document.getElementById('selectAllPermissions');
-
-        // Kiểm tra nếu tất cả checkbox quyền đều được chọn
-        const allChecked = Array.from(checkboxes).every((checkbox) => checkbox.checked);
-        selectAllCheckbox.checked = allChecked;
-    }
-
-    // Kiểm tra khi tải trang
-    window.addEventListener('DOMContentLoaded', (event) => {
-        updateSelectAllCheckbox();
-
-        // Lắng nghe sự thay đổi của tất cả checkbox quyền
-        const checkboxes = document.querySelectorAll('input[name="permissions[]"]');
-        checkboxes.forEach((checkbox) => {
-            checkbox.addEventListener('change', updateSelectAllCheckbox);
-        });
-    });
-
-    // Khi checkbox "Chọn tất cả" thay đổi, áp dụng cho tất cả checkbox quyền
+    document.addEventListener('DOMContentLoaded', function() {
+        // Kiểm tra trạng thái checkbox "Chọn tất cả" và checkbox nhóm khi tải trang
+    updateSelectAllCheckbox();
+    updateGroupCheckboxes();
+    // Cập nhật tất cả checkbox khi thay đổi checkbox "Chọn tất cả"
     document.getElementById('selectAllPermissions').addEventListener('change', function() {
         const checkboxes = document.querySelectorAll('input[name="permissions[]"]');
         checkboxes.forEach((checkbox) => {
             checkbox.checked = this.checked;
         });
+
+        // Cập nhật tất cả checkbox nhóm quyền
+        const groupCheckboxes = document.querySelectorAll('.select-group-permission');
+        groupCheckboxes.forEach(groupCheckbox => groupCheckbox.checked = this.checked);
     });
+
+    // Khi checkbox nhóm quyền thay đổi, áp dụng cho các quyền trong nhóm đó
+    const groupCheckboxes = document.querySelectorAll('.select-group-permission');
+    groupCheckboxes.forEach(groupCheckbox => {
+        groupCheckbox.addEventListener('change', function() {
+            const groupId = this.getAttribute('data-group-id');
+            const permissions = document.querySelectorAll(`.group-permission-${groupId}`);
+            permissions.forEach(permission => permission.checked = this.checked);
+        });
+    });
+
+    // Khi thay đổi bất kỳ checkbox quyền nào, cập nhật trạng thái của checkbox "Chọn tất cả" và checkbox nhóm
+    const permissions = document.querySelectorAll('input[name="permissions[]"]');
+    permissions.forEach(permission => {
+        permission.addEventListener('change', function() {
+            updateSelectAllCheckbox();
+            updateGroupCheckbox(this);
+        });
+    });
+
+    function updateSelectAllCheckbox() {
+        const allPermissionsChecked = Array.from(permissions).every(checkbox => checkbox.checked);
+        document.getElementById('selectAllPermissions').checked = allPermissionsChecked;
+    }
+
+    function updateGroupCheckbox(permission) {
+        const groupId = permission.className.match(/group-permission-(\d+)/)[1];
+        const groupPermissions = document.querySelectorAll(`.group-permission-${groupId}`);
+        const groupCheckbox = document.querySelector(`.select-group-permission[data-group-id="${groupId}"]`);
+        groupCheckbox.checked = Array.from(groupPermissions).every(checkbox => checkbox.checked);
+    }
+});
+
 
     $(document).ready(function() {
 

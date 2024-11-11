@@ -41,6 +41,22 @@
         .select2-selection__rendered {
             padding: 0 !important;
         }
+
+        .permission-group {
+            margin-bottom: 15px;
+        }
+
+        .permissions-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            /* Khoảng cách giữa các quyền */
+        }
+
+        .permissions-list .form-check {
+            width: auto;
+            /* Để mỗi quyền tự động co giãn */
+        }
     </style>
 @endsection
 @section('title')
