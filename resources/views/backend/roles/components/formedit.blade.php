@@ -28,31 +28,19 @@
                                 {{ $group->name }}
                             </h5>
                             <div class="permissions-list">
-                            @foreach ($group->permissions as $permission)
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input group-permission-{{ $group->id }}" class="form-control" id="permissions" name="permissions[]"
-                                    value="{{ $permission->id }}" {{ in_array($permission->id, old('permissions', $rolePermissions)) ? 'checked' : '' }}>
-                                    <label class="form-check-label">{{ $permission->display_name }}</label>
-                                </div>
-                            @endforeach
+                                @foreach ($group->permissions as $permission)
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input group-permission-{{ $group->id }}" name="permissions[]"
+                                        value="{{ $permission->id }}" {{ in_array($permission->id, old('permissions', $rolePermissions)) ? 'checked' : '' }}>
+                                        <label class="form-check-label">{{ $permission->display_name }}</label>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     @endforeach
-                    {{-- <select multiple class="form-control" id="permissions" name="permissions[]" required>
-                        <!-- Hiển thị quyền theo từng nhóm quyền -->
-                        @foreach ($groupPermissions as $group)
-                            <optgroup label="{{ $group->name }}">
-                                @foreach ($group->permissions as $permission)
-                                    <option value="{{ $permission->id }}"
-                                        {{ in_array($permission->id, old('permissions', $rolePermissions)) ? 'selected' : '' }}>
-                                        {{ $permission->name }}
-                                    </option>
-                                @endforeach
-                            </optgroup>
-                        @endforeach
-                    </select> --}}
                     <p class="text-danger message-error-permissions"></p>
                 </div>
+
                 <button class="btn btn-success" style=" float: right; margin-right: 50px" type="submit">Cập nhật</button>
             </div>
         </div>
@@ -61,3 +49,4 @@
     </div>
 
 </form>
+
