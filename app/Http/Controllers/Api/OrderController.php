@@ -20,23 +20,6 @@ class OrderController extends Controller
         $statusFilter = $request->input('status');
         $searchQuery = $request->input('search'); // Ô input chung cho mã đơn và tên khách hàng
         $orderDate = $request->input('order_date'); // Ngày đặt hàng
-        // Kiểm tra nếu có yêu cầu xác nhận đơn hàng
-        if ($request->has('confirm_order_id')) {
-            $orderId = $request->input('confirm_order_id');
-
-            // Tìm đơn hàng theo ID
-            $order = Order::find($orderId);
-            if ($order) {
-                // Kiểm tra trạng thái thanh toán và cập nhật
-                // if ($order->payment_status == Order::PAYMENT_COMPLETED) {
-                $order->status = Order::STATUS_COMPLETED;
-                // } else {
-                //     $order->status = Order::STATUS_COMPLETED;
-                //     $order->payment_status = Order::PAYMENT_COMPLETED;
-                // }
-                $order->save();
-            }
-        }
 
 
         // Điều kiện lọc trạng thái
@@ -81,10 +64,10 @@ class OrderController extends Controller
         // Áp dụng bộ lọc theo ngày đặt hàng
         if ($orderDate) {
             // Chuyển đổi định dạng 'DD-MM-YYYY' thành 'Y-m-d'
-    $orderDateFormatted = \Carbon\Carbon::createFromFormat('d-m-Y', $orderDate)->format('Y-m-d');
+            $orderDateFormatted = \Carbon\Carbon::createFromFormat('d-m-Y', $orderDate)->format('Y-m-d');
 
-    // Tìm kiếm theo ngày trong trường 'created_at'
-    $query->whereDate('created_at', $orderDateFormatted);
+            // Tìm kiếm theo ngày trong trường 'created_at'
+            $query->whereDate('created_at', $orderDateFormatted);
         }
 
         // Sắp xếp và phân trang
@@ -202,5 +185,53 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request) {}
+    public function destroy($id)
+{
+    // Tìm đơn hàng theo ID
+    $order = Order::find($id);
+
+    if ($order) {
+        // Xoá đơn hàng
+        $order->delete();
+
+        // Trả về phản hồi thành công
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Đơn hàng đã được xoá thành công!',
+        ], 200);
+    }
+
+    // Nếu đơn hàng không tồn tại
+    return response()->json([
+        'message' => 'Không tìm thấy đơn hàng.',
+    ], 404);
+}
+
+
+    public function completeOrderStatus($id)
+    {
+        // Tìm đơn hàng theo ID
+    $order = Order::find($id);
+
+    if ($order) {
+        // Chỉ cập nhật trạng thái thành hoàn thành
+        $order->update([
+            'status' => Order::STATUS_COMPLETED
+        ]);
+
+        // Trả về phản hồi thành công
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Cập nhật trạng thái đơn hàng thành công!',
+
+        ], 200);
+    }
+
+    // Nếu đơn hàng không tồn tại
+    return response()->json([
+
+        'message' => 'Không tìm thấy đơn hàng.',
+    ], 404);
+    }
+
 }

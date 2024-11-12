@@ -97,8 +97,9 @@ class DashBoardController extends Controller
             ];
         })->values(); // Reset các key của collection
 
-        $orderStatusCounts = Order::
-            select('status', DB::raw('count(*) as count'))
+        $orderStatusCounts = Order::select('status', DB::raw('count(*) as count'))
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
             ->groupBy('status')
             ->orderBy('status')
             ->pluck('count', 'status')
@@ -135,7 +136,11 @@ class DashBoardController extends Controller
             ->limit(5) // Giới hạn số lượng mã giảm giá hiển thị
             ->get();
 
-        return view('backend.dashboard.home', compact('ratingLabels', 'ratingCounts', 'topRatedProducts','totalRevenue',
+        return view('backend.dashboard.home', compact(
+            'ratingLabels',
+            'ratingCounts',
+            'topRatedProducts',
+            'totalRevenue',
             'totalNewOrders',
             'totalCompletedOrders',
             'totalCanceledOrders',
@@ -148,176 +153,174 @@ class DashBoardController extends Controller
             'totalCouponsInMonth',
             'activeCoupons',
             'inactiveCoupons',
-            'topCoupons',));
+            'topCoupons',
+        ));
     }
 
     public function filterSalesData(Request $request)
-{
-    $data = $request->all();
-    $fromDate = $data['fromDate'];
-    $toDate = $data['toDate'];
+    {
+        $data = $request->all();
+        $fromDate = $data['fromDate'];
+        $toDate = $data['toDate'];
 
-    // Lấy các đơn hàng đã hoàn thành và đã thanh toán, nhóm theo ngày
-    $get = Order::whereBetween('created_at', [$fromDate, $toDate])
-        ->where('status', Order::STATUS_COMPLETED) // Trạng thái hoàn thành
-        ->where('payment_status', Order::PAYMENT_COMPLETED) // Trạng thái đã thanh toán
-        ->selectRaw('SUM(final_amount) as total_amount, DATE(created_at) as order_date')
-        ->groupBy('order_date')
-        ->orderBy('order_date', 'ASC')
-        ->get();
-
-
-    foreach ($get as $value) {
-        $chart_data[] = array(
-            'final_amount' => $value->total_amount,
-            'created_at' => $value->order_date,
-        );
-    }
-
-    return response()->json($chart_data);
-}
-public function selectSalesData(Request $request)
-{
-    $data = $request->all();
-    $dauthangnay = now()->startOfMonth()->toDateString();
-    $dauthangtruoc = now()->subMonth()->startOfMonth()->toDateString();
-    $cuoithangtruoc = now()->subMonth()->endOfMonth()->toDateString();
-
-    $sub7days = now()->subDays(7)->toDateString();
-    $sub365days = now()->subDays(365)->toDateString();
-
-    // Khởi tạo biến $get
-    $get = null;
-
-    if ($data['dashboard_value'] == '7ngay') {
-        $get = Order::where('created_at', '>=', $sub7days)
-            ->where('status', Order::STATUS_COMPLETED)
-            ->where('payment_status', Order::PAYMENT_COMPLETED)
+        // Lấy các đơn hàng đã hoàn thành và đã thanh toán, nhóm theo ngày
+        $get = Order::whereBetween('created_at', [$fromDate, $toDate])
+            ->where('status', Order::STATUS_COMPLETED) // Trạng thái hoàn thành
+            ->where('payment_status', Order::PAYMENT_COMPLETED) // Trạng thái đã thanh toán
             ->selectRaw('SUM(final_amount) as total_amount, DATE(created_at) as order_date')
             ->groupBy('order_date')
             ->orderBy('order_date', 'ASC')
             ->get();
-    } elseif ($data['dashboard_value'] == 'thangtruoc') {
-        $get = Order::where('created_at', '>=', $dauthangtruoc)
-            ->where('created_at', '<=', $cuoithangtruoc)
-            ->where('status', Order::STATUS_COMPLETED)
-            ->where('payment_status', Order::PAYMENT_COMPLETED)
-            ->selectRaw('SUM(final_amount) as total_amount, DATE(created_at) as order_date')
-            ->groupBy('order_date')
-            ->orderBy('order_date', 'ASC')
-            ->get();
-    } elseif ($data['dashboard_value'] == 'thangnay') {
-        $get = Order::where('created_at', '>=', $dauthangnay)
-            ->where('status', Order::STATUS_COMPLETED)
-            ->where('payment_status', Order::PAYMENT_COMPLETED)
-            ->selectRaw('SUM(final_amount) as total_amount, DATE(created_at) as order_date')
-            ->groupBy('order_date')
-            ->orderBy('order_date', 'ASC')
-            ->get();
-    } else {
-        $get = Order::where('created_at', '>=', $sub365days)
-            ->where('status', Order::STATUS_COMPLETED)
-            ->where('payment_status', Order::PAYMENT_COMPLETED)
-            ->selectRaw('SUM(final_amount) as total_amount, DATE(created_at) as order_date')
-            ->groupBy('order_date')
-            ->orderBy('order_date', 'ASC')
-            ->get();
+
+
+        foreach ($get as $value) {
+            $chart_data[] = array(
+                'final_amount' => $value->total_amount,
+                'created_at' => $value->order_date,
+            );
+        }
+
+        return response()->json($chart_data);
+    }
+    public function selectSalesData(Request $request)
+    {
+        $data = $request->all();
+        $dauthangnay = now()->startOfMonth()->toDateString();
+        $dauthangtruoc = now()->subMonth()->startOfMonth()->toDateString();
+        $cuoithangtruoc = now()->subMonth()->endOfMonth()->toDateString();
+
+        $sub7days = now()->subDays(7)->toDateString();
+        $sub365days = now()->subDays(365)->toDateString();
+
+        // Khởi tạo biến $get
+        $get = null;
+
+        if ($data['dashboard_value'] == '7ngay') {
+            $get = Order::where('created_at', '>=', $sub7days)
+                ->where('status', Order::STATUS_COMPLETED)
+                ->where('payment_status', Order::PAYMENT_COMPLETED)
+                ->selectRaw('SUM(final_amount) as total_amount, DATE(created_at) as order_date')
+                ->groupBy('order_date')
+                ->orderBy('order_date', 'ASC')
+                ->get();
+        } elseif ($data['dashboard_value'] == 'thangtruoc') {
+            $get = Order::where('created_at', '>=', $dauthangtruoc)
+                ->where('created_at', '<=', $cuoithangtruoc)
+                ->where('status', Order::STATUS_COMPLETED)
+                ->where('payment_status', Order::PAYMENT_COMPLETED)
+                ->selectRaw('SUM(final_amount) as total_amount, DATE(created_at) as order_date')
+                ->groupBy('order_date')
+                ->orderBy('order_date', 'ASC')
+                ->get();
+        } elseif ($data['dashboard_value'] == 'thangnay') {
+            $get = Order::where('created_at', '>=', $dauthangnay)
+                ->where('status', Order::STATUS_COMPLETED)
+                ->where('payment_status', Order::PAYMENT_COMPLETED)
+                ->selectRaw('SUM(final_amount) as total_amount, DATE(created_at) as order_date')
+                ->groupBy('order_date')
+                ->orderBy('order_date', 'ASC')
+                ->get();
+        } else {
+            $get = Order::where('created_at', '>=', $sub365days)
+                ->where('status', Order::STATUS_COMPLETED)
+                ->where('payment_status', Order::PAYMENT_COMPLETED)
+                ->selectRaw('SUM(final_amount) as total_amount, DATE(created_at) as order_date')
+                ->groupBy('order_date')
+                ->orderBy('order_date', 'ASC')
+                ->get();
+        }
+
+
+        foreach ($get as $value) {
+            $chart_data[] = array(
+                'final_amount' => $value->total_amount,
+                'created_at' => $value->order_date,
+            );
+        }
+
+        return response()->json($chart_data);
     }
 
 
-    foreach ($get as $value) {
-        $chart_data[] = array(
-            'final_amount' => $value->total_amount,
-            'created_at' => $value->order_date,
-        );
-    }
-
-    return response()->json($chart_data);
-}
 
 
+    public function selectOrderStatusData(Request $request)
+    {
+        $data = $request->all();
+        $startOfToday = now()->startOfDay();
+        $startOfMonth = now()->startOfMonth();
+        $startOfLastMonth = now()->subMonth()->startOfMonth();
+        $endOfLastMonth = now()->subMonth()->endOfMonth();
+        $sub7days = now()->subDays(7);
+        $sub365days = now()->subDays(365);
 
+        $query = Order::selectRaw('status, COUNT(*) as total')
+            ->groupBy('status')
+            ->orderBy('status');
 
-public function selectOrderStatusData(Request $request)
-{
-    $data = $request->all();
-    $startOfToday = now()->startOfDay();
-    $startOfMonth = now()->startOfMonth();
-    $startOfLastMonth = now()->subMonth()->startOfMonth();
-    $endOfLastMonth = now()->subMonth()->endOfMonth();
-    $sub7days = now()->subDays(7);
-    $sub365days = now()->subDays(365);
+        // Thêm điều kiện dựa trên khoảng thời gian đã chọn
+        if ($data['order_value'] == 'homnay') {
+            $query->where('created_at', '>=', $startOfToday);
+        } elseif ($data['order_value'] == '7ngay') {
+            $query->where('created_at', '>=', $sub7days);
+        } elseif ($data['order_value'] == 'thangtruoc') {
+            $query->whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth]);
+        } elseif ($data['order_value'] == 'thangnay') {
+            $query->where('created_at', '>=', $startOfMonth);
+        } else {
+            $query->where('created_at', '>=', $sub365days);
+        }
 
-    $query = Order::selectRaw('status, COUNT(*) as total')
-        ->groupBy('status')
-        ->orderBy('status');
+        $statusData = $query->pluck('total', 'status')->toArray();
 
-    // Thêm điều kiện dựa trên khoảng thời gian đã chọn
-    if ($data['order_value'] == 'homnay') {
-        $query->where('created_at', '>=', $startOfToday);
-    } elseif ($data['order_value'] == '7ngay') {
-        $query->where('created_at', '>=', $sub7days);
-    } elseif ($data['order_value'] == 'thangtruoc') {
-        $query->whereBetween('created_at', [$startOfLastMonth, $endOfLastMonth]);
-    } elseif ($data['order_value'] == 'thangnay') {
-        $query->where('created_at', '>=', $startOfMonth);
-    } else {
-        $query->where('created_at', '>=', $sub365days);
-    }
-
-    $statusData = $query->pluck('total', 'status')->toArray();
-
-    // Khởi tạo mảng mặc định với các trạng thái có giá trị 0
-    $orderStatusCounts = [
-        Order::STATUS_PENDING => 0,
-        Order::STATUS_CONFIRM => 0,
-        Order::STATUS_PROCESSING => 0,
-        Order::STATUS_SHIPPED => 0,
-        Order::STATUS_SHIPPEDS => 0,
-        Order::STATUS_COMPLETED => 0,
-        Order::STATUS_CANCELLED => 0,
-        Order::STATUS_REFUNDED => 0,
-    ];
-
-    // Ghi đè số lượng thực tế từ dữ liệu truy vấn
-    foreach ($statusData as $status => $total) {
-        $orderStatusCounts[$status] = $total;
-    }
-
-    // Chuẩn bị dữ liệu cho biểu đồ
-    $chartData = [];
-    foreach ($orderStatusCounts as $status => $total) {
-        $chartData[] = [
-            'label' => $this->getStatusLabel($status),
-            'value' => $total,
+        // Khởi tạo mảng mặc định với các trạng thái có giá trị 0
+        $orderStatusCounts = [
+            Order::STATUS_PENDING => 0,
+            Order::STATUS_CONFIRM => 0,
+            Order::STATUS_PROCESSING => 0,
+            Order::STATUS_SHIPPED => 0,
+            Order::STATUS_SHIPPEDS => 0,
+            Order::STATUS_COMPLETED => 0,
+            Order::STATUS_CANCELLED => 0,
+            Order::STATUS_REFUNDED => 0,
         ];
+
+        // Ghi đè số lượng thực tế từ dữ liệu truy vấn
+        foreach ($statusData as $status => $total) {
+            $orderStatusCounts[$status] = $total;
+        }
+
+        // Chuẩn bị dữ liệu cho biểu đồ
+        $chartData = [];
+        foreach ($orderStatusCounts as $status => $total) {
+            $chartData[] = [
+                'label' => $this->getStatusLabel($status),
+                'value' => $total,
+            ];
+        }
+
+        if (array_sum(array_column($chartData, 'value')) === 0) {
+            return response()->json([
+                'error' => 'Không có đơn hàng nào cho khoảng thời gian này.'
+            ], 404); // Trả về mã lỗi 404
+        }
+
+        return response()->json($chartData);
     }
 
-    if (array_sum(array_column($chartData, 'value')) === 0) {
-        return response()->json([
-            'error' => 'Không có đơn hàng nào cho khoảng thời gian này.'
-        ], 404); // Trả về mã lỗi 404
+    // Hàm để lấy nhãn trạng thái
+    private function getStatusLabel($status)
+    {
+        return match ($status) {
+            Order::STATUS_PENDING => 'Chờ xử lý',
+            Order::STATUS_CONFIRM => 'Xác nhận',
+            Order::STATUS_PROCESSING => 'Đang xử lí',
+            Order::STATUS_SHIPPED => 'Đang giao',
+            Order::STATUS_SHIPPEDS => 'Đã giao',
+            Order::STATUS_COMPLETED => 'Hoàn thành',
+            Order::STATUS_CANCELLED => 'Đã hủy',
+            Order::STATUS_REFUNDED => 'Hoàn tiền',
+            default => 'Không xác định'
+        };
     }
-
-    return response()->json($chartData);
-}
-
-// Hàm để lấy nhãn trạng thái
-private function getStatusLabel($status)
-{
-    return match($status) {
-        Order::STATUS_PENDING => 'Chờ xử lý',
-        Order::STATUS_CONFIRM => 'Xác nhận',
-        Order::STATUS_PROCESSING => 'Đang xử lí',
-        Order::STATUS_SHIPPED => 'Đang giao',
-        Order::STATUS_SHIPPEDS => 'Đã giao',
-        Order::STATUS_COMPLETED => 'Hoàn thành',
-        Order::STATUS_CANCELLED => 'Đã hủy',
-        Order::STATUS_REFUNDED => 'Hoàn tiền',
-        default => 'Không xác định'
-    };
-}
-
-
-
 }

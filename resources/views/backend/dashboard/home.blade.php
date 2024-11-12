@@ -232,7 +232,7 @@
                     <p>Tổng doanh thu</p>
                 </div>
             </div>
-            <!-- Doanh thu hôm nay -->
+            {{-- <!-- Doanh thu hôm nay -->
             <div class="col-md-6">
                 <div class="stat-box">
                     <div class="stat-title">
@@ -272,7 +272,7 @@
                     <h3>{{ $canceledOrdersToday }}</h3>
                     <p>Đơn hàng bị hủy hôm nay</p>
                 </div>
-            </div>
+            </div> --}}
 
             <h3>Thống Kê Ưu Đãi</h3>
             <div class="statistics-container">
@@ -294,7 +294,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-4">
             {{-- <!-- Đơn hàng hoàn thành -->
             <div class="col-md-3">
@@ -403,7 +403,7 @@
 </div>
 
 <div class="row  border-bottom white-bg dashboard-header">
-    
+
 
             <div class="charts-container">
                 <!-- Biểu đồ tổng quan -->

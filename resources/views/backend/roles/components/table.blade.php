@@ -4,7 +4,7 @@
             <!-- <th>STT</th> -->
             <th>Tên vai trò</th>
             <th>Mô tả</th>
-            <th>Quyền hạn</th>
+            <th>Số lượng quyền</th>
             <th>Trạng thái</th>
             <th>Hành động</th>
         </tr>
@@ -22,9 +22,10 @@
                     <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $role->description }}</p>
                 </td>
                 <td>
-                    @foreach ($role->permissions as $permission)
+                    {{-- @foreach ($role->permissions as $permission)
                         <span class="badge badge-info" style="padding: 8px">{{ $permission->name }}</span>
-                    @endforeach
+                    @endforeach --}}
+                    <span class="badge badge-info" style="padding: 8px">{{ $role->permissions->count() }} / {{ $totalPermissions }}</span>
                 </td>
 
                 <td class="text-center">

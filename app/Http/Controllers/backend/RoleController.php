@@ -32,9 +32,18 @@ class RoleController extends Controller
             $query->where('status', request()->input('status'));
         }
         $breadcrumbs = $this->breadcrumbs;
-        $table="roles";
+        $table = "roles";
+        $totalPermissions = Permission::count();
+
+        // Kiểm tra xem có yêu cầu trash không
+        if (request()->input('trash')) {
+
+            $roles = $query->onlyTrashed()->paginate(10); // Nếu có trash thì chỉ lấy dữ liệu đã xóa mềm
+            return view('backend.trash.trash_role.templates.index', compact('breadcrumbs', "title", "roles","totalPermissions"));
+        }
+
         $roles = $query->paginate(10); // Lấy danh sách vai trò và quyền liên kết
-        return view('backend.roles.templates.index', compact('roles', 'title', 'breadcrumbs',"table"));
+        return view('backend.roles.templates.index', compact('roles', 'title', 'breadcrumbs', "table", "totalPermissions"));
     }
 
     /**
@@ -80,7 +89,7 @@ class RoleController extends Controller
 
         // Tạo vai trò mới
         // $role = Role::create(['name' => $request->input('name')]);
-        $role = Role::create(['name' => $request->input('name'),'description' => $request->input('description')]);
+        $role = Role::create(['name' => $request->input('name'), 'description' => $request->input('description')]);
         // Gán quyền cho vai trò
         $role->permissions()->attach($request->input('permissions'));
 
@@ -126,7 +135,7 @@ class RoleController extends Controller
 
         // Cập nhật tên vai trò
         $role = Role::findOrFail($id);
-        $role->update(['name' => $request->input('name'),'description' => $request->input('description')]);
+        $role->update(['name' => $request->input('name'), 'description' => $request->input('description')]);
         $role->permissions()->sync($request->input('permissions'));
         // Đồng bộ quyền mới cho vai trò
         return response()->json(['success', 'Cập nhật vai trò và quyền thành công']);
@@ -161,35 +170,36 @@ class RoleController extends Controller
     //     return response()->json(['success' => 'Quyền đã được xóa khỏi vai trò thành công!']);
     // }
     public function force_destroy(Request $request)
-{
-    $role = Role::onlyTrashed()->find($request->id); // Tìm vai trò đã xóa tạm thời
-    $role->permissions()->detach();
-    if ($role) {
-        $role->forceDelete(); // Xóa vĩnh viễn vai trò
-        return response()->json(["success" => "Xóa vĩnh viễn thành công"]);
-    } else {
-        return response()->json(["error" => "Bản ghi không tồn tại"]);
+    {
+        $role = Role::onlyTrashed()->find($request->id); // Tìm vai trò đã xóa tạm thời
+        $role->permissions()->detach();
+        if ($role) {
+            $role->forceDelete(); // Xóa vĩnh viễn vai trò
+            return response()->json(["success" => "Xóa vĩnh viễn thành công"]);
+        } else {
+            return response()->json(["error" => "Bản ghi không tồn tại"]);
+        }
     }
-}
-public function restore($id)
-{
-    $role = Role::onlyTrashed()->findOrFail($id); // Tìm vai trò đã xóa tạm thời
-    $role->restore(); // Khôi phục vai trò
-    return redirect()->back()->with('success', 'Vai trò đã được khôi phục thành công!');
-}
+    public function restore($id)
+    {
+        $role = Role::onlyTrashed()->findOrFail($id); // Tìm vai trò đã xóa tạm thời
+        $role->restore(); // Khôi phục vai trò
+        return redirect()->back()->with('success', 'Vai trò đã được khôi phục thành công!');
+    }
     public function trash()
-{
-    $title = "Danh sách vai trò đã xóa";
+    {
+        $title = "Danh sách vai trò đã xóa";
 
-    // Tạo breadcrumb cho trang danh sách vai trò đã xóa
-    array_push($this->breadcrumbs, [
-        "active" => true,
-        "url" => route("admin.role.trash"),
-        "name" => $title,
-    ]);
+        // Tạo breadcrumb cho trang danh sách vai trò đã xóa
+        array_push($this->breadcrumbs, [
+            "active" => true,
+            "url" => route("admin.role.trash"),
+            "name" => $title,
+        ]);
 
-    $breadcrumbs = $this->breadcrumbs;
-    $data = Role::with('permissions')->onlyTrashed()->paginate(10); // Lấy danh sách vai trò đã xóa
-    return view("backend.trash.trash_role.templates.index", compact("title", "breadcrumbs", "data"));
-}
+        $breadcrumbs = $this->breadcrumbs;
+        $totalPermissions = Permission::count();
+        $data = Role::with('permissions')->onlyTrashed()->paginate(10); // Lấy danh sách vai trò đã xóa
+        return view("backend.trash.trash_role.templates.index", compact("title", "breadcrumbs", "data","totalPermissions"));
+    }
 }

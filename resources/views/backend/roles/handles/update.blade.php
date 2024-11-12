@@ -1,32 +1,62 @@
 <script>
-    // Hàm kiểm tra trạng thái của tất cả checkbox quyền
-    function updateSelectAllCheckbox() {
-        const checkboxes = document.querySelectorAll('input[name="permissions[]"]');
-        const selectAllCheckbox = document.getElementById('selectAllPermissions');
+    document.addEventListener('DOMContentLoaded', function() {
+        const allPermissionsCheckbox = document.getElementById('selectAllPermissions');
+        const groupCheckboxes = document.querySelectorAll('.select-group-permission');
+        const permissionCheckboxes = document.querySelectorAll('input[name="permissions[]"]');
 
-        // Kiểm tra nếu tất cả checkbox quyền đều được chọn
-        const allChecked = Array.from(checkboxes).every((checkbox) => checkbox.checked);
-        selectAllCheckbox.checked = allChecked;
-    }
+        // Kiểm tra và cập nhật trạng thái của checkbox "Chọn tất cả" và checkbox nhóm
+        function initializeCheckboxes() {
+            updateSelectAllCheckbox();
+            groupCheckboxes.forEach(updateGroupCheckbox);
+        }
 
-    // Kiểm tra khi tải trang
-    window.addEventListener('DOMContentLoaded', (event) => {
-        updateSelectAllCheckbox();
+        // Cập nhật trạng thái của checkbox "Chọn tất cả"
+        function updateSelectAllCheckbox() {
+            allPermissionsCheckbox.checked = Array.from(permissionCheckboxes).every(checkbox => checkbox
+                .checked);
+        }
 
-        // Lắng nghe sự thay đổi của tất cả checkbox quyền
-        const checkboxes = document.querySelectorAll('input[name="permissions[]"]');
-        checkboxes.forEach((checkbox) => {
-            checkbox.addEventListener('change', updateSelectAllCheckbox);
+        // Cập nhật trạng thái của checkbox nhóm
+        function updateGroupCheckbox(groupCheckbox) {
+            const groupId = groupCheckbox.getAttribute('data-group-id');
+            const groupPermissions = document.querySelectorAll(`.group-permission-${groupId}`);
+            groupCheckbox.checked = Array.from(groupPermissions).every(checkbox => checkbox.checked);
+        }
+
+        // Sự kiện cho checkbox "Chọn tất cả"
+        allPermissionsCheckbox.addEventListener('change', function() {
+            permissionCheckboxes.forEach(checkbox => checkbox.checked = this.checked);
+            groupCheckboxes.forEach(groupCheckbox => groupCheckbox.checked = this.checked);
         });
+
+        // Sự kiện cho từng checkbox nhóm quyền
+        groupCheckboxes.forEach(groupCheckbox => {
+            groupCheckbox.addEventListener('change', function() {
+                const groupId = this.getAttribute('data-group-id');
+                const groupPermissions = document.querySelectorAll(
+                    `.group-permission-${groupId}`);
+                groupPermissions.forEach(permission => permission.checked = this.checked);
+                updateSelectAllCheckbox();
+            });
+        });
+
+        // Sự kiện cho từng checkbox quyền
+        permissionCheckboxes.forEach(permissionCheckbox => {
+            permissionCheckbox.addEventListener('change', function() {
+                const groupId = this.className.match(/group-permission-(\d+)/)[1];
+                const groupCheckbox = document.querySelector(
+                    `.select-group-permission[data-group-id="${groupId}"]`);
+                updateGroupCheckbox(groupCheckbox);
+                updateSelectAllCheckbox();
+            });
+        });
+
+        // Khởi tạo trạng thái checkbox khi trang tải
+        initializeCheckboxes();
     });
 
-    // Khi checkbox "Chọn tất cả" thay đổi, áp dụng cho tất cả checkbox quyền
-    document.getElementById('selectAllPermissions').addEventListener('change', function() {
-        const checkboxes = document.querySelectorAll('input[name="permissions[]"]');
-        checkboxes.forEach((checkbox) => {
-            checkbox.checked = this.checked;
-        });
-    });
+
+
 
     $(document).ready(function() {
 
@@ -96,7 +126,7 @@
                                 'Vui lòng chọn ít nhất một quyền.';
                         } else {
                             errorMessageElement.textContent =
-                            ''; // Xoá thông báo lỗi nếu có ít nhất một quyền được chọn
+                                ''; // Xoá thông báo lỗi nếu có ít nhất một quyền được chọn
                         }
                     })
                 }
