@@ -719,7 +719,8 @@
 
         function renderTableListVariant(data) {
 
-
+            console.log(data);
+            
             const nameColumn = Object.keys(data); // Lấy tất cả các keys
             const variants = [];
 

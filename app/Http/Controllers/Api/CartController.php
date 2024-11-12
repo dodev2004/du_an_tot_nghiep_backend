@@ -42,7 +42,7 @@ class CartController extends Controller
     public function store(Request $request): JsonResponse
     {
         $userId = Auth::id();
-
+        
         $validatedData = $request->validate([
             'product_id' => 'nullable|exists:products,id',
             'product_variant_id' => 'nullable|exists:product_variants,id',
@@ -89,12 +89,11 @@ class CartController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $validatedData = $request->validate([
-            'quantity' => 'required|integer|min:1',
-        ]);
-
+    
+       
+   
         $cartItem = Cart::find($id);
-
+        
         if (!$cartItem) {
             return response()->json([
                 'error' => 'Sản phẩm không tồn tại trong giỏ hàng.',
@@ -106,8 +105,8 @@ class CartController extends Controller
                 'error' => 'Bạn không có quyền cập nhật sản phẩm này.',
             ], 403);
         }
-
-        $cartItem->update(['quantity' => $validatedData['quantity']]);
+       
+        $cartItem->update(['quantity' => $request->input("quantity")]);
 
         return response()->json([
             'message' => 'Cập nhật số lượng sản phẩm thành công.',

@@ -613,11 +613,6 @@
             success: function(res) {
 
                 if (res.attributes) {
-                    data = {
-                        ...res.attributes
-                    }
-
-
                     res.attribute_id.forEach(item => {
                         selectedAttributes.push(item)
 
@@ -793,28 +788,16 @@
         function renderTableListVariant(data, first = false) {
             const nameColumn = Object.keys(data); // Lấy tất cả các keys
             const variants = [];
-
-
             // Nếu có ít nhất một thuộc tính có giá trị
             if (nameColumn.length > 0) {
                 // Tạo mảng chứa tất cả các giá trị thuộc tính
                 const attributeValues = nameColumn.map(attr => data[attr]);
-
-
-                // Tạo tất cả các tổ hợp của thuộc tính
                 const combinations = [];
 
                 for (let i = 0; i < attributeValues[0].length; i++) {
                     const combination = attributeValues.map(attr => attr[i]);
                     combinations.push(combination);
                 }
-
-                console.log(combinations);
-                
-             
-
-
-
                 combinations.forEach(combination => {
                     const variant = {
                         "Hình ảnh": "",
@@ -830,7 +813,8 @@
                     variants.push(variant);
                 });
             }
-
+            console.log(variants);
+            
             const table = document.querySelector(".attribute_table");
             table.innerHTML = "";
 
@@ -942,9 +926,7 @@
 
 
                         const dataVariant = first[index];
-                        console.log(index);
-
-                        console.log(dataVariant);
+                      
 
                         tbody.insertAdjacentHTML("beforeend", `
     <tr class="attribute_table-content">
