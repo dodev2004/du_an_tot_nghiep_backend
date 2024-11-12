@@ -48,10 +48,14 @@ Route::middleware(['api', 'jwt.auth'])->group(function () {
     Route::get('auth/profile', [AuthController::class, 'profile']);
     Route::post('auth/refresh', [AuthController::class, 'refresh']);
     Route::post('auth/update-profile', [AuthController::class, 'updateProfile']);
-   
+
     Route::get('/favorites', [FavoriteController::class, 'index']);
     Route::post('/favorites/toggle', [FavoriteController::class, 'toggleFavorite']);
+
     Route::apiResource('orders', OrderController::class);
+    Route::put('/orders/{id}/complete-status', [OrderController::class, 'completeOrderStatus']);
+    
+
     Route::get('/cart', [CartController::class, 'index']); // Lấy danh sách giỏ hàng
     Route::post('/cart', [CartController::class, 'store']); // Thêm sản phẩm vào giỏ hàng
     Route::put('/cart/{id}', [CartController::class, 'update']); // Cập nhật số lượng
