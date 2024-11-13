@@ -69,10 +69,20 @@ class AuthController extends Controller
     }
 
     public function profile()
-    {
-        return response()->json(auth()->user());
+{
+    $user = auth()->user();
+
+    // Kiểm tra và tạo đường dẫn URL đầy đủ cho ảnh đại diện
+    if ($user->avatar) {
+        $user->avatar_url = asset('storage/' . $user->avatar);
+    } else {
+        $user->avatar_url = null;
     }
-    public function updateProfile(Request $request)
+
+    return response()->json($user);
+}
+
+public function updateProfile(Request $request)
 {
     $user = Auth::user();
 
@@ -93,21 +103,19 @@ class AuthController extends Controller
     // Xử lý ảnh đại diện
     if ($request->hasFile('avatar')) {
         $path = $request->file('avatar')->store('avatars', 'public');
-        $validatedData['avatar'] = $path;
+        // Chuyển đường dẫn thành URL đầy đủ
+        $validatedData['avatar'] = asset('storage/' . $path);
     }
 
     // Cập nhật thông tin người dùng
     $user->update($validatedData);
 
-    // Trả về thông tin người dùng với đường dẫn đầy đủ của ảnh đại diện
     return response()->json([
         'message' => 'Cập nhật hồ sơ thành công!',
-        'user' => array_merge(
-            User::find($user->id)->toArray(),
-            ['avatar_url' => $user->avatar ? asset('storage/' . $user->avatar) : null]
-        ),
+        'user' => $user, // Trả về dữ liệu người dùng với URL ảnh đại diện
     ], 200);
 }
+
 
 
     // public function logout()
