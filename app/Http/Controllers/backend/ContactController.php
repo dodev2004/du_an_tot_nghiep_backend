@@ -164,7 +164,7 @@ class ContactController extends Controller
     {
         $request->validate(
             [
-                "response" => "required|string|regex:/^[\p{L}\s]+$/u",
+                "response" => "required|string|regex:/^[\p{L}\s0-9.,-]+$/u",
             ],
             [
                 "response.required" => "Phản hồi không được để trống",

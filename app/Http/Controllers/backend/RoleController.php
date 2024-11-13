@@ -77,13 +77,12 @@ class RoleController extends Controller
         $request->validate([
             'name' => 'required|string|max:255|unique:roles',
             'description' => 'required|string|max:500',
-            'permissions' => 'required|array', // Đảm bảo là một mảng
+            'permissions' => 'nullable|array', // Đảm bảo là một mảng
             'permissions.*' => 'required|exists:permissions,id', // Đảm bảo mỗi giá trị trong mảng tồn tại
         ], [
             'name.required' => 'Tên vai trò là bắt buộc.',
             'name.unique' => 'Tên vai trò đã tồn tại, vui lòng chọn tên khác.',
             'description.required' => 'Mô tả là bắt buộc.',
-            'permissions.required' => 'Bạn phải chọn ít nhất một quyền.',
             'permissions.*.exists' => 'Một trong các quyền bạn chọn không hợp lệ.',
         ]);
 
@@ -129,8 +128,13 @@ class RoleController extends Controller
         $request->validate([
             'name' => 'required|unique:roles,name,' . $id,
             'description' => 'required|',
-            'permissions' => 'required|array',
+            'permissions' => 'nullable|array',
             'permissions.*' => 'exists:permissions,id',
+        ], [
+            'name.required' => 'Tên vai trò là bắt buộc.',
+            'name.unique' => 'Tên vai trò đã tồn tại, vui lòng chọn tên khác.',
+            'description.required' => 'Mô tả là bắt buộc.',
+            'permissions.*.exists' => 'Một trong các quyền bạn chọn không hợp lệ.',
         ]);
 
         // Cập nhật tên vai trò

@@ -113,21 +113,21 @@
                             console.log(message);
                             message.innerText = errors[error]
                         }
-                        const checkboxes = document.querySelectorAll(
-                            'input[name="permissions[]"]');
-                        const anyChecked = Array.from(checkboxes).some(checkbox =>
-                            checkbox.checked);
-                        const errorMessageElement = document.querySelector(
-                            '.message-error-permissions');
+                        // const checkboxes = document.querySelectorAll(
+                        //     'input[name="permissions[]"]');
+                        // const anyChecked = Array.from(checkboxes).some(checkbox =>
+                        //     checkbox.checked);
+                        // const errorMessageElement = document.querySelector(
+                        //     '.message-error-permissions');
 
-                        if (!anyChecked) {
-                            event.preventDefault(); // Ngăn gửi form
-                            errorMessageElement.textContent =
-                                'Vui lòng chọn ít nhất một quyền.';
-                        } else {
-                            errorMessageElement.textContent =
-                                ''; // Xoá thông báo lỗi nếu có ít nhất một quyền được chọn
-                        }
+                        // if (!anyChecked) {
+                        //     event.preventDefault(); // Ngăn gửi form
+                        //     errorMessageElement.textContent =
+                        //         'Vui lòng chọn ít nhất một quyền.';
+                        // } else {
+                        //     errorMessageElement.textContent =
+                        //         ''; // Xoá thông báo lỗi nếu có ít nhất một quyền được chọn
+                        // }
                     })
                 }
             })
