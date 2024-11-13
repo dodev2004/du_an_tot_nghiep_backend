@@ -37,7 +37,7 @@ class ProductUpdateRequest extends FormRequest
             'discount_price' => 'nullable|numeric|min:0|lt:price',
             'stock' => 'required|integer|min:0',
             'weight' => 'nullable|numeric|min:0',
-            'is_active' => 'required|boolean',
+            'status' => 'required|boolean',
         ];
     }
 

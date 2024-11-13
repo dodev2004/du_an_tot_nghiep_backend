@@ -309,7 +309,7 @@ class ProductController extends Controller
                 'weight' => trim($data['weight']),
                 'image_url' => trim($data['image_url']),
                 'discount_percentage' => round($discountPercentage, 2), 
-                'is_active' => trim($data['is_active']),
+                'status' => trim($data['status']),
             ];
     
             // Cập nhật sản phẩm

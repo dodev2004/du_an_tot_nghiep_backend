@@ -514,9 +514,9 @@
                         <div class="ibox-content">
                             <div class="form-group">
                                 <label for="">Trạng thái</label>
-                                <select name="is_active" id="" class="form-control">
-                                    <option value="0">Không kích hoạt</option>
-                                    <option value="1">Kích hoạt</option>
+                                <select name="status" id="" class="form-control">
+                                    <option @if($product->status == 0) selected @endif value="0">Không kích hoạt</option>
+                                    <option @if($product->status == 1) selected @endif value="1">Kích hoạt</option>
                                 </select>
                                 <span class="text-danger"></span>
 
