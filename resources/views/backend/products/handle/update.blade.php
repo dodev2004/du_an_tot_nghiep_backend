@@ -10,6 +10,8 @@
             inputs.forEach(function(input) {
                 if (!(input.name == "variant_image" || input.name == "price_variant" || input
                         .name == "discount_price_variant" || input.name == "stock_variant")) {
+                        
+                            
                     data.append(input.name, input.value.trim());
                 }
             })
@@ -30,6 +32,8 @@
                         const variantData = {}
                         const inputsVariant = Array.from(variant.querySelectorAll("input"));
                         inputsVariant.forEach(function(input) {
+                            console.log(input.name,input.value);
+                            
                             variantData[input.name] = input.value.trim();
                         })
                         dataaVariant.push(variantData)
@@ -55,6 +59,8 @@
                 data.append("gallery", datagallery)
 
             }
+            console.log(data);
+            
             $.ajax({
                 url: '{{ route('admin.product.update', request()->id) }}',
                 type: "POST",

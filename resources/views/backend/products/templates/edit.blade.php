@@ -918,11 +918,11 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="">Giá</label>
-                    <input type="text" class="form-control" value='${price.value}' name="price_variant">
+                    <input type="text" class="form-control" value='${parseInt(price.value)}' name="price_variant">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="">Giá khuyến mãi</label>
-                    <input type="text" name="discount_price_variant" class="form-control">
+                    <input type="text" name="discount_price_variant" value='${parseInt(price.discount_price)} class="form-control">
                 </div>
                
                 <div class="form-group col-md-6">
@@ -938,7 +938,7 @@
 
 
                         const dataVariant = first[index];
-                      console.log(dataVariant);
+                   
                       
 
                         tbody.insertAdjacentHTML("beforeend", `
@@ -967,11 +967,11 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="">Giá</label>
-                    <input type="text" class="form-control" value='${ dataVariant.price ? dataVariant.price  : 0}' name="price_variant">
+                    <input type="text" class="form-control" value='${ dataVariant.price ? parseInt(dataVariant.price)   : 0}' name="price_variant">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="">Giá khuyến mãi</label>
-                    <input type="text" name="discount_price_variant" value='${ dataVariant.discount_percentage ? dataVariant.discount_percentage  : 0}' class="form-control">
+                    <input type="text" name="discount_price_variant" value='${ dataVariant.discount_price ?  parseInt(dataVariant.discount_price)  : 0}' class="form-control">
                 </div>
                
                 <div class="form-group col-md-6">
