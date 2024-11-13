@@ -132,29 +132,27 @@ class ProductController extends Controller
      
         foreach ($product->variants as $variant) {
             foreach ($variant->variantAttributeValues as $index => $attributeValue) {
-                $attributeName = $attributeValue->attributeValue->attributes->name;
-                $attributeNameId= $attributeValue->attributeValue->attributes->id;
+                $attributeNameId = $attributeValue->attributeValue->attributes->id;
                 $attributeValueId = $attributeValue->attribute_value_id;
                 $attributeValueName = $attributeValue->attributeValue->name;
-                
+                $attributeName = $attributeValue->attributeValue->attributes->name;
+        
                 // Nhóm thuộc tính
-                if (!in_array($attributeValueId, $groupedAttributes)) {
-                
-                  
-                    
+                if (!isset($groupedAttributes[$attributeName])) {
+                    $groupedAttributes[$attributeName] = [];
+                }
+        
+                if (!in_array((string) $attributeValueId, $groupedAttributes[$attributeName])) {
                     $groupedAttributes[$attributeName][] = (string) $attributeValueId;
                 }
-                
-               
-
+        
                 $attributeValuesList[] = [
                     'id' => $attributeValueId,
                     'name' => $attributeValueName
                 ];
-    
+        
                 // Lưu trữ attribute_id vào mảng
                 if (!in_array($attributeNameId, $attributeIds)) {
-                   
                     $attributeIds[] = $attributeNameId;
                 }
             }

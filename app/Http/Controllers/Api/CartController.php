@@ -137,10 +137,6 @@ class CartController extends Controller
 
         return response()->json([
             'message' => 'Xóa sản phẩm khỏi giỏ hàng thành công.',
-<<<<<<< HEAD
-=======
-
->>>>>>> hoan
         ], 200);
     }
 }

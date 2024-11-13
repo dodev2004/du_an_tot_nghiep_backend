@@ -618,7 +618,10 @@
 
                     });
                     productVariant = res.variants
+                    
                     renderTableListVariant(res.attributes, productVariant)
+                    
+                    data = res.attributes;
                     Object.keys(res.attributes).forEach(function(item) {
                         handleAttributeAdd(item, res.attributes[item])
                     })
@@ -786,18 +789,29 @@
         }
 
         function renderTableListVariant(data, first = false) {
+           
+            
             const nameColumn = Object.keys(data); // Lấy tất cả các keys
             const variants = [];
+           
+            
             // Nếu có ít nhất một thuộc tính có giá trị
             if (nameColumn.length > 0) {
                 // Tạo mảng chứa tất cả các giá trị thuộc tính
                 const attributeValues = nameColumn.map(attr => data[attr]);
-                const combinations = [];
+               
+               
+                const createCombinations = (arrays) => {
+                    return arrays.reduce((acc, curr) => {
+                        return acc.flatMap(a => curr.map(b => [...a, b]));
+                    }, [
+                        []
+                    ]);
+                };
 
-                for (let i = 0; i < attributeValues[0].length; i++) {
-                    const combination = attributeValues.map(attr => attr[i]);
-                    combinations.push(combination);
-                }
+                const combinations = createCombinations(attributeValues);
+            
+                
                 combinations.forEach(combination => {
                     const variant = {
                         "Hình ảnh": "",
@@ -813,8 +827,6 @@
                     variants.push(variant);
                 });
             }
-            console.log(variants);
-            
             const table = document.querySelector(".attribute_table");
             table.innerHTML = "";
 
@@ -926,6 +938,7 @@
 
 
                         const dataVariant = first[index];
+                      console.log(dataVariant);
                       
 
                         tbody.insertAdjacentHTML("beforeend", `
@@ -1010,7 +1023,8 @@
             if (index > -1) {
                 selectedAttributes.splice(index, 1); // Xóa thuộc tính khỏi danh sách
             }
-
+            console.log(data);
+            
             // Xóa dữ liệu thuộc tính khỏi đối tượng `data` nếu nó tồn tại
             if (attributeName in data) {
                 delete data[attributeName];
