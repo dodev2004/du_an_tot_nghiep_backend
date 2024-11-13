@@ -115,12 +115,12 @@ class ContactController extends Controller
     {
         // Xác thực dữ liệu
         $request->validate([
-            "content" => "required|string|regex:/^[\p{L}\s]+$/u", // Địa chỉ không được để trống, chỉ chứa ký tự chữ và dấu cách
+            "content" => "required|string|regex:/^[\p{L}\s0-9.,-]+$/u", // Địa chỉ không được để trống, chỉ chứa ký tự chữ và dấu cách
             "image" => "nullable|max:2048", // Ảnh không bắt buộc, chỉ chấp nhận các định dạng ảnh, tối đa 2MB
         ], [
-            "content.required" => "Địa chỉ không được để trống",
-            "content.string" => "Địa chỉ phải là chuỗi",
-            "content.regex" => "Địa chỉ không được chứa ký tự đặc biệt không hợp lệ",
+            "content.required" => "Nội dung không được để trống",
+            "content.string" => "Nội dung phải là chuỗi",
+            "content.regex" => "Nội dung không được chứa ký tự đặc biệt không hợp lệ",
             "image.max" => "Ảnh không được vượt quá 2MB",
         ]);
 
@@ -153,7 +153,7 @@ class ContactController extends Controller
         // Xác thực dữ liệu
         $request->validate(
             [
-                "response" => "required|string|regex:/^[\p{L}\s]+$/u", // Phản hồi không được để trống, chỉ chứa ký tự chữ và dấu cách
+                "response" => "required|string|regex:/^[\p{L}\s0-9.,-]+$/u", // Phản hồi không được để trống, chỉ chứa ký tự chữ và dấu cách
 
             ],
             [
