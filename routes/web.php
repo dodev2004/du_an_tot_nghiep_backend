@@ -80,9 +80,9 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::get("edit/{id}", [UserController::class, "editUser"])->name("admin.users.edit")->middleware('checkPermission:editUser');
         Route::put("update/{id}", [UserController::class, 'updateUser'])->name("admin.users.update")->middleware('checkPermission:updateUser');
         Route::delete("delete", [UserController::class, 'deleteUser'])->name("admin.users.delete")->middleware('checkPermission:deleteUser');
-        Route::delete("/force-delete", [UserController::class, "force_destroy"])->name("admin.users.force_delete");
-        Route::post("{id}/restore", [UserController::class, "restore"])->name("admin.users.restore"); //khôi phục
-        Route::get("/trash", [UserController::class, "trash"])->name("admin.users.trash"); // Trang thùng rác
+        Route::delete("/force-delete", [UserController::class, "force_destroy"])->name("admin.users.force_delete")->middleware('checkPermission:forceDeleteUser');
+        Route::post("{id}/restore", [UserController::class, "restore"])->name("admin.users.restore")->middleware('checkPermission:restoreUser'); //khôi phục
+        Route::get("/trash", [UserController::class, "trash"])->name("admin.users.trash")->middleware('checkPermission:viewTrashUser'); // Trang thùng rác
     });
     Route::prefix("user_catelogue")->middleware('checkRole:admin')->group(function () {
         Route::get("list", [UserCatelogueController::class, "listGroupMember"])->name("admin.user_catelogue")->middleware('checkPermission:viewUserCatelogue');
@@ -110,7 +110,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
     });
     Route::prefix("product")->middleware('checkRole:admin')->group(function () {
         Route::get("list", [ProductController::class, "index"])->name("admin.product")->middleware('checkPermission:viewProduct');
-        Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
+        Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show')->middleware('checkPermission:viewProductDetail');
         Route::get("create", [ProductController::class, "create"])->name("admin.product.create")->middleware('checkPermission:createProduct');
         Route::post("postStore", [ProductController::class, "store"])->name("admin.product.store")->middleware('checkPermission:storeProduct');
         Route::get("{id}/edit", [ProductController::class, "editPost"])->name("admin.product.edit")->middleware('checkPermission:editProduct');
@@ -178,18 +178,18 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::delete('/about/{id}', [AboutPageController::class, 'destroy'])->name('admin.about.delete')->middleware('checkPermission:deleteAboutPage');
     });
     Route::prefix("product-comment")->middleware('checkRole:admin')->group(function(){
-        Route::get("users", [ProductCommentController::class, "index"])->name("admin.product_comment.users");
-        Route::get("user/{id}/comments", [ProductCommentController::class, "userComments"])->name("admin.product_comment.user_comments");
-        Route::get('/product-review/{id}/comment', [ProductCommentController::class, 'create'])->name('product_comment.create');
-        Route::post('/product-review/{id}/comment', [ProductCommentController::class, 'store'])->name('product_comment.store');
-        Route::delete("/soft-delete", [ProductCommentController::class, "softDelete"])->name("admin.product_comment.soft_delete");//xóa mềm
-        Route::post("{id}/restore", [ProductCommentController::class, "restore"])->name("admin.product_comment.restore");//khôi phục
-        Route::delete("/hard-delete", [ProductCommentController::class, "destroy"])->name("admin.product_comment.hard_delete");//xóa cúng
-        Route::get("trash", [ProductCommentController::class, "trash"])->name("admin.product_comment.trash");
+        Route::get("users", [ProductCommentController::class, "index"])->name("admin.product_comment.users")->middleware('checkPermission:viewComment');
+        Route::get("user/{id}/comments", [ProductCommentController::class, "userComments"])->name("admin.product_comment.user_comments")->middleware('checkPermission:viewUserComment');
+        Route::get('/product-review/{id}/comment', [ProductCommentController::class, 'create'])->name('product_comment.create')->middleware('checkPermission:createComment');
+        Route::post('/product-review/{id}/comment', [ProductCommentController::class, 'store'])->name('product_comment.store')->middleware('checkPermission:storeComment');
+        Route::delete("/soft-delete", [ProductCommentController::class, "softDelete"])->name("admin.product_comment.soft_delete")->middleware('checkPermission:deleteComment');//xóa mềm
+        Route::post("{id}/restore", [ProductCommentController::class, "restore"])->name("admin.product_comment.restore")->middleware('checkPermission:restoreComment');//khôi phục
+        Route::delete("/hard-delete", [ProductCommentController::class, "destroy"])->name("admin.product_comment.hard_delete")->middleware('checkPermission:forceDeleteComment');//xóa cúng
+        Route::get("trash", [ProductCommentController::class, "trash"])->name("admin.product_comment.trash")->middleware('checkPermission:viewTrashComment');
     });
     Route::prefix("product_reviews")->middleware('checkRole:admin')->group(function(){
-        Route::get('admin/product-reviews', [ProductReviewController::class, 'index'])->name('admin.product_review');
-        Route::get("user/{id}/reviews", [ProductReviewController::class, "userReviews"])->name("admin.product_review.user_reviews");
+        Route::get('admin/product-reviews', [ProductReviewController::class, 'index'])->name('admin.product_review')->middleware('checkPermission:viewReview');
+        Route::get("user/{id}/reviews", [ProductReviewController::class, "userReviews"])->name("admin.product_review.user_reviews")->middleware('checkPermission:viewUserReview');
     });
     Route::prefix("brand")->middleware('checkRole:admin')->group(function () {
         Route::get("list", [BrandController::class, "index"])->name("admin.brand")->middleware('checkPermission:viewBrand');
@@ -279,12 +279,12 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::get("/trash", [RoleController::class, "trash"])->name("admin.role.trash")->middleware('checkPermission:viewRoleTrash'); // Trang thùng rác
     });
     Route::prefix("banner")->middleware('checkRole:admin')->group(function () {
-        Route::get("list", [BannerController::class, "index"])->name("admin.banner");
-        Route::get("create", [BannerController::class, "create"])->name("admin.banner.create");
-        Route::post("postStore", [BannerController::class, "store"])->name("admin.banner.store");
-        Route::get("{id}/edit", [BannerController::class, "edit"])->name("admin.banner.edit");
-        Route::put("{id}/update", [BannerController::class, "update"])->name("admin.banner.update");
-        Route::delete("/delete", [BannerController::class, "destroy"])->name("admin.banner.delete");
+        Route::get("list", [BannerController::class, "index"])->name("admin.banner")->middleware('checkPermission:viewBanner');
+        Route::get("create", [BannerController::class, "create"])->name("admin.banner.create")->middleware('checkPermission:createBanner');
+        Route::post("postStore", [BannerController::class, "store"])->name("admin.banner.store")->middleware('checkPermission:storeBanner');
+        Route::get("{id}/edit", [BannerController::class, "edit"])->name("admin.banner.edit")->middleware('checkPermission:editBanner');
+        Route::put("{id}/update", [BannerController::class, "update"])->name("admin.banner.update")->middleware('checkPermission:updateBanner');
+        Route::delete("/delete", [BannerController::class, "destroy"])->name("admin.banner.delete")->middleware('checkPermission:deleteBanner');
     });
     Route::prefix("/dashboard")->middleware('checkRole:admin')->group(function () {
         Route::get("list", [DashBoardController::class, "Orderindex"])->name("admin.dashboard_order")->middleware('checkPermission:viewDashboardOrder');
