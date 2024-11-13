@@ -321,7 +321,7 @@
                             </h6>
                             <p style="margin-bottom: 12px; font-size: 11px;">Một sản phẩm có thể có nhiều phiên bản
                                 khác nhau ví dụ áo có kích thước, độ rộng, màu sắc khách nhau</p>
-                                <span class="error_variant text-center"></span>
+                            <span class="error_variant text-center"></span>
                             <div style="display: flex; align-items: center; margin-bottom: 20px;">
                                 <input style="height: 20px; margin: 0;" class="checkVariants"
                                     onchange="renderAttributeProduct()" @if (count($product->variants)) checked @endif
@@ -613,11 +613,6 @@
             success: function(res) {
 
                 if (res.attributes) {
-                    data = {
-                        ...res.attributes
-                    }
-
-
                     res.attribute_id.forEach(item => {
                         selectedAttributes.push(item)
 
@@ -747,19 +742,19 @@
                 $(newSelect).select2({
                     width: "100%"
                 });
-              
+
                 attribute_value.onchange = function() {
                     data[key] = $(newSelect).val();
 
                     renderTableListVariant(data);
                 };
             }
-         
-         
+
+
 
             // Xử lý sự kiện chọn thuộc tính
             selectAttribute.onchange = function() {
-              
+
 
                 const key = selectAttribute[selectAttribute.options.selectedIndex].text.trim();
                 const attributeValueSelect = this.parentElement.parentElement.querySelector(".attribute_value");
@@ -779,7 +774,7 @@
                 $(newSelect).select2({
                     width: "100%"
                 });
-           
+
 
 
                 newSelect.onchange = function() {
@@ -793,23 +788,16 @@
         function renderTableListVariant(data, first = false) {
             const nameColumn = Object.keys(data); // Lấy tất cả các keys
             const variants = [];
-
             // Nếu có ít nhất một thuộc tính có giá trị
             if (nameColumn.length > 0) {
                 // Tạo mảng chứa tất cả các giá trị thuộc tính
                 const attributeValues = nameColumn.map(attr => data[attr]);
+                const combinations = [];
 
-                // Tạo tất cả các tổ hợp của thuộc tính
-                const createCombinations = (arrays) => {
-                    return arrays.reduce((acc, curr) => {
-                        return acc.flatMap(a => curr.map(b => [...a, b]));
-                    }, [
-                        []
-                    ]);
-                };
-
-                const combinations = createCombinations(attributeValues);
-
+                for (let i = 0; i < attributeValues[0].length; i++) {
+                    const combination = attributeValues.map(attr => attr[i]);
+                    combinations.push(combination);
+                }
                 combinations.forEach(combination => {
                     const variant = {
                         "Hình ảnh": "",
@@ -825,7 +813,8 @@
                     variants.push(variant);
                 });
             }
-
+            console.log(variants);
+            
             const table = document.querySelector(".attribute_table");
             table.innerHTML = "";
 
@@ -934,7 +923,10 @@
 </tr>
 `);
                     } else {
+
+
                         const dataVariant = first[index];
+                      
 
                         tbody.insertAdjacentHTML("beforeend", `
     <tr class="attribute_table-content">
@@ -948,7 +940,7 @@
                             <label style="width:100px;height:100px" onclick='selectFileWithCKFinder(this)' for="" id="ckfinder-popup-1">
                                 <img style="border:1px solid #ccc;" width="100"
                                     height="100" class="variant_image-show"
-                                    src="${ dataVariant.image_url ? dataVariant.image_url : 'https://img.icons8.com/?size=100&id=1G2BW7-tQJJJ&format=png&color=000000'  }"
+                                    src="${ dataVariant?.image_url ? dataVariant?.image_url : 'https://img.icons8.com/?size=100&id=1G2BW7-tQJJJ&format=png&color=000000'  }"
                                     alt="">
                             </label>
                             <input type="text" style="display:none"
@@ -989,15 +981,15 @@
             const allSelects = document.querySelectorAll(".select_attribute");
             const currentSelectedIds = Array.from(allSelects).map(select => select.value).filter(id => id);
             console.log(allSelects);
-            
+
 
             allSelects.forEach(select => {
                 const options = select.querySelectorAll('option');
-              
-                
+
+
                 options.forEach(option => {
                     option.disabled = currentSelectedIds.includes(option.value) && option.value !== select
-                        .value; 
+                        .value;
                 });
             });
         }

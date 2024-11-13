@@ -129,15 +129,23 @@ class ProductController extends Controller
         $groupedAttributes = [];
         $attributeValuesList = [];
         $attributeIds = []; // Thêm mảng để lưu trữ attribute_id
+     
         foreach ($product->variants as $variant) {
-            foreach ($variant->variantAttributeValues as $attributeValue) {
+            foreach ($variant->variantAttributeValues as $index => $attributeValue) {
                 $attributeName = $attributeValue->attributeValue->attributes->name;
                 $attributeNameId= $attributeValue->attributeValue->attributes->id;
                 $attributeValueId = $attributeValue->attribute_value_id;
                 $attributeValueName = $attributeValue->attributeValue->name;
                 
                 // Nhóm thuộc tính
-                $groupedAttributes[$attributeName][] = (string) $attributeValueId;
+                if (!in_array($attributeValueId, $groupedAttributes)) {
+                
+                  
+                    
+                    $groupedAttributes[$attributeName][] = (string) $attributeValueId;
+                }
+                
+               
 
                 $attributeValuesList[] = [
                     'id' => $attributeValueId,
@@ -146,11 +154,12 @@ class ProductController extends Controller
     
                 // Lưu trữ attribute_id vào mảng
                 if (!in_array($attributeNameId, $attributeIds)) {
+                   
                     $attributeIds[] = $attributeNameId;
                 }
             }
         }
-    
+       
         return response()->json([
             'id' => $product->id,
             'catalogue_id' => $product->catalogue_id,

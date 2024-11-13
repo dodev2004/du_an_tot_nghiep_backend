@@ -198,6 +198,7 @@ class ProductController extends Controller
        
         if(isset($data["variants"])){
            $variants = json_decode($data["variants"]);
+        
            foreach($variants as $item){
             $skuExists = ProductVariant::where('sku', $item->sku_variant)->exists();
             
@@ -227,7 +228,7 @@ class ProductController extends Controller
                  "sku" => $item->sku_variant ? $item->sku_variant : null,
              ]);
              $attributes = explode(",",$item->attribute);
-           
+            
             foreach($attributes as $item){
                 DB::table("variant_attribute_values")->insert([
                     "product_variant_id" => $product_variant->id,

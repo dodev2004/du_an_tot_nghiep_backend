@@ -648,6 +648,7 @@
             option.textContent = "Vui lòng chọn";
 
             const selectAttribute = document.createElement("select");
+            selectAttribute.classList.add("select_attribute")
             selectAttribute.appendChild(option);
 
             // Chỉ thêm các thuộc tính chưa được chọn vào danh sách
@@ -718,7 +719,8 @@
 
         function renderTableListVariant(data) {
 
-
+            console.log(data);
+            
             const nameColumn = Object.keys(data); // Lấy tất cả các keys
             const variants = [];
 
@@ -867,9 +869,10 @@
         }
 
         function updateSelectAttributes() {
-            const allSelects = document.querySelectorAll(".attribute select");
+            const allSelects = document.querySelectorAll(".select_attribute");
             const currentSelectedIds = Array.from(allSelects).map(select => select.value).filter(id => id);
-
+            console.log(allSelects);
+            
             allSelects.forEach(select => {
                 const options = select.querySelectorAll('option');
                 options.forEach(option => {
