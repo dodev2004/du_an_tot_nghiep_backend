@@ -16,10 +16,15 @@ class CartController extends Controller
         $userId = Auth::id();
         
         // Lấy giỏ hàng của người dùng và xác định giá dựa trên discount_price nếu có
-        $cartItems = Cart::with(['product', 'productVariant'])
+        $cartItems = Cart::with(['product', 'productVariant.attributeValues.attributes'])
             ->where('user_id', $userId)
             ->get()
             ->map(function ($item) {
+                $groupedAttributes = [];
+                foreach($item->productVariant->attributeValues as $attribute){
+                    $groupedAttributes[$attribute->attributes->name] = $attribute->name;
+                }
+                $item->groupVariant = $groupedAttributes;
                 if ($item->product_variant_id) {
                     // Sử dụng discount_price nếu có, nếu không thì sử dụng price từ productVariant
                     $item->price = $item->productVariant->discount_price ?? $item->productVariant->price;
@@ -27,7 +32,14 @@ class CartController extends Controller
                     // Sử dụng discount_price nếu có, nếu không thì sử dụng price từ product
                     $item->price = $item->product->discount_price ?? $item->product->price;
                 }
-                return $item;
+                return [
+                    'id' => $item->id,
+                    'product_id' => $item->product_id,
+                    'product_variants_id' => $item->product_variants_id,
+                    'quantity' => $item->quantity,
+                    'price' => $item->price,
+                    'attributes' => $item->groupVariant,
+                ];
             });
     
         return response()->json([
