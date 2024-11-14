@@ -138,6 +138,7 @@ class OrderController extends Controller
         // Định dạng dữ liệu trả về
         $data = [
             'id' => $order->id,
+            'order_code' => 'BND-' . $order->id, // Mã đơn hàng theo yêu cầu
             'customer_name' => $order->customer_name,
             'customer' => [
                 'id' => $order->customer->id,
@@ -158,8 +159,8 @@ class OrderController extends Controller
             'payment_status' => $order->payment_status_text, // Trạng thái thanh toán bằng tiếng Việt
             'shipping_address' => $order->shipping_address,
             'shipping_fee' => $order->shipping_fee,
-            'created_at' => $order->created_at,
-            'updated_at' => $order->updated_at,
+            'created_at' => $order->created_at->format('d-m-Y'),
+            'updated_at' => $order->updated_at->format('d-m-Y'),
             'order_items' => $order->orderItems
         ];
 
