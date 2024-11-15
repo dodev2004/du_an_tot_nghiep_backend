@@ -10,6 +10,7 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
             text-align: center;
+
         }
 
         .stat-title {
@@ -18,11 +19,14 @@
             align-items: center;
 
             margin-bottom: 10px;
+
         }
 
         .stat-title span {
             font-size: 16px;
             font-weight: bold;
+            justify-content: space-between; /* Khoảng cách đều giữa các khối */
+            width: 100%; /* Kéo rộng toàn bộ chiều ngang */
         }
 
         .stat-title button {
@@ -143,8 +147,9 @@
 
         .statistics-container {
             display: flex;
-            justify-content: space-around;
-            margin: 20px;
+            justify-content: space-between; /* Khoảng cách đều giữa các khối */
+    gap: 20px; /* Khoảng cách giữa các khối */
+    width: 100%; /* Kéo rộng toàn bộ chiều ngang */
         }
 
         .stat-box2 {
@@ -220,60 +225,24 @@
 @endsection
 @section("content")
 <div class="row  border-bottom white-bg dashboard-header">
-    <h3>Thống Kê Doanh Thu</h3>
+
         <!-- Doanh thu -->
         <div class="col-md-8">
+
+
             <div class="col-md-12">
+                <h3>Thống Kê Doanh Thu</h3>
                 <div class="stat-box">
-                    <div class="stat-title">
+                    <div >
                         <span class="total-revenue"><i class="fas fa-dollar-sign"></i> Tổng Doanh Thu Cửa Hàng</span>
                     </div>
                     <h3>{{ number_format($totalRevenue, 0) }} VNĐ</h3>
                     <p>Tổng doanh thu</p>
                 </div>
-            </div>
-            {{-- <!-- Doanh thu hôm nay -->
-            <div class="col-md-6">
-                <div class="stat-box">
-                    <div class="stat-title">
-                        <span class="total-revenue"><i class="fas fa-dollar-sign"></i> Doanh Thu Hôm Nay</span>
-                    </div>
-                    <h3>{{ number_format($todayRevenue, 0) }} VNĐ</h3>
-                    <p>Doanh thu hôm nay</p>
-                </div>
-            </div>
-            <!-- Đơn hàng hoàn thành hôm nay -->
-            <div class="col-md-6">
-                <div class="stat-box">
-                    <div class="stat-title">
-                        <span class="total-revenue"><i class="fas fa-check-circle"></i> Đơn Hàng Hoàn Thành Hôm Nay</span>
-                    </div>
-                    <h3>{{ $completedOrdersToday }}</h3>
-                    <p>Đơn hàng hoàn thành hôm nay</p>
-                </div>
-            </div>
-            <!-- Đơn hàng mới -->
-            <div class="col-md-6">
-                <div class="stat-box">
-                    <div class="stat-title">
-                        <span class="new-orders"><i class="fas fa-shopping-cart"></i> Đơn Hàng Mới</span>
-                    </div>
-                    <h3>{{ $totalNewOrders }}</h3>
-                    <p>Đơn hàng mới</p>
-                </div>
-            </div>
 
-            <!-- Đơn hàng bị hủy hôm nay -->
-            <div class="col-md-6">
-                <div class="stat-box">
-                    <div class="stat-title">
-                        <span class="canceled-orders"><i class="fas fa-times-circle"></i> Đơn Hàng Bị Hủy Hôm Nay</span>
-                    </div>
-                    <h3>{{ $canceledOrdersToday }}</h3>
-                    <p>Đơn hàng bị hủy hôm nay</p>
-                </div>
-            </div> --}}
+        </div>
 
+        <div class="col-md-12">
             <h3>Thống Kê Ưu Đãi</h3>
             <div class="statistics-container">
                 <div class="stat-box2">
@@ -294,6 +263,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
         <div class="col-md-4">
             {{-- <!-- Đơn hàng hoàn thành -->
