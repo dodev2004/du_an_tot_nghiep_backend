@@ -164,11 +164,10 @@ public function updateProfile(Request $request)
             return response()->json(['message' => 'Không tìm thấy người dùng với email này.'], 404);
         }
 
-        // Tạo mật khẩu ngẫu nhiên
         $newPassword = Str::random(8); // Tạo mật khẩu ngẫu nhiên dài 8 ký tự
 
-        // Cập nhật mật khẩu mới cho người dùng
-        $user->password = Hash::make($newPassword); // Mã hóa mật khẩu mới
+        
+        $user->password = Hash::make($newPassword); 
         $user->save();
 
         // Gửi email mật khẩu mới
