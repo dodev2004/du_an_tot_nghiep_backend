@@ -8,12 +8,14 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','register']]);
+        $this->middleware('auth:api', ['except' => ['login','register','forgotPassword']]);
     }
     
     public function register(Request $request)
@@ -97,7 +99,7 @@ public function updateProfile(Request $request)
         'ward_id' => 'sometimes|integer|exists:wards,id',
         'address' => 'sometimes|string|max:255',
         'birthday' => 'sometimes|date',
-        'avatar' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+        // 'avatar' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
     // Xử lý ảnh đại diện
@@ -147,5 +149,34 @@ public function updateProfile(Request $request)
             ]
 
         ]);
+    }
+    public function forgotPassword(Request $request)
+    {
+        // Xác thực email
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        // Tìm người dùng theo email
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Không tìm thấy người dùng với email này.'], 404);
+        }
+
+        // Tạo mật khẩu ngẫu nhiên
+        $newPassword = Str::random(8); // Tạo mật khẩu ngẫu nhiên dài 8 ký tự
+
+        // Cập nhật mật khẩu mới cho người dùng
+        $user->password = Hash::make($newPassword); // Mã hóa mật khẩu mới
+        $user->save();
+
+        // Gửi email mật khẩu mới
+        Mail::send('auths.email.new_password', ['newPassword' => $newPassword], function ($message) use ($user) {
+            $message->to($user->email);
+            $message->subject('Mật khẩu mới của bạn');
+        });
+
+        return response()->json(['message' => 'Mật khẩu mới đã được gửi đến email của bạn.'], 200);
     }
 }
