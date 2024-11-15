@@ -53,6 +53,7 @@ Route::prefix('products')->group(function () {
     Route::get('/showOne/{id}', [ProductController::class, 'showOne']);
     Route::get('/san-pham-noi-bat', [ProductController::class, 'index']);
     Route::get('/splq', [ProductController::class, 'spLienQuan']);
+    Route::get('/list', [ProductController::class, 'list']);
 });
 
 Route::get('/promotions', [PromotionController::class, 'index']);

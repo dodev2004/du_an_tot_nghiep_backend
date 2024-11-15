@@ -190,7 +190,61 @@ class ProductController extends Controller
             'updated_at' => $product->updated_at,
         ]);
     }
+
     
+    public function list(Request $request)
+    {
+        $query = Product::with('variants')
+                    ->where('status', 1);
+
+    // Lọc theo danh mục
+    if ($request->has('category_id')) {
+        $categoryId = $request->input('category_id');
+        $query->whereHas('catelogues', function($query) use ($categoryId) {
+            $query->where('product_catelogue_id', $categoryId);  
+        });
+    }
+
+    // Lọc theo đánh giá sao
+    if ($request->has('rating')) {
+        $rating = $request->input('rating');
+        $query->whereHas('product_reviews', function($query) use ($rating) {
+            
+            $query->selectRaw('AVG(rating) as avg_rating')
+                  ->groupBy('product_id')
+                  ->havingRaw('AVG(rating) = ?', [$rating]);
+        });
+    }
+
+    // Lọc theo kích thước 
+    if ($request->has('dimension')) {
+        $dimension = $request->input('dimension');
+        $query->whereHas('variants', function($query) use ($dimension) {
+            $query->where('dimension', 'like', '%' . $dimension . '%');  
+        });
+    }
+
+    // Lọc theo chất liệu 
+    if ($request->has('material')) {
+        $material = $request->input('material');
+        $query->whereHas('variants', function($query) use ($material) {
+            $query->where('name', 'like', '%' . $material . '%');  
+        });
+    }
+
+    // Lọc theo khoảng giá 
+    if ($request->has('min_price') && $request->has('max_price')) {
+        $minPrice = $request->input('min_price');
+        $maxPrice = $request->input('max_price');
+        $query->whereBetween('price', [$minPrice, $maxPrice]);  
+    }
+
+    $products = $query->paginate(10);
+
+    return response()->json($products);
+    }
+
+
     public function store(Request $request)
     {
         // Tạo mới sản phẩm
