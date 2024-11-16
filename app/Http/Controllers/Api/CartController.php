@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+
 class CartController extends Controller
 {
     /**
@@ -129,26 +131,42 @@ class CartController extends Controller
     /**
      * Xóa sản phẩm khỏi giỏ hàng.
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(Request $request): JsonResponse
     {
-        $cartItem = Cart::find($id);
-
-        if (!$cartItem) {
+        $ids = $request->ids;
+        DB::beginTransaction();
+        try {
+            foreach($ids as $id){
+       
+                $cartItem = Cart::find($id);
+    
+                if (!$cartItem) {
+                    return response()->json([
+                        'error' => 'Sản phẩm không tồn tại trong giỏ hàng.',
+                    ], 404);
+                }
+        
+                if ($cartItem->user_id !== Auth::id()) {
+                    return response()->json([
+                        'error' => 'Bạn không có quyền xóa sản phẩm này.',
+                    ], 403);
+                }
+        
+                $cartItem->delete();
+            }
             return response()->json([
-                'error' => 'Sản phẩm không tồn tại trong giỏ hàng.',
-            ], 404);
+                'message' => 'Xóa sản phẩm khỏi giỏ hàng thành công.',
+            ], 200);
+            DB::commit();
         }
-
-        if ($cartItem->user_id !== Auth::id()) {
+        catch (\Exception $e) {
             return response()->json([
-                'error' => 'Bạn không có quyền xóa sản phẩm này.',
-            ], 403);
+                'message' => 'Xóa sản phẩm khỏi giỏ hàng không thành công.',
+            ], 400);
         }
+       
+       
 
-        $cartItem->delete();
-
-        return response()->json([
-            'message' => 'Xóa sản phẩm khỏi giỏ hàng thành công.',
-        ], 200);
+      
     }
 }

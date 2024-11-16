@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ajax\GetLocaitonAjax;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
@@ -114,3 +115,5 @@ Route::delete('/about/{id}', [AboutController::class, 'destroy']);
 Route::get('/product-catalogues', [ProductCatelogueController::class, 'index']);
 
 
+Route::get("/getLocaion", [GetLocaitonAjax::class, "index"]);
+Route::get("/getAllProvinces",[GetLocaitonAjax::class,"getAllProvinces"]);

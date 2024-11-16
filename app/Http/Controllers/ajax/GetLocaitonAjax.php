@@ -1,6 +1,8 @@
 <?php 
     namespace App\Http\Controllers\ajax;
-    use App\Repositories\Interfaces\DistrictRepositoryInterface;
+
+use App\Models\Province;
+use App\Repositories\Interfaces\DistrictRepositoryInterface;
     use App\Repositories\Interfaces\WardRepositoryInterface;
     class GetLocaitonAjax {
         protected $districs ,$wards;
@@ -22,6 +24,11 @@
             return response()->json(["content" => $this->wards->findWardByIdDistrict($data["district_id"])]);
         }
         }
+        public function getAllProvinces(){
+
+            return response()->json(["content" => Province::query()->select("code","name")->get()]);
+        }
+       
     }
 
 ?>
