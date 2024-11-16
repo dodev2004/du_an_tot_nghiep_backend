@@ -34,7 +34,18 @@ class CartController extends Controller
                     // Sử dụng discount_price nếu có, nếu không thì sử dụng price từ product
                     $item->price = $item->product->discount_price ?? $item->product->price;
                 }
-               
+                return [
+                    'id' => $item->id,
+                    'product_id' => $item->product_id,
+                    'product_variants_id' => $item->product_variants_id,
+                    'quantity' => $item->quantity,
+                    'price' => $item->price,
+                    'attributes' => $item->groupVariant,
+                    "image_url" => $item->product->image_url,
+                    "product" => $item->product,
+                    "productVariant" => $item->productVariant,
+                    
+                ];
             });
     
         return response()->json([
