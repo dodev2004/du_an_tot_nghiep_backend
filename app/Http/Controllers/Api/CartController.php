@@ -42,6 +42,7 @@ class CartController extends Controller
                     'price' => $item->price,
                     'attributes' => $item->groupVariant,
                     "image_url" => $item->product->image_url,
+                    "name" => $item->product->name,
                 ];
             });
     
