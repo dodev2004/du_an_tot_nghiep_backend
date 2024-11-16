@@ -12,7 +12,7 @@ class ProductCatelogueController extends Controller
         // Lấy tất cả các bản ghi trong product_catelogues mà không bao gồm cột lft và rgt
         $catalogues = ProductCatelogue::select([
             'id', 'name', 'slug', 'meta_description', 'meta_keywords', 
-            'description', 'user_id', 'created_at', 'updated_at'
+            'description', 'user_id', 'created_at', 'updated_at',"parent_id","level"
         ])->get();
 
         return response()->json($catalogues);
