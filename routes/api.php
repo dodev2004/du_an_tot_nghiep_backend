@@ -42,6 +42,7 @@ Route::group(['middleware' => ['api'], 'prefix' => 'auth'], function () {
     // Các route không yêu cầu đăng nhập
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
+    Route::post('forgot-password', [AuthController::class, 'forgotPassword']); // Thêm route cho quên mật khẩu
 });
 
 Route::middleware(['api', 'jwt.auth'])->group(function () {
