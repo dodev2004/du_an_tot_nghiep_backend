@@ -99,12 +99,7 @@ Route::apiResource('posts', PostController::class);
 Route::get('/posts/related-posts/{id}', [PostController::class, 'relatedPosts']);
 Route::apiResource('post-catelogues', PostCatelogueController::class);
 
-<<<<<<< HEAD
-// Đánh giá
-Route::get('products/{id}/reviews', [ProductReviewController::class, 'index']);
-=======
 Route::get('/products/{id}/reviews', [ProductReviewController::class, 'index']);
->>>>>>> cuong
 Route::post('/products/{id}/reviews', [ProductReviewController::class, 'store']);
 Route::get('/products/{id}/reviews/{reviewId}', [ProductReviewController::class, 'show']);
 // Thông tin liên hệ
