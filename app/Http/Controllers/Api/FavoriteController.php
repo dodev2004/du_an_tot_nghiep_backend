@@ -48,6 +48,7 @@ class FavoriteController extends Controller
             $favorite = Favorite::create([
                 'user_id' => $user->id,
                 'product_id' => $product_id,
+                'status' => 1,
             ]);
             return response()->json(['message' => 'Đã thêm sản phẩm vào danh sách yêu thích', 'data' => $favorite], 201);
         }

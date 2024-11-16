@@ -73,6 +73,7 @@ Route::prefix('products')->group(function () {
     Route::get('/showOne/{id}', [ProductController::class, 'showOne']);
     Route::get('/san-pham-noi-bat', [ProductController::class, 'spNoiBat']);
     Route::get('/splq', [ProductController::class, 'spLienQuan']);
+    Route::get('/list', [ProductController::class, 'list']);
 });
 
 
@@ -97,8 +98,12 @@ Route::apiResource('posts', PostController::class);
 Route::get('/posts/related-posts/{id}', [PostController::class, 'relatedPosts']);
 Route::apiResource('post-catelogues', PostCatelogueController::class);
 
+<<<<<<< HEAD
 // Đánh giá
 Route::get('products/{id}/reviews', [ProductReviewController::class, 'index']);
+=======
+Route::get('/products/{id}/reviews', [ProductReviewController::class, 'index']);
+>>>>>>> cuong
 Route::post('/products/{id}/reviews', [ProductReviewController::class, 'store']);
 Route::get('/products/{id}/reviews/{reviewId}', [ProductReviewController::class, 'show']);
 // Thông tin liên hệ
