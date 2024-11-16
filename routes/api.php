@@ -55,7 +55,10 @@ Route::middleware(['api', 'jwt.auth'])->group(function () {
 
     Route::apiResource('orders', OrderController::class);
     Route::put('/orders/{id}/complete-status', [OrderController::class, 'completeOrderStatus']);
-    
+    Route::put('/orders/{id}/cancel-status', [OrderController::class, 'cancelOrderStatus']);
+    // Route::put('/orders/{id}/restore', [OrderController::class, 'restore']);
+    Route::get('/orders-canceled', [OrderController::class, 'OrderCancel']);
+
 
     Route::get('/cart', [CartController::class, 'index']); // Lấy danh sách giỏ hàng
     Route::post('/cart', [CartController::class, 'store']); // Thêm sản phẩm vào giỏ hàng
@@ -101,7 +104,8 @@ Route::get('/products/{id}/reviews/{reviewId}', [ProductReviewController::class,
 // Thông tin liên hệ
 Route::get('/contacts', [ContactController::class, 'index']);
 Route::post('/contacts', [ContactController::class, 'store']);
-Route::get('/contacts/{id}', [ContactController::class, 'show']);
+Route::get('/contacts/show', [ContactController::class, 'show']);
+Route::get('/contacts/{id}', [ContactController::class, 'showOne']);
 Route::put('/contacts/{id}', [ContactController::class, 'update']);
 Route::delete('/contacts/{id}', [ContactController::class, 'destroy']);
 //Giowis thieu 
