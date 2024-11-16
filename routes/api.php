@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ajax\GetLocaitonAjax;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
@@ -71,36 +72,39 @@ Route::prefix('products')->group(function () {
     Route::get('/splq', [ProductController::class, 'spLienQuan']);
 });
 
+
+// Lấy giảm giá
 Route::get('/promotions', [PromotionController::class, 'index']);
 Route::post('/promotions', [PromotionController::class, 'store']);
 Route::get('/promotions/{id}', [PromotionController::class, 'show']);
 Route::put('/promotions/{id}', [PromotionController::class, 'update']);
 Route::delete('/promotions/{id}', [PromotionController::class, 'destroy']);
-
+// Lấy mã giảm giá
 Route::get('/brands', [BrandController::class, 'index']);
 Route::post('/brands', [BrandController::class, 'store']);
 Route::get('/brands/{id}', [BrandController::class, 'show']);
 Route::put('/brands/{id}', [BrandController::class, 'update']);
 Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
-
+// Thông tin chung
 Route::get('/information', [InformationController::class, 'index']);
 Route::get('/banners-home', [BannerController::class, 'HomeBanner']);
 Route::get('/banners-product', [BannerController::class, 'ProductBanner']);
-
+// Bài viết
 Route::apiResource('posts', PostController::class);
 Route::get('/posts/related-posts/{id}', [PostController::class, 'relatedPosts']);
 Route::apiResource('post-catelogues', PostCatelogueController::class);
 
+// Đánh giá
 Route::get('products/{id}/reviews', [ProductReviewController::class, 'index']);
 Route::post('/products/{id}/reviews', [ProductReviewController::class, 'store']);
 Route::get('/products/{id}/reviews/{reviewId}', [ProductReviewController::class, 'show']);
-
+// Thông tin liên hệ
 Route::get('/contacts', [ContactController::class, 'index']);
 Route::post('/contacts', [ContactController::class, 'store']);
 Route::get('/contacts/{id}', [ContactController::class, 'show']);
 Route::put('/contacts/{id}', [ContactController::class, 'update']);
 Route::delete('/contacts/{id}', [ContactController::class, 'destroy']);
-
+//Giowis thieu 
 Route::get('/about', [AboutController::class, 'index']);
 Route::post('/about', [AboutController::class, 'store']);
 Route::get('/about/{id}', [AboutController::class, 'show']);
@@ -111,3 +115,5 @@ Route::delete('/about/{id}', [AboutController::class, 'destroy']);
 Route::get('/product-catalogues', [ProductCatelogueController::class, 'index']);
 
 
+Route::get("/getLocaion", [GetLocaitonAjax::class, "index"]);
+Route::get("/getAllProvinces",[GetLocaitonAjax::class,"getAllProvinces"]);

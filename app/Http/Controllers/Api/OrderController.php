@@ -172,7 +172,47 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {}
+    public function store(Request $request) {
+        $validatedData = $request->validate([
+            'customer_id' => 'required|exists:users,id',
+            'customer_name' => 'required|string|max:255',
+            'promotion_id' => 'nullable|exists:promotions,id',
+            'total_amount' => 'required|numeric',
+            'discount_amount' => 'nullable|numeric',
+            'final_amount' => 'required|numeric',
+            'status' => 'required|in:1,2,3,4,5,6,7,8',
+            'payment_status' => 'required|in:1,2,3,4',
+            'shipping_address' => 'required|string|max:255',
+            'shipping_fee' => 'required|numeric',
+            'payment_method_id' => 'nullable|exists:payment_methods,id',
+            'discount_code' => 'nullable|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone_number' => 'required|string|max:15',
+            'note' => 'nullable|string',
+            'order_items' => 'required|array',
+            'order_items.*.product_id' => 'required|exists:products,id',
+            'order_items.*.product_name' => 'required|string|max:255',
+            'order_items.*.quantity' => 'required|integer|min:1',
+            'order_items.*.price' => 'required|numeric',
+            'order_items.*.total' => 'required|numeric',
+            'order_items.*.variant' => 'nullable|json',
+        ]);
+
+        $order = Order::create($validatedData);
+    
+        // Tạo các mục đơn hàng
+        foreach ($validatedData['order_items'] as $item) {
+            $order->orderItems()->create($item);
+        }
+    
+        // Trả về phản hồi thành công
+        return response()->json([
+            'success' => true,
+            'message' => 'Đơn hàng đã được tạo thành công!',
+            'data' => $order->load('orderItems')
+        ], 201);
+
+    }
 
 
 
