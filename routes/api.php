@@ -74,8 +74,8 @@ Route::get('/banners-product', [BannerController::class, 'ProductBanner']);
 Route::apiResource('posts', PostController::class);
 Route::apiResource('post-catelogues', PostCatelogueController::class);
 
-Route::get('products/{id}/reviews', [ProductReviewController::class, 'index']);
-Route::post('/products/{id}/reviewstore', [ProductReviewController::class, 'store']);
+Route::get('/products/{id}/reviews', [ProductReviewController::class, 'index']);
+Route::post('/products/{id}/reviews', [ProductReviewController::class, 'store']);
 Route::get('/products/{id}/reviews/{reviewId}', [ProductReviewController::class, 'show']);
 
 Route::get('/contacts', [ContactController::class, 'index']);
