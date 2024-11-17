@@ -30,9 +30,6 @@
                     <label for="discount_type">Loại giảm giá <span style="color: red;">*</span></label>
                     <select name="discount_type" class="form-control" required>
                         <option value="">Lựa chọn loại giảm giá</option>
-                        <option value="percentage"
-                            {{ old('discount_type', isset($promotion) && $promotion->discount_type == 'percentage' ? 'selected' : '') }}>
-                            Phần trăm</option>
                         <option value="fixed"
                             {{ old('discount_type', isset($promotion) && $promotion->discount_type == 'fixed' ? 'selected' : '') }}>
                             Cố định</option>

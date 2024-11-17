@@ -278,7 +278,7 @@
             <div class="statistics-container">
                 <div class="stat-box2">
                     <span class="total"><h3>Tổng số lượng mã giảm giá</h3></span>
-                    <h2>{{ $totalCouponsInMonth }}</h2>
+                    <h2>{{$totalCoupons}}</h2>
                     <p>Mã giảm giá</p>
                     <div class="status medium-value"></div>
                 </div>
@@ -1249,7 +1249,7 @@
 <!-- Biểu đồ mã giảm giá -->
 <script>
             // Dữ liệu truyền từ Laravel
-            const totalCouponsInMonth = {{ $totalCouponsInMonth }};
+            const totalCoupons = {{ $totalCoupons }};
             const activeCoupons = {{ $activeCoupons }};
             const inactiveCoupons = {{ $inactiveCoupons }};
 

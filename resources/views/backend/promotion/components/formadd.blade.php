@@ -22,14 +22,13 @@
                 <div class="form-group col-md-6">
                     <label for="discount_type">Loại giảm giá <span style="color: red;">*</span></label>
                     <select id="discount_type" class="form-control" name="discount_type" required>
-                        <option value="percentage" {{ old('discount_type') == 'percentage' ? 'selected' : '' }}>Phần
-                            trăm</option>
                         <option value="fixed" {{ old('discount_type') == 'fixed' ? 'selected' : '' }}>Cố định</option>
                     </select>
                     @if ($errors->has('discount_type'))
                     <p class="text-danger">{{ $errors->first('discount_type') }}</p>
                     @endif
                 </div>
+                
 
                 <div class="form-group col-md-6">
                     <label for="discount_value">Giá trị giảm <span style="color: red;">*</span></label>
