@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\ProductCatelogueController;
 
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\PromotionController;
+use App\Http\Controllers\Api\ShippingFeeController;
 
 
 use App\Http\Controllers\Api\InformationController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\Api\PostCatelogueController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\ProductReviewController;
 use App\Http\Controllers\backend\AttributeController;
+
 
 
 /*
@@ -120,5 +122,10 @@ Route::delete('/about/{id}', [AboutController::class, 'destroy']);
 Route::get('/product-catalogues', [ProductCatelogueController::class, 'index']);
 
 
+<<<<<<< HEAD
 Route::get("/getLocaion", [GetLocaitonAjax::class, "index"]);
 Route::get("/getAllProvinces",[GetLocaitonAjax::class,"getAllProvinces"]);
+=======
+
+Route::post('shipping-fee', [ShippingFeeController::class, 'ShippingFee']);
+>>>>>>> hoan
