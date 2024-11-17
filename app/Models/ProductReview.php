@@ -32,7 +32,7 @@ class ProductReview extends Model
 
     public function order()
     {
-        return $this->hasOne(Order::class, 'customer_id', 'user_id');
+        return $this->orderItem->order();
     }
 
     public function user()

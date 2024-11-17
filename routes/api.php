@@ -102,7 +102,7 @@ Route::get('/posts/related-posts/{id}', [PostController::class, 'relatedPosts'])
 Route::apiResource('post-catelogues', PostCatelogueController::class);
 
 Route::get('/products/{id}/reviews', [ProductReviewController::class, 'index']);
-Route::post('/products/{id}/reviews', [ProductReviewController::class, 'store']);
+Route::post('/reviews/store/{orderItemId}', [ProductReviewController::class, 'store']);
 Route::get('/products/{id}/reviews/{reviewId}', [ProductReviewController::class, 'show']);
 // Thông tin liên hệ
 Route::get('/contacts', [ContactController::class, 'index']);

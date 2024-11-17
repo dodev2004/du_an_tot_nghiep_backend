@@ -27,7 +27,8 @@ class OrderController extends Controller
         $query = Order::with([
             'customer:id,full_name',
             'promotion:id,code,discount_value',
-            'paymentMethod:id,name'
+            'paymentMethod:id,name',
+            'orderItems.productReviews'
         ])->where('customer_id', $userId)
         ->where('status', '!=', 7);
 
@@ -144,6 +145,18 @@ class OrderController extends Controller
                 'id' => $order->customer->id,
                 'customer_name' => $order->customer->full_name ?? null,
             ],
+            'reviews' => $order->orderItems->flatMap(function ($item) {
+                return $item->productReviews->map(function ($review) use ($item) {
+                    return [
+                        'order_item_id' => $item->id,    
+                        'product_id' => $item->product_id, 
+                        'rating' => $review->rating,
+                        'review' => $review->review,
+                        'image' => $review->image,
+                        'created_at' => $review->created_at->format('d-m-Y'),
+                    ];
+                });
+            }),
             'promotion' => [
                 'promotion_code' => $order->promotion->code ?? null,
                 'promotion_discount' => $order->promotion->discount_value ?? null,
