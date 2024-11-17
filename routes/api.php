@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\AboutController;
+use App\Http\Controllers\Api\AttributeValueController;
 use App\Http\Controllers\api\BrandController;
 use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\api\ContactController;
@@ -126,3 +127,4 @@ Route::get("/getLocaion", [GetLocaitonAjax::class, "index"]);
 Route::get("/getAllProvinces",[GetLocaitonAjax::class,"getAllProvinces"]);
 
 Route::post('shipping-fee', [ShippingFeeController::class, 'ShippingFee']);
+Route::get('/attributesValue', [AttributeValueController::class, 'index']);
