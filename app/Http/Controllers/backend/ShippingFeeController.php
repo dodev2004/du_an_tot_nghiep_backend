@@ -34,10 +34,6 @@ class ShippingFeeController extends Controller
         // Kiểm tra xem có yêu cầu trash không
 
         $table = "shipping_fees";
-
-        $table="shipping_fees";
-
-
         // Thêm điều kiện tìm kiếm theo tên tỉnh
         if ($searchText) {
             $query->whereHas('province', function ($query) use ($searchText) {
@@ -103,7 +99,7 @@ class ShippingFeeController extends Controller
         $request->validate([
             "province_code" => "required|exists:provinces,code|unique:shipping_fees,province_code", // Đảm bảo thành phố chỉ được chọn một lần
             "fee" => "required|numeric|min:0", // Phí ship là số dương
-            "weight_limit" => "required|numeric|min:0", // Trọng lượng tối đa là số dương
+
         ], [
             "province_code.required" => "Tên thành phố không được để trống",
             "province_code.exists" => "Tên thành phố không hợp lệ",
@@ -111,9 +107,7 @@ class ShippingFeeController extends Controller
             "fee.required" => "Phí ship không được để trống",
             "fee.numeric" => "Phí ship phải là số",
             "fee.min" => "Phí ship phải lớn hơn hoặc bằng 0",
-            "weight_limit.required" => "Trọng lượng tối đa không được để trống",
-            "weight_limit.numeric" => "Trọng lượng tối đa phải là số",
-            "weight_limit.min" => "Trọng lượng tối đa phải lớn hơn hoặc bằng 0",
+
         ]);
         if (Shipping_fee::create($request->all())) {
             return response()->json(["success", "Thêm mới thành công"]);
@@ -158,7 +152,7 @@ class ShippingFeeController extends Controller
         $request->validate([
             "province_code" => "required|exists:provinces,code", // Đảm bảo thành phố chỉ được chọn một lần
             "fee" => "required|numeric|min:0", // Phí ship là số dương
-            "weight_limit" => "required|numeric|min:0", // Trọng lượng tối đa là số dương
+
         ], [
             "province_code.required" => "Tên thành phố không được để trống",
             "province_code.exists" => "Tên thành phố không hợp lệ",
@@ -166,9 +160,7 @@ class ShippingFeeController extends Controller
             "fee.required" => "Phí ship không được để trống",
             "fee.numeric" => "Phí ship phải là số",
             "fee.min" => "Phí ship phải lớn hơn hoặc bằng 0",
-            "weight_limit.required" => "Trọng lượng tối đa không được để trống",
-            "weight_limit.numeric" => "Trọng lượng tối đa phải là số",
-            "weight_limit.min" => "Trọng lượng tối đa phải lớn hơn hoặc bằng 0",
+
         ]);
         $shipping_fee = Shipping_fee::find($id);
         if ($shipping_fee->update($request->all())) {
