@@ -137,13 +137,14 @@ class CartController extends Controller
      */
     public function destroy(Request $request): JsonResponse
     {
-        $ids = $request->ids;
+        $ids = explode(",",$request->ids);
+      
         DB::beginTransaction();
         try {
             foreach($ids as $id){
        
                 $cartItem = Cart::find($id);
-    
+              
                 if (!$cartItem) {
                     return response()->json([
                         'error' => 'Sản phẩm không tồn tại trong giỏ hàng.',
@@ -157,13 +158,15 @@ class CartController extends Controller
                 }
         
                 $cartItem->delete();
+                DB::commit();
             }
             return response()->json([
                 'message' => 'Xóa sản phẩm khỏi giỏ hàng thành công.',
             ], 200);
-            DB::commit();
+           
         }
         catch (\Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'message' => 'Xóa sản phẩm khỏi giỏ hàng không thành công.',
             ], 400);
