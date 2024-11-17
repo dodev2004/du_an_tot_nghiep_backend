@@ -122,10 +122,7 @@ Route::delete('/about/{id}', [AboutController::class, 'destroy']);
 Route::get('/product-catalogues', [ProductCatelogueController::class, 'index']);
 
 
-<<<<<<< HEAD
 Route::get("/getLocaion", [GetLocaitonAjax::class, "index"]);
 Route::get("/getAllProvinces",[GetLocaitonAjax::class,"getAllProvinces"]);
-=======
 
 Route::post('shipping-fee', [ShippingFeeController::class, 'ShippingFee']);
->>>>>>> hoan
