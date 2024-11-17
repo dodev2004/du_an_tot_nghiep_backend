@@ -309,7 +309,7 @@ class ProductController extends Controller
                 'weight' => trim($data['weight']),
                 'image_url' => trim($data['image_url']),
                 'discount_percentage' => round($discountPercentage, 2), 
-                'is_active' => trim($data['is_active']),
+                'status' => trim($data['status']),
             ];
     
             // Cập nhật sản phẩm
@@ -347,30 +347,31 @@ class ProductController extends Controller
                 ProductVariant::where('product_id', $product->id)->delete();
     
                 $variants = json_decode($data["variants"]);
+              
                 foreach ($variants as $item) {
                     $skuExists = ProductVariant::where('sku', $item->sku_variant)->exists();
     
-                    if ($skuExists) {
-                        DB::rollBack();
-                        return response()->json([
-                            'error_variant' => "Mã sản phẩm với tên:  {$item->sku_variant} đã tồn tại"
-                        ], 400);
-                    }
+                  
                     if (!is_numeric($item->price_variant)) {
                         return response()->json([
                             'error_variant' => "Giá của sản phẩm phải là số. Giá được nhập: {$item->price_variant}"
                         ], 400);
                     }
-    
+                    if (!is_numeric($item->discount_price_variant)) {
+                        return response()->json([
+                            'error_variant' => "Giá của sản phẩm phải là số. Giá được nhập: {$item->discount_price}"
+                        ], 400);
+                    }
                     if ($item->stock_variant != null && !is_numeric($item->stock_variant)) {
                         return response()->json([
                             'error_variant' => "Số lượng của sản phẩm phải là số. Số lượng được nhập: {$item->stock_variant}"
                         ], 400);
                     }
-    
+              
                     $product_variant = ProductVariant::create([
                         "product_id" => $product->id,
                         "price" => $item->price_variant ? $item->price_variant : 0,
+                        "discount_price" => $item->discount_price_variant ? $item->discount_price_variant : 0,
                         "image_url" => $item->variant_image,
                         "stock" => $item->stock_variant ? $item->stock_variant : 0,
                         "sku" => $item->sku_variant,
@@ -391,6 +392,7 @@ class ProductController extends Controller
             return response()->json(["success", "Cập nhật sản phẩm thành công"]);
         } catch (\Exception $e) {
             DB::rollBack();
+            dd($e);
             return response()->json(["error", "Cập nhật sản phẩm không thành công"], 500);
         }
     }

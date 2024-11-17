@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ajax\GetLocaitonAjax;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
@@ -57,13 +58,19 @@ Route::middleware(['api', 'jwt.auth'])->group(function () {
 
     Route::apiResource('orders', OrderController::class);
     Route::put('/orders/{id}/complete-status', [OrderController::class, 'completeOrderStatus']);
-    
+    Route::put('/orders/{id}/cancel-status', [OrderController::class, 'cancelOrderStatus']);
+    // Route::put('/orders/{id}/restore', [OrderController::class, 'restore']);
+    Route::get('/orders-canceled', [OrderController::class, 'OrderCancel']);
+
 
     Route::get('/cart', [CartController::class, 'index']); // Lấy danh sách giỏ hàng
     Route::post('/cart', [CartController::class, 'store']); // Thêm sản phẩm vào giỏ hàng
     Route::put('/cart/{id}', [CartController::class, 'update']); // Cập nhật số lượng
-    Route::delete('/cart/{id}', [CartController::class, 'destroy']); // Xóa sản phẩm khỏi giỏ hàng
+    Route::delete('/delete-cart', [CartController::class, 'destroy']); // Xóa sản phẩm khỏi giỏ hàng
+
+
     Route::get('shipping-fees', [ShippingFeeController::class, 'index']);
+
 });
 
 Route::get("/attribute",[AttributeController::class,"getAll"])->name("api.attribute");
@@ -73,38 +80,42 @@ Route::prefix('products')->group(function () {
     Route::get('/showOne/{id}', [ProductController::class, 'showOne']);
     Route::get('/san-pham-noi-bat', [ProductController::class, 'spNoiBat']);
     Route::get('/splq', [ProductController::class, 'spLienQuan']);
+    Route::get('/list', [ProductController::class, 'list']);
 });
 
+
+// Lấy giảm giá
 Route::get('/promotions', [PromotionController::class, 'index']);
 Route::post('/promotions', [PromotionController::class, 'store']);
 Route::get('/promotions/{id}', [PromotionController::class, 'show']);
 Route::put('/promotions/{id}', [PromotionController::class, 'update']);
 Route::delete('/promotions/{id}', [PromotionController::class, 'destroy']);
-
+// Lấy mã giảm giá
 Route::get('/brands', [BrandController::class, 'index']);
 Route::post('/brands', [BrandController::class, 'store']);
 Route::get('/brands/{id}', [BrandController::class, 'show']);
 Route::put('/brands/{id}', [BrandController::class, 'update']);
 Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
-
+// Thông tin chung
 Route::get('/information', [InformationController::class, 'index']);
 Route::get('/banners-home', [BannerController::class, 'HomeBanner']);
 Route::get('/banners-product', [BannerController::class, 'ProductBanner']);
-
+// Bài viết
 Route::apiResource('posts', PostController::class);
 Route::get('/posts/related-posts/{id}', [PostController::class, 'relatedPosts']);
 Route::apiResource('post-catelogues', PostCatelogueController::class);
 
-Route::get('products/{id}/reviews', [ProductReviewController::class, 'index']);
+Route::get('/products/{id}/reviews', [ProductReviewController::class, 'index']);
 Route::post('/products/{id}/reviews', [ProductReviewController::class, 'store']);
 Route::get('/products/{id}/reviews/{reviewId}', [ProductReviewController::class, 'show']);
-
+// Thông tin liên hệ
 Route::get('/contacts', [ContactController::class, 'index']);
 Route::post('/contacts', [ContactController::class, 'store']);
-Route::get('/contacts/{id}', [ContactController::class, 'show']);
+Route::get('/contacts/show', [ContactController::class, 'show']);
+Route::get('/contacts/{id}', [ContactController::class, 'showOne']);
 Route::put('/contacts/{id}', [ContactController::class, 'update']);
 Route::delete('/contacts/{id}', [ContactController::class, 'destroy']);
-
+//Giowis thieu 
 Route::get('/about', [AboutController::class, 'index']);
 Route::post('/about', [AboutController::class, 'store']);
 Route::get('/about/{id}', [AboutController::class, 'show']);
@@ -113,5 +124,6 @@ Route::delete('/about/{id}', [AboutController::class, 'destroy']);
 
 
 Route::get('/product-catalogues', [ProductCatelogueController::class, 'index']);
+
 
 

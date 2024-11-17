@@ -26,7 +26,7 @@ class PermissionController extends Controller
         $breadcrumbs = $this->breadcrumbs;
         $table="permissions";
         // Tìm kiếm và lọc dữ liệu
-        $query = Permission::with('groupPermission')->orderBy('created_at', 'desc');
+        $query = Permission::with('groupPermission')->orderBy('group_permission_id', 'asc');
 
         // Kiểm tra nếu người dùng muốn xem các bản ghi đã bị xóa mềm
 
@@ -66,11 +66,11 @@ class PermissionController extends Controller
             if ($request->input('end_date')) {
                 $query->whereDate('deleted_at', '<=', $request->input('end_date'));
             }
-            $data = $query->onlyTrashed()->paginate(5);
+            $data = $query->onlyTrashed()->paginate(10);
             return view('backend.trash.trash_permission.templates.index', compact('breadcrumbs', "title", "data", "groupPermissions"));
         }
 
-        $data = $query->paginate(5);
+        $data = $query->paginate(10);
 
         return view('backend.permissions.templates.index', compact('breadcrumbs', "title", "data", "groupPermissions","table"));
     }

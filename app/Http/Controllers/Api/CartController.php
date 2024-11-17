@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+
 class CartController extends Controller
 {
     /**
@@ -16,10 +18,15 @@ class CartController extends Controller
         $userId = Auth::id();
         
         // Lấy giỏ hàng của người dùng và xác định giá dựa trên discount_price nếu có
-        $cartItems = Cart::with(['product', 'productVariant'])
+        $cartItems = Cart::with(['product', 'productVariant.attributeValues.attributes'])
             ->where('user_id', $userId)
             ->get()
             ->map(function ($item) {
+                $groupedAttributes = [];
+                foreach($item->productVariant->attributeValues as $attribute){
+                    $groupedAttributes[$attribute->attributes->name] = $attribute->name;
+                }
+                $item->groupVariant = $groupedAttributes;
                 if ($item->product_variant_id) {
                     // Sử dụng discount_price nếu có, nếu không thì sử dụng price từ productVariant
                     $item->price = $item->productVariant->discount_price ?? $item->productVariant->price;
@@ -27,7 +34,18 @@ class CartController extends Controller
                     // Sử dụng discount_price nếu có, nếu không thì sử dụng price từ product
                     $item->price = $item->product->discount_price ?? $item->product->price;
                 }
-                return $item;
+                return [
+                    'id' => $item->id,
+                    'product_id' => $item->product_id,
+                    'product_variants_id' => $item->product_variants_id,
+                    'quantity' => $item->quantity,
+                    'price' => $item->price,
+                    'attributes' => $item->groupVariant,
+                    "image_url" => $item->product->image_url,
+                    "product" => $item->product,
+                    "product_variant" => $item->productVariant,
+
+                ];
             });
     
         return response()->json([
@@ -117,26 +135,45 @@ class CartController extends Controller
     /**
      * Xóa sản phẩm khỏi giỏ hàng.
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(Request $request): JsonResponse
     {
-        $cartItem = Cart::find($id);
-
-        if (!$cartItem) {
+        $ids = explode(",",$request->ids);
+      
+        DB::beginTransaction();
+        try {
+            foreach($ids as $id){
+       
+                $cartItem = Cart::find($id);
+              
+                if (!$cartItem) {
+                    return response()->json([
+                        'error' => 'Sản phẩm không tồn tại trong giỏ hàng.',
+                    ], 404);
+                }
+        
+                if ($cartItem->user_id !== Auth::id()) {
+                    return response()->json([
+                        'error' => 'Bạn không có quyền xóa sản phẩm này.',
+                    ], 403);
+                }
+        
+                $cartItem->delete();
+                DB::commit();
+            }
             return response()->json([
-                'error' => 'Sản phẩm không tồn tại trong giỏ hàng.',
-            ], 404);
+                'message' => 'Xóa sản phẩm khỏi giỏ hàng thành công.',
+            ], 200);
+           
         }
-
-        if ($cartItem->user_id !== Auth::id()) {
+        catch (\Exception $e) {
+            DB::rollBack();
             return response()->json([
-                'error' => 'Bạn không có quyền xóa sản phẩm này.',
-            ], 403);
+                'message' => 'Xóa sản phẩm khỏi giỏ hàng không thành công.',
+            ], 400);
         }
+       
+       
 
-        $cartItem->delete();
-
-        return response()->json([
-            'message' => 'Xóa sản phẩm khỏi giỏ hàng thành công.',
-        ], 200);
+      
     }
 }
