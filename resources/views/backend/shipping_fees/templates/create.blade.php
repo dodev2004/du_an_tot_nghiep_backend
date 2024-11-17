@@ -36,6 +36,11 @@
 .select2-selection__rendered{
     padding: 0 !important;
 }
+option:disabled {
+    color: #ff0000; /* Màu chữ đỏ */
+    font-style: italic;
+    background-color: #f2f2f2; /* Nền xám nhạt */
+}
 </style>
 @endsection
 @section("title")
@@ -49,6 +54,7 @@
 @endsection
 @push("scripts")
 @include('backend.components.scripts');
+
 @include("backend.shipping_fees.handles.add");
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>

@@ -19,9 +19,9 @@
                 <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->province->name }}</p>
             </td>
             <th>
-                <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->fee }}</p>
+                <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{  number_format($item->fee, 0)}}</p>
             </th>
-            
+
 
             <td class="text-center">
                 <form name="form_status" action="">

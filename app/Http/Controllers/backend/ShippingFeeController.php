@@ -87,7 +87,8 @@ class ShippingFeeController extends Controller
 
         $breadcrumbs = $this->breadcrumbs;
         $provinces = Province::all();
-        return view("backend.shipping_fees.templates.create", compact("title", "breadcrumbs", "provinces"));
+        $existingProvinceCodes = Shipping_fee::pluck('province_code')->toArray();
+        return view("backend.shipping_fees.templates.create", compact("title", "breadcrumbs", "provinces","existingProvinceCodes"));
     }
 
 
@@ -140,8 +141,13 @@ class ShippingFeeController extends Controller
         ]);
         $data = Shipping_fee::query()->where("id", "=", $id)->first();
         $provinces = Province::all();
+        $existingProvinceCodes = Shipping_fee::pluck('province_code')->toArray();
+        // Loại bỏ province_code của bản ghi hiện tại ra khỏi danh sách
+if ($data) {
+    $existingProvinceCodes = array_diff($existingProvinceCodes, [$data->province_code]);
+}
         $breadcrumbs = $this->breadcrumbs;
-        return view("backend.shipping_fees.templates.edit", compact("title", "breadcrumbs", "data", "id", 'provinces'));
+        return view("backend.shipping_fees.templates.edit", compact("title", "breadcrumbs", "data", "id", 'provinces',"existingProvinceCodes"));
     }
 
     /**

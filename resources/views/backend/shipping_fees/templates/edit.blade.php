@@ -36,6 +36,11 @@
 .select2-selection__rendered{
     padding: 0 !important;
 }
+option:disabled {
+    color: #ff0000; /* Màu chữ đỏ */
+    font-style: italic;
+    background-color: #f2f2f2; /* Nền xám nhạt */
+}
 </style>
 @endsection
 @section("title")
