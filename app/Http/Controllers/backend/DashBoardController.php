@@ -119,21 +119,18 @@ class DashBoardController extends Controller
         $currentMonth = Carbon::now()->month;
         $currentYear = Carbon::now()->year;
 
-        // Thống kê tổng số mã giảm giá tạo trong tháng hiện tại
-        $totalCouponsInMonth = Promotion::whereYear('created_at', $currentYear)
-            ->whereMonth('created_at', $currentMonth)
-            ->count();
+        // Thống kê tổng số mã giảm giá tạo 
+        $totalCoupons = Promotion::count();
 
         // Thống kê tổng số mã giảm giá còn hoạt động
         $activeCoupons = Promotion::where('status', 'active')->count();
 
         // Tính tổng số mã giảm giá không còn hoạt động
-        $inactiveCoupons = $totalCouponsInMonth - $activeCoupons;
-
+        $inactiveCoupons = $totalCoupons - $activeCoupons;
         // Lấy mã giảm giá được sử dụng nhiều nhất dựa trên trường used_count
         $topCoupons = Promotion::select('code', 'used_count')
             ->orderBy('used_count', 'desc')
-            ->limit(5) // Giới hạn số lượng mã giảm giá hiển thị
+            ->limit(5) 
             ->get();
 
         return view('backend.dashboard.home', compact(
@@ -150,7 +147,7 @@ class DashBoardController extends Controller
             'canceledOrdersToday',         // Số đơn hàng bị hủy hôm nay
             'chartData',
             'orderStatusData',
-            'totalCouponsInMonth',
+            'totalCoupons',
             'activeCoupons',
             'inactiveCoupons',
             'topCoupons',

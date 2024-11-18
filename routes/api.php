@@ -67,6 +67,10 @@ Route::middleware(['api', 'jwt.auth'])->group(function () {
     Route::post('/cart', [CartController::class, 'store']); // Thêm sản phẩm vào giỏ hàng
     Route::put('/cart/{id}', [CartController::class, 'update']); // Cập nhật số lượng
     Route::delete('/delete-cart', [CartController::class, 'destroy']); // Xóa sản phẩm khỏi giỏ hàng
+
+
+    Route::get('shipping-fees', [ShippingFeeController::class, 'index']);
+
 });
 
 Route::get("/attribute",[AttributeController::class,"getAll"])->name("api.attribute");
@@ -125,4 +129,4 @@ Route::get('/product-catalogues', [ProductCatelogueController::class, 'index']);
 Route::get("/getLocaion", [GetLocaitonAjax::class, "index"]);
 Route::get("/getAllProvinces",[GetLocaitonAjax::class,"getAllProvinces"]);
 
-Route::post('shipping-fee', [ShippingFeeController::class, 'ShippingFee']);
+
