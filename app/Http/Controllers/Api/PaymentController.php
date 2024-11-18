@@ -17,7 +17,7 @@ class PaymentController extends Controller
         $vnp_Returnurl = route("vnpay.return");
         $vnp_TmnCode = env('VNP_TMN_CODE'); // Mã website tại VNPAY
         $vnp_HashSecret = env('VNP_HASH_SECRET'); // Chuỗi bí mật
-        
+        dd($vnp_HashSecret);
         $vnp_TxnRef = $request->order_id; // Mã đơn hàng
         $vnp_OrderInfo = $request->order_desc; // Thông tin đơn hàng
         $vnp_OrderType = $request->order_type; // Loại đơn hàng
