@@ -46,7 +46,6 @@ class ProductReviewController extends Controller
                 'rating' => $review->rating,
                 'review' => $review->review,
                 'created_at' => $review->created_at,
-                'image' => $review->image ? asset('storage/' . $review->image) : null,
                 'comments' => $review->comments->map(function ($comment) {
                     return [
                         'comment' => $comment->comment,
@@ -73,17 +72,13 @@ class ProductReviewController extends Controller
         $validator = Validator::make($request->all(), [
             'rating' => 'required|integer|min:1|max:5',
             'review' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        // Xử lý upload ảnh
-        $imagePath = $request->hasFile('image') 
-            ? $request->file('image')->store('images', 'public') 
-            : null;
 
         // Tạo review mới
         $review = ProductReview::create([
@@ -92,7 +87,6 @@ class ProductReviewController extends Controller
             'user_id' => Auth::id(),
             'rating' => $request->rating,
             'review' => $request->review,
-            'image' => $imagePath,
         ]);
 
         return response()->json([
