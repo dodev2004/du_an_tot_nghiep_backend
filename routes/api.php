@@ -71,8 +71,13 @@ Route::middleware(['api', 'jwt.auth'])->group(function () {
     Route::delete('/delete-cart', [CartController::class, 'destroy']); // Xóa sản phẩm khỏi giỏ hàng
 
 
-    Route::post('/vnpay_payment', [PaymentController::class, 'vnpay_payment']);
+ 
+    Route::post('/vnpay/payment', [PaymentController::class, 'vnpay_payment']);
+    Route::post('/vnpay/return', [PaymentController::class, 'vnpay_return'])->name('vnpay.return');
     Route::get('shipping-fees', [ShippingFeeController::class, 'index']);
+    
+
+
 
 });
 
