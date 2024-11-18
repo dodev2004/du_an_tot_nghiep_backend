@@ -183,7 +183,7 @@ public function updateProfile(Request $request)
     {
             $request->validate([
             'password' => 'required|string',
-            'new_password' => 'required|string|min:6|confirmed',
+            'new_password' => 'required|string|min:6',
         ]);
         $user = Auth::user();
         if (!Hash::check($request->password, $user->password)) {
