@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Promotion;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class PromotionController extends Controller
 {
@@ -24,6 +25,40 @@ class PromotionController extends Controller
         }
         return response()->json($promotion);
     }
+
+    public function usePromotion(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|string',
+        ]);
+        $promotion = Promotion::where('code', $request->code)->first();
+
+        if (!$promotion) {
+            return response()->json(['message' => 'Mã giảm giá không tồn tại.'], 404);
+        }
+
+        // Kiểm tra ngày bắt đầu của mã giảm giá
+        if (Carbon::now()->lt(Carbon::parse($promotion->start_date))) {
+            return response()->json(['message' => 'Mã giảm giá chưa đến ngày bắt đầu.'], 400);
+        }
+
+        // Kiểm tra ngày kết thúc của mã giảm giá
+        if (Carbon::now()->gt(Carbon::parse($promotion->end_date))) {
+            return response()->json(['message' => 'Mã giảm giá đã kết thúc.'], 400);
+        }
+
+        // Kiểm tra số lượng mã giảm giá
+        if ($promotion->quantity == 0) {
+            return response()->json(['message' => 'Mã giảm giá đã hết.'], 400);
+        }
+
+        // Giảm số lượng mã giảm giá và tăng used_count
+        $promotion->quantity -= 1;
+        $promotion->used_count += 1;
+        $promotion->save();
+
+        return response()->json(['message' => 'Sử dụng mã giảm giá thành công.', 'promotion' => $promotion], 200);
+    }  
     public function store(Request $request)
     {
         // Tạo mới khuyến mãi

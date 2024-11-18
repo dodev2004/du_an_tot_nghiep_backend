@@ -17,6 +17,7 @@ class Promotion extends Model
         'start_date',
         'end_date', 
         'max_uses',
+        'quantity',
         'used_count'
     ];
     protected $table = "promotions";

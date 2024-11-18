@@ -54,6 +54,7 @@ Route::middleware(['api', 'jwt.auth'])->group(function () {
     Route::get('auth/profile', [AuthController::class, 'profile']);
     Route::post('auth/refresh', [AuthController::class, 'refresh']);
     Route::post('auth/update-profile', [AuthController::class, 'updateProfile']);
+    Route::post('auth/change-password', [AuthController::class, 'changePassword']);
 
     Route::get('/favorites', [FavoriteController::class, 'index']);
     Route::post('/favorites/toggle', [FavoriteController::class, 'toggleFavorite']);
@@ -70,6 +71,13 @@ Route::middleware(['api', 'jwt.auth'])->group(function () {
     Route::put('/cart/{id}', [CartController::class, 'update']); // Cập nhật số lượng
     Route::delete('/delete-cart', [CartController::class, 'destroy']); // Xóa sản phẩm khỏi giỏ hàng
 
+    // Lấy giảm giá
+    Route::get('/promotions', [PromotionController::class, 'index']);
+    Route::post('/promotions', [PromotionController::class, 'store']);
+    Route::get('/promotions/{id}', [PromotionController::class, 'show']);
+    Route::put('/promotions/{id}', [PromotionController::class, 'update']);
+    Route::delete('/promotions/{id}', [PromotionController::class, 'destroy']);
+    Route::post('promotions/use', [PromotionController::class, 'usePromotion']);
 
  
     Route::post('/vnpay/payment', [PaymentController::class, 'vnpay_payment']);
@@ -92,12 +100,7 @@ Route::prefix('products')->group(function () {
 });
 
 
-// Lấy giảm giá
-Route::get('/promotions', [PromotionController::class, 'index']);
-Route::post('/promotions', [PromotionController::class, 'store']);
-Route::get('/promotions/{id}', [PromotionController::class, 'show']);
-Route::put('/promotions/{id}', [PromotionController::class, 'update']);
-Route::delete('/promotions/{id}', [PromotionController::class, 'destroy']);
+
 // Lấy mã giảm giá
 Route::get('/brands', [BrandController::class, 'index']);
 Route::post('/brands', [BrandController::class, 'store']);
@@ -136,8 +139,6 @@ Route::get('/product-catalogues', [ProductCatelogueController::class, 'index']);
 
 Route::get("/getLocaion", [GetLocaitonAjax::class, "index"]);
 Route::get("/getAllProvinces",[GetLocaitonAjax::class,"getAllProvinces"]);
-
-Route::post('shipping-fee', [ShippingFeeController::class, 'ShippingFee']);
 
 Route::get('/attributesValue', [AttributeValueController::class, 'index']);
 
