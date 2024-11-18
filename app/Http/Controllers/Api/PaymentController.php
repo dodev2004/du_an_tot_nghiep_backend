@@ -10,61 +10,94 @@ class PaymentController extends Controller
 {
     public function vnpay_payment(Request $request)
 {
-    error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
-    date_default_timezone_set('Asia/Ho_Chi_Minh');
     
-    $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    $vnp_Returnurl = route("vnpay.return");
-    $vnp_TmnCode = "PK8BCC9J";
-    $vnp_HashSecret = env('VNP_HASH_SECRET');
+        $vnp_Url = env('VNPAY_URL');
+        $vnp_Returnurl = env('VNPAY_RETURNURL');
+        $vnp_TmnCode = env('VNPAY_TMN_CODE');
+        $vnp_HashSecret = env('VNPAY_HASH_SECRET');
+
+        // Lấy các tham số từ request
+        $vnp_TxnRef = $request->input('order_id');
+        $vnp_OrderInfo = $request->input('order_desc');
+        $vnp_OrderType = $request->input('order_type');
+        $vnp_Amount = $request->input('amount') * 100; // Đổi sang VND
+        $vnp_Locale = $request->input('language');
+        $vnp_BankCode = $request->input('bank_code');
+        $vnp_IpAddr = $request->ip();
+
+        // Thông tin người thanh toán
+        $vnp_Bill_Mobile = $request->input('txt_billing_mobile');
+        $vnp_Bill_Email = $request->input('txt_billing_email');
+        $fullName = trim($request->input('txt_billing_fullname'));
+        if (!empty($fullName)) {
+            $name = explode(' ', $fullName);
+            $vnp_Bill_FirstName = array_shift($name);
+            $vnp_Bill_LastName = array_pop($name);
+        }
+        $vnp_Bill_Address = $request->input('txt_inv_addr1');
+        $vnp_Bill_City = $request->input('txt_bill_city');
+        $vnp_Bill_Country = $request->input('txt_bill_country');
+        $vnp_Bill_State = $request->input('txt_bill_state');
+
+        // Tạo mảng dữ liệu để gửi tới VNPay
+        $inputData = [
+            "vnp_Version" => "2.1.0",
+            "vnp_TmnCode" => $vnp_TmnCode,
+            "vnp_Amount" => $vnp_Amount,
+            "vnp_Command" => "pay",
+            "vnp_CreateDate" => date('YmdHis'),
+            "vnp_CurrCode" => "VND",
+            "vnp_IpAddr" => $vnp_IpAddr,
+            "vnp_Locale" => $vnp_Locale,
+            "vnp_OrderInfo" => $vnp_OrderInfo,
+            "vnp_OrderType" => $vnp_OrderType,
+            "vnp_ReturnUrl" => $vnp_Returnurl,
+            "vnp_TxnRef" => $vnp_TxnRef,
+            "vnp_Bill_Mobile" => $vnp_Bill_Mobile,
+            "vnp_Bill_Email" => $vnp_Bill_Email,
+            "vnp_Bill_FirstName" => $vnp_Bill_FirstName,
+            "vnp_Bill_LastName" => $vnp_Bill_LastName,
+            "vnp_Bill_Address" => $vnp_Bill_Address,
+            "vnp_Bill_City" => $vnp_Bill_City,
+            "vnp_Bill_Country" => $vnp_Bill_Country,
+        ];
+
+        if (!empty($vnp_BankCode)) {
+            $inputData['vnp_BankCode'] = $vnp_BankCode;
+        }
+        if (!empty($vnp_Bill_State)) {
+            $inputData['vnp_Bill_State'] = $vnp_Bill_State;
+        }
+
+        // Tạo dữ liệu hash để bảo mật thông tin
+        ksort($inputData);
+        $query = "";
+        $i = 0;
+        $hashdata = "";
+        foreach ($inputData as $key => $value) {
+            if ($i == 1) {
+                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashdata .= urlencode($key) . "=" . urlencode($value);
+                $i = 1;
+            }
+            $query .= urlencode($key) . "=" . urlencode($value) . '&';
+        }
+
+        // Thêm hash vào URL
+        $vnp_Url = $vnp_Url . "?" . $query;
+        if (isset($vnp_HashSecret)) {
+            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
+            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+        }
+
+        // Chuyển hướng đến VNPay để thanh toán
+        if ($request->has('redirect')) {
+            return redirect()->away($vnp_Url);
+        } else {
+            return response()->json(['code' => '00', 'message' => 'success', 'data' => $vnp_Url]);
+        }
     
-    $vnp_TxnRef = $request->order_id;
-    $vnp_OrderInfo = $request->order_desc;
-    $vnp_OrderType = $request->order_type;
-    $vnp_Amount = $request->total_price * 100; // Nhân với 100 để chuyển sang đơn vị VND
-    $vnp_Locale = "VN";
-    $vnp_BankCode = $request->bank_code ?? "NCB";
-    $vnp_IpAddr = $request->ip();
-    $vnp_ExpireDate = date('YmdHis', strtotime('+15 minutes')); // 15 phút hết hạn
-
-    if ($vnp_Amount < 500000 || $vnp_Amount > 100000000000) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Invalid transaction amount. Amount range is from 5.000 to 1.000.000.000 VND'
-        ], 400);
-    }
-
-    $inputData = [
-        "vnp_Version" => "2.1.0",
-        "vnp_TmnCode" => $vnp_TmnCode,
-        "vnp_Amount" => $vnp_Amount,
-        "vnp_Command" => "pay",
-        "vnp_CreateDate" => date('YmdHis'),
-        "vnp_CurrCode" => "VND",
-        "vnp_IpAddr" => $vnp_IpAddr,
-        "vnp_Locale" => $vnp_Locale,
-        "vnp_OrderInfo" => $vnp_OrderInfo,
-        "vnp_OrderType" => $vnp_OrderType,
-        "vnp_ReturnUrl" => $vnp_Returnurl,
-        "vnp_TxnRef" => $vnp_TxnRef,
-        "vnp_ExpireDate" => $vnp_ExpireDate
-    ];
-
-    if (!empty($vnp_BankCode)) {
-        $inputData['vnp_BankCode'] = $vnp_BankCode;
-    }
-
-    ksort($inputData);
-    $hashdata = urldecode(http_build_query($inputData)); // Không mã hóa khi tính chữ ký
-    $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
-    $query = http_build_query($inputData) . '&vnp_SecureHash=' . $vnpSecureHash;
-
-    $vnp_Url .= "?" . $query;
-
-    return response()->json([
-        'success' => true,
-        'payment_url' => $vnp_Url
-    ]);
 }
 
 public function vnpay_return(Request $request)
