@@ -53,6 +53,7 @@ Route::middleware(['api', 'jwt.auth'])->group(function () {
     Route::get('auth/profile', [AuthController::class, 'profile']);
     Route::post('auth/refresh', [AuthController::class, 'refresh']);
     Route::post('auth/update-profile', [AuthController::class, 'updateProfile']);
+    Route::post('auth/change-password', [AuthController::class, 'changePassword']);
 
     Route::get('/favorites', [FavoriteController::class, 'index']);
     Route::post('/favorites/toggle', [FavoriteController::class, 'toggleFavorite']);
@@ -129,8 +130,6 @@ Route::get('/product-catalogues', [ProductCatelogueController::class, 'index']);
 
 Route::get("/getLocaion", [GetLocaitonAjax::class, "index"]);
 Route::get("/getAllProvinces",[GetLocaitonAjax::class,"getAllProvinces"]);
-
-Route::post('shipping-fee', [ShippingFeeController::class, 'ShippingFee']);
 
 Route::get('/attributesValue', [AttributeValueController::class, 'index']);
 
