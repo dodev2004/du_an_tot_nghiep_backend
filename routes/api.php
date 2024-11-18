@@ -70,6 +70,13 @@ Route::middleware(['api', 'jwt.auth'])->group(function () {
     Route::put('/cart/{id}', [CartController::class, 'update']); // Cập nhật số lượng
     Route::delete('/delete-cart', [CartController::class, 'destroy']); // Xóa sản phẩm khỏi giỏ hàng
 
+    // Lấy giảm giá
+    Route::get('/promotions', [PromotionController::class, 'index']);
+    Route::post('/promotions', [PromotionController::class, 'store']);
+    Route::get('/promotions/{id}', [PromotionController::class, 'show']);
+    Route::put('/promotions/{id}', [PromotionController::class, 'update']);
+    Route::delete('/promotions/{id}', [PromotionController::class, 'destroy']);
+    Route::post('promotions/use', [PromotionController::class, 'usePromotion']);
 
     Route::get('shipping-fees', [ShippingFeeController::class, 'index']);
 
@@ -86,12 +93,7 @@ Route::prefix('products')->group(function () {
 });
 
 
-// Lấy giảm giá
-Route::get('/promotions', [PromotionController::class, 'index']);
-Route::post('/promotions', [PromotionController::class, 'store']);
-Route::get('/promotions/{id}', [PromotionController::class, 'show']);
-Route::put('/promotions/{id}', [PromotionController::class, 'update']);
-Route::delete('/promotions/{id}', [PromotionController::class, 'destroy']);
+
 // Lấy mã giảm giá
 Route::get('/brands', [BrandController::class, 'index']);
 Route::post('/brands', [BrandController::class, 'store']);
