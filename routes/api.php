@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\InformationController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PostCatelogueController;
 use App\Http\Controllers\Api\FavoriteController;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\ProductReviewController;
 use App\Http\Controllers\backend\AttributeController;
 
@@ -70,6 +71,7 @@ Route::middleware(['api', 'jwt.auth'])->group(function () {
     Route::delete('/delete-cart', [CartController::class, 'destroy']); // Xóa sản phẩm khỏi giỏ hàng
 
 
+    Route::post('/vnpay_payment', [PaymentController::class, 'vnpay_payment']);
     Route::get('shipping-fees', [ShippingFeeController::class, 'index']);
 
 });
