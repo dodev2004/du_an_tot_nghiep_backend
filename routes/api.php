@@ -81,7 +81,7 @@ Route::middleware(['api', 'jwt.auth'])->group(function () {
 
  
     Route::post('/vnpay/payment', [PaymentController::class, 'vnpay_payment']);
-    Route::post('/vnpay/return', [PaymentController::class, 'vnpay_return'])->name('vnpay.return');
+    Route::get('/vnpay/return', [PaymentController::class, 'vnpay_return'])->name('vnpay.return');
     Route::get('shipping-fees', [ShippingFeeController::class, 'index']);
     
 
