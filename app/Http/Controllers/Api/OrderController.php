@@ -27,7 +27,7 @@ class OrderController extends Controller
         $query = Order::with([
             'customer:id,full_name',
             'promotion:id,code,discount_value',
-            'paymentMethod:id,name'
+            'paymentMethod:id,name',
         ])->where('customer_id', $userId)
         ->where('status', '!=', 7);
 
@@ -126,7 +126,7 @@ class OrderController extends Controller
     {
         $userId = Auth::id();
         // Query danh sách đơn hàng, có thể thêm điều kiện lọc nếu cần thiết
-        $order = Order::with(['orderItems', 'customer:id,full_name', 'promotion:id,code,discount_value', 'paymentMethod:id,name'])->where('customer_id', $userId)
+        $order = Order::with(['.product_reviews', 'customer:id,full_name', 'promotion:id,code,discount_value', 'paymentMethod:id,name'])->where('customer_id', $userId)
             ->find($id);
         // Kiểm tra nếu không tìm thấy đơn hàng
         if (!$order) {
@@ -161,7 +161,19 @@ class OrderController extends Controller
             'shipping_fee' => $order->shipping_fee,
             'created_at' => $order->created_at->format('d-m-Y'),
             'updated_at' => $order->updated_at->format('d-m-Y'),
-            'order_items' => $order->orderItems
+            'order_items' => $order->orderItems,
+            'reviews' => $order->orderItems->map(function ($item) {
+                    return [
+                        'order_item_id' => $item->id,
+                        'product_id' => $item->product_id,
+                        'review' => $item->product_reviews ? [
+                            'rating' => $item->product_reviews->rating,
+                            'review' => $item->product_reviews->review,
+                            'image' => $item->product_reviews->image,
+                            'created_at' => $item->product_reviews->created_at->format('d-m-Y'),
+                        ] : null,
+                    ];
+                }),
         ];
 
         // Trả về JSON cho phía front-end
