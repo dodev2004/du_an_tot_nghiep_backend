@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\AboutController;
+use App\Http\Controllers\Api\AttributeValueController;
 use App\Http\Controllers\api\BrandController;
 use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\api\ContactController;
@@ -106,7 +107,7 @@ Route::get('/posts/related-posts/{id}', [PostController::class, 'relatedPosts'])
 Route::apiResource('post-catelogues', PostCatelogueController::class);
 
 Route::get('/products/{id}/reviews', [ProductReviewController::class, 'index']);
-Route::post('/products/{id}/reviews', [ProductReviewController::class, 'store']);
+Route::post('/reviews/store/{orderItemId}', [ProductReviewController::class, 'store']);
 Route::get('/products/{id}/reviews/{reviewId}', [ProductReviewController::class, 'show']);
 // Thông tin liên hệ
 Route::get('/contacts', [ContactController::class, 'index']);
@@ -129,4 +130,9 @@ Route::get('/product-catalogues', [ProductCatelogueController::class, 'index']);
 Route::get("/getLocaion", [GetLocaitonAjax::class, "index"]);
 Route::get("/getAllProvinces",[GetLocaitonAjax::class,"getAllProvinces"]);
 
+<<<<<<< HEAD
 
+=======
+Route::post('shipping-fee', [ShippingFeeController::class, 'ShippingFee']);
+Route::get('/attributesValue', [AttributeValueController::class, 'index']);
+>>>>>>> cuong

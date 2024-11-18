@@ -212,17 +212,6 @@ class ProductController extends Controller
         });
     }
 
-    // Lọc theo đánh giá sao
-    if ($request->has('rating')) {
-        $rating = $request->input('rating');
-        $query->whereHas('product_reviews', function($query) use ($rating) {
-            
-            $query->selectRaw('AVG(rating) as avg_rating')
-                  ->groupBy('product_id')
-                  ->havingRaw('AVG(rating) = ?', [$rating]);
-        });
-    }
-
     // Lọc theo kích thước 
     if ($request->has('dimension')) {
         $dimension = $request->input('dimension');

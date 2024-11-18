@@ -69,7 +69,7 @@ class ProductReviewController extends Controller
      */
     public function store(Request $request, $orderItemId)
     {
-        
+        // Xác thực dữ liệu đầu vào
         $validator = Validator::make($request->all(), [
             'rating' => 'required|integer|min:1|max:5',
             'review' => 'nullable|string',
@@ -80,50 +80,27 @@ class ProductReviewController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-
-        $userId = Auth::id();
-
-        // Kiểm tra xem sản phẩm thuộc về một đơn hàng đã hoàn thành của người dùng hay không
-        $orderItem = OrderItem::whereHas('order', function ($query) use ($userId) {
-            $query->where('customer_id', $userId)
-                ->where('status', Order::STATUS_COMPLETED);
-        })->find($orderItemId);
-
-        if (!$orderItem) {
-            return response()->json([
-                'error' => 'This product is not part of a completed order or does not belong to you.',
-            ], 403);
-        }
-
-        // Kiểm tra xem sản phẩm này đã được đánh giá chưa
-        $existingReview = ProductReview::where('order_item_id', $orderItem->id)->exists();
-        if ($existingReview) {
-            return response()->json([
-                'error' => 'You have already reviewed this product.',
-            ], 403);
-        }
-
         // Xử lý upload ảnh
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public'); 
-        }
+        $imagePath = $request->hasFile('image') 
+            ? $request->file('image')->store('images', 'public') 
+            : null;
 
-        // Tạo đánh giá mới
+        // Tạo review mới
         $review = ProductReview::create([
-            'order_item_id' => $orderItem->id, 
-            'product_id' => $orderItem->product_id, 
-            'user_id' => $userId,
+            'order_item_id' => $orderItemId, 
+            'product_id' => OrderItem::findOrFail($orderItemId)->product_id,
+            'user_id' => Auth::id(),
             'rating' => $request->rating,
             'review' => $request->review,
-            'image' => $imagePath, 
+            'image' => $imagePath,
         ]);
 
         return response()->json([
-            'message' => 'Review submitted successfully.',
+            'message' => 'Đã gửi đánh giá thành công.',
             'review' => $review,
         ], 201);
     }
+
 
 
     /**
