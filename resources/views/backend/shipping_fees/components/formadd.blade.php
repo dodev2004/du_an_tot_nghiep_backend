@@ -17,7 +17,9 @@
                         <option value="" hidden>- Chọn thành phố -</option>
                         @foreach($provinces as $province)
                         <option value="{{$province->code}}"
-                            {{ old("province_code") == $province->code ? 'selected' : '' }}>{{$province->name}}</option>
+                            {{ old("province_code") == $province->code ? 'selected' : '' }} {{ in_array($province->code, $existingProvinceCodes) ? 'disabled' : '' }}>{{$province->name}}@if(in_array($province->code, $existingProvinceCodes))
+                            (Đã thêm)
+                        @endif</option>
                         @endforeach
                     </select>
                     <p class=" text-danger message-error"></p>
@@ -27,12 +29,7 @@
                     <input type="number" name="fee" class="form-control" value="{{old("fee")}}" autocomplete="">
                     <p class=" text-danger message-error"></p>
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="">Trọng lượng tối đa <span style="color:red">*</span></label>
-                    <input type="number" name="weight_limit" class="form-control" value="{{old("weight_limit")}}"
-                        autocomplete="">
-                    <p class=" text-danger message-error"></p>
-                </div>
+
             </div>
         </div>
     </div>

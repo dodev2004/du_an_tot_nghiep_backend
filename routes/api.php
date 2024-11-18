@@ -116,7 +116,7 @@ Route::get('/contacts/show', [ContactController::class, 'show']);
 Route::get('/contacts/{id}', [ContactController::class, 'showOne']);
 Route::put('/contacts/{id}', [ContactController::class, 'update']);
 Route::delete('/contacts/{id}', [ContactController::class, 'destroy']);
-//Giowis thieu 
+//Giowis thieu
 Route::get('/about', [AboutController::class, 'index']);
 Route::post('/about', [AboutController::class, 'store']);
 Route::get('/about/{id}', [AboutController::class, 'show']);
@@ -130,9 +130,7 @@ Route::get('/product-catalogues', [ProductCatelogueController::class, 'index']);
 Route::get("/getLocaion", [GetLocaitonAjax::class, "index"]);
 Route::get("/getAllProvinces",[GetLocaitonAjax::class,"getAllProvinces"]);
 
-<<<<<<< HEAD
-
-=======
 Route::post('shipping-fee', [ShippingFeeController::class, 'ShippingFee']);
+
 Route::get('/attributesValue', [AttributeValueController::class, 'index']);
->>>>>>> cuong
+

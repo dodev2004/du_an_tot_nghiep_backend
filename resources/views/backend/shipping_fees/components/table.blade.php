@@ -4,7 +4,7 @@
             <th>Mã thành phố</th>
             <th>Tên thành phố</th>
             <th>Phí ship</th>
-            <th>Trọng lượng tối đa</th>
+
             <th>Trạng thái</th>
             <th class="text-center">Hành động</th>
         </tr>
@@ -19,11 +19,9 @@
                 <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->province->name }}</p>
             </td>
             <th>
-                <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->fee }}</p>
+                <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{  number_format($item->fee, 0)}}</p>
             </th>
-            <th>
-                <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->weight_limit }}</p>
-            </th>
+
 
             <td class="text-center">
                 <form name="form_status" action="">
