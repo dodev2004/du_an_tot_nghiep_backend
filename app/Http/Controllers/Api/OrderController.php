@@ -82,6 +82,8 @@ class OrderController extends Controller
                 'id' => $order->id,
                 'order_code' => 'BND-' . $order->id, // Mã đơn hàng theo yêu cầu
                 'customer_name' => $order->customer_name,
+                'email' => $order->email,
+                'phone_number' => $order->phone_number,
                 'customer' => [
                     'id' => $order->customer->id,
                     'customer_name' => $order->customer->full_name ?? null,
@@ -153,6 +155,8 @@ class OrderController extends Controller
             'id' => $order->id,
             'order_code' => 'BND-' . $order->id, // Mã đơn hàng theo yêu cầu
             'customer_name' => $order->customer_name,
+            'email' => $order->email,
+            'phone_number' => $order->phone_number,
             'customer' => [
                 'id' => $order->customer->id,
                 'customer_name' => $order->customer->full_name ?? null,
