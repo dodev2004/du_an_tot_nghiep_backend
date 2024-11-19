@@ -2,13 +2,13 @@ window.alertleDelete = function (data,element,parentElement,url){
   console.log(url);
  
     Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        title: "Bạn có muốn xóa",
+        text: "Bạn không thể hoàn tác thao tác này",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
+        confirmButtonText: "Đúng tôi muốn xóa"
       }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
@@ -21,8 +21,8 @@ window.alertleDelete = function (data,element,parentElement,url){
                 },
                 success : function(res){
                     Swal.fire({
-                        title: "Deleted!",
-                        text: "Your file has been deleted.",
+                        title: "Xóa!",
+                        text: "Xóa thành công.",
                         icon: "success"
                       }).then(result =>{
                         parentElement.removeChild(element);

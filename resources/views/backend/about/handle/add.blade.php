@@ -16,7 +16,7 @@
                 Swal.fire({
                     icon: 'success', // Biểu tượng thành công
                     title: 'Thêm mới thành công',
-                    text: 'Do you want to continue',
+                    text: 'Bạn có muốn tiếp tục không?', // Thông báo
                     confirmButtonText: 'Tiếp tục', // Nút tiếp tục
                     allowOutsideClick: false
                 }).then((result) => {

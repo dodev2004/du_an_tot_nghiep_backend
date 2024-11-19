@@ -6,11 +6,11 @@
     let url = form.attr('action'); // Lấy URL từ thuộc tính action
 
     Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'Bạn có chắc không?',
+        text: "Bạn không thể hoàn tác hành động này!",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
+        confirmButtonText: 'Đúng, xóa nó!',
         cancelButtonText: 'Cancel',
         confirmButtonColor: '#d33',
         cancelButtonColor: '#3085d6',
@@ -23,7 +23,7 @@
                 success: function(res) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Deleted!',
+                        title: 'Xóa!',
                         text: 'Bản ghi đã bị xóa thành công!',
                         confirmButtonText: 'OK'
                     }).then(() => {

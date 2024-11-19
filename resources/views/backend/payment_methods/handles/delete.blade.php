@@ -23,13 +23,13 @@
 
 
             Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
+                title: 'Bạn có muốn xóa',
+                text: "Bạn se không thể hoàn tác hành động này!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: 'Đúng tôi muốn xóa!'
             }).then((result) => {
                 if (result.isConfirmed) {
 

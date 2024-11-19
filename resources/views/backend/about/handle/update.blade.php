@@ -18,7 +18,7 @@ $(document).ready(function(){
                 Swal.fire({
                     icon: 'success', // Biểu tượng thành công
                     title: 'Cập nhật thành công',
-                    text: 'Do you want to continue',
+                    text: 'Bạn có muốn tiếp tục không?',
                     confirmButtonText: 'Tiếp tục', // Nút tiếp tục
                     allowOutsideClick: false
                 }).then((result) => {

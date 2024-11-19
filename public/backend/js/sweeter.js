@@ -2,7 +2,7 @@
     window.toastMessage = function(title,icon,href){
     Swal.fire({
         title: title,
-        text: 'Do you want to continue',
+        text: 'Bạn có muốn tiếp tục?',
         icon: icon,
         confirmButtonText: 'Tiếp tục'
         }).then(function(res){
