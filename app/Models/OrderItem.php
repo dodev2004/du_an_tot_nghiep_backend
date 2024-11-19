@@ -43,5 +43,10 @@ class OrderItem extends Model
     {
         return $this->hasOne(ProductReview::class, 'order_item_id');
     }
+
+    public function getIsReviewedAttribute()
+    {
+        return $this->product_reviews()->exists();
+    }
 }
 
