@@ -52,7 +52,7 @@ class ProductReviewController extends Controller
                         'created_at' => $comment->created_at,
                     ];
                 }),
-                'variant' => json_decode($review->orderItem->variant), 
+                'variant' => $review->orderItem->variant, 
             ];
         });
 

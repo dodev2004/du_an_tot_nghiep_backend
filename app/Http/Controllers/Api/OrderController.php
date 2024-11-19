@@ -29,7 +29,7 @@ class OrderController extends Controller
         $query = Order::with([
             'customer:id,full_name',
             'promotion:id,code,discount_value',
-            'paymentMethod:id,name'
+            'paymentMethod:id,name',
         ])->where('customer_id', $userId)
         ->where('status', '!=', 7);
 
@@ -84,6 +84,9 @@ class OrderController extends Controller
                 'id' => $order->id,
                 'order_code' => 'BND-' . $order->id, // Mã đơn hàng theo yêu cầu
                 'customer_name' => $order->customer_name,
+                'email' => $order->email,
+                'phone_number' => $order->phone_number,
+                'note' => $order->note,
                 'customer' => [
                     'id' => $order->customer->id,
                     'customer_name' => $order->customer->full_name ?? null,
@@ -128,7 +131,7 @@ class OrderController extends Controller
     {
         $userId = Auth::id();
         // Query danh sách đơn hàng, có thể thêm điều kiện lọc nếu cần thiết
-        $order = Order::with(['orderItems', 'customer:id,full_name', 'promotion:id,code,discount_value', 'paymentMethod:id,name'])->where('customer_id', $userId)
+        $order = Order::with(['orderItems.product_reviews', 'customer:id,full_name', 'promotion:id,code,discount_value', 'paymentMethod:id,name'])->where('customer_id', $userId)
             ->find($id);
         // Kiểm tra nếu không tìm thấy đơn hàng
         if (!$order) {
@@ -137,11 +140,16 @@ class OrderController extends Controller
                 'message' => 'Không tìm thấy đơn hàng'
             ], 404);
         }
+
+        
         // Định dạng dữ liệu trả về
         $data = [
             'id' => $order->id,
             'order_code' => 'BND-' . $order->id, // Mã đơn hàng theo yêu cầu
             'customer_name' => $order->customer_name,
+            'email' => $order->email,
+            'phone_number' => $order->phone_number,
+            'note' => $order->note,
             'customer' => [
                 'id' => $order->customer->id,
                 'customer_name' => $order->customer->full_name ?? null,
@@ -163,7 +171,19 @@ class OrderController extends Controller
             'shipping_fee' => $order->shipping_fee,
             'created_at' => $order->created_at->format('d-m-Y'),
             'updated_at' => $order->updated_at->format('d-m-Y'),
-            'order_items' => $order->orderItems
+            'order_items' => $order->orderItems->map(function ($item) {
+                $isReviewed = $item->product_reviews ? 'Đã có đánh giá' : 'Chưa có đánh giá';
+                return [
+                    'id' => $item->id,
+                    'product_id' => $item->product_id,
+                    'product_name' => $item->product_name,
+                    'quantity' => $item->quantity,
+                    'price' => $item->price,
+                    'total' => $item->total,
+                    'variant' => $item->variant,
+                    'is_reviewed' => $isReviewed, // Trạng thái đã đánh giá
+                ];
+            }),
         ];
 
         // Trả về JSON cho phía front-end
