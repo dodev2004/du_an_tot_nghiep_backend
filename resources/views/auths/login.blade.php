@@ -92,8 +92,8 @@
                                 <div class="col-lg-6">
                                     <div class="p-lg-5 p-4">
                                         <div>
-                                            <h5 class="text-primary">Welcome Back !</h5>
-                                            <p class="text-muted">Sign in to continue to Velzon.</p>
+                                            <h5 class="text-primary">Welcome</h5>
+                                            <p class="text-muted">Đăng nhập để tiếp tục</p>
                                         </div>
                                         @session('message')
                                         <div class="alert alert-danger" role="alert">
@@ -104,9 +104,9 @@
                                             <form action="{{route("login")}}" method="POST">
                                                 @csrf
                                                 <div class="mb-3">
-                                                    <label for="username" class="form-label">Username</label>
+                                                    <label for="username" class="form-label">Tên đăng nhập</label>
                                                     <input type="text" class="form-control" value="{{ old("username")}}" id="username"
-                                                        name="username" placeholder="Enter username">
+                                                        name="username" placeholder="Tên đăng nhập">
                                                     @error('username')
                                                         <p class="text-danger">{{$message}}</p>
                                                     @enderror
@@ -114,14 +114,13 @@
 
                                                 <div class="mb-3">
                                                     <div class="float-end">
-                                                        <a href="{{route("showConfirmEmail")}}" class="text-muted">Forgot
-                                                            password?</a>
+                                                        <a href="{{route("showConfirmEmail")}}" class="text-muted">Quên mật khẩu?</a>
                                                     </div>
-                                                    <label class="form-label" for="password-input">Password</label>
+                                                    <label class="form-label" for="password-input">Mật khẩu</label>
                                                     <div class="position-relative auth-pass-inputgroup mb-3">
                                                         <input type="password" name="password"
                                                             class="form-control pe-5 password-input"
-                                                            placeholder="Enter password" id="password-input">
+                                                            placeholder="Nhập mật khẩu" id="password-input">
                                                         <button
                                                             class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
                                                             type="button" id="password-addon"><i
@@ -135,8 +134,7 @@
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" value=""
                                                         name="remember_me" id="auth-remember-check">
-                                                    <label class="form-check-label" for="auth-remember-check">Remember
-                                                        me</label>
+                                                    <label class="form-check-label" for="auth-remember-check">Nhớ tài khoản này</label>
                                                 </div>
                                                 <div class="g-recaptcha" data-sitekey="{{ env('CAPTCHA_KEY') }}">
                                                 </div>
@@ -147,13 +145,12 @@
                                                 </span>
                                                 @enderror
                                                 <div class="mt-4">
-                                                    <button class="btn btn-success w-100" type="submit">Sign
-                                                        In</button>
+                                                    <button class="btn btn-success w-100" type="submit">Đăng nhập</button>
                                                 </div>
 
                                                 <div class="mt-4 text-center">
                                                     <div class="signin-other-title">
-                                                        <h5 class="fs-13 mb-4 title">Sign In with</h5>
+                                                        <h5 class="fs-13 mb-4 title">Đăng nhập bằng</h5>
                                                     </div>
 
                                                     <div>
@@ -176,9 +173,9 @@
                                         </div>
 
                                         <div class="mt-5 text-center">
-                                            <p class="mb-0">Don't have an account ? <a href="{{route("showRegister")}}"
+                                            <p class="mb-0">Bạn chưa có tài khoản ? <a href="{{route("showRegister")}}"
                                                     class="fw-semibold text-primary text-decoration-underline">
-                                                    Signup</a> </p>
+                                                    Đăng ký</a> </p>
                                         </div>
                                     </div>
                                 </div>
