@@ -2,8 +2,8 @@
     <thead>
         <tr>
             <!-- <th>ID</th> -->
+            {{-- <th>Tên quyền</th> --}}
             <th>Tên quyền</th>
-            <th>Miêu tả</th>
             <th>Tên nhóm quyền</th>
             <th>Trạng thái</th>
             <th class="text-center">Chỉnh sửa</th>
@@ -15,9 +15,9 @@
                 <!-- <td> -->
                     <!-- <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->id }}</p> -->
                 <!-- </td> -->
-                <td>
+                {{-- <td>
                     <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->name }}</p>
-                </td>
+                </td> --}}
                 <th>
                     <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->description }}</p>
                 </th>

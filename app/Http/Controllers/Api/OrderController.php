@@ -227,6 +227,9 @@ class OrderController extends Controller
         try {
             // Tạo đơn hàng mới
             $order = Order::create($validatedData);
+            foreach ($validatedData['order_items'] as $item) {
+                $order->orderItems()->create($item);
+            }
             $carts = explode(",",$request->cart_id);
             foreach ($carts as $cartId) {
                 $cart = Cart::find($cartId);
