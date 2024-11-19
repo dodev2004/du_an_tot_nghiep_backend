@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -200,20 +202,60 @@ class OrderController extends Controller
             'order_items.*.variant' => 'nullable|json',
         ]);
 
-        $order = Order::create($validatedData);
-    
-        // Tạo các mục đơn hàng
-        foreach ($validatedData['order_items'] as $item) {
-            $order->orderItems()->create($item);
-        }
-    
-        // Trả về phản hồi thành công
-        return response()->json([
-            'success' => true,
-            'message' => 'Đơn hàng đã được tạo thành công!',
-            'data' => $order->load('orderItems')
-        ], 201);
+        DB::beginTransaction();
 
+        try {
+            // Tạo đơn hàng mới
+            $order = Order::create($validatedData);
+    
+            foreach ($validatedData['carts'] as $cartId) {
+                $cart = Cart::find($cartId);
+    
+                if ($cart) {
+                    // Cập nhật tồn kho
+                    if ($cart->product_variants_id) {
+                        // Trừ tồn kho của biến thể sản phẩm
+                        $variant = $cart->productVariant;
+                        if ($variant && $variant->stock >= $cart->quantity) {
+                            $variant->stock -= $cart->quantity;
+                            $variant->save();
+                        } else {
+                            throw new \Exception('Không đủ tồn kho cho biến thể sản phẩm.');
+                        }
+                    } else {
+                        // Trừ tồn kho của sản phẩm
+                        $product = $cart->product;
+                        if ($product && $product->stock >= $cart->quantity) {
+                            $product->stock -= $cart->quantity;
+                            $product->save();
+                        } else {
+                            throw new \Exception('Không đủ tồn kho cho sản phẩm.');
+                        }
+                    }
+    
+                    // Xóa mục giỏ hàng
+                    $cart->delete();
+                }
+            }
+    
+            DB::commit();
+    
+            // Trả về phản hồi thành công
+            return response()->json([
+                'success' => true,
+                'message' => 'Đơn hàng đã được tạo thành công!',
+                'data' => $order->load('orderItems')
+            ], 201);
+    
+        } catch (\Exception $e) {
+            DB::rollBack();
+    
+            // Trả về phản hồi lỗi
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 400);
+        }
     }
 
 
