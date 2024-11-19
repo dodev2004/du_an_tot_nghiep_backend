@@ -79,8 +79,8 @@
                                     <div class="col-lg-6">
                                         <div class="p-lg-5 p-4">
                                             <div>
-                                                <h5 class="text-primary">Register Account</h5>
-                                                <p class="text-muted">Get your Free Velzon account now.</p>
+                                                <h5 class="text-primary">Đăng ký</h5>
+                                                <p class="text-muted">Đăng ký tài khoản bây giờ.</p>
 
                                                
                                             </div>
@@ -90,7 +90,7 @@
                                                     @csrf
                                                     <div class="mb-3">
                                                         <label for="useremail" class="form-label">Email <span class="text-danger">*</span></label>
-                                                        <input type="email"  autocomplete="off" class="form-control" id="useremail" placeholder="Enter email address" name="email" >
+                                                        <input type="email"  autocomplete="off" class="form-control" id="useremail" placeholder="Nhập địa chỉ email" name="email" >
                                                         
                                                         @error("email")
                                                         <div class="text-danger">
@@ -99,8 +99,8 @@
                                                         @enderror
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
-                                                        <input type="text" autocomplete="off" class="form-control" id="username" placeholder="Enter username" name="username" >
+                                                        <label for="username" class="form-label">Tên đăng nhập <span class="text-danger">*</span></label>
+                                                        <input type="text" autocomplete="off" class="form-control" id="username" placeholder="Tên đăng nhập" name="username" >
                                                        
                                                         @error("username")
                                                         <div class="text-danger">
@@ -110,9 +110,9 @@
                                                     </div>
     
                                                     <div class="mb-3">
-                                                        <label class="form-label" for="password-input">Password</label>
+                                                        <label class="form-label" for="password-input">Mật khẩu</label>
                                                         <div class="position-relative auth-pass-inputgroup">
-                                                            <input type="password" class="form-control pe-5 password-input" onpaste="return false" placeholder="Enter password" id="password-input" aria-describedby="passwordInput" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="password" >
+                                                            <input type="password" class="form-control pe-5 password-input" onpaste="return false" placeholder="Nhập mật khẩu" id="password-input" aria-describedby="passwordInput" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="password" >
                                                             <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                                            
                                                             @error("password")
@@ -124,7 +124,7 @@
                                                     </div>
     
                                                     <div class="mb-4">
-                                                        <p class="mb-0 fs-12 text-muted fst-italic">By registering you agree to the Velzon <a href="#" class="text-primary text-decoration-underline fst-normal fw-medium">Terms of Use</a></p>
+                                                        <p class="mb-0 fs-12 text-muted fst-italic">Bằng cách đăng ký, bạn đồng ý với <a href="#" class="text-primary text-decoration-underline fst-normal fw-medium">Điều khoản sử dụng của chúng tôi</a></p>
                                                     </div>
     
                                                     <div id="password-contain" class="p-3 bg-light mb-2 rounded">
@@ -143,12 +143,12 @@
                                                     </span>
                                                     @enderror
                                                     <div class="mt-4">
-                                                        <button class="btn btn-success w-100" type="submit">Sign Up</button>
+                                                        <button class="btn btn-success w-100" type="submit">Đăng ký</button>
                                                     </div>
     
                                                     <div class="mt-4 text-center">
                                                         <div class="signin-other-title">
-                                                            <h5 class="fs-13 mb-4 title text-muted">Create account with</h5>
+                                                            <h5 class="fs-13 mb-4 title text-muted">Đăng ký tài khoản bằng</h5>
                                                         </div>
     
                                                         <div>
@@ -162,7 +162,7 @@
                                             </div>
     
                                             <div class="mt-5 text-center">
-                                                <p class="mb-0">Already have an account ? <a href="{{route("showLogin")}}" class="fw-semibold text-primary text-decoration-underline"> Signin</a> </p>
+                                                <p class="mb-0">Bạn đã có tài khoản <a href="{{route("showLogin")}}" class="fw-semibold text-primary text-decoration-underline"> Đăng nhập</a> </p>
                                             </div>
                                         </div>
                                     </div>

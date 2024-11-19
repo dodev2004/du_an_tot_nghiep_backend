@@ -5,7 +5,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Sign In | Velzon - Admin & Dashboard Template</title>
+    <title>Đăng nhập vào trang quản trị</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -79,8 +79,8 @@
 
                                 <div class="col-lg-6">
                                     <div class="p-lg-5 p-4">
-                                        <h5 class="text-primary">Create new password</h5>
-                                        <p class="text-muted">Your new password must be different from previous used password.</p>
+                                        <h5 class="text-primary">Tạo mật khẩu mới</h5>
+                                        <p class="text-muted">Mật khẩu mới của bạn phải khác với mật khẩu đã sử dụng trước đó.</p>
                                         @error("email")
                                             <span>{{$message}}</span>
                                         @enderror
@@ -90,9 +90,9 @@
                                                 <input type="hidden" name="token" value="{{request()->token}}">
                                                 <input type="hidden" name="email" value="{{request()->email}}">
                                                 <div class="mb-3">
-                                                    <label class="form-label" for="password-input">Password</label>
+                                                    <label class="form-label" for="password-input">Mật khẩu</label>
                                                     <div class="position-relative auth-pass-inputgroup">
-                                                        <input type="password" class="form-control pe-5 password-input" value="{{old("password")}}" name="password" onpaste="return false" placeholder="Enter password" id="password-input" >
+                                                        <input type="password" class="form-control pe-5 password-input" value="{{old("password")}}" name="password" onpaste="return false" placeholder="Nhập mật khẩu" id="password-input" >
                                                         <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                                     </div>
                                                     @error("password")
@@ -101,9 +101,9 @@
                                                     
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label class="form-label" for="confirm-password-input">Confirm Password</label>
+                                                    <label class="form-label" for="confirm-password-input">Xác nhận mật khẩu</label>
                                                     <div class="position-relative auth-pass-inputgroup mb-3">
-                                                        <input type="password" class="form-control pe-5 password-input" value="{{old("re_password")}}" name="re_password" onpaste="return false" placeholder="Confirm password" id="confirm-password-input" >
+                                                        <input type="password" class="form-control pe-5 password-input" value="{{old("re_password")}}" name="re_password" onpaste="return false" placeholder="Xác nhận mật khẩu" id="confirm-password-input" >
                                                         <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="confirm-password-input"><i class="ri-eye-fill align-middle"></i></button>
                                                     </div>
                                                     @error("re_password")
@@ -111,14 +111,14 @@
                                                 @enderror
                                                 </div>
                                                 <div class="mt-4">
-                                                    <button class="btn btn-success w-100" type="submit">Reset Password</button>
+                                                    <button class="btn btn-success w-100" type="submit">Đặt lại mật khẩu</button>
                                                 </div>
 
                                             </form>
                                         </div>
 
                                         <div class="mt-5 text-center">
-                                            <p class="mb-0">Wait, I remember my password... <a href="auth-signin-cover.html" class="fw-semibold text-primary text-decoration-underline"> Click here </a> </p>
+                                            <p class="mb-0">Tôi đã nhớ mật khẩu... <a href="{{route("showLogin")}}" class="fw-semibold text-primary text-decoration-underline"> Đăng nhập </a> </p>
                                         </div>
                                     </div>
                                 </div>

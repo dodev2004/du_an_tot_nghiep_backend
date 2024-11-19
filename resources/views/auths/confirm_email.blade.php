@@ -79,8 +79,8 @@
 
                                 <div class="col-lg-6">
                                     <div class="p-lg-5 p-4">
-                                        <h5 class="text-primary">Forgot Password?</h5>
-                                        <p class="text-muted">Reset password with velzon</p>
+                                        <h5 class="text-primary">Quên mật khẩu?</h5>
+                                        <p class="text-muted">Đặt lại mật khẩu</p>
                                          @session('status')
                                              <h2>{{session("status")}}</h2>
                                          @endsession
@@ -91,27 +91,27 @@
                                         </div>
 
                                         <div class="alert border-0 alert-warning text-center mb-2 mx-2" role="alert">
-                                            Enter your email and instructions will be sent to you!
+                                            Nhập email của bạn để lấy lại mật khẩu!
                                         </div>
                                         <div class="p-2">
                                             <form method="POST" action="{{route("confirmEmail")}}">
                                                 @csrf
                                                 <div class="mb-4">
                                                     <label class="form-label">Email</label>
-                                                    <input type="email" class="form-control" name="email" id="email" placeholder="Enter email address">
+                                                    <input type="email" class="form-control" name="email" id="email" placeholder="Nhập địa chỉ email">
                                                     @error("email")
                                                         <span class="text-danger">{{$message}}</span>
                                                     @enderror
                                                 </div>
 
                                                 <div class="text-center mt-4">
-                                                    <button class="btn btn-success w-100" type="submit">Send Reset Link</button>
+                                                    <button class="btn btn-success w-100" type="submit">Gửi</button>
                                                 </div>
                                             </form><!-- end form -->
                                         </div>
 
                                         <div class="mt-5 text-center">
-                                            <p class="mb-0">Wait, I remember my password... <a href="auth-signin-cover.html" class="fw-semibold text-primary text-decoration-underline"> Click here </a> </p>
+                                            <p class="mb-0">Bạn đã nhớ mật khẩu... <a href="{{route("showLogin")}}" class="fw-semibold text-primary text-decoration-underline"> Đăng nhập </a> </p>
                                         </div>
                                     </div>
                                 </div>

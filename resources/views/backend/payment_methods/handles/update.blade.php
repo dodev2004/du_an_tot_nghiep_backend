@@ -23,7 +23,7 @@ $(document).ready(function(){
                 Swal.fire({
                     icon: 'success',
                     title: 'Cập nhật thành công',
-                    text: 'Do you want to continue?',
+                    text: 'bạn có muốn tiếp tục?',
                     confirmButtonText: 'Tiếp tục',
                 }).then((result) => {
                     if (result.isConfirmed) {

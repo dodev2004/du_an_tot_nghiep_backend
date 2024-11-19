@@ -25,7 +25,7 @@
                     Swal.fire({
                         icon: 'success',
                         title: 'Thêm mới thành công',
-                        text: 'Do you want to continue',
+                        text: 'Bạn có muốn tiếp tục không?',
                         confirmButtonText: 'Tiếp tục',
                         confirmButtonColor: '#6f42c1',
                         customClass: {

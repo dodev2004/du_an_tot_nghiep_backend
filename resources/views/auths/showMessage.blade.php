@@ -83,10 +83,10 @@
                                             </div>
                                         </div>
                                         <div class="mt-4 pt-2">
-                                            <h4>Well done !</h4>
-                                            <p class="text-muted mx-4">Aww yeah, you successfully read this important message.</p>
+                                            <h4>Chào mừng bạn đến với admin</h4>
+                                            <p class="text-muted mx-4"></p>
                                             <div class="mt-4">
-                                                <a href="{{route("admin.dashboard")}}" class="btn btn-success w-100">Back to Dashboard</a>
+                                                <a href="{{route("admin.dashboard")}}" class="btn btn-success w-100">Quay lại với trang quản trị</a>
                                             </div>
                                         </div>
                                     </div>

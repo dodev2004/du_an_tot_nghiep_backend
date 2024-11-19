@@ -25,7 +25,7 @@
             success : function(res){
              Swal.fire({
             title: 'Thêm mới thành công!',
-            text: 'Do you want to continue',
+            text: 'Bạn có muốn tiếp tục?',
             icon: 'success',
             confirmButtonText: 'Cool'
             }).then(function(res){
