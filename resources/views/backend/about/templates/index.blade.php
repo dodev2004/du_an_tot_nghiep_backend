@@ -53,8 +53,8 @@
 @include('backend.components.toastmsg');
 <script src="{{asset("backend/js/framework/delete2.js")}}"></script>
 @include("backend.about.handle.delete");
-<script src="{{asset("backend/js/plugins/dataTables/datatables.min.js")}}"></script>
-<script src="{{asset("backend/js/framework/table.js")}}"></script>
+    {{-- <script src="{{asset("backend/js/plugins/dataTables/datatables.min.js")}}"></script>
+    <script src="{{asset("backend/js/framework/table.js")}}"></script> --}}
 
 
 @endpush
