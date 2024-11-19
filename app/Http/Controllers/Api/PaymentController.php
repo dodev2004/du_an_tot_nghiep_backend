@@ -129,7 +129,7 @@ public function vnpay_return(Request $request)
         if (isset($inputData['vnp_ResponseCode']) && $inputData['vnp_ResponseCode'] == '00') {
             // Xử lý cập nhật database khi thanh toán thành công
             try {
-                return redirect()->away(env('FRONTEND_URL') . 'order-success?' . http_build_query([
+                return redirect()->away(env('FRONTEND_URL') . 'thanh-toan?' . http_build_query([
                     'status' => 'success',
                     'orderId' => $inputData["vnp_TxnRef"],
                     'amount' => $inputData['vnp_Amount'] / 100,
@@ -138,7 +138,7 @@ public function vnpay_return(Request $request)
                 
             } catch (\Exception $e) {
                 DB::rollBack();
-                return redirect()->away(env('FRONTEND_URL') . 'order-success?' . http_build_query([
+                return redirect()->away(env('FRONTEND_URL') . 'thanh-toan?' . http_build_query([
                     'status' => 'error',
                     'message' => 'Lỗi xử lý thanh toán'
                 ]));
@@ -146,7 +146,7 @@ public function vnpay_return(Request $request)
         }
     }
     
-    return redirect()->away(env('FRONTEND_URL') . 'order-success?' . http_build_query([
+    return redirect()->away(env('FRONTEND_URL') . 'thanh-toan?' . http_build_query([
         'status' => 'failure',
         'message' => 'Thanh toán thất bại hoặc bị hủy'
     ]));
