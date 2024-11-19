@@ -84,6 +84,7 @@ class OrderController extends Controller
                 'customer_name' => $order->customer_name,
                 'email' => $order->email,
                 'phone_number' => $order->phone_number,
+                'note' => $order->note,
                 'customer' => [
                     'id' => $order->customer->id,
                     'customer_name' => $order->customer->full_name ?? null,
@@ -138,18 +139,7 @@ class OrderController extends Controller
             ], 404);
         }
 
-        $orderItems = $order->orderItems->map(function ($item) {
-            return [
-                'id' => $item->id,
-                'product_id' => $item->product_id,
-                'product_name' => $item->product_name,
-                'quantity' => $item->quantity,
-                'price' => $item->price,
-                'total' => $item->total,
-                'variant' => $item->variant,
-                'is_reviewed' => $item->is_reviewed, // Trạng thái đã đánh giá
-            ];
-        });
+        
         // Định dạng dữ liệu trả về
         $data = [
             'id' => $order->id,
@@ -157,6 +147,7 @@ class OrderController extends Controller
             'customer_name' => $order->customer_name,
             'email' => $order->email,
             'phone_number' => $order->phone_number,
+            'note' => $order->note,
             'customer' => [
                 'id' => $order->customer->id,
                 'customer_name' => $order->customer->full_name ?? null,
@@ -178,7 +169,19 @@ class OrderController extends Controller
             'shipping_fee' => $order->shipping_fee,
             'created_at' => $order->created_at->format('d-m-Y'),
             'updated_at' => $order->updated_at->format('d-m-Y'),
-            'order_items' => $order->orderItems,
+            'order_items' => $order->orderItems->map(function ($item) {
+                $isReviewed = $item->product_reviews ? 'Đã có đánh giá' : 'Chưa có đánh giá';
+                return [
+                    'id' => $item->id,
+                    'product_id' => $item->product_id,
+                    'product_name' => $item->product_name,
+                    'quantity' => $item->quantity,
+                    'price' => $item->price,
+                    'total' => $item->total,
+                    'variant' => $item->variant,
+                    'is_reviewed' => $isReviewed, // Trạng thái đã đánh giá
+                ];
+            }),
         ];
 
         // Trả về JSON cho phía front-end
