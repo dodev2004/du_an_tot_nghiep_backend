@@ -27,6 +27,7 @@ class Kernel extends HttpKernel
         'checkRole' => \App\Http\Middleware\CheckRole::class,
         'checkPermission' => \App\Http\Middleware\CheckPermission::class,
         'jwt.auth' => \App\Http\Middleware\JwtAuthMiddleware::class,
+        'set.guard' => \App\Http\Middleware\SetGuard::class,
         // Các middleware khác
     ];
     /**
