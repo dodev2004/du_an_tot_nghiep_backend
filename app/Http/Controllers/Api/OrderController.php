@@ -145,7 +145,7 @@ class OrderController extends Controller
                 'price' => $item->price,
                 'total' => $item->total,
                 'variant' => $item->variant,
-                'is_reviewed' => $item->product_reviews !== null, // Trạng thái đã đánh giá
+                'is_reviewed' => $item->product_reviews !== null ? true : false, // Trạng thái đã đánh giá
             ];
         });
         // Định dạng dữ liệu trả về
