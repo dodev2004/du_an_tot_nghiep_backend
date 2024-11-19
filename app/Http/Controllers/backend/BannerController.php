@@ -150,7 +150,13 @@ class BannerController extends Controller
             "title" => "required|string|min:3|max:255",
             "content" => "required|string|min:10|",
             "image" => "nullable|",
-            "page"=>"required|"
+            "page" => [
+            "required",
+            Rule::in(['product', 'home']),
+            Rule::unique('banners')->where(function ($query) use ($request) {
+                return $query->where('page', $request->page);
+            }),
+        ],
         ], [
             "title.required" => "Tiêu đề không được để trống",
             "title.string" => "Tiêu đề phải là chuỗi",
@@ -162,7 +168,10 @@ class BannerController extends Controller
             "content.string" => "Nội dung phải là chuỗi",
 
             "content.min" => "Nội dung phải có ít nhất 10 ký tự",
+            
             "page.required" => "Chọn trang cho banner",
+            "page.in" => "Giá trị của trang không hợp lệ",
+            "page.unique" => "Đã tồn tại banner cho trang này",
         ]);
         $data['content']=preg_replace('/<p>|<\/p>/', '', $request['content']);
 
