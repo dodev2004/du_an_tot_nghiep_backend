@@ -48,12 +48,12 @@ class PromotionController extends Controller
         }
 
         // Kiểm tra số lượng mã giảm giá
-        if ($promotion->quantity == 0) {
+        if ($promotion->max_uses == 0) {
             return response()->json(['message' => 'Mã giảm giá đã hết.'], 400);
         }
 
         // Giảm số lượng mã giảm giá và tăng used_count
-        $promotion->quantity -= 1;
+        $promotion->max_uses -= 1;
         $promotion->used_count += 1;
         $promotion->save();
 
