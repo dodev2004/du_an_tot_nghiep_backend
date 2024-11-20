@@ -28,6 +28,7 @@
                         <option value="" hidden>- Chọn trang -</option>
                         <option value="home">home</option>
                         <option value="product">product</option>
+                        <option value="introduce">introduce</option>
                     </select>
                     <p class=" text-danger message-error"></p>
                 </div>

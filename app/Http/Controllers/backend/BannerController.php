@@ -86,7 +86,7 @@ class BannerController extends Controller
             "image" => "nullable|",
             "page" => [
             "required",
-            Rule::in(['product', 'home']),
+            Rule::in(['product', 'home','introduce']),
             Rule::unique('banners')->where(function ($query) use ($request) {
                 return $query->where('page', $request->page);
             }),
@@ -152,7 +152,7 @@ class BannerController extends Controller
             "image" => "nullable|",
             "page" => [
             "required",
-            Rule::in(['product', 'home']),
+            Rule::in(['product', 'home','introduce']),
             Rule::unique('banners')->where(function ($query) use ($request) {
                 return $query->where('page', $request->page);
             }),
@@ -168,7 +168,7 @@ class BannerController extends Controller
             "content.string" => "Nội dung phải là chuỗi",
 
             "content.min" => "Nội dung phải có ít nhất 10 ký tự",
-            
+
             "page.required" => "Chọn trang cho banner",
             "page.in" => "Giá trị của trang không hợp lệ",
             "page.unique" => "Đã tồn tại banner cho trang này",
