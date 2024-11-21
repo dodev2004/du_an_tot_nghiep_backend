@@ -204,6 +204,12 @@ class ProductController extends Controller
         $query = Product::with('variants.variantAttributeValues')
                 ->where('status', 1);
 
+        // Tìm kiếm theo tên sản phẩm
+        if ($request->has('keysearch')) {
+            $keysearch = $request->input('keysearch');
+            $query->where('name', 'LIKE', '%' . $keysearch . '%');
+        }
+        
         // Lọc theo danh mục
         if ($request->has('category_id')) {
             $categoryIds = explode(',', $request->input('category_id')); // Tách chuỗi thành mảng
