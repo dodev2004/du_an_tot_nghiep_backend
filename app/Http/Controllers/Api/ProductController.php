@@ -206,9 +206,9 @@ class ProductController extends Controller
 
         // Lọc theo danh mục
         if ($request->has('category_id')) {
-            $categoryId = $request->input('category_id');
-            $query->whereHas('catelogues', function($query) use ($categoryId) {
-                $query->where('product_catelogue_id', $categoryId);  
+            $categoryIds = explode(',', $request->input('category_id')); // Tách chuỗi thành mảng
+            $query->whereHas('catelogues', function($query) use ($categoryIds) {
+                $query->whereIn('product_catelogue_id', $categoryIds); // Lọc theo nhiều danh mục
             });
         }
 

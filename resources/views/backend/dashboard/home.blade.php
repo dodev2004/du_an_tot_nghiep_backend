@@ -205,11 +205,21 @@
             color: #0a4aeb;
         }
         .chart2-container {
-            width: 45%;
+            width: 50%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #reviewRatingsDoughnutChart {
+            width: 400px; /* Chiều rộng của biểu đồ đánh giá */
             text-align: center;
             margin-bottom: 20px;
         }
 
+        #topRatedProductsChart {
+            width: 700px; /* Chiều rộng của biểu đồ sản phẩm được đánh giá cao nhất */
+            text-align: center;
+            margin-bottom: 20px;
+        }
         #promotionChart,
         #topCouponsChart {
             width: 100% !important;
@@ -377,7 +387,7 @@
 
             <div class="charts-container">
                 <div class="chart2-container">
-                    <canvas id="topSellingChart" width="500" height="500"></canvas>
+                    <canvas id="topSellingChart"width="450px"></canvas>
                 </div>
 
                 <!-- Biểu đồ mã giảm giá được sử dụng nhiều nhất -->
@@ -390,13 +400,13 @@
 <h3>Thống Kê đánh giá</h3>
     <div class="charts-container">
         <!-- Biểu đồ tổng quan -->
-        <div class="chart2-container">
+        <div class="chart5-container">
             <canvas id="reviewRatingsDoughnutChart"></canvas>
         </div>
 
         <!-- Biểu đồ mã giảm giá được sử dụng nhiều nhất -->
-        <div class="chart2-container">
-            <canvas id="topRatedProductsChart" width="500" height="500"></canvas>
+        <div class="chart5-container">
+            <canvas id="topRatedProductsChart" ></canvas>
         </div>
     </div>
 </div>
