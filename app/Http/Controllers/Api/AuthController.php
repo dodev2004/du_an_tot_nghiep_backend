@@ -73,7 +73,9 @@ class AuthController extends Controller
     public function profile()
 {
     $user = auth()->user();
-
+    $provinceName = $user->province ? $user->province->name : null;
+    $districtName = $user->district ? $user->district->name : null;
+    $wardName = $user->ward ? $user->ward->name : null;
     // Kiểm tra và tạo đường dẫn URL đầy đủ cho ảnh đại diện
     if ($user->avatar) {
         $user->avatar_url = asset('storage/' . $user->avatar);
@@ -81,7 +83,20 @@ class AuthController extends Controller
         $user->avatar_url = null;
     }
 
-    return response()->json($user);
+    return response()->json([
+            'username' => $user->username,
+            'avatar' => $user->avatar,
+            'full_name' => $user->full_name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'address' => $user->address,
+            'birthday' => $user->birthday,
+            'province' => $provinceName,
+            'district' => $districtName,
+            'ward' => $wardName,
+            'avatar_url' => $user->avatar_url
+
+    ]);
 }
 
 public function updateProfile(Request $request)
