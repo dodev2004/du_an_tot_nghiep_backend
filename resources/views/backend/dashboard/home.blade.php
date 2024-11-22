@@ -242,7 +242,7 @@
 
         </div>
 
-        {{-- <div class="col-md-12">
+        <div class="col-md-12">
             <h3>Thống Kê Ưu Đãi</h3>
             <div class="statistics-container">
                 <div class="stat-box2">
@@ -262,7 +262,7 @@
                     <div class="status low-value">Không hoạt động</div>
                 </div>
             </div>
-        </div> --}}
+        </div>
     </div>
 
         <div class="col-md-4">
