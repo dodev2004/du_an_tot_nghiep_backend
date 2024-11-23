@@ -205,11 +205,21 @@
             color: #0a4aeb;
         }
         .chart2-container {
-            width: 45%;
+            width: 50%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #reviewRatingsDoughnutChart {
+            width: 400px; /* Chiều rộng của biểu đồ đánh giá */
             text-align: center;
             margin-bottom: 20px;
         }
 
+        #topRatedProductsChart {
+            width: 700px; /* Chiều rộng của biểu đồ sản phẩm được đánh giá cao nhất */
+            text-align: center;
+            margin-bottom: 20px;
+        }
         #promotionChart,
         #topCouponsChart {
             width: 100% !important;
@@ -376,9 +386,8 @@
 
 
             <div class="charts-container">
-                <!-- Biểu đồ tổng quan -->
                 <div class="chart2-container">
-                    <canvas id="promotionChart"></canvas>
+                    <canvas id="topSellingChart"width="450px"></canvas>
                 </div>
 
                 <!-- Biểu đồ mã giảm giá được sử dụng nhiều nhất -->
@@ -391,13 +400,13 @@
 <h3>Thống Kê đánh giá</h3>
     <div class="charts-container">
         <!-- Biểu đồ tổng quan -->
-        <div class="chart2-container">
+        <div class="chart5-container">
             <canvas id="reviewRatingsDoughnutChart"></canvas>
         </div>
 
         <!-- Biểu đồ mã giảm giá được sử dụng nhiều nhất -->
-        <div class="chart2-container">
-            <canvas id="topRatedProductsChart" width="500" height="500"></canvas>
+        <div class="chart5-container">
+            <canvas id="topRatedProductsChart" ></canvas>
         </div>
     </div>
 </div>
@@ -1216,70 +1225,82 @@
     });
 </script>
 
-<!-- Biểu đồ mã giảm giá -->
+<!-- Biểu đồ mã giảm giá được sử dụng nhiều nhất -->
 <script>
-            // Dữ liệu truyền từ Laravel
-            const totalCoupons = {{ $totalCoupons }};
-            const activeCoupons = {{ $activeCoupons }};
-            const inactiveCoupons = {{ $inactiveCoupons }};
+    // Dữ liệu mã giảm giá được sử dụng nhiều nhất
+    const topCoupons = @json($topCoupons);
+    const couponCodes = topCoupons.map(coupon => coupon.code);
+    const usageCounts = topCoupons.map(coupon => coupon.used_count);
 
-            const ctx1 = document.getElementById('promotionChart').getContext('2d');
-            const promotionChart = new Chart(ctx1, {
-                type: 'pie',
-                data: {
-                    labels: ['Hoạt động', 'Không hoạt động'],
-                    datasets: [{
-                        label: 'Tổng số',
-                        data: [activeCoupons, inactiveCoupons],
-                        backgroundColor: ['#36a2eb', '#ff6384'],
-                        hoverOffset: 4
-                    }]
+    const ctx2 = document.getElementById('topCouponsChart').getContext('2d');
+    const topCouponsChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: couponCodes,
+            datasets: [{
+                label: 'Số lần sử dụng',
+                data: usageCounts,
+                backgroundColor: '#36a2eb',
+                borderColor: '#36a2eb',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: 'Hoạt động và không hoạt động'
-                        }
-                    }
+                title: {
+                    display: true,
+                    text: 'Mã Giảm Giá Được Sử Dụng Nhiều Nhất'
                 }
-            });
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+<script>
+    const topSellingData = @json($topSellingChartData);
+    const topSellingLabels = topSellingData.map(item => item.name);
+    const topSellingValues = topSellingData.map(item => item.total_sold);
 
-            // Dữ liệu mã giảm giá được sử dụng nhiều nhất
-            const topCoupons = @json($topCoupons);
-            const couponCodes = topCoupons.map(coupon => coupon.code);
-            const usageCounts = topCoupons.map(coupon => coupon.used_count);
-
-            const ctx2 = document.getElementById('topCouponsChart').getContext('2d');
-            const topCouponsChart = new Chart(ctx2, {
-                type: 'bar',
-                data: {
-                    labels: couponCodes,
-                    datasets: [{
-                        label: 'Số lần sử dụng',
-                        data: usageCounts,
-                        backgroundColor: '#36a2eb',
-                    }]
+    const ctxSelling = document.getElementById('topSellingChart').getContext('2d');
+    new Chart(ctxSelling, {
+        type: 'bar',
+        data: {
+            labels: topSellingLabels,
+            datasets: [{
+                label: 'Số lượng bán',
+                data: topSellingValues,
+                backgroundColor: 'rgba(0, 102, 204, 0.8)', // Màu xanh đậm
+                borderColor: 'rgba(0, 102, 204, 1)', // Màu viền xanh đậm
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: true,
-                        },
-                        title: {
-                            display: true,
-                            text: 'Mã Giảm Giá Được Sử Dụng Nhiều Nhất'
-                        }
-                    }
+                title: {
+                    display: true,
+                    text: 'Top 10 Sản phẩm bán chạy nhất'
                 }
-            });
+            }
+        }
+    });
 </script>
 @endsection
 @push('scripts')

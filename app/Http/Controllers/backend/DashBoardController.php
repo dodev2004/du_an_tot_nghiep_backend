@@ -38,6 +38,20 @@ class DashBoardController extends Controller
             ->with('product')
             ->get();
 
+        // Lấy Top 10 sản phẩm bán chạy nhất
+        $topSellingProducts = OrderItem::select('product_id', DB::raw('SUM(quantity) as total_sold'))
+        ->with('product') // Load quan hệ với sản phẩm
+        ->groupBy('product_id')
+        ->orderBy('total_sold', 'desc')
+        ->take(10)
+        ->get();
+
+        $topSellingChartData = $topSellingProducts->map(function ($item) {
+            return [
+                'name' => $item->product->name ?? 'Không xác định',
+                'total_sold' => $item->total_sold,
+            ];
+        });
 
         // 1. Tổng doanh thu trong toàn bộ thời gian
         $totalRevenue = Order::whereIn('status', [Order::STATUS_COMPLETED])
@@ -151,6 +165,7 @@ class DashBoardController extends Controller
             'activeCoupons',
             'inactiveCoupons',
             'topCoupons',
+            'topSellingChartData'
         ));
     }
 

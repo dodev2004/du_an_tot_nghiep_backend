@@ -201,43 +201,49 @@ class ProductController extends Controller
     
     public function list(Request $request)
     {
-        $query = Product::with('variants')
-                    ->where('status', 1);
+        $query = Product::with('variants.variantAttributeValues')
+                ->where('status', 1);
 
-    // Lọc theo danh mục
-    if ($request->has('category_id')) {
-        $categoryId = $request->input('category_id');
-        $query->whereHas('catelogues', function($query) use ($categoryId) {
-            $query->where('product_catelogue_id', $categoryId);  
-        });
-    }
+        // Tìm kiếm theo tên sản phẩm
+        if ($request->has('keysearch')) {
+            $keysearch = $request->input('keysearch');
+            $query->where('name', 'LIKE', '%' . $keysearch . '%');
+        }
+        
+        // Lọc theo danh mục
+        if ($request->has('category_id')) {
+            $categoryIds = explode(',', $request->input('category_id')); // Tách chuỗi thành mảng
+            $query->whereHas('catelogues', function($query) use ($categoryIds) {
+                $query->whereIn('product_catelogue_id', $categoryIds); // Lọc theo nhiều danh mục
+            });
+        }
 
-    // Lọc theo kích thước 
-    if ($request->has('dimension')) {
-        $dimension = $request->input('dimension');
-        $query->whereHas('variants', function($query) use ($dimension) {
-            $query->where('dimension', 'like', '%' . $dimension . '%');  
-        });
-    }
+        // Lọc theo giá trị biến thể
+        if ($request->has('attribute_value_ids')) {
+            $attributeValueIds = explode(',', $request->input('attribute_value_ids'));
+            $query->whereHas('variants.variantAttributeValues', function($query) use ($attributeValueIds) {
+                $query->whereIn('attribute_value_id', $attributeValueIds);
+            });
+        }
 
-    // Lọc theo chất liệu 
-    if ($request->has('material')) {
-        $material = $request->input('material');
-        $query->whereHas('variants', function($query) use ($material) {
-            $query->where('name', 'like', '%' . $material . '%');  
-        });
-    }
-
-    // Lọc theo khoảng giá 
-    if ($request->has('min_price') && $request->has('max_price')) {
+        // Lọc theo khoảng giá
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
-        $query->whereBetween('price', [$minPrice, $maxPrice]);  
-    }
 
-    $products = $query->paginate(10);
+        if ($minPrice !== null && $maxPrice !== null) {
+            if ($minPrice > $maxPrice) {
+                return response()->json(['error' => 'Giá trị min_price không thể lớn hơn max_price'], 400);
+            }
+            $query->whereBetween('price', [$minPrice, $maxPrice]);
+        } elseif ($minPrice !== null) {
+            $query->where('price', '>=', $minPrice);
+        } elseif ($maxPrice !== null) {
+            $query->where('price', '<=', $maxPrice);
+        }
 
-    return response()->json($products);
+        $products = $query->paginate(12);
+
+        return response()->json($products);
     }
 
 
