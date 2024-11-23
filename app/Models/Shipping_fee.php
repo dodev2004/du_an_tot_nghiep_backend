@@ -11,7 +11,6 @@ class Shipping_fee extends Model
     protected $fillable = [
         "province_code",
         "fee",
-        "weight_limit",
         "status",
     ];
     protected $table = "shipping_fees";

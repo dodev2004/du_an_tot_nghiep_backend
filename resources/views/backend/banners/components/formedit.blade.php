@@ -28,6 +28,7 @@
                         <option value="" hidden>- Chọn trang -</option>
                         <option value="home" {{ $data->page == "home" ? 'selected' : '' }}>home</option>
                         <option value="product" {{ $data->page == "product" ? 'selected' : '' }}>product</option>
+                        <option value="introduce" {{ $data->page == "introduce" ? 'selected' : '' }}>introduce</option>
                     </select>
                     <p class=" text-danger message-error"></p>
                 </div>
@@ -58,7 +59,7 @@
                              @endif
 
                             </div>
-                            
+
                          </div>
                         <p  class=" text-danger message-error"></p>
                     </div>

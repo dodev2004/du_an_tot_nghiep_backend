@@ -42,6 +42,8 @@ use App\Http\Controllers\backend\AttributeController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+Route::middleware(['set.guard'])->group(function () {
+    
 Route::group(['middleware' => ['api'], 'prefix' => 'auth'], function () {
     // Các route không yêu cầu đăng nhập
     Route::post('register', [AuthController::class, 'register']);
@@ -79,11 +81,11 @@ Route::middleware(['api', 'jwt.auth'])->group(function () {
     Route::delete('/promotions/{id}', [PromotionController::class, 'destroy']);
     Route::post('promotions/use', [PromotionController::class, 'usePromotion']);
 
- 
+
     Route::post('/vnpay/payment', [PaymentController::class, 'vnpay_payment']);
-  
+
     Route::get('shipping-fees', [ShippingFeeController::class, 'index']);
-    
+
 
 
 
@@ -142,3 +144,4 @@ Route::get("/getAllProvinces",[GetLocaitonAjax::class,"getAllProvinces"]);
 
 Route::get('/attributesValue', [AttributeValueController::class, 'index']);
 
+});
