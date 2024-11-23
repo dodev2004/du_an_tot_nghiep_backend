@@ -73,7 +73,9 @@ class AuthController extends Controller
     public function profile()
 {
     $user = auth()->user();
-
+    $provinceName = $user->province ? $user->province->name : null;
+    $districtName = $user->district ? $user->district->name : null;
+    $wardName = $user->ward ? $user->ward->name : null;
     // Kiểm tra và tạo đường dẫn URL đầy đủ cho ảnh đại diện
     if ($user->avatar) {
         $user->avatar_url = asset('storage/' . $user->avatar);
@@ -81,7 +83,23 @@ class AuthController extends Controller
         $user->avatar_url = null;
     }
 
-    return response()->json($user);
+    return response()->json([
+            'username' => $user->username,
+            'avatar' => $user->avatar,
+            'full_name' => $user->full_name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'address' => $user->address,
+            "province_id" => $user->province_id,
+            "district_id" => $user->district_id,
+            "ward_id" => $user->ward_id,
+            'birthday' => $user->birthday,
+            'province' => $provinceName,
+            'district' => $districtName,
+            'ward' => $wardName,
+            'avatar_url' => $user->avatar_url
+
+    ]);
 }
 
 public function updateProfile(Request $request)
@@ -94,9 +112,9 @@ public function updateProfile(Request $request)
         'email' => 'sometimes|string|email|max:255|unique:users,email,' . $user->id,
         'full_name' => 'sometimes|string|max:255',
         'phone' => 'sometimes|string|max:15',
-        'province_id' => 'sometimes|integer|exists:provinces,id',
-        'district_id' => 'sometimes|integer|exists:districts,id',
-        'ward_id' => 'sometimes|integer|exists:wards,id',
+        'province_id' => 'sometimes|string|exists:provinces,code',
+        'district_id' => 'sometimes|string|exists:districts,code',
+        'ward_id' => 'sometimes|string|exists:wards,code',
         'address' => 'sometimes|string|max:255',
         'birthday' => 'sometimes|date',
         // 'avatar' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -133,21 +151,28 @@ public function updateProfile(Request $request)
     }
     protected function respondWithToken($token)
     {
-        $user =auth()->user();
+        $user = auth()->user();
+        
+        $provinceName = $user->province ? $user->province->name : null;
+        $districtName = $user->district ? $user->district->name : null;
+        $wardName = $user->ward ? $user->ward->name : null;
+
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
-            'user'=>[
-                'username'=>$user->username,
-                'avatar'=>$user->avatar,
-                'full_name'=>$user->full_name,
-                'email'=>$user->email,
-                'phone'=>$user->phone,
-                'address'=>$user->address,
-                'birthday'=>$user->birthday
+            'user' => [
+                'username' => $user->username,
+                'avatar' => $user->avatar,
+                'full_name' => $user->full_name,
+                'email' => $user->email,
+                'phone' => $user->phone,
+                'address' => $user->address,
+                'birthday' => $user->birthday,
+                'province' => $provinceName,
+                'district' => $districtName,
+                'ward' => $wardName,
             ]
-
         ]);
     }
     public function forgotPassword(Request $request)

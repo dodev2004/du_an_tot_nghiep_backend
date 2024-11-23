@@ -8,6 +8,8 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Mail\OrderPlaced;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -262,8 +264,7 @@ class OrderController extends Controller
             }
     
             DB::commit();
-    
-            // Trả về phản hồi thành công
+            Mail::to($order->email)->send(new OrderPlaced($order));
             return response()->json([
                 'success' => true,
                 'message' => 'Đơn hàng đã được tạo thành công!',
