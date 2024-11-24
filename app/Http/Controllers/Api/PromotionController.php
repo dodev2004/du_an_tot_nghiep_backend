@@ -46,12 +46,10 @@ class PromotionController extends Controller
         if (Carbon::now()->gt(Carbon::parse($promotion->end_date))) {
             return response()->json(['message' => 'Mã giảm giá đã kết thúc.'], 400);
         }
-
         // Kiểm tra số lượng mã giảm giá
         if ($promotion->max_uses == 0) {
             return response()->json(['message' => 'Mã giảm giá đã hết.'], 400);
         }
-
         // Giảm số lượng mã giảm giá và tăng used_count
         $promotion->max_uses -= 1;
         $promotion->used_count += 1;

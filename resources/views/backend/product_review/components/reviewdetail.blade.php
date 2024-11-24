@@ -23,7 +23,7 @@
                             data-address="{{ $review->order->shipping_address ?? ''}}" 
                             
                             style="cursor: pointer;">
-                            {{ $review->order->customer_name }}
+                            {{ $review->orderItem->order->customer_name }}
                         </a>
                 </td>
                 <td>

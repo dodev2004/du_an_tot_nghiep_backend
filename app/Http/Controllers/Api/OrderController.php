@@ -257,12 +257,11 @@ class OrderController extends Controller
                             throw new \Exception('Không đủ tồn kho cho sản phẩm.');
                         }
                     }
-    
                     // Xóa mục giỏ hàng
                     $cart->delete();
                 }
             }
-    
+            
             DB::commit();
             Mail::to($order->email)->send(new OrderPlaced($order));
             return response()->json([

@@ -38,6 +38,7 @@ class ProductReviewController extends Controller
     public function userReviews(Request $request, $id)
     {
         $products = OrderItem::findOrFail($id);
+      
         $title = "Chi tiết người dùng đánh giá";
         array_push($this->breadcrumbs,[
             "active"=>true,
@@ -51,7 +52,7 @@ class ProductReviewController extends Controller
         ]); 
         
         $breadcrumbs = $this->breadcrumbs;
-        $query = ProductReview::with(['order.user'])->where('product_id', $id);
+        $query = ProductReview::with(['orderItem.order.user'])->where('order_item_id', $id);
 
 
         $searchText = $request->get('search_text');
@@ -77,7 +78,7 @@ class ProductReviewController extends Controller
         } elseif (!empty($endDate)) {
             $query->where('created_at', '<=', $endDate);
         }
-
+      
         if ($request->has('date_order')) {
             if ($request->date_order == 'newest') {
                 $query->orderBy('created_at', 'desc');
@@ -85,9 +86,9 @@ class ProductReviewController extends Controller
                 $query->orderBy('created_at', 'asc');
             }
         }
-
+   
         $data = $query->orderBy('created_at', 'desc')->paginate(10); 
-    
+           
         return view("backend.product_review.templates.review", compact( 'products','title', 'breadcrumbs', 'data'));
     }
 }
