@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Order;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use App\Mail\OrderPlaced;
+use App\Models\Promotion;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
@@ -212,6 +214,7 @@ class OrderController extends Controller
             'shipping_fee' => 'required|numeric',
             'payment_method_id' => 'nullable|exists:payment_methods,id',
             'discount_code' => 'nullable|string|max:255',
+            'discount_code' => 'nullable|string|max:255',
             'email' => 'required|email|max:255',
             'phone_number' => 'required|string|max:15',
             'note' => 'nullable|string',
@@ -262,9 +265,23 @@ class OrderController extends Controller
                     $cart->delete();
                 }
             }
-    
+            if (!empty($validatedData['discount_code'])) {
+                $promotion = Promotion::where('code', $validatedData['discount_code'])->first();
+                if ($promotion && $promotion->max_uses > 0) {
+                $order->discount_amount = $promotion->discount_value;
+                    $order->final_amount = $order->total_amount - $order->discount_amount;
+                    $order->save();
+                    $promotion->max_uses -= 1;
+                    $promotion->used_count += 1;
+                    $promotion->save();
+                } else {
+                    throw new \Exception('Mã giảm giá không hợp lệ.');
+                }
+            }
+            $order->final_amount = $order->total_amount - $order->discount_amount + $order->shipping_fee;
+            $order->save();
             DB::commit();
-            Mail::to($order->email)->send(new OrderPlaced($order));
+            Mail::to($order->email)->send(new OrderPlaced($order->load('orderItems')));           
             return response()->json([
                 'success' => true,
                 'message' => 'Đơn hàng đã được tạo thành công!',

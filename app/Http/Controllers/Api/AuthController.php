@@ -84,6 +84,7 @@ class AuthController extends Controller
     }
 
     return response()->json([
+            'id' => $user->id,
             'username' => $user->username,
             'avatar' => $user->avatar,
             'full_name' => $user->full_name,
@@ -162,6 +163,7 @@ public function updateProfile(Request $request)
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
             'user' => [
+                'id' => $user->id,
                 'username' => $user->username,
                 'avatar' => $user->avatar,
                 'full_name' => $user->full_name,
