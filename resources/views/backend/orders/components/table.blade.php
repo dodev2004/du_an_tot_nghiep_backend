@@ -21,11 +21,8 @@ if (!function_exists('getStatusOption')) {
             $statusOptions = [
                 5 => 'Đã giao hàng',
             ];
-        } elseif ($order->status === 5) {
-            $statusOptions = [
-                6 => 'Hoàn tất',
-            ];
-        }
+        } 
+        
         return $statusOptions;
 }
 
@@ -217,11 +214,6 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
         options.push({
             status: 5,
             label: 'Đã giao hàng'
-        });
-    } else if (currentStatus === 5) {
-        options.push({
-            status: 6,
-            label: 'Hoàn tất'
         });
     }
     else if (currentStatus === 5) {
