@@ -116,7 +116,7 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                     <b>Trạng thái tanh toán :</b> <span class="payment_status"> {{getOrderPaymentStatusLabel($order->payment_status)}}</span>
                 </td>
                 <td class="text-center">
-                    <b>Địa chỉ : </b> Nam Hài - Nam Phương tiến
+                    <b>Địa chỉ : </b> {{$order->shipping_address}}
                 </td>
                 </td>
                 <td id="order-status-{{ $order->id }}" class="text-center"
