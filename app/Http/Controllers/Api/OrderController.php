@@ -267,11 +267,11 @@ class OrderController extends Controller
             }
             if (!empty($validatedData['discount_code'])) {
                 $promotion = Promotion::where('code', $validatedData['discount_code'])->first();
-                if ($promotion && $promotion->max_uses > 0) {
+                if ($promotion && $promotion->max_uses > $promotion->quantity) {
                 $order->discount_amount = $promotion->discount_value;
                     $order->final_amount = $order->total_amount - $order->discount_amount;
                     $order->save();
-                    $promotion->max_uses -= 1;
+                    $promotion->quantity += 1;
                     $promotion->used_count += 1;
                     $promotion->save();
                 } else {
