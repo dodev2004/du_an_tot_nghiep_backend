@@ -38,7 +38,8 @@ if (!function_exists('getStatusColor')) {
         case 3: return '#007BFF'; // Đang xử lý
         case 4: return '#17A2B8'; // Xác nhận giao hàng
         case 5: return '#28A745'; // Đã giao hàng
-        case 6: return '#DC3545'; // Hủy đơn
+        case 6: return 'green'; // Hoàn tất
+        case 7: return '#DC3545'; // Hủy đơn
         default: return '#000000'; // Mặc định
     }
 }
@@ -129,18 +130,26 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                 <td class="">
                     <div class="d-flex" style="display: flex; column-gap: 12px;justify-content: start">
                         <div class="btn-group btn-group-{{$order->id }}">
-                            <button data-toggle="dropdown" class="btn btn-primary btn-sm dropdown-toggle" aria-expanded="true">
-                                Hành động <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" id="action-dropdown-{{ $order->id }}">
-                                @foreach ($statusOptions as $status => $label)
-                                    <li><a href="#"
+                            @if ($order->status != 6)
+                                <button data-toggle="dropdown" class="btn btn-primary btn-sm dropdown-toggle" aria-expanded="true">
+                                    Hành động <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" id="action-dropdown-{{ $order->id }}">
+                                    @foreach ($statusOptions as $status => $label)
+                                        <li><a href="#"
                                             onclick="updateOrderStatus({{ $status }}, {{ $order->id }})">{{ $label }}</a>
-                                    </li>
-                                @endforeach
-                              
-                                <li><a href="#" onclick="deleteOrder({{ $order->id }})">Xóa đơn hàng</a></li>
-                            </ul>
+                                        </li>
+                                    @endforeach
+                                    @if ($order->status == 7)
+                                        <li><a href="#" onclick="deleteOrder({{ $order->id }})">Xóa đơn hàng</a></li>
+                                    @endif
+                                </ul>
+                            @else
+                                <div id="order-status-{{ $order->id }}" class="text-center"
+                                    style="color: {{ getStatusColor($order->status) }}">
+                                    Đã hoàn thành
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </td>
@@ -171,7 +180,7 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                     const actionDropdown = document.getElementById('action-dropdown-' + orderId);
 
                     console.log(response);
-                    
+
                     statusCell.innerText = getOrderStatusLabel(status);
                     statusCell.style.color = getStatusColor(status);
 
@@ -245,7 +254,7 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
         case 3: return '#007BFF'; // Đang xử lý
         case 4: return '#17A2B8'; // Xác nhận giao hàng
         case 5: return '#28A745'; // Đã giao hàng
-        case 6: return '#DC3545'; // Hủy đơn
+        case 6: return 'green'; // Hoàn tất
         case 7: return 'red';
         default: return '#000000'; // Mặc định
     }
@@ -257,7 +266,7 @@ function getOrderStatusLabel(status) {
         case 3: return 'Đang xử lý';        // Trạng thái 3: Đơn hàng đang được xử lý
         case 4: return 'Xác nhận giao hàng'; // Trạng thái 4: Đơn hàng đã được xác nhận giao hàng
         case 5: return 'Đã giao hàng';      // Trạng thái 5: Đơn hàng đã được giao
-        case 6: return 'Hoàn tất';   
+        case 6: return 'Hoàn tất';
         case 7: return 'red';       // Trạng thái 6: Đơn hàng đã hoàn tất
         default: return 'Không xác định';   // Trạng thái không xác định
     }
@@ -320,7 +329,7 @@ $(document).ready(function() {
         $('input[name="dates"]').daterangepicker({
             startDate: start,
             endDate: end,
-            maxDate: moment(), 
+            maxDate: moment(),
             locale: {
                 format: typeFormat,
                 applyLabel: "Áp dụng",
@@ -334,7 +343,7 @@ $(document).ready(function() {
                     "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10",
                     "Tháng 11", "Tháng 12"
                 ],
-                firstDay: 1 
+                firstDay: 1
             },
             ranges: {
                 'Hôm nay': [moment(), moment()],

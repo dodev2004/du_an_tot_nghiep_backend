@@ -236,43 +236,40 @@
 @section("content")
 <div class="row  border-bottom white-bg dashboard-header">
 
-        <!-- Doanh thu -->
-        <div class="col-md-8">
-
-
+    <!-- Doanh thu -->
+    <div class="col-md-8">
             <div class="col-md-12">
-                <h3>Thống Kê Doanh Thu</h3>
                 <div class="stat-box">
                     <div >
-                        <span class="total-revenue"><i class="fas fa-dollar-sign"></i> Tổng Doanh Thu Cửa Hàng</span>
+                        <h3><span class="total-revenue"><i class="fas fa-dollar-sign"></i> Tổng Doanh Thu Cửa Hàng</span></h3>
                     </div>
                     <h3>{{ number_format($totalRevenue, 0) }} VNĐ</h3>
                     <p>Tổng doanh thu</p>
                 </div>
 
-        </div>
+            </div>
 
-        <div class="col-md-12">
-            <h3>Thống Kê Ưu Đãi</h3>
-            <div class="statistics-container">
-                <div class="stat-box2">
-                    <span class="total"><h3>Tổng số lượng mã giảm giá</h3></span>
-                    <h2>{{$totalCoupons}}</h2>
-                    <p>Mã giảm giá</p>
+        <div class="col-md-6">
+                <div class="stat-box">
+                    <span class="total"><h3>Tổng doanh thu hôm nay</h3></span>
+                    <h3>{{ number_format($todayRevenue, 0) }} VNĐ</h3>
+                    <p>Doanh thu hôm nay</p>
                     <div class="status medium-value"></div>
                 </div>
-                <div class="stat-box2">
-                    <span class="total-revenue"><h3>Mã giảm giá hoạt động</h3></span>
-                    <h2>{{ $activeCoupons }}</h2>
-                    <div class="status">Hoạt động</div>
-                </div>
-                <div class="stat-box2">
+                {{-- <div class="stat-box2">
                     <span class="inactive"><h3>Mã giảm giá không hoạt động</h3></span>
                     <h2>{{ $inactiveCoupons }}</h2>
                     <div class="status low-value">Không hoạt động</div>
-                </div>
-            </div>
+                </div> --}}
         </div>
+        {{-- <div class="col-md-6">
+            <div class="stat-box">
+                <span class="total-revenue"><h3>Mã giảm giá hoạt động</h3></span>
+                <h2>{{ $activeCoupons }}</h2>
+                <div class="status">Hoạt động</div>
+            </div>
+        </div> --}}
+
     </div>
 
         <div class="col-md-4">
@@ -309,18 +306,20 @@
             </div> --}}
             <div class="stat-box">
                 <div class="stat-title">
+                    <div class="col-md-6">
                     <span class="canceled-orders"><i class="fas fa-box"></i> Trạng thái đơn hàng </span>
-                    <div>
+                    </div>
+                    <div class="col-md-6">
                         <select class="order-filter form-control">
                             <option value="homnay">hôm nay</option>
                             <option value="7ngay">7 ngày qua</option>
-                            <option value="thangnay" selected>tháng này</option>
+                            <option value="thangnay" >tháng này</option>
                             <option value="thangtruoc">tháng trước</option>
-                            <option value="365ngayqua">365 ngày qua</option>
+                            <option value="365ngayqua" selected>365 ngày qua</option>
                         </select>
                     </div>
                 </div>
-                <div id="orderStatusChart" style="height: 369px;"></div>
+                <div id="orderStatusChart" style="height: 231px;"></div>
             </div>
         </div>
 
@@ -363,9 +362,9 @@
                 <label for="">Lọc doanh thu theo</label>
                 <select class="dashboard-filter form-control">
                     <option value="7ngay">7 ngày qua</option>
-                    <option value="thangnay" selected>tháng này</option>
+                    <option value="thangnay" >tháng này</option>
                     <option value="thangtruoc">tháng trước</option>
-                    <option value="365ngayqua">365 ngày qua</option>
+                    <option value="365ngayqua" selected>365 ngày qua</option>
                 </select>
             </div>
         </div>
