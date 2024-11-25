@@ -170,10 +170,14 @@ public function updateProfile(Request $request)
                 'email' => $user->email,
                 'phone' => $user->phone,
                 'address' => $user->address,
+                "province_id" => $user->province_id,
+                "district_id" => $user->district_id,
+                "ward_id" => $user->ward_id,
                 'birthday' => $user->birthday,
                 'province' => $provinceName,
                 'district' => $districtName,
                 'ward' => $wardName,
+                'avatar_url' => $user->avatar_url
             ]
         ]);
     }
