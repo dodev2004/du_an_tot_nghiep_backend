@@ -176,9 +176,8 @@ public function updateProfile(Request $request)
                 'birthday' => $user->birthday,
                 'province' => $provinceName,
                 'district' => $districtName,
-                'ward' => $wardName,
-                'avatar_url' => $user->avatar_url
-            ]
+                'ward' => $wardName, 
+]
         ]);
     }
     public function forgotPassword(Request $request)
