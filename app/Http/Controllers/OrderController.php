@@ -132,7 +132,7 @@ class OrderController extends Controller
                     $order->payment_status = 3;
                 }
             }
-            if ($request->status == 6) {
+            if ($request->status == 5) {
                 if ($order->payment_status == 1) {
                     $order->payment_status = 2;
                 }

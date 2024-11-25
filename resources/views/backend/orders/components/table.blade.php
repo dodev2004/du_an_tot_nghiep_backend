@@ -167,11 +167,13 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                     const statusCell = document.getElementById('order-status-' + orderId);
                     const actionDropdown = document.getElementById('action-dropdown-' + orderId);
 
-                    console.log(response);
+            
                     
                     statusCell.innerText = getOrderStatusLabel(status);
                     statusCell.style.color = getStatusColor(status);
-
+                    
+                    const payment_status = document.querySelector('.payment_status');
+                    payment_status.innerText = getOrderPaymentStatusLabel(response.newPaymebnt_status);
                     if(response.newStatus)
                     updateDropdown(actionDropdown, status, orderId);
                 } else {
@@ -277,6 +279,16 @@ function deleteOrder(orderId) {
                 alert('Có lỗi xảy ra trong quá trình xóa đơn hàng!');
             }
         });
+    }
+}
+function getOrderPaymentStatusLabel(value){
+    console.log(value);
+    
+    switch (value) {
+        case 1: return 'Chờ thanh toán';
+        case 2: return 'Đã thanh toán';
+        case 3: return 'Hoàn tiền';
+        default: return 'Không xác định';
     }
 }
 $(document).ready(function() {
