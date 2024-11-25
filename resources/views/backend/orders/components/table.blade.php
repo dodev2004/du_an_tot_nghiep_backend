@@ -74,7 +74,7 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
 <table class="table table-striped table-bordered ">
     <thead>
         <tr>
-            <th class="text-center">STT</th>
+
             <th class="text-center">Mã đơn hàng</th>
             <th style="width: 200px" class="text-center">Khách hàng</th>
 
@@ -94,7 +94,6 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
         $statusOptions = getStatusOption($order);
         @endphp
             <tr id="order-row-{{$order->id}}">
-                <td class="text-center">{{$index + 1}}</td>
                 <td class="text-center"><a href="{{route("admin.orders.details",$order->id)}}">BND-{{$order->id}}</a></td>
                 <td class="text-start">
                     <b>{{$order->customer_name}}</b>

@@ -75,18 +75,18 @@ class OrderController extends Controller
         $breadcrumbs = $this->breadcrumbs;
 
         // Lấy từ khóa tìm kiếm
-       
+
 
         // Nếu có từ khóa tìm kiếm, thêm điều kiện
         if ($request->has("ma_don_hang") && $request->ma_don_hang) {
-            
+
             $ma_don_hang = str_replace("BND-","",strtoupper($request->ma_don_hang));
-          
+
             $orders->where('id', '=', trim($ma_don_hang)); // Thay 'some_column' bằng tên cột bạn muốn tìm kiếm
         }
 
         // Phân trang kết quả và giữ lại tham số truy vấn
-        $orders = $orders->paginate(3)->withQueryString();
+        $orders = $orders->orderBy('created_at', 'desc')->paginate(5)->withQueryString();
         return view("backend.orders.templates.index", compact("title", "breadcrumbs", 'orders'));
     }
     function convertVietnameseDateToStandard($date)

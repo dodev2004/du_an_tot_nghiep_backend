@@ -74,16 +74,6 @@
             /* Màu xanh dương cho đơn hàng mới */
         }
 
-        .completed-orders {
-            color: #8e44ad;
-            /* Màu tím cho đơn hàng hoàn thành */
-        }
-
-        .canceled-orders {
-            color: #c0392b;
-            /* Màu đỏ cho đơn hàng bị hủy */
-        }
-
         .date-range-box {
             background-color: #fff;
             padding: 20px;
@@ -201,9 +191,7 @@
         .inactive{
             color: red
         }
-        .total {
-            color: #0a4aeb;
-        }
+
         .chart2-container {
             width: 50%;
             text-align: center;
@@ -251,59 +239,23 @@
 
         <div class="col-md-6">
                 <div class="stat-box">
-                    <span class="total"><h3>Tổng doanh thu hôm nay</h3></span>
+                    <span class="total-revenue"><h3>Tổng doanh thu hôm nay</h3></span>
                     <h3>{{ number_format($todayRevenue, 0) }} VNĐ</h3>
                     <p>Doanh thu hôm nay</p>
                     <div class="status medium-value"></div>
                 </div>
-                {{-- <div class="stat-box2">
-                    <span class="inactive"><h3>Mã giảm giá không hoạt động</h3></span>
-                    <h2>{{ $inactiveCoupons }}</h2>
-                    <div class="status low-value">Không hoạt động</div>
-                </div> --}}
         </div>
-        {{-- <div class="col-md-6">
+        <div class="col-md-6">
             <div class="stat-box">
-                <span class="total-revenue"><h3>Mã giảm giá hoạt động</h3></span>
-                <h2>{{ $activeCoupons }}</h2>
-                <div class="status">Hoạt động</div>
+                <span class="new-orders"><h3>Đơn hàng mới</h3></span>
+                <h3><a href="{{route('admin.orders')}}">{{ $newOrders }} <i class="fas fa-arrow-right"></i></a></h3>
+                <div class="status">Cần xử lí</div>
             </div>
-        </div> --}}
+        </div>
 
     </div>
 
         <div class="col-md-4">
-            {{-- <!-- Đơn hàng hoàn thành -->
-            <div class="col-md-3">
-                <div class="stat-box">
-                    <div class="stat-title">
-                        <span class="completed-orders"><i class="fas fa-check-circle"></i> Đơn Hàng Đã Hoàn Thành</span>
-                    </div>
-                    <h3>{{ $totalCompletedOrders }}</h3>
-                    <p>Đơn hàng đã hoàn thành</p>
-                </div>
-            </div>
-
-            <!-- Đơn hàng bị hủy -->
-            <div class="col-md-3">
-                <div class="stat-box">
-                    <div class="stat-title">
-                        <span class="canceled-orders"><i class="fas fa-times-circle"></i> Đơn Hàng Đã Bị Hủy</span>
-                    </div>
-                    <h3>{{ $totalCanceledOrders }}</h3>
-                    <p>Đơn hàng đã bị hủy</p>
-                </div>
-            </div>
-            <!-- Đơn hàng chưa thu tiền hôm nay -->
-            <div class="col-md-3">
-                <div class="stat-box">
-                    <div class="stat-title">
-                        <span class="canceled-orders"><i class="fas fa-money-bill-wave"></i> Đơn Hàng Chưa Thu Tiền </span>
-                    </div>
-                    <h3>{{ $pendingPaymentOrdersToday }}</h3>
-                    <p>Đơn hàng chưa thu tiền hôm nay</p>
-                </div>
-            </div> --}}
             <div class="stat-box">
                 <div class="stat-title">
                     <div class="col-md-6">
