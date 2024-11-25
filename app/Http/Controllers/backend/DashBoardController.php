@@ -58,41 +58,14 @@ class DashBoardController extends Controller
             ->where('payment_status', Order::PAYMENT_COMPLETED)
             ->sum('final_amount');
 
-        // 2. Tổng số đơn hàng mới trong toàn bộ thời gian
-        $totalNewOrders = Order::where('status', Order::STATUS_PENDING)
-            ->count();
-
-        // 3. Tổng số đơn hàng đã hoàn thành trong toàn bộ thời gian
-        $totalCompletedOrders = Order::where('status', Order::STATUS_COMPLETED)
-            ->count();
-
-        // 4. Tổng số đơn hàng bị hủy trong toàn bộ thời gian
-        $totalCanceledOrders = Order::where('status', Order::STATUS_CANCELLED)
-            ->count();
-
         // 8. Doanh thu hôm nay
         $todayRevenue = Order::whereDate('created_at', date('Y-m-d'))
             ->where('payment_status', Order::PAYMENT_COMPLETED)
             ->sum('final_amount');
 
-        // 9. Số đơn hàng đã hoàn thành hôm nay
-        $completedOrdersToday = Order::whereDate('created_at', date('Y-m-d'))
-            ->where('status', Order::STATUS_COMPLETED)
-            ->count();
 
-        // 10. Số đơn hàng chưa thu tiền hôm nay
-        $pendingPaymentOrdersToday = Order::whereDate('created_at', date('Y-m-d'))
-            ->where('status', Order::STATUS_COMPLETED)
-            ->where('payment_status', Order::PAYMENT_PENDING)
-            ->count();
-
-        // 11. Số đơn hàng bị hủy hôm nay
-        $canceledOrdersToday = Order::whereDate('created_at', date('Y-m-d'))
-            ->where('status', Order::STATUS_CANCELLED)
-            ->count();
-
-        $fromDate = now()->startOfMonth()->format('Y-m-d');
-        $toDate = now()->format('Y-m-d'); // Ngày hiện tại
+            $fromDate = now()->subDays(365)->format('Y-m-d');
+            $toDate = now()->format('Y-m-d'); // Ngày hiện tại
 
         // Lấy các đơn hàng đã hoàn thành và đã thanh toán trong 1 năm qua
         $orders = Order::whereBetween('created_at', [$fromDate, $toDate])
@@ -112,8 +85,7 @@ class DashBoardController extends Controller
         })->values(); // Reset các key của collection
 
         $orderStatusCounts = Order::select('status', DB::raw('count(*) as count'))
-            ->whereMonth('created_at', Carbon::now()->month)
-            ->whereYear('created_at', Carbon::now()->year)
+        ->whereBetween('created_at', [Carbon::now()->subDays(365), Carbon::now()])
             ->groupBy('status')
             ->orderBy('status')
             ->pluck('count', 'status')
@@ -129,11 +101,9 @@ class DashBoardController extends Controller
             ['label' => 'Đã hủy', 'value' => $orderStatusCounts[Order::STATUS_CANCELLED] ?? 0],
             ['label' => 'Hoàn tiền', 'value' => $orderStatusCounts[Order::STATUS_REFUNDED] ?? 0]
         ];
+        $newOrders = Order::where('status',1)->count();
 
-        $currentMonth = Carbon::now()->month;
-        $currentYear = Carbon::now()->year;
-
-        // Thống kê tổng số mã giảm giá tạo 
+        // Thống kê tổng số mã giảm giá tạo
         $totalCoupons = Promotion::count();
 
         // Thống kê tổng số mã giảm giá còn hoạt động
@@ -144,28 +114,24 @@ class DashBoardController extends Controller
         // Lấy mã giảm giá được sử dụng nhiều nhất dựa trên trường used_count
         $topCoupons = Promotion::select('code', 'used_count')
             ->orderBy('used_count', 'desc')
-            ->limit(5) 
+            ->limit(5)
             ->get();
+
 
         return view('backend.dashboard.home', compact(
             'ratingLabels',
             'ratingCounts',
             'topRatedProducts',
             'totalRevenue',
-            'totalNewOrders',
-            'totalCompletedOrders',
-            'totalCanceledOrders',
             'todayRevenue',                // Doanh thu hôm nay
-            'completedOrdersToday',        // Số đơn hàng đã hoàn thành hôm nay
-            'pendingPaymentOrdersToday',   // Số đơn hàng chưa thu tiền hôm nay
-            'canceledOrdersToday',         // Số đơn hàng bị hủy hôm nay
             'chartData',
             'orderStatusData',
             'totalCoupons',
             'activeCoupons',
             'inactiveCoupons',
             'topCoupons',
-            'topSellingChartData'
+            'topSellingChartData',
+            'newOrders'
         ));
     }
 

@@ -135,7 +135,7 @@ class OrderController extends Controller
     {
         $userId = Auth::id();
         // Query danh sách đơn hàng, có thể thêm điều kiện lọc nếu cần thiết
-        $order = Order::with(['orderItems.product_reviews', 'customer:id,full_name', 'promotion:id,code,discount_value', 'paymentMethod:id,name'])->where('customer_id', $userId)
+        $order = Order::with(['orderItems.product_reviews', 'customer:id,full_name', 'promotion:id,code,discount_value', 'paymentMethod:id,name',])->where('customer_id', $userId)
             ->find($id);
         // Kiểm tra nếu không tìm thấy đơn hàng
         if (!$order) {
@@ -145,7 +145,7 @@ class OrderController extends Controller
             ], 404);
         }
 
-        
+
         // Định dạng dữ liệu trả về
         $data = [
             'id' => $order->id,
@@ -180,6 +180,8 @@ class OrderController extends Controller
                 return [
                     'id' => $item->id,
                     'product_id' => $item->product_id,
+                    'slug'=>$item->product->slug,
+                    'image'=>$item->product->image_url,
                     'product_name' => $item->product_name,
                     'quantity' => $item->quantity,
                     'price' => $item->price,
@@ -238,7 +240,7 @@ class OrderController extends Controller
             $carts = explode(",",$request->cart_id);
             foreach ($carts as $cartId) {
                 $cart = Cart::find($cartId);
-    
+
                 if ($cart) {
                     // Cập nhật tồn kho
                     if ($cart->product_variants_id) {
@@ -286,10 +288,10 @@ class OrderController extends Controller
                 'message' => 'Đơn hàng đã được tạo thành công!',
                 'data' => $order->load('orderItems')
             ], 201);
-    
+
         } catch (\Exception $e) {
             DB::rollBack();
-    
+
             // Trả về phản hồi lỗi
             return response()->json([
                 'success' => false,
@@ -421,6 +423,7 @@ class OrderController extends Controller
             'promotion:id,code,discount_value',
             'paymentMethod:id,name'
         ])->where('customer_id', $userId)
+        ->orderBy('deleted_at', 'desc')
         ->where('status', '=', 7);
 
         if ($searchQuery) {
