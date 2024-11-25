@@ -26,37 +26,39 @@ class PromotionController extends Controller
         return response()->json($promotion);
     }
 
-    public function usePromotion(Request $request)
-    {
-        $request->validate([
-            'code' => 'required|string',
-        ]);
-        $promotion = Promotion::where('code', $request->code)->first();
+    // public function usePromotion(Request $request)
+    // {
+    //     $request->validate([
+    //         'code' => 'required|string',
+    //     ]);
+    //     $promotion = Promotion::where('code', $request->code)->first();
 
-        if (!$promotion) {
-            return response()->json(['message' => 'Mã giảm giá không tồn tại.'], 404);
-        }
+    //     if (!$promotion) {
+    //         return response()->json(['message' => 'Mã giảm giá không tồn tại.'], 404);
+    //     }
 
-        // Kiểm tra ngày bắt đầu của mã giảm giá
-        if (Carbon::now()->lt(Carbon::parse($promotion->start_date))) {
-            return response()->json(['message' => 'Mã giảm giá chưa đến ngày bắt đầu.'], 400);
-        }
+    //     // Kiểm tra ngày bắt đầu của mã giảm giá
+    //     if (Carbon::now()->lt(Carbon::parse($promotion->start_date))) {
+    //         return response()->json(['message' => 'Mã giảm giá chưa đến ngày bắt đầu.'], 400);
+    //     }
 
-        // Kiểm tra ngày kết thúc của mã giảm giá
-        if (Carbon::now()->gt(Carbon::parse($promotion->end_date))) {
-            return response()->json(['message' => 'Mã giảm giá đã kết thúc.'], 400);
-        }
-        // Kiểm tra số lượng mã giảm giá
-        if ($promotion->max_uses == 0) {
-            return response()->json(['message' => 'Mã giảm giá đã hết.'], 400);
-        }
-        // Giảm số lượng mã giảm giá và tăng used_count
-        $promotion->max_uses -= 1;
-        $promotion->used_count += 1;
-        $promotion->save();
+    //     // Kiểm tra ngày kết thúc của mã giảm giá
+    //     if (Carbon::now()->gt(Carbon::parse($promotion->end_date))) {
+    //         return response()->json(['message' => 'Mã giảm giá đã kết thúc.'], 400);
+    //     }
 
-        return response()->json(['message' => 'Sử dụng mã giảm giá thành công.', 'promotion' => $promotion], 200);
-    }  
+    //     // Kiểm tra số lượng mã giảm giá
+    //     if ($promotion->max_uses == 0) {
+    //         return response()->json(['message' => 'Mã giảm giá đã hết.'], 400);
+    //     }
+
+    //     // Giảm số lượng mã giảm giá và tăng used_count
+    //     $promotion->max_uses -= 1;
+    //     $promotion->used_count += 1;
+    //     $promotion->save();
+
+    //     return response()->json(['message' => 'Sử dụng mã giảm giá thành công.', 'promotion' => $promotion], 200);
+    // }  
     public function store(Request $request)
     {
         // Tạo mới khuyến mãi

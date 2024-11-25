@@ -84,6 +84,7 @@ class AuthController extends Controller
     }
 
     return response()->json([
+            'id' => $user->id,
             'username' => $user->username,
             'avatar' => $user->avatar,
             'full_name' => $user->full_name,
@@ -162,17 +163,21 @@ public function updateProfile(Request $request)
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
             'user' => [
+                'id' => $user->id,
                 'username' => $user->username,
                 'avatar' => $user->avatar,
                 'full_name' => $user->full_name,
                 'email' => $user->email,
                 'phone' => $user->phone,
                 'address' => $user->address,
+                "province_id" => $user->province_id,
+                "district_id" => $user->district_id,
+                "ward_id" => $user->ward_id,
                 'birthday' => $user->birthday,
                 'province' => $provinceName,
                 'district' => $districtName,
-                'ward' => $wardName,
-            ]
+                'ward' => $wardName, 
+]
         ]);
     }
     public function forgotPassword(Request $request)
