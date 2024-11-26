@@ -23,9 +23,12 @@ class CartController extends Controller
             ->get()
             ->map(function ($item) {
                 $groupedAttributes = [];
-                foreach($item->productVariant->attributeValues as $attribute){
-                    $groupedAttributes[$attribute->attributes->name] = $attribute->name;
+                if($item->productVariant){
+                    foreach($item->productVariant->attributeValues as $attribute){
+                        $groupedAttributes[$attribute->attributes->name] = $attribute->name;
+                    }
                 }
+             
                 $item->groupVariant = $groupedAttributes;
                 if ($item->product_variant_id) {
                     // Sử dụng discount_price nếu có, nếu không thì sử dụng price từ productVariant
