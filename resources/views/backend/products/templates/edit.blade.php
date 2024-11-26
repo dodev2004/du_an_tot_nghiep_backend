@@ -440,8 +440,8 @@
                             <div class="form-group">
                                 <label for="">Nhãn hàng</label>
                                 <select name="brand_id " class="form-control" id="">
+                                    <option value="" hidden disabled selected>Lựa chọn thương hiệu</option>
                                     @foreach ($brands as $item)
-                                        <option value="">Lựa chọn thương hiệu</option>
                                         <option @if ($item->id == $product->brand_id) selected @endif
                                             value="{{ $item->id }}">{{ $item->name }}</option>
                                     @endforeach
@@ -618,9 +618,9 @@
 
                     });
                     productVariant = res.variants
-                    
+
                     renderTableListVariant(res.attributes, productVariant)
-                    
+
                     data = res.attributes;
                     Object.keys(res.attributes).forEach(function(item) {
                         handleAttributeAdd(item, res.attributes[item])
@@ -789,18 +789,18 @@
         }
 
         function renderTableListVariant(data, first = false) {
-           
-            
+
+
             const nameColumn = Object.keys(data); // Lấy tất cả các keys
             const variants = [];
-           
-            
+
+
             // Nếu có ít nhất một thuộc tính có giá trị
             if (nameColumn.length > 0) {
                 // Tạo mảng chứa tất cả các giá trị thuộc tính
                 const attributeValues = nameColumn.map(attr => data[attr]);
-               
-               
+
+
                 const createCombinations = (arrays) => {
                     return arrays.reduce((acc, curr) => {
                         return acc.flatMap(a => curr.map(b => [...a, b]));
@@ -810,8 +810,8 @@
                 };
 
                 const combinations = createCombinations(attributeValues);
-            
-                
+
+
                 combinations.forEach(combination => {
                     const variant = {
                         "Hình ảnh": "",
@@ -924,7 +924,7 @@
                     <label for="">Giá khuyến mãi</label>
                     <input type="text" name="discount_price_variant" value='${parseInt(discount_price.value)}' class="form-control">
                 </div>
-               
+
                 <div class="form-group col-md-6">
                     <label for="">Số lượng</label>
                     <input type="text" name="stock_variant" class="form-control">
@@ -938,8 +938,8 @@
 
 
                         const dataVariant = first[index];
-                   
-                      
+
+
 
                         tbody.insertAdjacentHTML("beforeend", `
     <tr class="attribute_table-content">
@@ -973,7 +973,7 @@
                     <label for="">Giá khuyến mãi</label>
                     <input type="text" name="discount_price_variant" value='${ dataVariant.discount_price ?  parseInt(dataVariant.discount_price)  : 0}' class="form-control">
                 </div>
-               
+
                 <div class="form-group col-md-6">
                     <label for="">Số lượng</label>
                     <input type="text" name="stock_variant" value='${ dataVariant.stock ? dataVariant.stock  : 0}' class="form-control">
@@ -1024,7 +1024,7 @@
                 selectedAttributes.splice(index, 1); // Xóa thuộc tính khỏi danh sách
             }
             console.log(data);
-            
+
             // Xóa dữ liệu thuộc tính khỏi đối tượng `data` nếu nó tồn tại
             if (attributeName in data) {
                 delete data[attributeName];

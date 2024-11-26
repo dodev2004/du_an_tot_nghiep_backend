@@ -65,7 +65,7 @@ class DashBoardController extends Controller
 
 
             $fromDate = now()->subDays(365)->format('Y-m-d');
-            $toDate = now()->format('Y-m-d'); // Ngày hiện tại
+            $toDate = now()->addDay()->format('Y-m-d'); // Ngày hiện tại
 
         // Lấy các đơn hàng đã hoàn thành và đã thanh toán trong 1 năm qua
         $orders = Order::whereBetween('created_at', [$fromDate, $toDate])
@@ -85,7 +85,7 @@ class DashBoardController extends Controller
         })->values(); // Reset các key của collection
 
         $orderStatusCounts = Order::select('status', DB::raw('count(*) as count'))
-        ->whereBetween('created_at', [Carbon::now()->subDays(365), Carbon::now()])
+        ->whereBetween('created_at', [Carbon::now()->subDays(365), Carbon::now()->addDay()])
             ->groupBy('status')
             ->orderBy('status')
             ->pluck('count', 'status')

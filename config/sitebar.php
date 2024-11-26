@@ -92,10 +92,10 @@ return [
 
         'children' =>
         [
-            [
-                "name" => "Hình thức thanh toán",
-                "route" => "admin.payment_methods",
-            ],
+            // [
+            //     "name" => "Hình thức thanh toán",
+            //     "route" => "admin.payment_methods",
+            // ],
             [
                 "name" => "Mã giảm giá",
                 "route" => 'admin.promotions',
