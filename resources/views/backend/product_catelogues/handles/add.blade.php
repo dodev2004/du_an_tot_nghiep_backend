@@ -9,9 +9,9 @@
             const inputs = Array.from(this.querySelectorAll(".form-control"));
             inputs.forEach(function(input){
                     data.append(input.name,input.value.trim());
-                   
+
             })
-            data.append("_token",_token); 
+            data.append("_token",_token);
             $.ajax({
             url : '{{route('admin.product_catelogue.store')}}',
             type: "POST",
@@ -20,8 +20,8 @@
             contentType: false,
             processData: false,
             success : function(res){
-                toastMessage(res[1],res[0],'{{route('admin.post-catelogue')}}')
-                
+                toastMessage(res[1],res[0],'{{route('admin.product_catelogue')}}')
+
             },
             error : function(error){
             let errors =  error.responseJSON.errors;
@@ -38,7 +38,7 @@
                         const message = select.parentElement.querySelector(".message-error");
 
                         message.innerText = errors[error]
-                       
+
                     }
                 })
             }

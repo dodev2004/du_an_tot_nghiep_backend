@@ -12,11 +12,11 @@ return [
         "route" => "#",
         'children' =>
         [
-            [
-                "name" => "Nhóm nhân viên",
-                "route" => 'admin.user_catelogue',
+            // [
+            //     "name" => "Nhóm nhân viên",
+            //     "route" => 'admin.user_catelogue',
 
-            ],
+            // ],
             [
                 "name" => "Quản lý nhân viên",
                 "route" => 'admin.users',
