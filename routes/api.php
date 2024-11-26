@@ -79,7 +79,6 @@ Route::middleware(['api', 'jwt.auth'])->group(function () {
     Route::get('/promotions/{id}', [PromotionController::class, 'show']);
     Route::put('/promotions/{id}', [PromotionController::class, 'update']);
     Route::delete('/promotions/{id}', [PromotionController::class, 'destroy']);
-    Route::post('promotions/use', [PromotionController::class, 'usePromotion']);
 
 
     Route::post('/vnpay/payment', [PaymentController::class, 'vnpay_payment']);

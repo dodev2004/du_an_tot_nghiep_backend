@@ -889,13 +889,13 @@
                         }
                     });
                     const price = document.querySelector("input[name='price']");
-
+                    const discount_price = document.querySelector("input[name='discount_price']");
                     tbody.appendChild(listVariant);
                     if (!first) {
                         tbody.insertAdjacentHTML("beforeend", `
-    <tr class="attribute_table-content">
-    <td colspan="${4 + count}">
-        <div class="attribute_collape">
+        <tr class="attribute_table-content">
+             <td colspan="${4 + count}">
+         <div class="attribute_collape">
             <div class="row form-variant">
                 <input type='hidden' name="attribute" value='${attributevalue.join(",")}'/>
                 <div class="col-md-12 attribute_collape-content">
@@ -922,7 +922,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="">Giá khuyến mãi</label>
-                    <input type="text" name="discount_price_variant" value='${parseInt(price.discount_price)} class="form-control">
+                    <input type="text" name="discount_price_variant" value='${parseInt(discount_price.value)}' class="form-control">
                 </div>
                
                 <div class="form-group col-md-6">

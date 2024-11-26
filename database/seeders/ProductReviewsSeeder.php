@@ -25,7 +25,6 @@ class ProductReviewsSeeder extends Seeder
                         'user_id' => $order->customer_id, // giả sử user_id là order_id
                         'rating' => rand(1, 5), // Đánh giá ngẫu nhiên từ 1 đến 5
                         'review' => 'Sản phẩm tuyệt vời! Tôi rất hài lòng với chất lượng.',
-                        'image' => 'https://source.unsplash.com/random/300x300',
                         'created_at' => now(),
                     ]
                 ]);

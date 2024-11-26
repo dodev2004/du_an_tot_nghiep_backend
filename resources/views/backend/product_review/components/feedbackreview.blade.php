@@ -5,7 +5,7 @@
 @endif
 
 <!-- Chi tiết đánh giá -->
-    <div class="review-details">
+<div class="review-details">
         <p><strong>Mã sản phẩm:</strong> {{ $reviews->product->sku }}</p>
         <p><strong>Tên sản phẩm:</strong> {{ $reviews->product->name }}</p>
         <p><strong>Người dùng đánh giá:</strong> {{ $reviews->user->username }}</p>

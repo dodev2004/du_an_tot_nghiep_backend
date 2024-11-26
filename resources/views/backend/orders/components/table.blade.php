@@ -21,11 +21,8 @@ if (!function_exists('getStatusOption')) {
             $statusOptions = [
                 5 => 'Đã giao hàng',
             ];
-        } elseif ($order->status === 5) {
-            $statusOptions = [
-                6 => 'Hoàn tất',
-            ];
-        }
+        } 
+        
         return $statusOptions;
 }
 
@@ -119,7 +116,7 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                     <b>Trạng thái tanh toán :</b> <span class="payment_status"> {{getOrderPaymentStatusLabel($order->payment_status)}}</span>
                 </td>
                 <td class="text-center">
-                    <b>Địa chỉ : </b> Nam Hài - Nam Phương tiến
+                    <b>Địa chỉ : </b> {{$order->shipping_address}}
                 </td>
                 </td>
                 <td id="order-status-{{ $order->id }}" class="text-center"
@@ -178,11 +175,13 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                     const statusCell = document.getElementById('order-status-' + orderId);
                     const actionDropdown = document.getElementById('action-dropdown-' + orderId);
 
-                    console.log(response);
-
+            
+                    
                     statusCell.innerText = getOrderStatusLabel(status);
                     statusCell.style.color = getStatusColor(status);
-
+                    
+                    const payment_status = document.querySelector('.payment_status');
+                    payment_status.innerText = getOrderPaymentStatusLabel(response.newPaymebnt_status);
                     if(response.newStatus)
                     updateDropdown(actionDropdown, status, orderId);
                 } else {
@@ -225,11 +224,6 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
         options.push({
             status: 5,
             label: 'Đã giao hàng'
-        });
-    } else if (currentStatus === 5) {
-        options.push({
-            status: 6,
-            label: 'Hoàn tất'
         });
     }
     else if (currentStatus === 5) {
@@ -293,6 +287,16 @@ function deleteOrder(orderId) {
                 alert('Có lỗi xảy ra trong quá trình xóa đơn hàng!');
             }
         });
+    }
+}
+function getOrderPaymentStatusLabel(value){
+    console.log(value);
+    
+    switch (value) {
+        case 1: return 'Chờ thanh toán';
+        case 2: return 'Đã thanh toán';
+        case 3: return 'Hoàn tiền';
+        default: return 'Không xác định';
     }
 }
 $(document).ready(function() {

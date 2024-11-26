@@ -18,7 +18,6 @@ class ProductReview extends Model
         'user_id',
         'rating',
         'review',
-        'image',
     ];
 
     public function product()
@@ -28,11 +27,6 @@ class ProductReview extends Model
     public function orderItem()
     {
         return $this->belongsTo(OrderItem::class, 'order_item_id');
-    }
-
-    public function order()
-    {
-        return $this->orderItem->order();
     }
 
     public function user()
