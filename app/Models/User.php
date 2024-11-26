@@ -127,8 +127,4 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo(Ward::class, 'ward_id'); // Giả sử 'ward_id' là khóa ngoại trong bảng users
     }
-    public function role()
-   {
-       return $this->belongsTo(Role::class,'role_id');
-   }
 }

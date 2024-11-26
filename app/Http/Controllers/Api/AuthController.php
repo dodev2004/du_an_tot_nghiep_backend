@@ -51,7 +51,6 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        $user->roles()->attach(2);
     
         // Tạo token cho người dùng mới đăng ký
         $token = auth()->login($user);
