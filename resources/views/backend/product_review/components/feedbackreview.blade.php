@@ -5,27 +5,21 @@
 @endif
 
 <!-- Chi tiết đánh giá -->
-<div class="review-list">
-    @forelse ($data as $review)
-        <div class="review-details">
-            <p><strong>Mã sản phẩm:</strong> {{ $review->product->sku ?? 'N/A' }}</p>
-            <p><strong>Tên sản phẩm:</strong> {{ $review->product->name ?? 'N/A' }}</p>
-            <p><strong>Người dùng đánh giá:</strong> {{ $review->user->username ?? 'N/A' }}</p>
-            <p><strong>Đánh giá:</strong> {{ $review->review ?? 'N/A' }}</p>
-            <p><strong>Số sao:</strong> 
-                @for($i = 1; $i <= 5; $i++)
-                    @if($i <= $review->rating)
-                        <i class="fas fa-star text-warning"></i> <!-- Sao sáng (vàng) -->
-                    @else
-                        <i class="far fa-star text-secondary"></i> <!-- Sao tối (màu xám) -->
-                    @endif
-                @endfor
-            </p>
-        </div>
-    @empty
-        <p>Không có đánh giá nào cho sản phẩm này.</p>
-    @endforelse
-</div>
+<div class="review-details">
+        <p><strong>Mã sản phẩm:</strong> {{ $reviews->product->sku }}</p>
+        <p><strong>Tên sản phẩm:</strong> {{ $reviews->product->name }}</p>
+        <p><strong>Người dùng đánh giá:</strong> {{ $reviews->user->username }}</p>
+        <p><strong>Đánh giá:</strong> {{ $reviews->review }}</p>
+        <p><strong>Số sao:</strong> 
+            @for($i = 1; $i <= 5; $i++)
+                @if($i <= $reviews->rating)
+                    <i class="fas fa-star text-warning"></i> <!-- Sao sáng (vàng) -->
+                @else
+                    <i class="far fa-star text-secondary"></i> <!-- Sao tối (màu xám) -->
+                @endif
+            @endfor
+        </p>
+    </div>
 
         <!-- Form để thêm bình luận mới cho đánh giá -->
         <div class="add-comment">

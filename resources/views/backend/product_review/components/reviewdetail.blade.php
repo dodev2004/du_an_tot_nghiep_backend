@@ -2,7 +2,6 @@
         <thead>
             <tr>
                 <th>Người dùng</th>
-                <th>Ảnh</th>
                 <th>Đánh giá</th>
                 <th>Số sao</th>
                 <th>Mã đơn hàng</th>
@@ -26,13 +25,6 @@
                             {{ $review->orderItem->order->customer_name }}
                         </a>
                 </td>
-                <td>
-                    @if (!empty($review->image))
-                        <img src="{{ asset($review->image) }}" alt="image" />
-                    @else
-                        <p>Không có ảnh.</p>
-                    @endif
-                </td>
 
                 <td style="width: 150px;">{{ $review->review }}</td>
                 <td>
@@ -44,7 +36,7 @@
                         @endif
                     @endfor
                 </td>
-                <td style="text-align: center;">FA-{{ $review->order_item_id }}</td>
+                <td style="text-align: center;">BND-{{ $review->orderItem->order_id }}</td>
                 <td style="width: 150px;">Lựa chọn : {{implode(" x ",json_decode($review->orderitem->variant, true))}} </td>
                 <td>{{ $review->created_at->format('d/m/Y') }}</td>
                 <td style="width: 200px;">

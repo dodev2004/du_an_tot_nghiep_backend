@@ -40,7 +40,7 @@ class ProductReviewController extends Controller
                 'id' => $review->id,
                 'product_id' => $review->product_id,
                 'user' => [
-                    'avatar'=> $review->avatar,
+                    'avatar'=> $review->user->avatar,
                     'username' => $review->user->username,
                 ],
                 'rating' => $review->rating,
