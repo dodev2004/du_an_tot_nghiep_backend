@@ -301,7 +301,7 @@ class ProductController extends Controller
                 'meta_keywords' => trim($data['meta_keywords']),
                 'slug' => trim($data['slug']),
                 'meta_description' => trim($data['meta_description']),
-                'brand_id' => trim($data['brand_id_']),
+                'brand_id' => trim($data['brand_id_']) ? trim($data['brand_id_']) : null,
                 'sku' => trim($data['sku']),
                 'price' => trim($data['price']),
                 'discount_price' => trim($data['discount_price']),
