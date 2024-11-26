@@ -178,8 +178,8 @@ class OrderController extends Controller
                 return [
                     'id' => $item->id,
                     'product_id' => $item->product_id,
-                    'slug'=>$item->product->slug,
-                    'image'=>$item->product->image_url,
+                    'slug'=>$item->product ? $item->product->slug : null,
+                    'image'=>$item->product ? $item->product->image_url : null,
                     'product_name' => $item->product_name,
                     'quantity' => $item->quantity,
                     'price' => $item->price,
