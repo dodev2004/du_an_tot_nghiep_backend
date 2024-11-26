@@ -79,16 +79,30 @@ class ProductReviewController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-
+        $orderItem = OrderItem::findOrFail($orderItemId);
+        $product = $orderItem->product;
         // Tạo review mới
         $review = ProductReview::create([
             'order_item_id' => $orderItemId, 
-            'product_id' => OrderItem::findOrFail($orderItemId)->product_id,
+            'product_id' => $product->id,
             'user_id' => Auth::id(),
             'rating' => $request->rating,
             'review' => $request->review,
         ]);
 
+        DB::transaction(function () use ($product) {
+            $ratingsData = $product->product_reviews()
+                ->selectRaw('SUM(rating) as total_ratings, COUNT(*) as total_reviews')
+                ->first();
+    
+            $product->update([
+                'ratings_avg' => $ratingsData->total_reviews > 0 
+                    ? $ratingsData->total_ratings / $ratingsData->total_reviews 
+                    : 0,
+                'ratings_count' => $ratingsData->total_reviews,
+            ]);
+        });
+        
         return response()->json([
             'message' => 'Đã gửi đánh giá thành công.',
             'review' => $review,
