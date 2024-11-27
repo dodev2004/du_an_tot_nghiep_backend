@@ -12,11 +12,11 @@ return [
         "route" => "#",
         'children' =>
         [
-            [
-                "name" => "Nhóm nhân viên",
-                "route" => 'admin.user_catelogue',
+            // [
+            //     "name" => "Nhóm nhân viên",
+            //     "route" => 'admin.user_catelogue',
 
-            ],
+            // ],
             [
                 "name" => "Quản lý nhân viên",
                 "route" => 'admin.users',
@@ -92,10 +92,10 @@ return [
 
         'children' =>
         [
-            [
-                "name" => "Hình thức thanh toán",
-                "route" => "admin.payment_methods",
-            ],
+            // [
+            //     "name" => "Hình thức thanh toán",
+            //     "route" => "admin.payment_methods",
+            // ],
             [
                 "name" => "Mã giảm giá",
                 "route" => 'admin.promotions',
