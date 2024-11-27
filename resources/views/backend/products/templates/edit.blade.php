@@ -429,7 +429,7 @@
                         </div>
                         <p class="message-error text-danger"></p>
                         <div>
-                            <button class="btn btn-success" type="submit">Thêm mới</button>
+                            <button class="btn btn-success" type="submit">Cập nhật</button>
                         </div>
                     </div>
                     <div class="ibox-content">
@@ -460,20 +460,20 @@
                             <div class="form-group">
                                 <label for="">Giá thành</label>
                                 <input type="text" class="form-control" name="price"
-                                    value="{{ $product->price }}"placeholder="Giá sản phẩm">
+                                    value="{{ (int)$product->price }}"placeholder="Giá sản phẩm">
                                 <span class="text-danger"></span>
 
                             </div>
                             <div class="form-group">
                                 <label for="">Giảm giá</label>
-                                <input type="text" class="form-control" value="{{ $product->discount_price }} "
+                                <input type="text" class="form-control" value="{{ (int)$product->discount_price }} "
                                     name="discount_price" placeholder="Giảm giá nếu có">
                                 <span class="text-danger"></span>
 
                             </div>
                             <div class="form-group">
                                 <label for="">Tồn kho</label>
-                                <input type="text" class="form-control" name="stock" value="{{ $product->stock }}"
+                                <input type="text" class="form-control" name="stock" value="{{ (int)$product->stock }}"
                                     placeholder="Tồn kho">
                                 <span class="text-danger"></span>
 
@@ -481,7 +481,7 @@
                             <div class="form-group">
                                 <label for="">Cân năng</label>
                                 <input type="text" class="form-control" name="weight"
-                                    value="{{ $product->weight }}" placeholder="Cân nặng">
+                                    value="{{ (int)$product->weight }}" placeholder="Cân nặng">
                                 <span class="text-danger"></span>
 
                             </div>

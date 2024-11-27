@@ -107,6 +107,7 @@ class ProductController extends Controller
         $breadcrumbs = $this->breadcrumbs;
         $product = Product::query()->with(['brand', 'catelogues', 'variants.attributeValues', 'galleries'])->findOrFail($id);
         $title = "Chi tiết sản phẩm: " . $product->name;
+    
         // Tính giá hiển thị và tồn kho cho sản phẩm dựa trên các biến thể
         if ($product->variants->isNotEmpty()) {
             $product->display_stock = $product->variants->sum('stock');
@@ -270,7 +271,7 @@ class ProductController extends Controller
             "name"=>"Sửa sản phẩm"
  
         ]);  
-     
+        
         $product_catelogue =$this->dropdownPostCatelogueEdit("edit");
         $breadcrumbs = $this->breadcrumbs;
         $brands = Brand::all();

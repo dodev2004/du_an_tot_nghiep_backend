@@ -33,10 +33,10 @@ class ProductUpdateRequest extends FormRequest
             'meta_description' => 'nullable|string|max:255',
             'brand_id_' => 'nullable|integer',
             'sku' => ['required', 'string', 'max:255', Rule::unique('products', 'sku')->ignore($productId)],
-            'price' => 'required|numeric|min:0',
-            'discount_price' => 'nullable|numeric|min:0|lt:price',
-            'stock' => 'required|integer|min:0',
-            'weight' => 'nullable|numeric|min:0',
+            'price' => 'required|numeric|min:0|max:99999999',
+            'discount_price' => 'nullable|numeric|min:0|lt:price|max:99999999',
+            'stock' => 'required|integer|min:0|max:999999',
+            'weight' => 'nullable|numeric|min:0|max:999999',
             'status' => 'required|boolean',
         ];
     }
@@ -88,18 +88,18 @@ class ProductUpdateRequest extends FormRequest
             'price.required' => 'Vui lòng nhập giá sản phẩm.',
             'price.numeric' => 'Giá sản phẩm phải là một số hợp lệ.',
             'price.min' => 'Giá sản phẩm phải lớn hơn hoặc bằng 0.',
-
+            'price.max' => 'Giá sản phẩm không được vượt quá 1 tỷ',
             'discount_price.numeric' => 'Giá giảm phải là một số hợp lệ.',
             'discount_price.min' => 'Giá giảm phải lớn hơn hoặc bằng 0.',
             'discount_price.lt' => 'Giá giảm phải nhỏ hơn giá sản phẩm.',
-
+            'discount_price.max' => 'Giá giảm không được vượt quá 1 tỷ',
             'stock.required' => 'Số lượng tồn kho là bắt buộc.',
             'stock.integer' => 'Số lượng tồn kho phải là một số nguyên.',
             'stock.min' => 'Số lượng tồn kho phải lớn hơn hoặc bằng 0.',
-
+            'stock.max' => 'Số lượng tồn kho không được vượt quá 999999',
             'weight.numeric' => 'Khối lượng phải là một số hợp lệ.',
             'weight.min' => 'Khối lượng phải lớn hơn hoặc bằng 0.',
-
+            'weight.max' => 'Khối lượng không được vượt quá 999999',
             'image_url.url' => 'URL hình ảnh không hợp lệ.',
 
             'is_active.required' => 'Trạng thái kích hoạt là bắt buộc.',
