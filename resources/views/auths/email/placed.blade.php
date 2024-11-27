@@ -44,7 +44,7 @@
 <body>
     <div class="order-details">
         <h1>Đơn hàng của bạn đã được đặt thành công!</h1>
-        <p>Cảm ơn bạn đã mua sắm tại cửa hàng của chúng tôi!</p>
+        <p>Cảm ơn bạn đã mua sắm tại Morden Home!</p>
 
         <table>
             <tr>

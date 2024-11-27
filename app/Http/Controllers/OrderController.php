@@ -7,6 +7,10 @@ use App\Models\Order;
 
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderReceivedConfirmation;
+
 class OrderController extends Controller
 {
     public $paymentMethods;
@@ -136,6 +140,7 @@ class OrderController extends Controller
                 if ($order->payment_status == 1) {
                     $order->payment_status = 2;
                 }
+                Mail::to($order->email)->send(new OrderReceivedConfirmation($order)); 
             }
             $order->status = $request->status;
             $order->save();
