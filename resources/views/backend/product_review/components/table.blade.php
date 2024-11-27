@@ -107,9 +107,8 @@
                     </div>
                     <div style="margin-top: 10px">
                         <div><strong>Mô tả:</strong></div>
-                        <div><textarea id="productDescription" readonly style=" border : 1px solid #ccc;background-color:
-                                #f9f9f9;border-radius: 5px; padding: 8px; width: 100%; height: 150px ; overflow: auto">
-                                </textarea>
+                        <div id="productDescription" style="border: 1px solid #ccc; background-color: #f9f9f9; border-radius: 5px; padding: 8px; width: 100%; height: 250px; overflow: auto">
+                            <!-- Nội dung mô tả sẽ được chèn vào đây -->
                         </div>
                     </div>
                 </div>
