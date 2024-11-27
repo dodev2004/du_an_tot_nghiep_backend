@@ -43,7 +43,7 @@ use App\Http\Controllers\backend\AttributeController;
 //     return $request->user();
 // });
 Route::middleware(['set.guard'])->group(function () {
-    
+
 Route::group(['middleware' => ['api'], 'prefix' => 'auth'], function () {
     // Các route không yêu cầu đăng nhập
     Route::post('register', [AuthController::class, 'register']);
@@ -112,6 +112,7 @@ Route::delete('/brands/{id}', [BrandController::class, 'destroy']);
 Route::get('/information', [InformationController::class, 'index']);
 Route::get('/banners-home', [BannerController::class, 'HomeBanner']);
 Route::get('/banners-product', [BannerController::class, 'ProductBanner']);
+Route::get('/banners-introduce', [BannerController::class, 'IntroduceBanner']);
 // Bài viết
 Route::apiResource('posts', PostController::class);
 Route::get('/posts/related-posts/{id}', [PostController::class, 'relatedPosts']);
