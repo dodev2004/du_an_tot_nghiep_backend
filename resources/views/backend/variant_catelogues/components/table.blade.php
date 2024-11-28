@@ -1,7 +1,7 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th></th>
+            
             <th>Danh mục thuộc tính</th>
             <th class="text-center">Chỉnh sửa</th>
         </tr>
@@ -9,7 +9,7 @@
     <tbody>
         @foreach ($data as $item)
         <tr>
-            <td><input type="checkbox" value="{{ $item->id }}"></td>
+            
             <td>
                 <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{ $item->name }}</p>
             </td>
