@@ -132,9 +132,9 @@
                                     <th class="text-center">STT</th>
                                     <th class="text-left">Hình ảnh</th>
                                     <th style="width: 200px" class="text-left">Thông tin sản phẩm</th>
-                                    <th class="text-right">Đơn giá</th>
-                                    <th class="text-right">Số lượng</th>
-                                    <th class="text-right">Thành tiền</th>
+                                    <th class="text-right"style="width: 100px">Đơn giá</th>
+                                    <th class="text-right"style="width: 100px">Số lượng</th>
+                                    <th class="text-right"style="width: 100px">Thành tiền</th>
                                 </tr>
                             </thead>
 

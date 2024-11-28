@@ -14,7 +14,7 @@
 
     // Cập nhật thông tin vào modal
     $('#productName').text(productName ? productName : 'Dữ liệu chưa có');
-    $('#productDescription').text(productDescription ? productDescription : 'Dữ liệu chưa có');
+    $('#productDescription').html(productDescription ? productDescription : 'Dữ liệu chưa có');
     $('#productPrice').text(productPrice ? productPrice : 'Dữ liệu chưa có');
     $('#productDiscountPrice').text(productDiscountPrice ? productDiscountPrice : 'Dữ liệu chưa có');
     $('#productStock').text(productStock ? productStock : 'Dữ liệu chưa có');

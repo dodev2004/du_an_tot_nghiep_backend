@@ -75,9 +75,9 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
             <th class="text-center">Mã đơn hàng</th>
             <th style="width: 200px" class="text-center">Khách hàng</th>
 
-            <th class="text-end">Thành tiền</th>
+            <th class="text-end" style="width: 100px">Thành tiền</th>
             <th class="text-start">Chi phí khác</th>
-            <th class="text-right">Tổng tiền</th>
+            <th class="text-right" style="width: 100px">Tổng tiền</th>
             <th class="text-center">Thanh toán</th>
             <th class="text-center">Địa chỉ giao hàng</th>
             <th class="text-center">Tình trạng</th>

@@ -8,33 +8,38 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($data as $product)
-            <tr>
-                <td>
-                    <a class="product" data-toggle="tooltip" data-placement="top" title="Chi tiết sản phẩm"
-                        data-name="{{ $product->product->name ?? ''}}"
-                        data-description="{{ $product->product->detailed_description ?? ''}}"
-                        data-price="{{ $product->product->price ?? '' }}"
-                        data-discount-price="{{ $product->product->discount_price ?? '' }}"
-                        data-stock="{{ $product->product->stock ?? ''}}" 
-                        data-weight="{{ $product->product->weight ?? '' }}"
-                        data-ratings-avg="{{ $product->product->ratings_avg ?? ''}}"
-                        data-ratings-count="{{ $product->product->ratings_count ?? ''}}"
-                        data-status="{{ $product->product->status ?? ''}}"
-                        data-image-url="{{ asset($product->product->image_url) ?? ''}}">
-
-                        {{ $product->product->sku }}
+    @foreach($data as $product)
+        <tr>
+            <td>
+                <a class="product" data-toggle="tooltip" data-placement="top" title="Chi tiết sản phẩm"
+                   data-name="{{ $product->name ?? '' }}"
+                   data-description="{{ $product->detailed_description ?? '' }}"
+                   data-price="{{ $product->price ?? '' }}"
+                   data-discount-price="{{ $product->discount_price ?? '' }}"
+                   data-stock="{{ $product->stock ?? '' }}"
+                   data-weight="{{ $product->weight ?? '' }}"
+                   data-ratings-avg="{{ $product->ratings_avg ?? '' }}"
+                   data-ratings-count="{{ $product->ratings_count ?? '' }}"
+                   data-status="{{ $product->status ?? '' }}"
+                   data-image-url="{{ asset($product->image_url) ?? '' }}">
+                    {{ $product->sku }}
+                </a>
+            </td>
+            <td>{{ $product->name }}</td>
+            <td>{{ $product->review_count }}</td>
+            <td>
+                <center>
+                    <a class="btn btn-sm btn-info"
+                       href="{{ route('admin.product_review.user_reviews', $product->id) }}"
+                       data-toggle="tooltip" data-placement="top" title="Xem chi tiết">
+                        <i class="fa fa-paste"></i>
                     </a>
-                    
-                </td>
-                <td>{{ $product->product->name }}</td>
-                <td>{{ $product->review_count }}</td> 
-                <td>
-                    <center><a class="btn btn-sm btn-info" href="{{ route('admin.product_review.user_reviews', $product->id) }}" data-toggle="tooltip" data-placement="top" title="Xem chi tiết"><i class="fa fa-paste"></i></a></center>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
+                </center>
+            </td>
+        </tr>
+    @endforeach
+</tbody>
+
     </table>
 
 <!-- Modal -->

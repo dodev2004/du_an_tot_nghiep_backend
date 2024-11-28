@@ -7,23 +7,30 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderPlaced extends Mailable
+class OrderReceivedConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $order;
 
+    /**
+     * Create a new message instance.
+     *
+     * @return void
+     */
     public function __construct(Order $order)
     {
         $this->order = $order;
     }
 
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
     public function build()
     {
-        return $this->subject('Đơn hàng của bạn đã được đặt thành công')
-                    ->view('auths.email.placed')
-                    ->with([
-                        'order' => $this->order,
-                    ]);
+        return $this->subject('Xác nhận đã nhận hàng')
+                    ->view('auths.email.confirmation_order');
     }
 }

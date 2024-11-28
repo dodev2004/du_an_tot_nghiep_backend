@@ -24,7 +24,7 @@ class ProductReviewController extends Controller
         $breadcrumbs = $this->breadcrumbs;
 
         $searchText = request()->get('search_text');
-        $query = OrderItem::whereHas('product_reviews')->withCount('product_reviews as review_count');
+        $query = Product::whereHas('product_reviews')->withCount('product_reviews as review_count');
         if (!empty($searchText)) {
             $query->where('name', 'LIKE', value: '%' . $searchText . '%')
                     ->orWhere('sku', 'LIKE', '%' . $searchText . '%');
@@ -52,7 +52,7 @@ class ProductReviewController extends Controller
         ]); 
         
         $breadcrumbs = $this->breadcrumbs;
-        $query = ProductReview::with(['orderItem.order.user'])->where('order_item_id', $id);
+        $query = ProductReview::with(['orderItem.order.user'])->where('product_id', $id);
 
 
         $searchText = $request->get('search_text');
