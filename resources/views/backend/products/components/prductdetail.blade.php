@@ -8,7 +8,7 @@
             <table class="table table-borderless">
                 <tbody>
                 <tr>
-                        <th>Tên sản phẩm</th>
+                        <th style="white-space: nowrap;">Tên sản phẩm</th>
                         <td>{{ $product->name ?? ''}}</td>
                     </tr>
                     <tr>
@@ -119,3 +119,25 @@
         });
     });
 </script>
+<style>
+    .description-container {
+    position: relative;
+}
+
+.product-description {
+    max-height: 100px; /* Chiều cao mô tả ban đầu */
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.product-description.expanded {
+    max-height: none; /* Mở rộng chiều cao khi nhấn "Xem thêm" */
+}
+
+.product-description img {
+    max-width: 100%; /* Giữ kích thước hình ảnh không vượt quá chiều rộng của phần mô tả */
+    height: auto;    /* Đảm bảo tỷ lệ hình ảnh không bị thay đổi */
+    display: block;  /* Đảm bảo hình ảnh không bị lệch */
+    margin: 10px 0;  /* Thêm khoảng cách giữa hình ảnh và văn bản */
+}
+</style>
