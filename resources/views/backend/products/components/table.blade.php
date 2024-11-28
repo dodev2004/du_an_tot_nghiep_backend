@@ -20,12 +20,14 @@
                     <img src="{{ asset($product->image_url) }}" alt="{{ $product->name }}" width="100%">
                 </td>
                 <td>
-                    <strong>Tên sản phẩm:</strong> <a onclick="clickHandel('{{$product->id}}')" data-toggle="modal" data-id={{ $product->id }}
-                        data-target="#productModal">{{ $product->name ? $product->name : 'N/A' }}</a> <br>
+                    <strong>Tên sản phẩm:</strong>
+                    {{-- <a onclick="clickHandel('{{$product->id}}')" data-toggle="modal" data-id={{ $product->id }}
+                        data-target="#productModal">{{ $product->name ? $product->name : 'N/A' }}</a> <br> --}}
+                        {{ $product->name ? $product->name : 'N/A' }}</a> <br>
                     <strong>Danh mục:</strong>
                     {{ $product->catelogues ? implode(',', $product->catelogues) : 'N/A' }}<br>
                     <strong>Nhãn hàng:</strong> {{ $product->brand->name ?? 'N/A' }}<br>
-                    <strong>Giá:</strong> 
+                    <strong>Giá:</strong>
                     @if ($product->discount_price && $product->discount_price < $product->price)
                         <span class="text-muted"><s>{{ number_format($product->price, 0, ',', '.') }} VND</s></span>
                         <span class="text-danger font-weight-bold ml-2">{{ number_format($product->discount_price, 0, ',', '.') }} VND</span>
@@ -183,7 +185,7 @@
         // Khi nhấn nút xem chi tiết sản phẩm
         function clickHandel(id) {
             event.preventDefault();
-            
+
             // Gọi API để lấy dữ liệu sản phẩm
             $.ajax({
                 url: 'http://127.0.0.1:8000/api/products/' +id,
@@ -292,5 +294,5 @@
                 return `${minPrice} đ - ${maxPrice} đ`;
             }
         }
-   
+
 </script>

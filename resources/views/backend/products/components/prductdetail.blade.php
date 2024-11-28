@@ -7,6 +7,10 @@
         <div class="col-md-7">
             <table class="table table-borderless">
                 <tbody>
+                <tr>
+                        <th>Tên sản phẩm</th>
+                        <td>{{ $product->name ?? ''}}</td>
+                    </tr>
                     <tr>
                         <th>Danh mục</th>
                         <td>{{ $product->catelogues ? implode(',',$product->catelogues) : 'Chưa có danh mục' }}</td>
@@ -25,7 +29,14 @@
                     </tr>
                     <tr>
                         <th>Mô tả</th>
-                        <td>{{ $product->detailed_description }}</td>
+                        <td>
+                            <div class="description-container">
+                                <div id="productDescription" class="product-description">
+                                    {!! $product->detailed_description !!}
+                                </div>
+                                <button id="toggleDescription" class="btn btn-link">Xem thêm</button>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <th>Giá</th>
@@ -78,3 +89,33 @@
         </div>
     </div>
 </div>
+<style>
+    .description-container {
+        position: relative;
+    }
+    .product-description {
+        max-height: 100px; /* Chiều cao ban đầu */
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+    .product-description.expanded {
+        max-height: none; /* Mở rộng chiều cao */
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#toggleDescription').on('click', function() {
+            var description = $('#productDescription');
+            var button = $(this);
+
+            description.toggleClass('expanded');
+
+            if (description.hasClass('expanded')) {
+                button.text('Thu gọn');
+            } else {
+                button.text('Xem thêm');
+            }
+        });
+    });
+</script>

@@ -44,5 +44,20 @@ class BannerController extends Controller
         ], 200);
     }
 
+    public function IntroduceBanner()
+    {
+        $banner = Banner::query()->select('id','title','content','image','page')->where('page','introduce')->first();
+
+        if ($banner==null||$banner=='') {
+            return response()->json(['message' => 'không có banner'], 404);
+        }
+        return response()->json([
+            'status' => 'success',
+            'message' => 'dữ liệu Banner',
+            'data' => $banner,
+
+        ], 200);
+    }
+
 
 }

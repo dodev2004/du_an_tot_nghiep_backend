@@ -7,7 +7,7 @@ if (!function_exists('getStatusOption')) {
         if ($order->status === 1) {
             $statusOptions = [
                 2 => 'Xác nhận đơn hàng',
-                7 => 'Hủy đơn hàng',
+                // 7 => 'Hủy đơn hàng',
             ];
         } elseif ($order->status === 2) {
             $statusOptions = [
@@ -21,8 +21,8 @@ if (!function_exists('getStatusOption')) {
             $statusOptions = [
                 5 => 'Đã giao hàng',
             ];
-        } 
-        
+        }
+
         return $statusOptions;
 }
 
@@ -175,11 +175,11 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                     const statusCell = document.getElementById('order-status-' + orderId);
                     const actionDropdown = document.getElementById('action-dropdown-' + orderId);
 
-            
-                    
+
+
                     statusCell.innerText = getOrderStatusLabel(status);
                     statusCell.style.color = getStatusColor(status);
-                    
+
                     const payment_status = document.querySelector('.payment_status');
                     payment_status.innerText = getOrderPaymentStatusLabel(response.newPaymebnt_status);
                     if(response.newStatus)
@@ -206,10 +206,10 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
             status: 2,
             label: 'Xác nhận đơn hàng'
         });
-        options.push({
-            status: 6,
-            label: 'Hủy đơn hàng'
-        });
+        // options.push({
+        //     status: 6,
+        //     label: 'Hủy đơn hàng'
+        // });
     } else if (currentStatus === 2) {
         options.push({
             status: 3,
@@ -238,7 +238,8 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
 
     // Luôn thêm tùy chọn xóa đơn hàng
     actionDropdown.innerHTML +=
-        `<li><a href="#" onclick="deleteOrder(${orderId})">Xóa đơn hàng</a></li>`;
+    ``;
+        // `<li><a href="#" onclick="deleteOrder(${orderId})">Xóa đơn hàng</a></li>`;
 }
     function getStatusColor(status) {
     switch (status) {
@@ -291,7 +292,7 @@ function deleteOrder(orderId) {
 }
 function getOrderPaymentStatusLabel(value){
     console.log(value);
-    
+
     switch (value) {
         case 1: return 'Chờ thanh toán';
         case 2: return 'Đã thanh toán';

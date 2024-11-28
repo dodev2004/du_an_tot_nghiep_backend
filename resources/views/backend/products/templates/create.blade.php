@@ -429,8 +429,8 @@
                             <div class="form-group">
                                 <label for="">Nhãn hàng</label>
                                 <select name="brand_id " class="form-control" id="">
+                                    <option value="" hidden disabled selected>Lựa chọn thương hiệu</option>
                                     @foreach ($brands as $item)
-                                        <option value="">Lựa chọn thương hiệu</option>
                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                                     @endforeach
                                 </select>
@@ -455,7 +455,7 @@
                                 <input type="text" class="form-control" name="discount_price"
                                     placeholder="Giảm giá nếu có">
                             <span class="text-danger"></span>
-                                    
+
                             </div>
                             <div class="form-group">
                                 <label for="">Tồn kho</label>
@@ -483,7 +483,7 @@
                                     <img class=""
                                         src="https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
                                         alt="">
-                                  
+
                                 </div>
 
                             </div>
@@ -603,7 +603,7 @@
         const selectedAttributes = [];
         // Khởi tạo mảng để lưu trữ các thuộc tính đã chọn
 
-        const selectedValues = []; // 
+        const selectedValues = []; //
 
         function createElementAttributeValue(options) {
 
@@ -720,8 +720,8 @@
         function renderTableListVariant(data) {
 
             console.log(data);
-            
-            
+
+
             const nameColumn = Object.keys(data); // Lấy tất cả các keys
             const variants = [];
 
@@ -854,7 +854,7 @@
                     <label for="">Giá khuyến mãi</label>
                     <input type="text" name="discount_price_variant" class="form-control">
                 </div>
-               
+
                 <div class="form-group col-md-6">
                     <label for="">Số lượng</label>
                     <input type="text" name="stock_variant" class="form-control">
@@ -873,7 +873,7 @@
             const allSelects = document.querySelectorAll(".select_attribute");
             const currentSelectedIds = Array.from(allSelects).map(select => select.value).filter(id => id);
             console.log(allSelects);
-            
+
             allSelects.forEach(select => {
                 const options = select.querySelectorAll('option');
                 options.forEach(option => {

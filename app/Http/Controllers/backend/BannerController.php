@@ -154,7 +154,8 @@ class BannerController extends Controller
             "required",
             Rule::in(['product', 'home','introduce']),
             Rule::unique('banners')->where(function ($query) use ($request) {
-                return $query->where('page', $request->page);
+                return $query->where('page', $request->page)
+                ->where('id', '!=', $request->id);
             }),
         ],
         ], [

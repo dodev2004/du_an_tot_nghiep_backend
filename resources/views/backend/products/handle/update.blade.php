@@ -26,14 +26,11 @@
             if (checkValidate) {
                 const dataaVariant = [];
                 const variants = document.querySelectorAll(".form-variant");
-
                 if (variants && variants.length > 0) {
                     variants.forEach(function(variant) {
                         const variantData = {}
                         const inputsVariant = Array.from(variant.querySelectorAll("input"));
                         inputsVariant.forEach(function(input) {
-                            console.log(input.name,input.value);
-                            
                             variantData[input.name] = input.value.trim();
                         })
                         dataaVariant.push(variantData)
