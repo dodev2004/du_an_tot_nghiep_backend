@@ -47,7 +47,7 @@
                 </a>
             </td>
             <td>{{ $comment->comment }}</td>
-            <td style="text-align: center;">FA-{{ $comment->review->order_item_id }}</td>
+            <td style="text-align: center;">BND-{{ $comment->review->orderItem->order_id }}</td>
             <td>{{ $comment->created_at }}</td>
 
             <td>
