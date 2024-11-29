@@ -50,6 +50,7 @@ class AuthController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'rule_id' => 2,
         ]);
     
         // Tạo token cho người dùng mới đăng ký
