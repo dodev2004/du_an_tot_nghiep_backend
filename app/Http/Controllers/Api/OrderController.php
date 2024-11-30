@@ -382,7 +382,11 @@ class OrderController extends Controller
     {
         // Tìm đơn hàng theo ID
         $order = Order::find($id);
-
+        if(!($order->status == 1)){
+            return response()->json([
+                'message' => 'Không thể huỷ đơn hàng',
+            ], 400);
+        }
         if ($order) {
             // Chỉ cập nhật trạng thái thành hoàn thành
             $order->update([

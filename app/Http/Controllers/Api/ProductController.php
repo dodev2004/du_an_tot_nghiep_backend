@@ -11,13 +11,13 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         // Lấy danh sách tất cả sản phẩm
+        
+        $products = Product::with('variants')->where("status",1)->limit(10)->get();
     
-        $products = Product::with('variants')->where("status",1)->get();
         return response()->json($products);
     }
     public function spNoiBat()
     {
-    
         // Lấy danh sách tất cả sản phẩm
         $products = Product::with('variants')->where("is_featured",1)->limit(10)->get();
         return response()->json($products);
