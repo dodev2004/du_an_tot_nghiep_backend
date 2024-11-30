@@ -15,7 +15,7 @@ class PaymentController extends Controller
     {
 
         
-        $order_item = $request->order_items;
+        $order_item = $request->orderItems;
         foreach ($order_item as $item) {
             $stock = null;
             $productName = null;
