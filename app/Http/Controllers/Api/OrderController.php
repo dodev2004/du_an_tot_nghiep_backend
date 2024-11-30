@@ -388,6 +388,23 @@ class OrderController extends Controller
             ], 400);
         }
         if ($order) {
+            foreach ($order->orderItems as $item) {
+                
+                if ($item->product_variants_id) {
+                    $variant = ProductVariant::find($item->product_variants_id);
+                    if ($variant) {
+                       
+                        $variant->stock += $item->quantity;
+                        $variant->save();
+                    }
+                } else {
+                    $product = Product::find($item->product_id);
+                    if ($product) {
+                        $product->stock += $item->quantity;
+                        $product->save();
+                    }
+                }
+            }
             // Chỉ cập nhật trạng thái thành hoàn thành
             $order->update([
                 'status' => Order::STATUS_CANCELLED

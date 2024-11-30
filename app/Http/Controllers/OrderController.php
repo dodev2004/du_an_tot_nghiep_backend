@@ -10,6 +10,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderReceivedConfirmation;
+use App\Models\Product;
+use App\Models\ProductVariant;
 
 class OrderController extends Controller
 {
@@ -129,11 +131,28 @@ class OrderController extends Controller
     {
         // Tìm đơn hàng theo ID
         $order = Order::find($request->order_id);
-
         if ($order) {
-            if ($request->status === 7) {
+            if ($request->status == 7) {
+             
                 if ($order->payment_status === 2) {
                     $order->payment_status = 3;
+                }
+                foreach ($order->orderItems as $item) {
+                
+                    if ($item->product_variants_id) {
+                        $variant = ProductVariant::find($item->product_variants_id);
+                        if ($variant) {
+                           
+                            $variant->stock += $item->quantity;
+                            $variant->save();
+                        }
+                    } else {
+                        $product = Product::find($item->product_id);
+                        if ($product) {
+                            $product->stock += $item->quantity;
+                            $product->save();
+                        }
+                    }
                 }
             }
             if ($request->status == 5) {
