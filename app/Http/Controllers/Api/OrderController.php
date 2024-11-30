@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
+use App\Models\ProductVariant;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -222,13 +224,29 @@ class OrderController extends Controller
             'note' => 'nullable|string',
             'order_items' => 'required|array',
             'order_items.*.product_id' => 'required|exists:products,id',
+            'order_items.*.product_variants_id' => 'nullable|exists:product_variants,id',
             'order_items.*.product_name' => 'required|string|max:255',
             'order_items.*.quantity' => 'required|integer|min:1',
             'order_items.*.price' => 'required|numeric',
             'order_items.*.total' => 'required|numeric',
             'order_items.*.variant' => 'nullable|json',
         ]);
-
+        if ($validatedData['payment_method_id'] == 3) {
+            foreach ($validatedData['order_items'] as $item) {
+                $stock = null;
+                $product = Product::find($item['product_id']);
+                if ($item['product_variants_id']) {
+                    $stock = ProductVariant::where('id', $item['product_variants_id'])->value('stock');
+                } else {
+                    $stock = Product::where('id', $item['product_id'])->value('stock');
+                }
+                if ($item['quantity'] > $stock) {
+                    return response()->json([
+                        'error' => 'Số lượng sản phẩm ' . $product->name . ' không đủ trong kho hàng.',
+                    ], 400);
+                }
+            }
+        }
         DB::beginTransaction();
 
         try {
@@ -364,7 +382,11 @@ class OrderController extends Controller
     {
         // Tìm đơn hàng theo ID
         $order = Order::find($id);
-
+        if(!($order->status == 1)){
+            return response()->json([
+                'message' => 'Không thể huỷ đơn hàng',
+            ], 400);
+        }
         if ($order) {
             // Chỉ cập nhật trạng thái thành hoàn thành
             $order->update([

@@ -5,12 +5,36 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order; // Import model Order hoặc model tương ứng
+use App\Models\Product;
+use App\Models\ProductVariant;
 use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
     public function vnpay_payment(Request $request)
     {
+
+        
+        $order_item = $request->orderItems;
+        foreach ($order_item as $item) {
+            $stock = null;
+            $productName = null;
+    
+            if ($item['product_variants_id']) {
+                $variant = ProductVariant::find($item['product_variants_id']);
+                $stock = $variant->stock;
+                $productName = $variant->product->name;
+            } else {
+                $product = Product::find($item['product_id']);
+                $stock = $product->stock;
+                $productName = $product->name;
+            }
+            if ($item['quantity'] > $stock) {
+                return response()->json([
+                    'error' => "Sản phẩm '{$productName}' không đủ số lượng trong kho.",
+                ], 400);
+            }
+        }
         error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
