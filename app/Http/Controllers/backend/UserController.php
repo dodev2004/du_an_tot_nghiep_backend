@@ -62,6 +62,7 @@ class UserController extends Controller
     }
     public function store(StoreUserRequest $request)
     {
+        
         $data = $request->except(["re-password", "_token", "avatar", "role_id"]);
         if ($this->users->create($data)) {
             return response()->json(["success", "Thêm mới thành công"]);
