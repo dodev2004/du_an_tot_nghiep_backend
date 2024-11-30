@@ -121,16 +121,15 @@ class ProductCatelogueController extends Controller
      */
     public function destroy(Request $request)
     {
+      
         DB::beginTransaction();
         try {
-           
-           ProductCatelogue::find($request->id)->delete();
+            ProductCatelogue::find($request->id)->forceDelete();
             DB::commit();
-            return response()->json(["success","Xoá thành công" ]);
-        }
-        catch(\Exception $e){
-           DB::rollBack();
-           return response()->json(["error","Xóa không thành công"]);
+            return response()->json(["success", "Xoá thành công"]);
+    } catch (\Exception $e) {
+        DB::rollBack();
+            return response()->json(["error", "Xóa không thành công"]);
         }
     }
 }
