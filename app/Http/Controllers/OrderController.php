@@ -7,6 +7,7 @@ use App\Models\Order;
 
 use App\Models\Product;
 use App\Mail\CancelOrder;
+use App\Mail\CancelOrderAdmin;
 use Illuminate\Http\Request;
 use App\Models\ProductVariant;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -136,7 +137,7 @@ class OrderController extends Controller
             if ($request->status == 7) {
                 if ($order->payment_status === 2) {
                     $order->payment_status = 3;
-                    Mail::to($order->email)->send(new CancelOrder($order)); 
+                    Mail::to($order->email)->send(new CancelOrderAdmin($order)); 
 
                 }
                 foreach ($order->orderItems as $item) {
