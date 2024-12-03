@@ -20,7 +20,8 @@ class OrderItem extends Model
         'quantity',
         'price',
         'total',
-        "variant"
+        "variant",
+        "product_variants_id"
     ];
 
     // Định nghĩa mối quan hệ với model Order

@@ -248,7 +248,7 @@ class OrderController extends Controller
             }
         }
         DB::beginTransaction();
-
+     
         try {
             // Tạo đơn hàng mới
             $order = Order::create($validatedData);
@@ -388,9 +388,11 @@ class OrderController extends Controller
             ], 400);
         }
         if ($order) {
+         
             foreach ($order->orderItems as $item) {
                 
                 if ($item->product_variants_id) {
+                 
                     $variant = ProductVariant::find($item->product_variants_id);
                     if ($variant) {
                        
@@ -398,9 +400,10 @@ class OrderController extends Controller
                         $variant->save();
                     }
                 } else {
+             
                     $product = Product::find($item->product_id);
                     if ($product) {
-                        $product->stock += $item->quantity;
+                        $product->stock += (int)$item->quantity;
                         $product->save();
                     }
                 }
@@ -409,7 +412,7 @@ class OrderController extends Controller
             $order->update([
                 'status' => Order::STATUS_CANCELLED
             ]);
-
+            
             // Trả về phản hồi thành công
             return response()->json([
                 'status' => 'success',
