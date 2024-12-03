@@ -4,14 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Product;
+use App\Mail\CancelOrder;
 use App\Mail\OrderPlaced;
 use App\Models\Promotion;
 use Illuminate\Http\Request;
+use App\Models\ProductVariant;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Product;
-use App\Models\ProductVariant;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -412,7 +413,7 @@ class OrderController extends Controller
             $order->update([
                 'status' => Order::STATUS_CANCELLED
             ]);
-            
+            Mail::to($order->email)->send(new CancelOrder($order)); 
             // Trả về phản hồi thành công
             return response()->json([
                 'status' => 'success',
