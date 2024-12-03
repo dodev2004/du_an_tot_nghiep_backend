@@ -397,7 +397,7 @@ class OrderController extends Controller
                     $variant = ProductVariant::find($item->product_variants_id);
                     if ($variant) {
                        
-                        $variant->stock += $item->quantity;
+                        $variant->stock +=(int) $item->quantity;
                         $variant->save();
                     }
                 } else {
