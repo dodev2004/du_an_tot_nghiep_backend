@@ -84,7 +84,7 @@ class PostCatelogueController extends Controller
         DB::beginTransaction();
         try {
            
-            $this->model->find($request->id)->delete();
+            $this->model->find($request->id)->forceDelete();
             DB::commit();
             return response()->json(["success","Xoá thành công" ]);
         }

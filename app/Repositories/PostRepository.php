@@ -31,17 +31,19 @@ class PostRepository extends BaseRespository  implements PostRepositoryInterface
     }
     public function getAllPost()
     {
+     
         $query = Post::with(["catelogues","users"])
          ->where(function(Builder $query) {
-            if(request()->has(["ky_tu"]) && !empty(request()->keywords)){
-                $query->where("title","like",'%'. request()->keywords . '%');
+            if(request()->has(["ky_tu"]) && !empty(request()->ky_tu)){
+            
+                $query->where("title","like",'%'. request()->ky_tu . '%');
             }
-            if(request()->has(["trang_thai"]) && !empty(request()->trang_thai)){
+            if(request()->has(["trang_thai"]) && (request()->trang_thai == 0 ||request()->trang_thai  )){
                 $query->where("status","=",request()->trang_thai);
             }
-            if(request()->has("chuyen_muc") && !empty(request()->catelogue)){
+            if(request()->has("chuyen_muc") && !empty(request()->chuyen_muc)){
                 $query->whereHas("catelogues",function($query){
-                    $query->where("name","like","%".request()->catelogue . "%");
+                    $query->where("name","like","%".request()->chuyen_muc . "%");
                 });
             }
             if(request()->has(["ngay_dang"]) && !empty(request()->ngay_dang)){

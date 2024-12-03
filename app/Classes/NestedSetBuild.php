@@ -143,16 +143,17 @@ class NestedSetBuild
 
         return $resuilt;
     }
-    public function renderListPostCatelogue($data,$key=0)
+    public function renderListPostCatelogue($data,&$key=0)
     {
         $result = ""; // Chuỗi lưu HTML
         
-        foreach ($data as $index => $item) {
-            $index = $key + 1;
+        foreach ($data  as  $item) {
+            $key++;
+     
             $routeEdit = route('admin.post-catelogue.edit', [$item->id]);
             $result .= "<tr class='category-row' data-id='$item->id'>";
             $result .= "
-                <td class='text-center'>$index</td>
+                <td class='text-center'>$key</td>
                 <td>" . str_repeat('---|', $item->level) . "$item->name</td>
                 <td class='text-center' style='display: flex; justify-content: center; column-gap: 5px;'>
                     <a href='$routeEdit' class='btn btn-info'><i class='fa fa-pencil'></i></a>
@@ -164,12 +165,11 @@ class NestedSetBuild
                 </td>
             ";
             $result .= "</tr>";
-    
-            // Render danh mục con nếu có
             if (!empty($item->children)) {
                 // Gọi lại hàm render cho các danh mục con
                
-                $result .= $this->renderListPostCatelogue($item->children,$index);
+                $result .= $this->renderListPostCatelogue($item->children,$key);
+               
             }
         }
         
@@ -182,7 +182,6 @@ class NestedSetBuild
         foreach ($data as $item) {
             $key++; // Increment the key to ensure it starts from 1 and increases correctly
             $routeEdit = route('admin.product_catelogue.edit', [$item->id]);
-            
             $result .= "
             <tr class='category-row' data-id='{$item->id}'>
                 <td class='text-center'>{$key}</td>

@@ -25,14 +25,11 @@ class AttributeValueRepository extends BaseRespository  implements AttributeValu
         $query = $this->model::with("attributes")
         ->where(function(Builder $query){
                   if(request()->has(["keywords"])){
+
                     $query->where("name","like",'%'.request()->keywords . '%');
                   }
         })
-        ->whereHas("attributes",function(Builder $query){
-            if(request()->has(["keywords"])){
-                $query->where("name","like",'%'.request()->keywords . '%');
-              }
-        })
+       
         ->paginate(15)->appends(request()->query());
         return $query;
       }

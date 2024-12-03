@@ -102,9 +102,9 @@ class PostController extends Controller
     {
 
         if ($this->post_service->PostUpdate($request)) {
-            return response()->json(["success", "Thêm mới thành công"]);
+            return response()->json(["success", "Cập nhật thành công"]);
         } else {
-            return response()->json(["error", "Thêm mới bài viết thất bại"]);
+            return response()->json(["error", "Cập nhật bài viết thất bại"]);
         }
     }
 

@@ -96,7 +96,7 @@
                         </div>
                         <p class="message-error text-danger"></p>
                     <div>
-                    <button class="btn btn-success" type="submit">Thêm mới</button>
+                    <button class="btn btn-success" type="submit">Cập nhật</button>
                     </div>
                 </div>
                 <div class="ibox-content">

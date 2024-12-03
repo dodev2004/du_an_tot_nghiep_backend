@@ -1,7 +1,7 @@
 <table class="table table-striped table-bordered table-hover" >
     <thead>
     <tr>
-        <th>STT</th>
+        <th class='text-center'>STT</th>
         <th>Tên chuyên mục bài viết</th>
         <th>Hành động</th>
     </tr>

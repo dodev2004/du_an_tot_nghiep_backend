@@ -23,7 +23,7 @@ class ProductController extends Controller
     public function __construct(NestedSetBuild $nestedset) {
         $this->nestedSetBuild = $nestedset;
     }
-    public function index()
+    public function index(Request $request)
     {
         $title = "Quản lý sản phẩm";
         array_push($this->breadcrumbs,[
@@ -32,7 +32,25 @@ class ProductController extends Controller
             "name"=>"Quản lý sản phẩm"
         ]);  
         $breadcrumbs = $this->breadcrumbs;
-        $products = Product::query()->with(["users","variants","catelogues"])->paginate(15);
+        $products = Product::query()->with(["users","variants","catelogues"]);
+        if($request->has("chuyen_muc") && $request->chuyen_muc){
+            $products->whereHas('catelogues', function($query) use ($request) {
+                $query->where('name',"LIKE", "%" .$request->chuyen_muc. "%"); // Assuming 'id' is the field in the catelogues table
+            });
+        }
+        if($request->has("trang_thai") && ($request->trang_thai == 0 || $request->trang_thai) ){
+            $products->where('status', $request->trang_thai);
+        }
+        if($request->has("ngay_dang") && $request->ngay_dang ){
+            $date = urldecode($request->ngay_dang); 
+            $products->whereDate('created_at', $date); 
+        }
+        if($request->has("ky_tu") && $request->ky_tu){
+        
+            $products->where('name',"LIKE","%". $request->ky_tu ."%"); 
+        }
+
+        $products =  $products->paginate(15);
         foreach ($products as $product) {
             if ($product->variants->isNotEmpty()) {
               
@@ -224,7 +242,9 @@ class ProductController extends Controller
              $product_variant= ProductVariant::create([
                 "product_id" => $product->id,
                  "price" => $item->price_variant ? $item->price_variant : 0,
+                 "price" => $item->price_variant ? $item->price_variant : 0,
                  "image_url" =>$item->variant_image,
+                 "discount_price" => $item->discount_price_variant ? $item->discount_price_variant : 0,
                  "stock" => $item->stock_variant ? $item->stock_variant : 0,
                  "sku" => $item->sku_variant ? $item->sku_variant : null,
              ]);
@@ -244,7 +264,7 @@ class ProductController extends Controller
        }
        catch (\Exception $e) {
            DB::rollBack();
-           dd($e);
+         
            return response()->json(["error" , "Thêm mới sản phẩm không thành công"]);
        }
     }

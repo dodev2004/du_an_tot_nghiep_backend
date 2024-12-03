@@ -1,9 +1,9 @@
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
-            <th></th>
+            <th>STT</th>
             <th>Tên bài viết</th>
-            <th class="text-center">Tác giả</th>
+            <th class="text-center">Nội dung</th>
             <th class="text-center">Trạng thái</th>
             <th class="text-center" style="width:auto">Danh mục</th>
             <th class="text-center">Hành động</th>
@@ -16,13 +16,14 @@
         <tr>
             <td class="text-center">{{$index+1}}</td>
             <td>
-                <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{$post["title"]}}</p>
-                <p style="font-size: 12px;margin-bottom: 0;">Tin tức bóng đá liên quan đến các nhóm sản phẩm</p>
-                <p style="font-size: 10px; font-weight: bold;margin-bottom:0">Ngày đăng : {{$post["created_at"]}}</p>
-                <p style="font-size: 10px; font-weight: bold;">Ngày sửa : {{$post["created_at"]}}</p>
+                <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{$post->title}}</p>               
+                <p style="font-size: 10px; font-weight: bold;margin-bottom:0">Ngày đăng : {{$post->created_at}}</p>
+                <p style="font-size: 10px; font-weight: bold;margin-bottom:0">Mô tả : {{ \Illuminate\Support\Str::limit(strip_tags($post->meta_description), 100) }}</p>
+
+                <p style="font-size: 10px; font-weight: bold;">Ngày sửa : {{$post->updated_at}}</p>
             </td>
             <td class="text-center">
-                <p>{{$post["author"]}}</p>
+                {{ \Illuminate\Support\Str::limit(strip_tags($post->content), 100) }}
             </td>
             <td class="text-center">
                 <form name="form_status" action="">
