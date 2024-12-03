@@ -27,7 +27,7 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="">Phí vận chuyển<span style="color:red">*</span></label>
-                    <input type="number" name="fee" class="form-control" value="{{  number_format($item->fee, 0)}}" autocomplete="">
+                    <input type="number" name="fee" class="form-control" value="{{$data->fee}}" autocomplete="">
                     <p class=" text-danger message-error"></p>
                 </div>
 

@@ -28,9 +28,9 @@ class StoreUserRequest extends FormRequest
             "username" => ["required", "min:6", "unique:App\Models\User,username"],
             "role_id" => ["required"], // Bắt buộc phải chọn vai trò
             "birthday" => ["nullable", "date"], // Ngày sinh (không bắt buộc)
-            "province_id" => ["required","exists:provinces,id"], // Thành phố (không bắt buộc)
-            "district_id" => ["required", "exists:districts,id"], // Quận (không bắt buộc)
-            "ward_id" => ["required", "exists:wards,id"], // Phường (không bắt buộc)
+            "province_id" => ["required"], // Thành phố (không bắt buộc)
+            "district_id" => ["required"], // Quận (không bắt buộc)
+            "ward_id" => ["required"], // Phường (không bắt buộc)
             "address" => ["required", "string"], // Địa chỉ (không bắt buộc)
             "phone" => ["required", "string", "max:15"], // Số điện thoại (không bắt buộc)
         ];

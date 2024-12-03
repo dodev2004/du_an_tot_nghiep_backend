@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
+use App\Models\ProductVariant;
 use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
@@ -81,16 +83,29 @@ class CartController extends Controller
             ->where('product_id', $validatedData['product_id'])
             ->where('product_variants_id', $validatedData['product_variant_id'])
             ->first();
-
-        if ($cartItem) {
-            $cartItem->quantity += $validatedData['quantity'];
-            $cartItem->save();
-
-            return response()->json([
-                'message' => 'Cập nhật số lượng sản phẩm trong giỏ hàng thành công.',
-                'data' => $cartItem,
-            ], 200);
-        }
+            $stock = null;
+            if ($validatedData['product_variant_id']) {
+                $stock = ProductVariant::where('id', $validatedData['product_variant_id'])->value('stock');
+            } else {
+                $stock = Product::where('id', $validatedData['product_id'])->value('stock');
+            }
+    
+            if ($cartItem) {
+                $newQuantity = $cartItem->quantity + $validatedData['quantity'];
+                if ($newQuantity > $stock) {
+                    return response()->json([
+                        'error' => 'Số lượng sản phẩm trong giỏ hàng không được vượt quá số lượng tồn kho.',
+                    ], 400);
+                }
+    
+                $cartItem->quantity = $newQuantity;
+                $cartItem->save();
+    
+                return response()->json([
+                    'message' => 'Cập nhật số lượng sản phẩm trong giỏ hàng thành công.',
+                    'data' => $cartItem,
+                ], 200);
+            }
         
         $newCartItem = Cart::create([
             'user_id' => $userId,

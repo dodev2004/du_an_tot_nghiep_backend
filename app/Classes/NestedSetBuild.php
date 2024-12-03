@@ -143,16 +143,16 @@ class NestedSetBuild
 
         return $resuilt;
     }
-    public function renderListPostCatelogue($data)
+    public function renderListPostCatelogue($data,$key=0)
     {
         $result = ""; // Chuỗi lưu HTML
         
         foreach ($data as $index => $item) {
-            $index = $index + 1;
+            $index = $key + 1;
             $routeEdit = route('admin.post-catelogue.edit', [$item->id]);
             $result .= "<tr class='category-row' data-id='$item->id'>";
             $result .= "
-                <td class='text-center'>$item->id</td>
+                <td class='text-center'>$index</td>
                 <td>" . str_repeat('---|', $item->level) . "$item->name</td>
                 <td class='text-center' style='display: flex; justify-content: center; column-gap: 5px;'>
                     <a href='$routeEdit' class='btn btn-info'><i class='fa fa-pencil'></i></a>
@@ -168,22 +168,24 @@ class NestedSetBuild
             // Render danh mục con nếu có
             if (!empty($item->children)) {
                 // Gọi lại hàm render cho các danh mục con
-                $result .= $this->renderListPostCatelogue($item->children);
+               
+                $result .= $this->renderListPostCatelogue($item->children,$index);
             }
         }
         
         return $result; // Trả về kết quả đã render
     }
-    public function renderListProductCatelogue($data, $parentId = 0)
+    public function renderListProductCatelogue($data, &$key = 0)
     {
         $result = ""; // Chuỗi lưu HTML
         
-        foreach ($data as $index => $item) {
-            $index = $index + 1;
+        foreach ($data as $item) {
+            $key++; // Increment the key to ensure it starts from 1 and increases correctly
             $routeEdit = route('admin.product_catelogue.edit', [$item->id]);
-            $result .= "<tr class='category-row' data-id='$item->id'>";
+            
             $result .= "
-                <td class='text-center'>$item->id</td>
+            <tr class='category-row' data-id='{$item->id}'>
+                <td class='text-center'>{$key}</td>
                 <td>" . str_repeat('---|', $item->level) . "$item->name</td>
                 <td class='text-center' style='display: flex; justify-content: center; column-gap: 5px;'>
                     <a href='$routeEdit' class='btn btn-info'><i class='fa fa-pencil'></i></a>
@@ -193,13 +195,13 @@ class NestedSetBuild
                         <button type='submit' class='btn btn-warning center'><i class='fa fa-trash-o'></i></button>
                     </form>
                 </td>
-            ";
-            $result .= "</tr>";
-    
+            </tr>
+           "  ;
+
             // Render danh mục con nếu có
             if (!empty($item->children)) {
                 // Gọi lại hàm render cho các danh mục con
-                $result .= $this->renderListProductCatelogue($item->children);
+                $result .= $this->renderListProductCatelogue($item->children, $key);
             }
         }
         

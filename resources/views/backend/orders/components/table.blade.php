@@ -7,7 +7,7 @@ if (!function_exists('getStatusOption')) {
         if ($order->status === 1) {
             $statusOptions = [
                 2 => 'Xác nhận đơn hàng',
-                // 7 => 'Hủy đơn hàng',
+                7 => 'Hủy đơn hàng',
             ];
         } elseif ($order->status === 2) {
             $statusOptions = [
@@ -16,6 +16,7 @@ if (!function_exists('getStatusOption')) {
         } elseif ($order->status === 3) {
             $statusOptions = [
                 4 => 'Xác nhận giao hàng',
+                7 => 'Hủy đơn hàng',
             ];
         } elseif ($order->status === 4) {
             $statusOptions = [
@@ -176,7 +177,6 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                     const actionDropdown = document.getElementById('action-dropdown-' + orderId);
 
 
-
                     statusCell.innerText = getOrderStatusLabel(status);
                     statusCell.style.color = getStatusColor(status);
 
@@ -261,7 +261,7 @@ function getOrderStatusLabel(status) {
         case 4: return 'Xác nhận giao hàng'; // Trạng thái 4: Đơn hàng đã được xác nhận giao hàng
         case 5: return 'Đã giao hàng';      // Trạng thái 5: Đơn hàng đã được giao
         case 6: return 'Hoàn tất';
-        case 7: return 'red';       // Trạng thái 6: Đơn hàng đã hoàn tất
+        case 7: return 'Hủy đơn hàng';       // Trạng thái 6: Đơn hàng đã hoàn tất
         default: return 'Không xác định';   // Trạng thái không xác định
     }
 }
