@@ -32,7 +32,7 @@ class PermissionController extends Controller
 
 
         if ($request->input('seach_text')) {
-            $query->where('name', 'LIKE', '%' . $request->input('seach_text') . '%');
+            $query->where('description', 'LIKE', '%' . $request->input('seach_text') . '%');
         }
 
         if ($request->input('group_permission_id')) {

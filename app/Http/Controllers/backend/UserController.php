@@ -39,9 +39,10 @@ class UserController extends Controller
 
         $data = $this->users->getAllUsers(); // vẫn giữ nguyên như trước
         $data->load('roles'); // eager load mối quan hệ sau khi lấy dữ liệu
+        $roles = Role::all();
         $total = $data->count();
-        $table = $data[0]->getTable();
-        return  view("backend.user.templates.quanlythanhvien.list", compact('data', 'total', "breadcrumbs", "title", "table"));
+        $table = $total > 0 ? $data[0]->getTable() : null; // Kiểm tra trước khi gọi getTable()
+        return  view("backend.user.templates.quanlythanhvien.list", compact('data', 'total', "breadcrumbs", "title", "table", "roles"));
     }
     public function create()
     {
