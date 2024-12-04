@@ -73,7 +73,11 @@ class AuthController extends Controller
                 return redirect()->route("showMessage");
             } else if ($user && !Hash::check($data["password"], $user->password)) {
                 return redirect()->route("showLogin")->with('message', "Tài khoản mật khẩu không đúng !");
-            } else {
+            } 
+            else if($user->rule_id != 1){
+                return redirect()->route("showLogin")->with('message', "Tài khoản không có quyền truy cập !");
+            }
+            else {
                 return redirect()->route("showLogin")->with('message', "Tài khoản mật khẩu không tồn tại !");
             }
         }
