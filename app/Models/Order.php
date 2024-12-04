@@ -12,6 +12,7 @@ class Order extends Model
     const PAYMENT_COMPLETED = 2;
     const PAYMENT_FAILED = 3;
     const PAYMENT_REFUNDED = 4;
+    const PAYMENT_STATUS_PAID = 2;
     use HasFactory,SoftDeletes;
      // Các trạng thái đơn hàng
      const STATUS_PENDING = 1;

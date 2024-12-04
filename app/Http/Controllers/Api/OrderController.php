@@ -413,8 +413,9 @@ class OrderController extends Controller
             $order->update([
                 'status' => Order::STATUS_CANCELLED
             ]);
-            Mail::to($order->email)->send(new CancelOrder($order)); 
-            // Trả về phản hồi thành công
+            if ($order->payment_status == Order::PAYMENT_STATUS_PAID) {
+                Mail::to($order->email)->send(new CancelOrder($order));
+            }            // Trả về phản hồi thành công
             return response()->json([
                 'status' => 'success',
                 'message' => 'Huỷ đơn hàng thành công!',
