@@ -15,7 +15,7 @@ if (!function_exists('getStatusOption')) {
             ];
         } elseif ($order->status === 3) {
             $statusOptions = [
-                4 => 'Xác nhận giao hàng',
+                4 => 'Đang giao hàng',
                 7 => 'Hủy đơn hàng',
             ];
         } elseif ($order->status === 4) {
@@ -34,7 +34,7 @@ if (!function_exists('getStatusColor')) {
         case 1: return '#FFC107'; // Đang chờ xử lý
         case 2: return '#28A745'; // Đã xác nhận
         case 3: return '#007BFF'; // Đang xử lý
-        case 4: return '#17A2B8'; // Xác nhận giao hàng
+        case 4: return '#17A2B8'; // Đang giao hàng
         case 5: return '#28A745'; // Đã giao hàng
         case 6: return 'green'; // Hoàn tất
         case 7: return '#DC3545'; // Hủy đơn
@@ -49,7 +49,7 @@ if (!function_exists('getOrderStatusLabel')) {
         case 1: return 'Chờ xử lý';
         case 2: return 'Đã xác nhận';
         case 3: return 'Đang xử lý';
-        case 4: return 'Xác nhận giao hàng';
+        case 4: return 'Đang giao hàng';
         case 5: return 'Đã giao hàng';
         case 6: return 'Hoàn tất';
         case 7: return 'Hủy';
@@ -218,7 +218,7 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
     } else if (currentStatus === 3) {
         options.push({
             status: 4,
-            label: 'Xác nhận giao hàng'
+            label: 'Đang giao hàng'
         });
     } else if (currentStatus === 4) {
         options.push({
@@ -246,7 +246,7 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
         case 1: return '#FFC107'; // Đang chờ xử lý
         case 2: return '#28A745'; // Đã xác nhận
         case 3: return '#007BFF'; // Đang xử lý
-        case 4: return '#17A2B8'; // Xác nhận giao hàng
+        case 4: return '#17A2B8'; // Đang giao hàng
         case 5: return '#28A745'; // Đã giao hàng
         case 6: return 'green'; // Hoàn tất
         case 7: return 'red';
@@ -258,7 +258,7 @@ function getOrderStatusLabel(status) {
         case 1: return 'Chờ xử lý';         // Trạng thái 1: Đơn hàng đang chờ xử lý
         case 2: return 'Đã xác nhận';       // Trạng thái 2: Đơn hàng đã được xác nhận
         case 3: return 'Đang xử lý';        // Trạng thái 3: Đơn hàng đang được xử lý
-        case 4: return 'Xác nhận giao hàng'; // Trạng thái 4: Đơn hàng đã được xác nhận giao hàng
+        case 4: return 'Đang giao hàng'; // Trạng thái 4: Đơn hàng đã được Đang giao hàng
         case 5: return 'Đã giao hàng';      // Trạng thái 5: Đơn hàng đã được giao
         case 6: return 'Hoàn tất';
         case 7: return 'Hủy đơn hàng';       // Trạng thái 6: Đơn hàng đã hoàn tất
