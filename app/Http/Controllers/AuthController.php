@@ -67,6 +67,9 @@ class AuthController extends Controller
             ]);
             $data = $request->except("_token", "g-recaptcha-response");
             $user = User::query()->where("username", $data["username"])->first();
+            if($user && $user->rule_id != 1){
+                return redirect()->route("showLogin")->with('message', "Tài khoản không có quyền truy cập !");
+            }
             if ($user && Hash::check($data["password"], $user->password)) {
                 Auth::login($user);
                 request()->session()->regenerate();
@@ -74,9 +77,6 @@ class AuthController extends Controller
             } else if ($user && !Hash::check($data["password"], $user->password)) {
                 return redirect()->route("showLogin")->with('message', "Tài khoản mật khẩu không đúng !");
             } 
-            else if($user->rule_id != 1){
-                return redirect()->route("showLogin")->with('message', "Tài khoản không có quyền truy cập !");
-            }
             else {
                 return redirect()->route("showLogin")->with('message', "Tài khoản mật khẩu không tồn tại !");
             }
