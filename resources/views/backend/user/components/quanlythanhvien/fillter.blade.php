@@ -6,8 +6,10 @@
         @endphp
         <input type="text" class="form-control" name="seach_text" @if(isset($_GET["name"])) value="{{$_GET['name']}}" @endif placeholder="Tìm kiếm theo tên">
         <select type="text" class="form-control" name="seach_rule" placeholder="Tìm kiếm theo vai trò">
-            <option value="">Tìm theo vai trò</option>
-            <option value="1">Quản trị viên</option>
+            <option value="" {{ request('rule_id') == "" ? 'selected' : '' }}>Toàn bộ</option>
+            @foreach ($roles as $role)
+                <option value="{{ $role->id }}" {{ request('rule_id') == "$role->id" ? 'selected' : '' }}>{{ $role->name }}</option>
+            @endforeach
         </select>
         <a class="btn btn-primary seach"> <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm </a>
         <a href="{{route("admin.users.create")}}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Thêm người dùng</a>

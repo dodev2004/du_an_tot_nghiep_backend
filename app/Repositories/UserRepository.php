@@ -22,20 +22,28 @@ class UserRepository extends BaseRespository  implements UserRepositoryInterface
   {
     $query  = $this->model;
 
-    $query = $this->model::where(function(Builder $query){
-              if(request()->has(["name"])){
-                $query->where("full_name","like",'%'.request()->name . '%') ;
-                $query->orWhere("email","like",'%'.request()->name.'%');
-                $query->orWhere("phone","like",'%'.request()->name. '%');
-                $query->orWhere("address","like",'%'.request()->name. '%');
-              }
-              if(request()->has('rule_id')){
-                $query->where("rule_id",request()->rule_id ) ;
-              }else {
-                // Nếu không có rule_id trong request, mặc định chỉ lấy người dùng có rule_id = 1
-                $query->where("rule_id", 1);
-            }
+    $query = $this->model::where(function(Builder $query) {
+        // Mặc định tìm kiếm với rule_id = 1
+        $query->where('rule_id', 1);
+
+        // Kiểm tra nếu có dữ liệu tìm kiếm
+        if (request()->has(["name"]) && !empty(request()->name)) {
+            $query->where(function(Builder $query) {
+                $query->where("full_name", "like", '%' . request()->name . '%')
+                      ->orWhere("email", "like", '%' . request()->name . '%')
+                      ->orWhere("phone", "like", '%' . request()->name . '%')
+                      ->orWhere("address", "like", '%' . request()->name . '%');
+            });
+        }
+
+        // Kiểm tra nếu có rule_id trong request
+        if (request()->has('rule_id') && !empty(request()->rule_id)) {
+            $query->whereHas('roles', function($query) {
+                $query->where('role_id', request()->rule_id);
+            });
+        }
     });
+
     return $query->paginate(15)->withQueryString();
   }
   public function create($data){
