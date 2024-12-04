@@ -1,7 +1,7 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>STT</th>
+
             <th>Tên nhóm thành viên</th>
             <th>Mô tả</th>
             <th>Trạng thái</th>
@@ -11,7 +11,7 @@
     <tbody>
         @foreach ($data as $index => $item)
         <tr>
-            <td>{{$index + 1}}</td>
+            
             <td>{{ $item->name }}</td>
             <td>{{ $item->description ? $item->description : 'Dữ liệu chưa có' }}</td>
             <td>
