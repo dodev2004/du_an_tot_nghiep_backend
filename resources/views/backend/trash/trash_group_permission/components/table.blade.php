@@ -1,7 +1,7 @@
 <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    
                     <th>Tên nhóm quyền</th>
                     <th>Miêu tả</th>
                     <th>Ngày xóa</th>
@@ -11,7 +11,7 @@
             <tbody>
                 @foreach($data as $item)
                     <tr>
-                        <td>{{ $item->id }}</td>
+
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->description }}</td>
                         <td>{{ $item->deleted_at }}</td>

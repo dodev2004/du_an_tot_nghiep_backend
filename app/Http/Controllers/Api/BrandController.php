@@ -15,7 +15,7 @@ class BrandController extends Controller
 
     public function index()
     {
-        $brand = Brand::query()->paginate(2);
+        $brand = Brand::query()->where('status',1)->paginate(5);
         if ($brand->isEmpty()) {
             return response()->json(['message' => 'không có nhãn hàng'], 404);
         }
@@ -33,7 +33,7 @@ class BrandController extends Controller
     public function show($id)
     {
         // Lấy thông tin chi tiết một chương trình khuyến mãi
-        $brand = Brand::find($id);
+        $brand = Brand::where('status',1)->find($id);
         if (!$brand) {
             return response()->json(['message' => 'brand not found'], 404);
         }
