@@ -39,7 +39,14 @@ class PostRepository extends BaseRespository  implements PostRepositoryInterface
                 $query->where("title","like",'%'. request()->ky_tu . '%');
             }
             if(request()->has(["trang_thai"]) && (request()->trang_thai == 0 ||request()->trang_thai  )){
-                $query->where("status","=",request()->trang_thai);
+                if(request()->has("trang_thai")) {
+                    // Kiểm tra nếu trang_thai là 0 hoặc 1
+               
+                    if (request()->trang_thai === '0' || request()->trang_thai === '1') {
+                   
+                        $query->where('status', request()->trang_thai);
+                    }
+                }
             }
             if(request()->has("chuyen_muc") && !empty(request()->chuyen_muc)){
                 $query->whereHas("catelogues",function($query){

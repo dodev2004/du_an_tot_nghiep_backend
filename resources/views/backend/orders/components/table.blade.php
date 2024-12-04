@@ -16,11 +16,12 @@ if (!function_exists('getStatusOption')) {
         } elseif ($order->status === 3) {
             $statusOptions = [
                 4 => 'Xác nhận giao hàng',
-                7 => 'Hủy đơn hàng',
+              
             ];
         } elseif ($order->status === 4) {
             $statusOptions = [
                 5 => 'Đã giao hàng',
+                7 => 'Hủy đơn hàng',
             ];
         }
 
@@ -224,6 +225,9 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
         options.push({
             status: 5,
             label: 'Đã giao hàng'
+        },{
+            status: 7,
+            label: 'Hủy đơn hàng'
         });
     }
     else if (currentStatus === 5) {

@@ -32,25 +32,35 @@ class ProductController extends Controller
             "name"=>"Quản lý sản phẩm"
         ]);  
         $breadcrumbs = $this->breadcrumbs;
-        $products = Product::query()->with(["users","variants","catelogues"]);
+        $products = Product::query()->with(["users", "variants", "catelogues"]);
+  
+
         if($request->has("chuyen_muc") && $request->chuyen_muc){
+           
             $products->whereHas('catelogues', function($query) use ($request) {
-                $query->where('name',"LIKE", "%" .$request->chuyen_muc. "%"); // Assuming 'id' is the field in the catelogues table
+                $query->where('name', "LIKE", "%" . $request->chuyen_muc . "%");
             });
         }
-        if($request->has("trang_thai") && ($request->trang_thai == 0 || $request->trang_thai) ){
-            $products->where('status', $request->trang_thai);
+        
+        if($request->has("trang_thai")) {
+            // Kiểm tra nếu trang_thai là 0 hoặc 1
+       
+            if ($request->trang_thai === '0' || $request->trang_thai === '1') {
+           
+                $products->where('status', $request->trang_thai);
+            }
         }
-        if($request->has("ngay_dang") && $request->ngay_dang ){
+        
+        if($request->has("ngay_dang") && $request->ngay_dang){
             $date = urldecode($request->ngay_dang); 
             $products->whereDate('created_at', $date); 
         }
-        if($request->has("ky_tu") && $request->ky_tu){
         
-            $products->where('name',"LIKE","%". $request->ky_tu ."%"); 
+        if($request->has("ky_tu") && $request->ky_tu){
+            $products->where('name', "LIKE", "%" . trim($request->ky_tu) . "%"); // Sử dụng giá trị từ request
         }
-
-        $products =  $products->paginate(15);
+        
+        $products = $products->paginate(15)->appends(request()->query());
         foreach ($products as $product) {
             if ($product->variants->isNotEmpty()) {
               

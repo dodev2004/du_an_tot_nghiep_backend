@@ -71,6 +71,7 @@ class OrderController extends Controller
             }
         }
         if($request->has("trang_thai") && $request->trang_thai){
+          
             $orders->where("status", $request->trang_thai);
         }
 

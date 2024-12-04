@@ -22,7 +22,7 @@
 
                 <p style="font-size: 10px; font-weight: bold;">Ngày sửa : {{$post->updated_at}}</p>
             </td>
-            <td class="text-center">
+            <td class="text-start">
                 {{ \Illuminate\Support\Str::limit(strip_tags($post->content), 100) }}
             </td>
             <td class="text-center">
