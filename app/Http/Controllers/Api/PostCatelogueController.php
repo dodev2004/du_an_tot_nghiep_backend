@@ -15,7 +15,7 @@ class PostCatelogueController extends Controller
         // Lấy tất cả các danh mục
     $catelogues = PostCatelogue::with(['post' => function($query) {
         $query->where('status', 1);
-    }])->where('status', 1)->paginate(5);
+    }])->where('status', 1);
         return response()->json($catelogues, Response::HTTP_OK);
     }
 
