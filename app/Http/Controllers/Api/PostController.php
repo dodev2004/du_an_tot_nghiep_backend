@@ -15,12 +15,16 @@ class PostController extends Controller
         // Lấy tất cả các bài viết với phân trang
     $posts = Post::with(['catelogues' => function($query) {
         $query->where('status', 1); // Chỉ lấy các catelogues có status = 1
-    }])->where('status', 1)->paginate(5);
-
-return response()->json($posts, Response::HTTP_OK);
+    }])->where('status', 1);
+        return response()->json($posts, Response::HTTP_OK);
     }
-
-
+    public function getPostByCatelogue($id){
+    
+        $posts = Post::with(["catelogues"])->whereHas('catelogues', function ($query) use ($id) {
+            $query->where('post_catelogues.id', $id);
+        })->get();
+        return response()->json($posts, Response::HTTP_OK);
+    }
     public function store(Request $request)
     {
         // Tạo một bài viết mới
@@ -48,6 +52,7 @@ return response()->json($posts, Response::HTTP_OK);
     {
         // Lấy thông tin chi tiết của bài viết
         $post = Post::with('catelogues')->where('status', 1)->find($id);
+   
         if (!$post) {
             return response()->json(['message' => 'Post not found'], Response::HTTP_NOT_FOUND);
         }
@@ -58,6 +63,7 @@ return response()->json($posts, Response::HTTP_OK);
 {
     // Lấy bài viết hiện tại
     $post = Post::with('catelogues')->find($postId);
+
 
     // Lấy danh sách các danh mục mà bài viết hiện tại thuộc về
     $catelogueIds = $post->catelogues->pluck('id')->toArray();

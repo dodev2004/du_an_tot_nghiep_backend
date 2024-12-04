@@ -117,6 +117,7 @@ Route::get('/banners-introduce', [BannerController::class, 'IntroduceBanner']);
 Route::apiResource('posts', PostController::class);
 Route::get('/posts/related-posts/{id}', [PostController::class, 'relatedPosts']);
 Route::apiResource('post-catelogues', PostCatelogueController::class);
+Route::get("/get-post-by-catelogue/{id}",[PostController::class,"getPostByCatelogue"]);
 
 Route::get('/products/{id}/reviews', [ProductReviewController::class, 'index']);
 Route::post('/reviews/store/{orderItemId}', [ProductReviewController::class, 'store']);

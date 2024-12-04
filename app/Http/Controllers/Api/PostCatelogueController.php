@@ -18,7 +18,6 @@ class PostCatelogueController extends Controller
     }])->where('status', 1);
         return response()->json($catelogues, Response::HTTP_OK);
     }
-
     public function store(Request $request)
     {
         // Tạo một danh mục mới
