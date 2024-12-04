@@ -37,8 +37,7 @@ class OrderController extends Controller
             'customer:id,full_name',
             'promotion:id,code,discount_value',
             'paymentMethod:id,name',
-        ])->where('customer_id', $userId)
-        ->where('status', '!=', 7);
+        ])->where('customer_id', $userId);
 
         // Áp dụng bộ lọc theo trạng thái
         if ($statusFilter) {
@@ -249,7 +248,7 @@ class OrderController extends Controller
             }
         }
         DB::beginTransaction();
-     
+
         try {
             // Tạo đơn hàng mới
             $order = Order::create($validatedData);
@@ -301,7 +300,7 @@ class OrderController extends Controller
             $order->final_amount = $order->total_amount - $order->discount_amount + $order->shipping_fee;
             $order->save();
             DB::commit();
-            Mail::to($order->email)->send(new OrderPlaced($order->load('orderItems')));           
+            Mail::to($order->email)->send(new OrderPlaced($order->load('orderItems')));
             return response()->json([
                 'success' => true,
                 'message' => 'Đơn hàng đã được tạo thành công!',
@@ -389,19 +388,19 @@ class OrderController extends Controller
             ], 400);
         }
         if ($order) {
-         
+
             foreach ($order->orderItems as $item) {
-                
+
                 if ($item->product_variants_id) {
-                 
+
                     $variant = ProductVariant::find($item->product_variants_id);
                     if ($variant) {
-                       
+
                         $variant->stock +=(int) $item->quantity;
                         $variant->save();
                     }
                 } else {
-             
+
                     $product = Product::find($item->product_id);
                     if ($product) {
                         $product->stock += (int)$item->quantity;
