@@ -12,7 +12,7 @@ class ShippingFeeController extends Controller
     public function index()
     {
         // Lấy danh sách tất cả phí ship
-        $shippingFees = Shipping_fee::with('province')->get();
+        $shippingFees = Shipping_fee::with('province')->where('status',1)->get();
         return response()->json($shippingFees);
     }
 }
