@@ -22,9 +22,7 @@ use App\Http\Controllers\backend\ProductReviewController;
 use App\Http\Controllers\Backend\UserCatelogueController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\backend\BannerController;
-
-
-
+use App\Http\Controllers\backend\ErrorController;
 use App\Http\Controllers\backend\ShippingFeeController;
 
 use App\Http\Controllers\PaymentMethodsController;
@@ -292,6 +290,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::get('/orders/select', [DashBoardController::class, 'selectSalesData'])->name('orders.select')->middleware('checkPermission:selectSalesData');
         Route::get('/orders/status/select', [DashBoardController::class, 'selectOrderStatusData'])->name('orders_status.select')->middleware('checkPermission:selectOrderStatusData');
     });
+    Route::get('/permission-denied', [ErrorController::class, 'permissionDenied'])->name('permission.denied');
 });
 
 Route::get("/", function () {

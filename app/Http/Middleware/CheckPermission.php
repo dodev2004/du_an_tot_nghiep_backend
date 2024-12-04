@@ -25,7 +25,7 @@ class CheckPermission
 
         // Kiểm tra quyền của người dùng
         if (!$user->hasPermission($permission)) {
-            abort(403, 'Bạn không có quyền truy cập vào trang này'); // Trả về lỗi 403 nếu không có quyền
+            return redirect()->route('permission.denied')->with('error', 'Bạn không có quyền truy cập vào trang này'); // Chuyển hướng đến trang lỗi với thông báo
         }
 
         return $next($request); // Tiếp tục yêu cầu nếu có quyền
