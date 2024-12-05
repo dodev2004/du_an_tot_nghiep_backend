@@ -33,6 +33,8 @@
                 <a class="btn btn-sm btn-info" href="{{ route('admin.promotions.edit', $promotion->id) }}">
                     <i class="fa fa-pencil"></i>
                 </a>
+                @if(auth()->user()->hasPermission('deletePromotion'))
+
                 <form action="" method="POST" data-url="promotions" class="form-delete" style="display:inline;">
                     @method('DELETE')
                     @csrf
@@ -41,6 +43,11 @@
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </form>
+                @else
+                        <a href="{{ route('permission.denied') }}" class="btn btn-warning center" title="Không có quyền">
+                            <i class="fa fa-trash-o"></i>
+                        </a> {{-- Hiển thị nút xóa nhưng không cho phép --}}
+                        @endif
             </td>
         </tr>
         @endforeach

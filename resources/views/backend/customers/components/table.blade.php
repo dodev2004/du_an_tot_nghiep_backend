@@ -50,13 +50,19 @@
 
                             <a class="btn btn-sm btn-info" href="{{ route('admin.customer.edit', $user->id) }}" title="Chỉnh sửa"><i
                                     class="fa fa-pencil"></i></a>
+                        @if(auth()->user()->hasPermission('deleteCustomer'))
+
                             <form action="" method="POST" data-url="customer" class="form-delete">
                                 @method('DELETE')
                                 @csrf
                                 <input type="hidden" value="{{ $user->id }}" name="id">
                                 <button class="btn btn-warning center" title="Xóa"><i class="fa fa-trash-o"></i></button>
                             </form>
-                        
+                        @else
+                        <a href="{{ route('permission.denied') }}" class="btn btn-warning center" title="Không có quyền">
+                            <i class="fa fa-trash-o"></i>
+                        </a> {{-- Hiển thị nút xóa nhưng không cho phép --}}
+                        @endif
                     </div>
 
 

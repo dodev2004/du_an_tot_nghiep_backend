@@ -27,6 +27,8 @@
                         style="margin-right: 5px;">
                         <i class="fa fa-pencil"></i>
                     </a>
+                    @if(auth()->user()->hasPermission('deletePaymentMethod'))
+
                     <form action="{{ route('admin.payment_methods.delete', $item->id) }}" method="POST"
                         class="d-inline delete-form">
                         @csrf
@@ -35,6 +37,11 @@
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </form>
+                    @else
+                        <a href="{{ route('permission.denied') }}" class="btn btn-warning center" title="Không có quyền">
+                            <i class="fa fa-trash-o"></i>
+                        </a> {{-- Hiển thị nút xóa nhưng không cho phép --}}
+                        @endif
                 </div>
             </td>
         </tr>

@@ -16,7 +16,7 @@
         <tr>
             <td class="text-center">{{$index+1}}</td>
             <td>
-                <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{$post->title}}</p>               
+                <p style="margin-bottom: 0;font-weight: 600;font-size: 14px;">{{$post->title}}</p>
                 <p style="font-size: 10px; font-weight: bold;margin-bottom:0">Ngày đăng : {{$post->created_at}}</p>
                 <p style="font-size: 10px; font-weight: bold;margin-bottom:0">Mô tả : {{ \Illuminate\Support\Str::limit(strip_tags($post->meta_description), 100) }}</p>
 
@@ -49,12 +49,19 @@
                 <div style="display: flex; justify-content: center;column-gap: 5px;">
 
                     <a href="{{route('admin.post.edit',$post["id"])}}" class="btn btn-info" title="Chỉnh sửa"><i class="fa fa-pencil"></i></a>
+                    @if(auth()->user()->hasPermission('deletePost'))
+
                     <form action="" method="POST" data-url="post" class="form-delete">
                         @method("DELETE")
                         @csrf
                         <input type="hidden" value="{{$post["id"]}}" name="id">
                         <button class="btn btn-warning center" title="Xóa"><i class="fa fa-trash-o"></i></button>
                     </form>
+                    @else
+                        <a href="{{ route('permission.denied') }}" class="btn btn-warning center" title="Không có quyền">
+                            <i class="fa fa-trash-o"></i>
+                        </a> {{-- Hiển thị nút xóa nhưng không cho phép --}}
+                        @endif
                 </div>
 
             </td>

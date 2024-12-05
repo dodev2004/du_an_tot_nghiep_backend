@@ -16,7 +16,7 @@ if (!function_exists('getStatusOption')) {
         } elseif ($order->status === 3) {
             $statusOptions = [
                 4 => 'Xác nhận giao hàng',
-              
+
             ];
         } elseif ($order->status === 4) {
             $statusOptions = [
@@ -126,6 +126,7 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                     {{ getOrderStatusLabel($order->status) }}
                 </td>
                 <td class="">
+                    @if(auth()->user()->hasPermission('updateOrder'))
                     <div class="d-flex" style="display: flex; column-gap: 12px;justify-content: start">
                         <div class="btn-group btn-group-{{$order->id }}">
                             @if ($order->status != 6)
@@ -139,7 +140,14 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                                         </li>
                                     @endforeach
                                     @if ($order->status == 7)
-                                        <li><a href="#" onclick="deleteOrder({{ $order->id }})">Xóa đơn hàng</a></li>
+                                        @if(auth()->user()->hasPermission('deleteOrder'))
+
+
+                                                <li><a href="#" onclick="deleteOrder({{ $order->id }})">Xóa đơn hàng</a></li>
+
+                                        @else
+                                        <li><a href="{{ route('permission.denied') }}">Xóa đơn hàng</a></li>
+                                        @endif
                                     @endif
                                 </ul>
                             @else
@@ -150,6 +158,13 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                             @endif
                         </div>
                     </div>
+                    @else
+                        <a href="{{ route('permission.denied') }}" title="Không có quyền">
+                            <button class="btn btn-primary btn-sm dropdown-toggle" aria-expanded="true">
+                                Hành động <span class="caret"></span>
+                            </button>
+                        </a> {{-- Hiển thị nút xóa nhưng không cho phép --}}
+                        @endif
                 </td>
             </tr>
         @endforeach

@@ -33,12 +33,19 @@
                 <div style="display: flex; justify-content: center;column-gap: 5px;">
                     <a class="btn btn-sm btn-info" href="{{ route('admin.brand.edit', $item->id) }}" title="Chỉnh sửa"><i
                             class="fa fa-pencil"></i></a>
+                            @if(auth()->user()->hasPermission('deleteBrand'))
                     <form action="" method="POST" data-url="brand" class="form-delete">
                         @method('DELETE')
                         @csrf
                         <input type="hidden" value="{{ $item->id }}" name="id">
                         <button class="btn btn-sm btn-danger" title="Xoá"><i class="fa fa-trash-o"></i></button>
                     </form>
+                    @else
+                        <a href="{{ route('permission.denied') }}" class="btn btn-warning center" title="Không có quyền">
+                            <i class="fa fa-trash-o"></i>
+                        </a> {{-- Hiển thị nút xóa nhưng không cho phép --}}
+                        @endif
+                    </div>
                 </div>
             </th>
         </tr>
