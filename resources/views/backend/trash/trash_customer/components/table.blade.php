@@ -25,7 +25,7 @@
                     @csrf
                     <button type="submit" class="btn btn-success"><i class="fa fa-undo"></i></button>
                 </form>
-                @if(auth()->user()->hasPermission('deleteAboutPage'))
+                @if(auth()->user()->hasPermission('deleteCustomer'))
 
                 <form action="" method="POST" data-url="customer" class="form-delete" style="display: inline;">
                     @method('DELETE')
