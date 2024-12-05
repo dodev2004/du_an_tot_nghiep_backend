@@ -74,7 +74,9 @@ class OrderController extends Controller
           
             $orders->where("status", $request->trang_thai);
         }
-
+        if($request->has("ma_don_hang") && $request->ma_don_hang){
+            $orders->where("id", $request->ma_don_hang);
+        }
         // Thêm breadcrumbs
         $this->breadcrumbs[] = [
             "active" => true,
