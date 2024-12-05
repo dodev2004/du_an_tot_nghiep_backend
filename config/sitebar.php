@@ -4,6 +4,7 @@ return [
         "childrenlevel" => false,
         "name" => "Thống kê",
         "route" => "admin.dashboard",
+        "permission" => "viewDashboardOrder", // Thêm quyền
         "icon" => "fa-desktop",
     ],
     [
@@ -18,9 +19,10 @@ return [
 
             // ],
             [
+                "childrenlevel" => false,
                 "name" => "Quản lý nhân viên",
                 "route" => 'admin.users',
-
+                "permission" => "viewUser", // Thêm quyền
             ],
         ]
     ],
@@ -31,14 +33,16 @@ return [
         'children' =>
         [
             [
+                "childrenlevel" => false,
                 "name" => "Quản Lý chuyên mục ",
                 "route" => 'admin.post-catelogue',
-
+                "permission" => "viewPostCatelogue", // Thêm quyền
             ],
             [
+                "childrenlevel" => false,
                 "name" => "Quản lý bài viết",
                 "route" => 'admin.post',
-
+                "permission" => "viewPost", // Thêm quyền
             ],
         ]
     ],
@@ -49,21 +53,28 @@ return [
         'children' =>
         [
             [
+                "childrenlevel" => false,
                 "name" => "Danh mục sản phẩm",
                 "route" => 'admin.product_catelogue',
-
+                "permission" => "viewProductCatelogue", // Thêm quyền
             ],
             [
+                "childrenlevel" => false,
                 "name" => "Sản phẩm",
-                "route" => "admin.product"
+                "route" => "admin.product",
+                "permission" => "viewProduct", // Thêm quyền
             ],
             [
+                "childrenlevel" => false,
                 "name" => "Danh mục biến thể",
-                "route" => "admin.variant_catelogue"
+                "route" => "admin.variant_catelogue",
+                "permission" => "viewVariantCatelogue", // Thêm quyền
             ],
             [
+                "childrenlevel" => false,
                 "name" => "Thuộc tính biến thể",
-                "route" => "admin.variant"
+                "route" => "admin.variant",
+                "permission" => "viewAttributeValue", // Thêm quyền
             ],
         ]
 
@@ -75,12 +86,16 @@ return [
         'children' =>
         [
             [
+                "childrenlevel" => false,
                 "name" => "Phản hồi đánh giá",
                 "route" => 'admin.product_comment.users',
+                "permission" => "viewComment", // Thêm quyền
             ],
             [
+                "childrenlevel" => false,
                 "name" => "Quản lý đánh giá",
                 "route" => 'admin.product_review',
+                "permission" => "viewReview", // Thêm quyền
             ],
         ]
 
@@ -97,12 +112,16 @@ return [
             //     "route" => "admin.payment_methods",
             // ],
             [
+                "childrenlevel" => false,
                 "name" => "Mã giảm giá",
                 "route" => 'admin.promotions',
+                "permission" => "viewPromotion", // Thêm quyền
             ],
             [
+                "childrenlevel" => false,
                 "name" => "Phí vận chuyển",
                 "route" => "admin.shipping_fee",
+                "permission" => "viewShippingFee", // Thêm quyền
             ],
         ]
     ],
@@ -112,6 +131,7 @@ return [
         "childrenlevel" => false,
         "name" => "Quản lý đơn hàng",
         "route" => "admin.orders",
+        "permission" => "viewOrder", // Thêm quyền
     ],
 
     [
@@ -122,20 +142,28 @@ return [
         [
 
             [
+                "childrenlevel" => false,
                 "name" => "Hỗ Trợ người dùng",
-                "route" => "admin.contact"
+                "route" => "admin.contact",
+                "permission" => "viewContact", // Thêm quyền
             ],
             [
+                "childrenlevel" => false,
                 "name" => " Quản lý trang liên hệ",
-                "route" => "admin.information"
+                "route" => "admin.information",
+                "permission" => "viewInformation", // Thêm quyền
             ],
             [
+                "childrenlevel" => false,
                 "name" => "Quản lý trang giới thiệu",
                 "route" => "admin.about",
+                "permission" => "viewAboutPage", // Thêm quyền
             ],
             [
+                "childrenlevel" => false,
                 "name" => "Quản lý banner",
                 "route" => "admin.banner",
+                "permission" => "viewBanner", // Thêm quyền
             ],
         ]
 
@@ -148,13 +176,16 @@ return [
         [
 
             [
+                "childrenlevel" => false,
                 "name" => " Quản lý khách hàng",
-                "route" => "admin.customer"
+                "route" => "admin.customer",
+                "permission" => "viewCustomer", // Thêm quyền
             ],
             [
                 "childrenlevel" => false,
                 "name" => "Quản lý nhãn hàng",
                 "route" => "admin.brand",
+                "permission" => "viewBrand", // Thêm quyền
             ],
 
         ]
@@ -167,16 +198,22 @@ return [
         [
 
             [
+                "childrenlevel" => false,
                 "name" => " quản lý nhóm quyền",
-                "route" => "admin.group_permission"
+                "route" => "admin.group_permission",
+                "permission" => "viewGroupPermission", // Thêm quyền
             ],
             [
+                "childrenlevel" => false,
                 "name" => " quản lý quyền",
-                "route" => "admin.permission"
+                "route" => "admin.permission",
+                "permission" => "viewPermission", // Thêm quyền
             ],
             [
+                "childrenlevel" => false,
                 "name" => "Quản lý vai trò",
                 "route" => "admin.role",
+                "permission" => "viewRole", // Thêm quyền
             ],
         ]
     ],
