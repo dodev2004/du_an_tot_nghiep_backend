@@ -38,6 +38,9 @@
                 <div style="display: flex; justify-content: center;column-gap: 5px;">
                     <a class="btn btn-sm btn-info" href="{{ route('admin.shipping_fee.edit', $item->id) }}"
                         data-toggle="tooltip" data-placement="top" title="Sửa"><i class="fa fa-pencil"></i></a>
+
+                    @if(auth()->user()->hasPermission('deleteShippingFee'))
+
                     <form action="" method="POST" data-url="shipping-fee" class="form-delete ">
                         @method('DELETE')
                         @csrf
@@ -45,6 +48,11 @@
                         <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Xóa"><i
                                 class="fa fa-trash-o"></i></button>
                     </form>
+                    @else
+                        <a href="{{ route('permission.denied') }}" class="btn btn-warning center" title="Không có quyền">
+                            <i class="fa fa-trash-o"></i>
+                        </a> {{-- Hiển thị nút xóa nhưng không cho phép --}}
+                        @endif
                 </div>
             </th>
         </tr>

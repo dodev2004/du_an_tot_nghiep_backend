@@ -68,14 +68,21 @@
                                 style="cursor: pointer;">
                                 <i class="fa fa-eye"></i>
                             </a>
-                            @if ($item->is_updated_over_30_days)
-                                <form action="" method="POST" data-url="contact" class="form-delete">
-                                @method('DELETE')
-                                @csrf
-                                <input type="hidden" value="{{ $item->id }}" name="id">
-                                <button class="btn btn-sm btn-danger btn-delete" title="Xoá"><i
-                                        class="fa fa-trash-o"></i></button>
-                            </form>
+                            @if(auth()->user()->hasPermission('deleteContact'))
+
+                                @if ($item->is_updated_over_30_days)
+                                    <form action="" method="POST" data-url="contact" class="form-delete">
+                                    @method('DELETE')
+                                    @csrf
+                                    <input type="hidden" value="{{ $item->id }}" name="id">
+                                    <button class="btn btn-sm btn-danger btn-delete" title="Xoá"><i
+                                            class="fa fa-trash-o"></i></button>
+                                </form>
+                                @endif
+                                @else
+                            <a href="{{ route('permission.denied') }}" class="btn btn-warning center" title="Không có quyền">
+                                <i class="fa fa-trash-o"></i>
+                            </a> {{-- Hiển thị nút xóa nhưng không cho phép --}}
                             @endif
 
                         @endif

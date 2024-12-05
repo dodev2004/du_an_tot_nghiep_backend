@@ -164,12 +164,12 @@ class PermissionController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required',
+
             "display_name" => "required",
             "description" => "required",
             'group_permission_id' => 'required|exists:group_permission,id',
         ], [
-            'name.required' => 'Tên quyền không được để trống',
+            
             'display_name.required' => 'Tên quyền không được để trống',
             'description.required' => 'Mô tả không được để trống',
             'group_permission_id.required' => 'Bạn phải chọn nhóm quyền',

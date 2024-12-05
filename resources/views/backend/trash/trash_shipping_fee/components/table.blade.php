@@ -4,7 +4,7 @@
             <th>Mã thành phố</th>
             <th>Tên thành phố</th>
             <th>Phí ship</th>
-            
+
             <th>Ngày xóa</th>
             <th>Hành động</th>
         </tr>
@@ -23,12 +23,19 @@
                     @csrf
                     <button type="submit" class="btn btn-success"><i class="fa fa-undo"></i></button>
                 </form>
+                @if(auth()->user()->hasPermission('forceDeleteShippingFee'))
+
                 <form action="" method="POST" data-url="shipping-fee" class="form-delete" style="display: inline;">
                     @method('DELETE')
                     @csrf
                     <input type="hidden" value="{{ $item->id }}" name="id">
                     <button class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></button>
                 </form>
+                @else
+                        <a href="{{ route('permission.denied') }}" class="btn btn-warning center" title="Không có quyền">
+                            <i class="fa fa-trash-o"></i>
+                        </a> {{-- Hiển thị nút xóa nhưng không cho phép --}}
+                    @endif
             </td>
         </tr>
         @endforeach

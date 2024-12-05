@@ -19,7 +19,7 @@
 
 
                     <div class="alert alert-danger">
-                        Bạn không có quyền truy cập vào trang này.
+                        Bạn không có quyền thực hiện thao tác này.
                     </div>
                 </div>
 

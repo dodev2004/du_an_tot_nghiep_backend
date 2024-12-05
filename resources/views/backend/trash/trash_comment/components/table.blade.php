@@ -24,12 +24,19 @@
                                     </form>
                                 </div>
                                 <div>
+                    @if(auth()->user()->hasPermission('forceDeleteComment'))
+
                                     <form action="" method="POST" data-url="product-comment" style="text-align: center;" class="form-delete">
                                         @method("DELETE")
                                         @csrf
                                         <input type="hidden" value="{{$comment->id}}" name="id">
                                         <button class="btn btn-danger center" data-toggle="tooltip" data-placement="top" title="Xóa"><i class="fa fa-trash-o"></i></button>
                                     </form>
+                                    @else
+                        <a href="{{ route('permission.denied') }}" class="btn btn-warning center" title="Không có quyền">
+                            <i class="fa fa-trash-o"></i>
+                        </a> {{-- Hiển thị nút xóa nhưng không cho phép --}}
+                    @endif
                                 </div>
                             </div>
                         </td>

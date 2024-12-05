@@ -13,12 +13,13 @@
             <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $item->title }}</td>
-                <td>{{ Str::limit(strip_tags($item->content), 100) }}</td> 
+                <td>{{ Str::limit(strip_tags($item->content), 100) }}</td>
                 <td>{{ $item->status }}</td>
                 <td style="text-align: center">
                     <a href="{{ route('admin.about.edit', $item["id"]) }}" class="btn btn-info">
                         <i class="fa fa-pencil"></i>
                     </a>
+                    @if(auth()->user()->hasPermission('deleteAboutPage'))
                     <form action="{{ route('admin.about.delete', $item['id']) }}" method="POST" class="form-delete" style="display:inline-block;">
                         @method('DELETE')
                         @csrf
@@ -26,7 +27,11 @@
                             <i class="fa fa-trash-o"></i>
                         </button>
                     </form>
-                    
+                    @else
+                        <a href="{{ route('permission.denied') }}" class="btn btn-warning center" title="Không có quyền">
+                            <i class="fa fa-trash-o"></i>
+                        </a> {{-- Hiển thị nút xóa nhưng không cho phép --}}
+                    @endif
                 </td>
             </tr>
         @endforeach

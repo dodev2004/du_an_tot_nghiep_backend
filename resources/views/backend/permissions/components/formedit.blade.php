@@ -12,12 +12,6 @@
         </div>
         <div class="col-md-8" style="padding:20px 0 0 50px">
             <div class="row" style="display: flex; flex-wrap:wrap">
-                <div class="form-group col-md-6">
-                    <label for="">Tên quyền*</label>
-                    <input type="text" name="name" class="form-control" value="{{ old('name') ?? $data->name }}"
-                        autocomplete="">
-                    <p class=" text-danger message-error"></p>
-                </div>
 
                 <div class="form-group col-md-6">
                     <label for="display_name">Tên hiển thị*</label>
