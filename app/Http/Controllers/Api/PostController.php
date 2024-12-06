@@ -15,7 +15,7 @@ class PostController extends Controller
         // Lấy tất cả các bài viết với phân trang
     $posts = Post::with(['catelogues' => function($query) {
         $query->where('status', 1);
-    }])->where('status', 1)->get();
+    }])->where('status', 1)->limit(4)->get();
         return response()->json($posts, Response::HTTP_OK);
     }
     public function getPostByCatelogue($id){
