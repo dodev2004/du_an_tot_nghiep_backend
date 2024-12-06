@@ -21,6 +21,9 @@
                     <div class="alert alert-danger">
                         Bạn không có quyền thực hiện thao tác này.
                     </div>
+                    <a href="{{ url()->previous() }}" class="btn btn-secondary">
+                        <i class="fa fa-arrow-left"></i> Quay lại
+                    </a>
                 </div>
 
             </div>
