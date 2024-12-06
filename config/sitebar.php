@@ -9,7 +9,7 @@ return [
     ],
     [
         "childrenlevel" => true,
-        "name" => "Quản lý nhân sự",
+        "name" => "Quản lý tài khoản",
         "route" => "#",
         'children' =>
         [
@@ -20,10 +20,17 @@ return [
             // ],
             [
                 "childrenlevel" => false,
-                "name" => "Quản lý nhân viên",
+                "name" => "Tài khoản nhân viên",
                 "route" => 'admin.users',
                 "permission" => "viewUser", // Thêm quyền
             ],
+            [
+                "childrenlevel" => false,
+                "name" => " Tài khoản khách hàng",
+                "route" => "admin.customer",
+                "permission" => "viewCustomer", // Thêm quyền
+            ],
+
         ]
     ],
     [
@@ -87,6 +94,12 @@ return [
         [
             [
                 "childrenlevel" => false,
+                "name" => "Hỗ Trợ người dùng",
+                "route" => "admin.contact",
+                "permission" => "viewContact", // Thêm quyền
+            ],
+            [
+                "childrenlevel" => false,
                 "name" => "Phản hồi đánh giá",
                 "route" => 'admin.product_comment.users',
                 "permission" => "viewComment", // Thêm quyền
@@ -141,12 +154,7 @@ return [
         'children' =>
         [
 
-            [
-                "childrenlevel" => false,
-                "name" => "Hỗ Trợ người dùng",
-                "route" => "admin.contact",
-                "permission" => "viewContact", // Thêm quyền
-            ],
+
             [
                 "childrenlevel" => false,
                 "name" => " Quản lý trang liên hệ",
@@ -170,17 +178,12 @@ return [
     ],
     [
         "childrenlevel" => true,
-        "name" => "Thông tin khách hàng",
+        "name" => "Thương hiệu & Đối tác",
         "route" => "#",
         'children' =>
         [
 
-            [
-                "childrenlevel" => false,
-                "name" => " Quản lý khách hàng",
-                "route" => "admin.customer",
-                "permission" => "viewCustomer", // Thêm quyền
-            ],
+
             [
                 "childrenlevel" => false,
                 "name" => "Quản lý nhãn hàng",
