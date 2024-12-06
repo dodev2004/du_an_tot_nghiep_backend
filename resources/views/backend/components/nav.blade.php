@@ -28,21 +28,41 @@
                 </div> -->
             </li>
             @foreach (config("sitebar") as $item)
-            @if ($item["childrenlevel"])
+            @if ($item["childrenlevel"] && isset($item['children']) && count($item['children']) > 0)
             <li @foreach ($item['children'] as $route)
                 @if(request()->routeIs($route['route']. ".*") || request()->routeIs($route['route']))
                 class="active"
                 @endif
                 @endforeach >
+                    @php
+                        $continueCount = 0; // Khởi tạo biến đếm
+                    @endphp
+                    @foreach($item["children"] as $children)
+                        @if(isset($children['permission']) && !auth()->user()->hasPermission($children['permission']))
+                            @php
+                                $continueCount++; // Tăng biến đếm khi continue
+                            @endphp
+                        @endif
+                    @endforeach
+
+                @if(count($item['children']) != $continueCount)
                 <a href="#"><i class="fa fa-user-circle"></i> <span class="nav-label">{{$item["name"]}}</span><span class="fa arrow"></span></a>
+                @endif
+
                 <ul class="nav nav-second-level collapse">
                     @foreach($item["children"] as $children)
+                    @if(isset($children['permission']) && !auth()->user()->hasPermission($children['permission']))
+                        @continue
+                    @endif
                     <li class="{{request()->routeIs($children['route'] . ".*") || request()->routeIs($children['route']) ? 'active' : ""}}"><a href="{{route($children['route'])}}">{{$children["name"]}}</a></li>
                     @endforeach
 
                 </ul>
             </li>
             @else
+            @if(isset($item['permission']) && !auth()->user()->hasPermission($item['permission']))
+                @continue
+            @endif
             <li class="{{ request()->routeIs($item['route'])  ? 'active' : '' }}">
                 <a href="{{route($item['route'])}}"><i class="fa fa-th-large"></i> <span class="nav-label">{{$item['name']}}</span></a>
             </li>
