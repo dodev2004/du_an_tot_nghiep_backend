@@ -23,6 +23,7 @@ use App\Http\Controllers\Backend\UserCatelogueController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\backend\BannerController;
 use App\Http\Controllers\backend\ErrorController;
+use App\Http\Controllers\backend\WelcomeController;
 use App\Http\Controllers\backend\ShippingFeeController;
 
 use App\Http\Controllers\PaymentMethodsController;
@@ -65,6 +66,7 @@ Route::get('/password/reset/{token}', function (string $token) {
 })->middleware('guest')->name('password.reset');
 
 Route::middleware("auth")->prefix("/admin")->group(function () {
+    Route::get("/welcome", [WelcomeController::class, "index"])->name("admin.welcome");
     Route::get("/dashboard", [DashBoardController::class, "index"])->name("admin.dashboard")->middleware('checkPermission:viewDashboardOrder');
     Route::get("/logout", [AuthController::class, "logout"])->name("logout");
     Route::get("/showMessage", function () {
