@@ -238,9 +238,9 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::get("{id}/edit", [CustomerController::class, "edit"])->name("admin.customer.edit")->middleware('checkPermission:editCustomer');
         Route::put("{id}/update", [CustomerController::class, "update"])->name("admin.customer.update")->middleware('checkPermission:updateCustomer');
         Route::delete("/delete", [CustomerController::class, "destroy"])->name("admin.customer.delete")->middleware('checkPermission:deleteCustomer');
-        Route::delete("/force-delete", [CustomerController::class, "force_destroy"])->name("admin.customer.force_delete");
-        Route::post("{id}/restore", [CustomerController::class, "restore"])->name("admin.customer.restore"); //khôi phục
-        Route::get("/trash", [CustomerController::class, "trash"])->name("admin.customer.trash"); // Trang thùng rác
+        Route::delete("/force-delete", [CustomerController::class, "force_destroy"])->name("admin.customer.force_delete")->middleware('checkPermission:forceDeleteCustomer');
+        Route::post("{id}/restore", [CustomerController::class, "restore"])->name("admin.customer.restore")->middleware('checkPermission:restoreCustomer'); //khôi phục
+        Route::get("/trash", [CustomerController::class, "trash"])->name("admin.customer.trash")->middleware('checkPermission:trashCustomer'); // Trang thùng rác
     });
     Route::prefix("group-permission")->group(function () {
         Route::get("list", [GroupPermissionController::class, "index"])->name("admin.group_permission")->middleware('checkPermission:viewGroupPermission');
