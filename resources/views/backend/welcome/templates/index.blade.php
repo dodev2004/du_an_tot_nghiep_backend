@@ -61,10 +61,6 @@
 </style>
 @endsection
 
-@section("title")
-Trang Chào Mừng
-@endsection
-
 @section("content")
 <div class="wrapper-content animated fadeInRight">
     <div class="welcome-container welcome-animation">
