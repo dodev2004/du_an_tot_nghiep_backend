@@ -296,7 +296,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
 });
 
 Route::get("/", function () {
-    return redirect()->route("admin.dashboard");
+    return redirect()->route("admin.welcome");
 });
 Route::get("ajax/getLocaion/index", [GetLocaitonAjax::class, "index"])->name("ajax.getLocation");
 Route::put("ajax/change_status", [ChangeStatusAjax::class, "change_status"])->name("ajax.changeStatus");
