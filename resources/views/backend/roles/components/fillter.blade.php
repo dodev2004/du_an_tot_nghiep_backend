@@ -1,9 +1,9 @@
 <div class="ibox-content_top">
   <form action="" method="GET" class="form_seach">
     <div class="form-group d-flex align-items-center">
-      <div style="margin-top: 24px;">
-        <!-- <label for="seach" class="me-2">Tìm kiếm theo tên:</label> -->
-        <input type="text" class="form-control" name="seach_text" @if (isset($_GET['seach_text'])) value="{{ $_GET['seach_text'] }}" @endif placeholder="Tìm kiếm theo tên">
+      <div>
+         <label for="seach" class="me-2">Tìm kiếm theo vai trò:</label>
+        <input type="text" class="form-control" name="seach_text" @if (isset($_GET['seach_text'])) value="{{ $_GET['seach_text'] }}" @endif placeholder="Nhập vai trò">
       </div>
       <!-- <div>
         <label for="start_date">Ngày bắt đầu:</label>

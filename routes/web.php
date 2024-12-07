@@ -120,9 +120,10 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
     //
     Route::prefix("orders")->group(function () {
         Route::get("list", [OrderController::class, "index"])->name("admin.orders")->middleware('checkPermission:viewOrder');
-        Route::get("create", [OrderController::class, "create"])->name("admin.orders.create")->middleware('checkPermission:createOrder');
-        Route::post("store", [OrderController::class, "store"])->name("admin.orders.store")->middleware('checkPermission:storeOrder');
-        Route::get("{id}/edit", [OrderController::class, "editPost"])->name("admin.orders.edit")->middleware('checkPermission:editOrder');
+        //TRONG DATABASE XOÁ 3 QUYỀN NÀY ĐI VÌ KHÔNG SỬ DỤNG
+        // Route::get("create", [OrderController::class, "create"])->name("admin.orders.create")->middleware('checkPermission:createOrder');
+        // Route::post("store", [OrderController::class, "store"])->name("admin.orders.store")->middleware('checkPermission:storeOrder');
+        // Route::get("{id}/edit", [OrderController::class, "editPost"])->name("admin.orders.edit")->middleware('checkPermission:editOrder');
         Route::put("update-order-status", [OrderController::class, "update"])->name("admin.orders.update")->middleware('checkPermission:updateOrder');
         Route::delete("/delete", [OrderController::class, "destroy"])->name("admin.orders.delete")->middleware('checkPermission:deleteOrder');
         Route::get("details/{id}", [OrderController::class, "show"])->name("admin.orders.details")->middleware('checkPermission:viewOrderDetails');
@@ -178,6 +179,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::delete('/about/{id}', [AboutPageController::class, 'destroy'])->name('admin.about.delete')->middleware('checkPermission:deleteAboutPage');
     });
     Route::prefix("product-comment")->group(function(){
+        //SỬA LẠI TÊN CÁC QUYỀN NÀY VÌ ĐỌC KHÓ HIỂU
         Route::get("users", [ProductCommentController::class, "index"])->name("admin.product_comment.users")->middleware('checkPermission:viewComment');
         Route::get("user/{id}/comments", [ProductCommentController::class, "userComments"])->name("admin.product_comment.user_comments")->middleware('checkPermission:viewUserComment');
         Route::get('/product-review/{id}/comment', [ProductCommentController::class, 'create'])->name('product_comment.create')->middleware('checkPermission:createComment');
@@ -188,6 +190,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::get("trash", [ProductCommentController::class, "trash"])->name("admin.product_comment.trash")->middleware('checkPermission:viewTrashComment');
     });
     Route::prefix("product_reviews")->group(function(){
+        //SỬA LẠI TÊN CÁC QUYỀN NÀY VÌ ĐỌC KHÓ HIỂU
         Route::get('admin/product-reviews', [ProductReviewController::class, 'index'])->name('admin.product_review')->middleware('checkPermission:viewReview');
         Route::get("user/{id}/reviews", [ProductReviewController::class, "userReviews"])->name("admin.product_review.user_reviews")->middleware('checkPermission:viewUserReview');
     });
