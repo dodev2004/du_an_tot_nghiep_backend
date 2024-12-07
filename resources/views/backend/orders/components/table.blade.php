@@ -15,7 +15,7 @@ if (!function_exists('getStatusOption')) {
             ];
         } elseif ($order->status === 3) {
             $statusOptions = [
-                4 => 'Xác nhận giao hàng',
+                4 => 'Đang giao hàng',
 
             ];
         } elseif ($order->status === 4) {
