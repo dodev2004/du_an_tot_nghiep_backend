@@ -24,7 +24,7 @@
                             </form>
                     @if(auth()->user()->hasPermission('forceDeletePermission'))
 
-                            <form action="" method="POST" data-url="group-permission" class="form-delete" style="display: inline;">
+                            <form action="" method="POST" data-url="permission" class="form-delete" style="display: inline;">
                                 @method('DELETE')
                                 @csrf
                                 <input type="hidden" value="{{ $item->id }}" name="id">

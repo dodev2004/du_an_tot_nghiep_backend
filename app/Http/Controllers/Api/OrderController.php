@@ -248,7 +248,6 @@ class OrderController extends Controller
             }
         }
         DB::beginTransaction();
-
         try {
             // Tạo đơn hàng mới
             $order = Order::create($validatedData);
@@ -258,7 +257,6 @@ class OrderController extends Controller
             $carts = explode(",",$request->cart_id);
             foreach ($carts as $cartId) {
                 $cart = Cart::find($cartId);
-
                 if ($cart) {
                     // Cập nhật tồn kho
                     if ($cart->product_variants_id) {
@@ -438,7 +436,6 @@ class OrderController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Huỷ đơn hàng thành công!',
-
             ], 200);
         }
 

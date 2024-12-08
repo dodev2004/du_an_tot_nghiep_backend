@@ -135,9 +135,9 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                                 </button>
                                 <ul class="dropdown-menu" id="action-dropdown-{{ $order->id }}">
                                     @foreach ($statusOptions as $status => $label)
-                                        <li><a href="#"
-                                            onclick="updateOrderStatus({{ $status }}, {{ $order->id }})">{{ $label }}</a>
-                                        </li>
+                                            <li><a href="#"
+                                                onclick="updateOrderStatus({{ $status }}, {{ $order->id }})">{{ $label }}</a>
+                                            </li>
                                     @endforeach
                                     @if ($order->status == 7)
                                         @if(auth()->user()->hasPermission('deleteOrder'))
@@ -234,7 +234,7 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
     } else if (currentStatus === 3) {
         options.push({
             status: 4,
-            label: 'Đang giao hàng'
+            label: 'Xác nhận giao hàng'
         });
     } else if (currentStatus === 4) {
         options.push({

@@ -81,6 +81,17 @@ class ProductReviewController extends Controller
 
         $orderItem = OrderItem::findOrFail($orderItemId);
         $product = $orderItem->product;
+
+        // Kiểm tra nếu sản phẩm của đơn hàng này đã được đánh giá bởi user hiện tại
+        $existingReview = ProductReview::where('order_item_id', $orderItemId)
+        ->where('user_id', Auth::id())
+        ->first();
+
+        if ($existingReview) {
+            return response()->json([
+                'message' => 'Bạn đã đánh giá sản phẩm này rồi.',
+            ], 409); // HTTP 409 Conflict
+        }
         // Tạo review mới
         $review = ProductReview::create([
             'order_item_id' => $orderItemId, 

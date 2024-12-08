@@ -23,6 +23,7 @@ use App\Http\Controllers\Backend\UserCatelogueController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\backend\BannerController;
 use App\Http\Controllers\backend\ErrorController;
+use App\Http\Controllers\backend\WelcomeController;
 use App\Http\Controllers\backend\ShippingFeeController;
 
 use App\Http\Controllers\PaymentMethodsController;
@@ -65,6 +66,7 @@ Route::get('/password/reset/{token}', function (string $token) {
 })->middleware('guest')->name('password.reset');
 
 Route::middleware("auth")->prefix("/admin")->group(function () {
+    Route::get("/welcome", [WelcomeController::class, "index"])->name("admin.welcome");
     Route::get("/dashboard", [DashBoardController::class, "index"])->name("admin.dashboard")->middleware('checkPermission:viewDashboardOrder');
     Route::get("/logout", [AuthController::class, "logout"])->name("logout");
     Route::get("/showMessage", function () {
@@ -238,9 +240,9 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::get("{id}/edit", [CustomerController::class, "edit"])->name("admin.customer.edit")->middleware('checkPermission:editCustomer');
         Route::put("{id}/update", [CustomerController::class, "update"])->name("admin.customer.update")->middleware('checkPermission:updateCustomer');
         Route::delete("/delete", [CustomerController::class, "destroy"])->name("admin.customer.delete")->middleware('checkPermission:deleteCustomer');
-        Route::delete("/force-delete", [CustomerController::class, "force_destroy"])->name("admin.customer.force_delete");
-        Route::post("{id}/restore", [CustomerController::class, "restore"])->name("admin.customer.restore"); //khôi phục
-        Route::get("/trash", [CustomerController::class, "trash"])->name("admin.customer.trash"); // Trang thùng rác
+        Route::delete("/force-delete", [CustomerController::class, "force_destroy"])->name("admin.customer.force_delete")->middleware('checkPermission:forceDeleteCustomer');
+        Route::post("{id}/restore", [CustomerController::class, "restore"])->name("admin.customer.restore")->middleware('checkPermission:restoreCustomer'); //khôi phục
+        Route::get("/trash", [CustomerController::class, "trash"])->name("admin.customer.trash")->middleware('checkPermission:trashCustomer'); // Trang thùng rác
     });
     Route::prefix("group-permission")->group(function () {
         Route::get("list", [GroupPermissionController::class, "index"])->name("admin.group_permission")->middleware('checkPermission:viewGroupPermission');
@@ -294,7 +296,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
 });
 
 Route::get("/", function () {
-    return redirect()->route("admin.dashboard");
+    return redirect()->route("admin.welcome");
 });
 Route::get("ajax/getLocaion/index", [GetLocaitonAjax::class, "index"])->name("ajax.getLocation");
 Route::put("ajax/change_status", [ChangeStatusAjax::class, "change_status"])->name("ajax.changeStatus");
