@@ -14,7 +14,11 @@
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $item->title }}</td>
                 <td>{{ Str::limit(strip_tags($item->content), 100) }}</td>
-                <td>{{ $item->status == 1 ? 'Hoạt động' : $item->status }}</td>
+                <td>
+                    <span class="badge {{ $item->status == '1' ? 'badge-success' : 'badge-warning' }}">
+                        {{ $item->status == '1' ? 'Hoạt động' : 'Không hoạt động' }}
+                    </span>
+                </td>
                 <td style="text-align: center">
                     <a href="{{ route('admin.about.edit', $item["id"]) }}" class="btn btn-info">
                         <i class="fa fa-pencil"></i>

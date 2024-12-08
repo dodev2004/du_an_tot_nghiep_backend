@@ -45,7 +45,7 @@ class AboutPageController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'status' => 'required|in:hoạt động,không hoạt động',
+            'status' => 'required|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',  // Thay đổi ở đây
         ], [
             'title.required' => 'Tiêu đề không được để trống.',
@@ -107,7 +107,7 @@ class AboutPageController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'status' => 'required|in:hoạt động,không hoạt động',
+            'status' => 'required|boolean',
         ], [
             'title.required' => 'Tiêu đề không được để trống.',
             'content.required' => 'Nội dung không được để trống.',
