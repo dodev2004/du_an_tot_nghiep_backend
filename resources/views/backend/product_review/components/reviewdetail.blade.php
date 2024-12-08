@@ -16,13 +16,13 @@
             <tr>
                 <td>
                     <a type="button" class="view-user-detail" data-toggle="tooltip" data-placement="top" title="Chi tiết người dùng"
-                            data-full-name="{{ $review->order->customer_name ?? ''}}" 
-                            data-email="{{ $review->order->email ?? ''}}" 
-                            data-phone="{{ $review->order->phone_number ?? ''}}" 
-                            data-address="{{ $review->order->shipping_address ?? ''}}" 
-                            
+                            data-full-name="{{ $review->orderItem->order->customer_name ?? ''}}" 
+                            data-email="{{ $review->orderItem->order->email ?? ''}}" 
+                            data-phone="{{ $review->orderItem->order->phone_number ?? ''}}" 
+                            data-address="{{ $review->orderItem->order->shipping_address ?? ''}}" 
+                            data-avatar="{{ asset($review->orderItem->order->user->avatar) ?? '' }}"
                             style="cursor: pointer;">
-                            {{ $review->orderItem->order->customer_name }}
+                            {{ $review->orderItem->order->user->username }}
                         </a>
                 </td>
 
