@@ -14,16 +14,16 @@
         <tr>
             <td>
             <a type="button" class="view-user-detail" data-toggle="tooltip" data-placement="top" title="Chi tiết người dùng"
-                    data-full-name="{{ $comment->review->user->full_name ?? ''}}" 
-                    data-username="{{ $comnent->review->user->username ?? ''}}" 
-                    data-email="{{ $comment->review->user->email ?? ''}}" 
-                    data-username="{{ $comment->review->user->username ?? ''}}" 
-                    data-phone="{{ $comment->review->user->phone ?? ''}}" 
-                    data-address="{{ $comment->review->user->address ?? ''}}" 
-                    data-birthday="{{ $comment->review->user->birthday ?? ''}}" 
-                    data-province="{{ $comment->review->user->province->name ?? ''}}" 
-                    data-district="{{ $comment->review->user->district->name ?? ''}}" 
-                    data-ward="{{ $comment->review->user->ward->name ?? ''}}" 
+                    data-full-name="{{ $comment->review->user->full_name ?? ''}}"
+                    data-username="{{ $comnent->review->user->username ?? ''}}"
+                    data-email="{{ $comment->review->user->email ?? ''}}"
+                    data-username="{{ $comment->review->user->username ?? ''}}"
+                    data-phone="{{ $comment->review->user->phone ?? ''}}"
+                    data-address="{{ $comment->review->user->address ?? ''}}"
+                    data-birthday="{{ $comment->review->user->birthday ?? ''}}"
+                    data-province="{{ $comment->review->user->province->name ?? ''}}"
+                    data-district="{{ $comment->review->user->district->name ?? ''}}"
+                    data-ward="{{ $comment->review->user->ward->name ?? ''}}"
                     data-avatar="{{ asset($comment->review->user->avatar) ?? '' }}"
                     style="cursor: pointer;">
                     {{ $comment->review->user->username }}
@@ -31,16 +31,16 @@
             </td>
             <td>
                 <a type="button" class="view-user-detail" data-toggle="tooltip" data-placement="top" title="Chi tiết người dùng"
-                    data-full-name="{{ $comment->user->full_name ?? ''}}" 
-                    data-username="{{ $comnent->user->username ?? ''}}" 
-                    data-email="{{ $comment->user->email ?? ''}}" 
-                    data-username="{{ $comment->user->username ?? ''}}" 
-                    data-phone="{{ $comment->user->phone ?? ''}}" 
-                    data-address="{{ $comment->user->address ?? ''}}" 
-                    data-birthday="{{ $comment->user->birthday ?? ''}}" 
-                    data-province="{{ $comment->user->province->name ?? ''}}" 
-                    data-district="{{ $comment->user->district->name ?? ''}}" 
-                    data-ward="{{ $comment->user->ward->name ?? ''}}" 
+                    data-full-name="{{ $comment->user->full_name ?? ''}}"
+                    data-username="{{ $comnent->user->username ?? ''}}"
+                    data-email="{{ $comment->user->email ?? ''}}"
+                    data-username="{{ $comment->user->username ?? ''}}"
+                    data-phone="{{ $comment->user->phone ?? ''}}"
+                    data-address="{{ $comment->user->address ?? ''}}"
+                    data-birthday="{{ $comment->user->birthday ?? ''}}"
+                    data-province="{{ $comment->user->province->name ?? ''}}"
+                    data-district="{{ $comment->user->district->name ?? ''}}"
+                    data-ward="{{ $comment->user->ward->name ?? ''}}"
                     data-avatar="{{ asset($comment->user->avatar) ?? '' }}"
                     style="cursor: pointer;">
                     {{ $comment->user->username }}
@@ -51,6 +51,8 @@
             <td>{{ $comment->created_at }}</td>
 
             <td>
+                @if(auth()->user()->hasPermission('deleteComment'))
+
                 <form action="" method="POST" data-url="product-comment" style="text-align: center;"
                     class="form-delete">
                     @method("DELETE")
@@ -59,6 +61,11 @@
                     <button class="btn btn-danger center" data-toggle="tooltip" data-placement="top" title="Xóa"><i
                             class="fa fa-trash-o"></i></button>
                 </form>
+                @else
+                        <a href="{{ route('permission.denied') }}" class="btn btn-warning center" title="Không có quyền">
+                            <i class="fa fa-trash-o"></i>
+                        </a> {{-- Hiển thị nút xóa nhưng không cho phép --}}
+                    @endif
             </td>
         </tr>
         @endforeach
