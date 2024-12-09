@@ -28,11 +28,12 @@
         margin: 0 auto 30px;
     }
     .welcome-button {
+        align-items: center; /* Căn giữa theo chiều dọc */
         background-color: #fff;
         color: #4A90E2;
         font-size: 1.2em;
         font-weight: bold;
-        padding: 10px 25px;
+        padding: 10px 25px 30px;
         border-radius: 30px;
         border: none;
         transition: all 0.3s;
@@ -133,7 +134,6 @@
 
             @elseif (auth()->user()->hasPermission('viewRole'))
                 <a href="{{route('admin.role')}}" class="btn welcome-button">Khám Phá Ngay</a>
-
             @endif
 
         </div>
