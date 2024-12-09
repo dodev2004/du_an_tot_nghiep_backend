@@ -23,7 +23,10 @@ class CancelOrderAdmin extends Mailable
 
     public function build()
     {
-        return $this->subject('Đơn hàng của bạn đã được hủy')
+        $status = request()->status;
+        $subject = $status == 7 ? 'Đơn hàng của bạn đã được hủy' : 
+                  ($status == 8 ? 'Đơn hàng của bạn đã được hoàn' : 'Trạng thái đơn hàng');  
+        return $this->subject($subject)
                     ->view('auths.email.cancel')
                     ->with([
                         'order' => $this->order,
