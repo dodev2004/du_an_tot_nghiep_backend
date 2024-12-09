@@ -21,7 +21,7 @@ if (!function_exists('getStatusOption')) {
         } elseif ($order->status === 4) {
             $statusOptions = [
                 5 => 'Đã giao hàng',
-                7 => 'Hủy đơn hàng',
+                8 => 'Hoàn đơn hàng',
             ];
         }
 
@@ -39,6 +39,7 @@ if (!function_exists('getStatusColor')) {
         case 5: return '#28A745'; // Đã giao hàng
         case 6: return 'green'; // Hoàn tất
         case 7: return '#DC3545'; // Hủy đơn
+        case 8: return '#FF5733'; // New color for 'Hoàn đơn'
         default: return '#000000'; // Mặc định
     }
 }
@@ -54,6 +55,7 @@ if (!function_exists('getOrderStatusLabel')) {
         case 5: return 'Đã giao hàng';
         case 6: return 'Hoàn tất';
         case 7: return 'Hủy';
+        case 8: return 'Đơn hoàn';
         default: return 'Không xác định';
     }
 }
@@ -139,7 +141,7 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                                                 onclick="updateOrderStatus({{ $status }}, {{ $order->id }})">{{ $label }}</a>
                                             </li>
                                     @endforeach
-                                    @if ($order->status == 7)
+                                    @if ($order->status == 7 || $order->status == 8)
                                         @if(auth()->user()->hasPermission('deleteOrder'))
 
 
@@ -241,24 +243,30 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
             status: 5,
             label: 'Đã giao hàng'
         },{
-            status: 7,
-            label: 'Hủy đơn hàng'
+            status: 8,
+            label: 'Hoàn đơn hàng'
         });
     }
     else if (currentStatus === 5) {
         options = []
     }
-
+  console.log(currentStatus)
+  let html = '';
     // Thêm các tùy chọn vào dropdown
     options.forEach(function(option) {
-        actionDropdown.innerHTML +=
-            `<li><a href="#" onclick="updateOrderStatus(${option.status}, ${orderId})">${option.label}</a></li>`;
+         html += `<li><a href="#" onclick="updateOrderStatus(${option.status}, ${orderId})">${option.label}</a></li>`;
+        
+      
     });
-
+    if(currentStatus == 8 || currentStatus == 7){
+            html += `    <li><a href="#" onclick="deleteOrder(${orderId})">Xóa đơn hàng</a></li>`
+        }
+    console.log(html);
+    
+    actionDropdown.innerHTML += html;
     // Luôn thêm tùy chọn xóa đơn hàng
-    actionDropdown.innerHTML +=
-    ``;
-        // `<li><a href="#" onclick="deleteOrder(${orderId})">Xóa đơn hàng</a></li>`;
+ 
+        
 }
     function getStatusColor(status) {
     switch (status) {
@@ -268,7 +276,8 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
         case 4: return '#17A2B8'; // Đang giao hàng
         case 5: return '#28A745'; // Đã giao hàng
         case 6: return 'green'; // Hoàn tất
-        case 7: return 'red';
+        case 7: return '#DC3545'; // Hủy đơn
+        case 8: return '#FF5733'; // New color for 'Hoàn đơn'
         default: return '#000000'; // Mặc định
     }
 }
@@ -280,14 +289,15 @@ function getOrderStatusLabel(status) {
         case 4: return 'Đang giao hàng'; // Trạng thái 4: Đơn hàng đã được Đang giao hàng
         case 5: return 'Đã giao hàng';      // Trạng thái 5: Đơn hàng đã được giao
         case 6: return 'Hoàn tất';
-        case 7: return 'Hủy đơn hàng';       // Trạng thái 6: Đơn hàng đã hoàn tất
-        default: return 'Không xác định';   // Trạng thái không xác định
+        case 7: return 'Hủy đơn hàng';
+        case 8: return 'Hoàn đơn hàng';
+        default: return 'Không xác định';
     }
 }
 function deleteOrder(orderId) {
     if (confirm('Bạn có chắc chắn muốn xóa đơn hàng này không?')) {
         $.ajax({
-            url: '/admin/orders/' + orderId, // Đường dẫn đến API xóa đơn hàng
+            url: '/admin/orders/delete/' + orderId, // Đường dẫn đến API xóa đơn hàng
             type: 'DELETE', // Sử dụng phương thức DELETE
             dataType: 'json',
             data: {

@@ -77,6 +77,8 @@
                         return 'Hoàn tất';
                     case 7:
                         return 'Hủy';
+                    case 8:
+                        return 'Hoàn đơn hàng';
                     default:
                         return 'Không xác định';
                 }

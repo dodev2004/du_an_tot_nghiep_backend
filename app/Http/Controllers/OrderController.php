@@ -137,7 +137,7 @@ class OrderController extends Controller
         // Tìm đơn hàng theo ID
         $order = Order::find($request->order_id);
         if ($order) {
-            if ($request->status == 7) {
+            if ($request->status == 7 || $request->status == 8) {
                 if($order->status == 1 || $order->status == 4 ){
                     if ($order->payment_status === 2) {
                         $order->payment_status = 3;
@@ -167,7 +167,7 @@ class OrderController extends Controller
                 }
               
             }
-            if($order->status == 7){
+            if($order->status == 7 || $order->status == 8){
                 return response()->json(['success' => false]);
             }
             else {
@@ -217,5 +217,21 @@ class OrderController extends Controller
         // ]);
         // Trả về file PDF cho người dùng tải về
         return $pdf->stream('hoadon_donhang_' . $orders->id . '.pdf');
+    }
+    public function destroy($id)
+    {
+        $order = Order::with('orderItems')->find($id);
+
+        if ($order) {
+        
+            $order->orderItems()->delete();
+    
+         
+            $order->delete();
+    
+            return response()->json(['success' => true]);
+        }
+    
+        return response()->json(['success' => false, 'message' => 'Order not found']);
     }
 }
