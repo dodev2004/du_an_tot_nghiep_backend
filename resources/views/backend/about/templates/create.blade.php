@@ -65,8 +65,8 @@
                         <div class="form-group">
                             <label for="">Trạng thái</label>
                             <select name="status" id="" class="form-control">
-                                <option value="không hoạt động">Không hoạt động</option>
-                                <option value="hoạt động">Hoạt động</option>
+                                <option value="0">Không hoạt động</option>
+                                <option value="1">Hoạt động</option>
                             </select>
                         </div>
                         <div>

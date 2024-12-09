@@ -53,8 +53,8 @@
                     <div class="form-group">
                         <label for="">Trạng thái</label>
                         <select name="status" id="" class="form-control">
-                            <option value="không hoạt động" @if($aboutPage->status == 'không hoạt động') selected @endif>Không hoạt động</option>
-                            <option value="hoạt động" @if($aboutPage->status == 'hoạt động') selected @endif>Hoạt động</option>
+                            <option value="0" @if($aboutPage->status == 'không hoạt động') selected @endif>Không hoạt động</option>
+                            <option value="1" @if($aboutPage->status == 'hoạt động') selected @endif>Hoạt động</option>
                         </select>
                         
                     </div>

@@ -282,6 +282,26 @@ class OrderController extends Controller
                     $cart->delete();
                 }
             }
+            if ($validatedData['total_amount'] < 1000000) {
+                return response()->json([
+                    'error' => 'Đơn hàng chưa đủ điều kiện để sử dụng mã giảm giá.',
+                ], 400);
+            } elseif ($validatedData['total_amount'] >= 1000000 && $validatedData['total_amount'] < 5000000) {
+                if (!empty($validatedData['discount_amount']) && $validatedData['discount_amount'] > 100000) {
+                    return response()->json([
+                        'error' => 'Đơn hàng chưa đủ điều kiện để sử dụng mã giảm giá.',
+                    ], 400);
+                }
+            } elseif ($validatedData['total_amount'] >= 5000000) {
+                if (!empty($validatedData['discount_code'])) {
+                    $promotion = Promotion::where('code', $validatedData['discount_code'])->first();
+                    if (!$promotion) {
+                        return response()->json([
+                            'error' => 'Mã giảm giá không hợp lệ.',
+                        ], 400);
+                    }
+                }
+            }
             if (!empty($validatedData['discount_code'])) {
                 $promotion = Promotion::where('code', $validatedData['discount_code'])->first();
                 if ($promotion && $promotion->max_uses > $promotion->quantity) {

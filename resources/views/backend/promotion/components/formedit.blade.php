@@ -29,7 +29,6 @@
                 <div class="form-group col-md-6">
                     <label for="discount_type">Loại giảm giá <span style="color: red;">*</span></label>
                     <select name="discount_type" class="form-control" required>
-                        <option value="">Lựa chọn loại giảm giá</option>
                         <option value="fixed"
                             {{ old('discount_type', isset($promotion) && $promotion->discount_type == 'fixed' ? 'selected' : '') }}>
                             Cố định</option>
@@ -50,11 +49,9 @@
                     @endif
                 </div>
 
-                <!-- Trạng thái -->
                 <div class="form-group col-md-6">
                     <label for="status">Trạng thái <span style="color: red;">*</span></label>
                     <select name="status" class="form-control" required>
-                        <option value="">Chọn trạng thái</option>
                         <option value="1" {{ old('status', $promotion->status) == 1 ? 'selected' : '' }}>Hoạt động
                         </option>
                         <option value="0" {{ old('status', $promotion->status) == 0 ? 'selected' : '' }}>Không hoạt động

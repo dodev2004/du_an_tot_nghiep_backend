@@ -138,39 +138,52 @@ class OrderController extends Controller
         $order = Order::find($request->order_id);
         if ($order) {
             if ($request->status == 7) {
-                if ($order->payment_status === 2) {
-                    $order->payment_status = 3;
-                    Mail::to($order->email)->send(new CancelOrderAdmin($order)); 
-
-                }
-                foreach ($order->orderItems as $item) {
-                
-                    if ($item->product_variants_id) {
-                        $variant = ProductVariant::find($item->product_variants_id);
-                        if ($variant) {
-                           
-                            $variant->stock += $item->quantity;
-                            $variant->save();
-                        }
-                    } else {
-                        $product = Product::find($item->product_id);
-                        if ($product) {
-                            $product->stock += $item->quantity;
-                            $product->save();
+                if($order->status == 1 || $order->status == 4 ){
+                    if ($order->payment_status === 2) {
+                        $order->payment_status = 3;
+                        Mail::to($order->email)->send(new CancelOrderAdmin($order)); 
+    
+                    }
+                    foreach ($order->orderItems as $item) {
+                    
+                        if ($item->product_variants_id) {
+                            $variant = ProductVariant::find($item->product_variants_id);
+                            if ($variant) {
+                               
+                                $variant->stock += $item->quantity;
+                                $variant->save();
+                            }
+                        } else {
+                            $product = Product::find($item->product_id);
+                            if ($product) {
+                                $product->stock += $item->quantity;
+                                $product->save();
+                            }
                         }
                     }
                 }
-            }
-            if ($request->status == 5) {
-                if ($order->payment_status == 1) {
-                    $order->payment_status = 2;
+                else {
+                    return response()->json(['success' => false]);
                 }
-                Mail::to($order->email)->send(new OrderReceivedConfirmation($order)); 
+              
             }
-            $order->status = $request->status;
-            $order->save();
+            if($order->status == 7){
+                return response()->json(['success' => false]);
+            }
+            else {
+                if ($request->status == 5) {
+                    if ($order->payment_status == 1) {
+                        $order->payment_status = 2;
+                    }
+                    Mail::to($order->email)->send(new OrderReceivedConfirmation($order)); 
+                }
+                $order->status = $request->status;
+                $order->save();
+                return response()->json(['success' => true, 'newStatus' => $order->status, "newPaymebnt_status" => $order->payment_status]);
+            }
+            
 
-            return response()->json(['success' => true, 'newStatus' => $order->status, "newPaymebnt_status" => $order->payment_status]);
+            
         }
 
         return response()->json(['success' => false]);
@@ -180,7 +193,7 @@ class OrderController extends Controller
     {
 
         $title = "Chi tiết đơn hàng";
-
+        
         $this->breadcrumbs[] = [
             "active" => true,
             "url" => route("admin.orders"),
