@@ -231,16 +231,16 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
             },
             success: function(response) {
                 const statusCell = document.getElementById('order-status-' + currentOrderId);
+                alert('Hủy đơn hàng thành công!');
                         const actionDropdown = document.getElementById('action-dropdown-' + currentOrderId);
-
-                        statusCell.innerText = getOrderStatusLabel(status);
-                        statusCell.style.color = getStatusColor(status);
-
+                      
+                        statusCell.innerText = getOrderStatusLabel(7);
+                        statusCell.style.color = getStatusColor(7);
                         const payment_status = document.querySelector('.payment_status');
                         payment_status.innerText = getOrderPaymentStatusLabel(response.newPayment_status);
                         if(response.newStatus)
-                        updateDropdown(actionDropdown, status, orderId);
-                        alert('Hủy đơn hàng thành công!');
+                        updateDropdown(actionDropdown, 7, currentOrderId);
+                   
             },
             error: function(error) {
                 alert('Có lỗi xảy ra khi hủy đơn hàng.');

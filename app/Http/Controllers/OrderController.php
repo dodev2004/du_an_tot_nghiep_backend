@@ -143,6 +143,7 @@ class OrderController extends Controller
         else {
             $mesage = "Hoàn đơn hàng";
         }
+        
         if ($order) {
             if ($request->status == 7 || $request->status == 8) {
                 if($order->status == 1 || $order->status == 4 ){
