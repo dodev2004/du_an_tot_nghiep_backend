@@ -51,7 +51,8 @@ class PaymentController extends Controller
         $vnp_IpAddr = $request->ip(); // Địa chỉ IP của khách hàng
         $vnp_ExpireDate = date('YmdHis', strtotime('+15 minutes')); // Thời gian hết hạn
 
-        $inputData = array(
+        // Tạo dữ liệu để gửi qua POST
+        $postData = [
             "vnp_Version" => "2.1.0",
             "vnp_TmnCode" => $vnp_TmnCode,
             "vnp_Amount" => $vnp_Amount,
@@ -65,116 +66,94 @@ class PaymentController extends Controller
             "vnp_ReturnUrl" => $vnp_Returnurl,
             "vnp_TxnRef" => $vnp_TxnRef,
             "vnp_ExpireDate" => $vnp_ExpireDate,
-           
-        );
-    
-        
-        if (isset($vnp_BankCode) && $vnp_BankCode != "") {
-            $inputData['vnp_BankCode'] = $vnp_BankCode;
-        }
+            "order_item" => json_encode($order_item)
+        ];
 
-        ksort($inputData);
-    
-        $query = "";
-        $i = 0;
-        $hashdata = "";
-        foreach ($inputData as $key => $value) {
-            if ($i == 1) {
-                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
-            } else {
-                $hashdata .= urlencode($key) . "=" . urlencode($value);
-                $i = 1;
-            }
-            $query .= urlencode($key) . "=" . urlencode($value) . '&';
-        }
-
-        $vnp_Url = $vnp_Url . "?" . $query;
+        // Tạo hash dữ liệu
+        ksort($postData);
+        $hashdata = http_build_query($postData, '', '&', PHP_QUERY_RFC3986);
+      
         if (isset($vnp_HashSecret)) {
-            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret); // Hash dữ liệu
-            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+            $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
+            $postData['vnp_SecureHash'] = $vnpSecureHash;
         }
+
+        // Trả về URL thanh toán cho frontend
+        $paymentUrl = $vnp_Url . '?' . http_build_query($postData);
 
         return response()->json([
             'success' => true,
-            'payment_url' => $vnp_Url
+            'payment_url' => $paymentUrl
         ]);
-}
-
-public function vnpay_return(Request $request)
-{
-    $vnp_HashSecret = env('VNP_HASH_SECRET');
-    $inputData = [];
-    $data = $request->all();
-   
-  
-    // Extract vnp_ parameters
-    foreach ($data as $key => $value) {
-        if (substr($key, 0, 4) == "vnp_") {
-            if ($key == 'vnp_Amount') {
-                $inputData[$key] = (int) $value;
-            }
-            else {
-                $inputData[$key] = $value;
-            }
-           
-        }
     }
 
-    // Check if 'vnp_SecureHash' exists and remove it for verification
-    $vnp_SecureHash = $inputData['vnp_SecureHash'] ?? null;
-    unset($inputData['vnp_SecureHash']);
+    public function vnpay_return(Request $request)
+    {
+        $vnp_HashSecret = env('VNP_HASH_SECRET');
+        $inputData = [];
+        $data = $request->all();
 
-    // Sort parameters and build hash data
-    ksort($inputData);
-   
-    $query = "";
-    $i = 0;
-    $hashdata = "";
-    foreach ($inputData as $key => $value) {
-        if ($i == 1) {
-            $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
-        } else {
-            $hashdata .= urlencode($key) . "=" . urlencode($value);
-            $i = 1;
-        }
-        $query .= urlencode($key) . "=" . urlencode($value) . '&';
-    }
-
-
-    if (isset($vnp_HashSecret)) {
-        $secureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret); 
-  
-       
-    }
-
-    // Verify the signature
-    if ($secureHash === $vnp_SecureHash) {
-        // Check if 'vnp_ResponseCode' exists before using it
-        if (isset($inputData['vnp_ResponseCode']) && $inputData['vnp_ResponseCode'] == '00') {
-            // Xử lý cập nhật database khi thanh toán thành công
-            try {
-                return redirect()->away(env('FRONTEND_URL') . 'order-success?' . http_build_query([
-                    'status' => 'success',
-                    'orderId' => $inputData["vnp_TxnRef"],
-                    'amount' => $inputData['vnp_Amount'] / 100,
-                    'message' => 'Thanh toán thành công'
-                ]));
-                
-            } catch (\Exception $e) {
-                DB::rollBack();
-                return redirect()->away(env('FRONTEND_URL') . 'order-success?' . http_build_query([
-                    'status' => 'error',
-                    'message' => 'Lỗi xử lý thanh toán'
-                ]));
+        foreach ($data as $key => $value) {
+            if (substr($key, 0, 4) == "vnp_") {
+                $inputData[$key] = ($key == 'vnp_Amount') ? (int) $value : $value;
             }
         }
-    }
+        if (isset($data['order_item'])) {
+            $inputData['order_item'] = $data['order_item'];
+        }
     
-    return redirect()->away(env('FRONTEND_URL') . 'order-success?' . http_build_query([
-        'status' => 'failure',
-        'message' => 'Thanh toán thất bại hoặc bị hủy'
-    ]));
-}
 
+        $vnp_SecureHash = $inputData['vnp_SecureHash'] ?? null;
+        unset($inputData['vnp_SecureHash']);
+        ksort($inputData);
+        $hashdata = http_build_query($inputData, '', '&', PHP_QUERY_RFC3986);
+     
+        if (isset($vnp_HashSecret)) {
+            $secureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
+        }
+       
+        if ($secureHash === $vnp_SecureHash) {
+            $order_item = json_decode($inputData['order_item'], true);
+        foreach ($order_item as $item) {
+            $stock = null;
+            $productName = null;
+    
+            if ($item['product_variants_id']) {
+                $variant = ProductVariant::find($item['product_variants_id']);
+                $stock = $variant->stock;
+                $productName = $variant->product->name;
+            } else {
+                $product = Product::find($item['product_id']);
+                $stock = $product->stock;
+                $productName = $product->name;
+            }
+            if ($item['quantity'] > $stock) {
+                return response()->json([
+                    'error' => "Sản phẩm '{$productName}' không đủ số lượng trong kho.",
+                ], 400);
+            }
+        }
+            if (isset($inputData['vnp_ResponseCode']) && $inputData['vnp_ResponseCode'] == '00') {
+                try {
+                    return redirect()->away(env('FRONTEND_URL') . 'order-success?' . http_build_query([
+                        'status' => 'success',
+                        'orderId' => $inputData["vnp_TxnRef"],
+                        'amount' => $inputData['vnp_Amount'] / 100,
+                        'message' => 'Thanh toán thành công'
+                    ]));
+                } catch (\Exception $e) {
+                    DB::rollBack();
+                    return redirect()->away(env('FRONTEND_URL') . 'order-success?' . http_build_query([
+                        'status' => 'error',
+                        'message' => 'Lỗi xử lý thanh toán'
+                    ]));
+                }
+            }
+        }
 
+        return redirect()->away(env('FRONTEND_URL') . 'order-success?' . http_build_query([
+            'status' => 'failure',
+            'message' => 'Thanh toán thất bại hoặc bị hủy'
+        ]));
+    }
 }
