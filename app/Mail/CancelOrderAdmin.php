@@ -15,10 +15,11 @@ class CancelOrderAdmin extends Mailable
     use Queueable, SerializesModels;
 
     public $order;
-
-    public function __construct(Order $order)
+    public $message;
+    public function __construct(Order $order, $message)
     {
         $this->order = $order;
+        $this->message = $message;
     }
 
     public function build()
@@ -30,6 +31,7 @@ class CancelOrderAdmin extends Mailable
                     ->view('auths.email.cancel')
                     ->with([
                         'order' => $this->order,
+                        'message' => $this->message
                     ]);
     }
 }

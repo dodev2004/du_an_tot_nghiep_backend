@@ -174,45 +174,81 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
 </table>
 <script>
     function updateOrderStatus(status, orderId) {
-        if (!confirm("Bạn có chắc chắn muốn thay đổi trạng thái đơn hàng này không?")) {
+        if (status === 7) {
+            currentOrderId = orderId;
+            $('#cancelOrderModal').modal('show');
+        } else {
+            $.ajax({
+                url: '/admin/orders/update-order-status',
+                type: 'PUT',
+                dataType: 'json',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    order_id: orderId,
+                    status: status
+                },
+                success: function(response) {
+                    if (response.success) {
+                      
+                        const statusCell = document.getElementById('order-status-' + orderId);
+                        const actionDropdown = document.getElementById('action-dropdown-' + orderId);
+
+                        statusCell.innerText = getOrderStatusLabel(status);
+                        statusCell.style.color = getStatusColor(status);
+
+                        const payment_status = document.querySelector('.payment_status');
+                        payment_status.innerText = getOrderPaymentStatusLabel(response.newPayment_status);
+                        if(response.newStatus)
+                        updateDropdown(actionDropdown, status, orderId);
+                        alert('Cập nhật trạng thái thành công!');
+                    } else {
+                        alert('Cập nhật trạng thái thất bại!');
+                    }
+                },
+                error: function(xhr) {
+                    console.error(xhr.responseText);
+                    alert('Có lỗi xảy ra. Vui lòng thử lại.');
+                }
+            });
+        }
+    }
+    function confirmCancelOrder() {
+        const reason = document.getElementById('cancelReason').value;
+        if (!reason) {
+            alert('Vui lòng nhập lý do hủy đơn hàng.');
             return;
         }
 
-
+        // Gửi yêu cầu hủy đơn hàng với lý do
         $.ajax({
-            url: '/admin/orders/update-order-status',
-          type: 'PUT',
-            dataType: 'json',
+            url: '/admin/orders/update-order-status', // Đường dẫn API hủy đơn hàng
+            method: 'PUT',
             data: {
+                order_id: currentOrderId,
+                reason: reason,
                 _token: '{{ csrf_token() }}',
-                order_id: orderId,
-                status: status
+                status: 7
             },
             success: function(response) {
-                if (response.success) {
+                const statusCell = document.getElementById('order-status-' + currentOrderId);
+                        const actionDropdown = document.getElementById('action-dropdown-' + currentOrderId);
 
-                    const statusCell = document.getElementById('order-status-' + orderId);
-                    const actionDropdown = document.getElementById('action-dropdown-' + orderId);
+                        statusCell.innerText = getOrderStatusLabel(status);
+                        statusCell.style.color = getStatusColor(status);
 
-
-                    statusCell.innerText = getOrderStatusLabel(status);
-                    statusCell.style.color = getStatusColor(status);
-
-                    const payment_status = document.querySelector('.payment_status');
-                    payment_status.innerText = getOrderPaymentStatusLabel(response.newPaymebnt_status);
-                    if(response.newStatus)
-                    updateDropdown(actionDropdown, status, orderId);
-                } else {
-                    alert('Cập nhật trạng thái thất bại!');
-                }
+                        const payment_status = document.querySelector('.payment_status');
+                        payment_status.innerText = getOrderPaymentStatusLabel(response.newPayment_status);
+                        if(response.newStatus)
+                        updateDropdown(actionDropdown, status, orderId);
+                        alert('Hủy đơn hàng thành công!');
             },
-            error: function(xhr) {
-                console.error(xhr.responseText);
-                alert('Có lỗi xảy ra. Vui lòng thử lại.');
+            error: function(error) {
+                alert('Có lỗi xảy ra khi hủy đơn hàng.');
             }
         });
-    }
 
+        $('#cancelOrderModal').modal('hide');
+    }
     // Hàm cập nhật dropdown dựa trên trạng thái đơn hàng
     function updateDropdown(actionDropdown, currentStatus, orderId) {
     actionDropdown.innerHTML = ''; // Xóa nội dung hiện tại của dropdown
@@ -394,3 +430,24 @@ $(document).ready(function() {
 });
 
 </script>
+
+<!-- Modal -->
+<div class="modal fade" id="cancelOrderModal" tabindex="-1" role="dialog" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelOrderModalLabel">Lý do hủy đơn hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea id="cancelReason" class="form-control" rows="4" placeholder="Nhập lý do hủy đơn hàng..."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" onclick="confirmCancelOrder()">Xác nhận hủy</button>
+            </div>
+        </div>
+    </div>
+</div>

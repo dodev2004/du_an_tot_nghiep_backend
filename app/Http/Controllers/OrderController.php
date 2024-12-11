@@ -136,12 +136,19 @@ class OrderController extends Controller
     {
         // Tìm đơn hàng theo ID
         $order = Order::find($request->order_id);
+        $mesage = "";
+        if($request->has("reason")){
+            $mesage = $request->reason;
+        }
+        else {
+            $mesage = "Hoàn đơn hàng";
+        }
         if ($order) {
             if ($request->status == 7 || $request->status == 8) {
                 if($order->status == 1 || $order->status == 4 ){
                     if ($order->payment_status === 2) {
                         $order->payment_status = 3;
-                        Mail::to($order->email)->send(new CancelOrderAdmin($order)); 
+                        Mail::to($order->email)->send(new CancelOrderAdmin($order, $mesage)); 
     
                     }
                     foreach ($order->orderItems as $item) {
