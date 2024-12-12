@@ -120,10 +120,6 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
     //
     Route::prefix("orders")->group(function () {
         Route::get("list", [OrderController::class, "index"])->name("admin.orders")->middleware('checkPermission:viewOrder');
-        //TRONG DATABASE XOÁ 3 QUYỀN NÀY ĐI VÌ KHÔNG SỬ DỤNG
-        // Route::get("create", [OrderController::class, "create"])->name("admin.orders.create")->middleware('checkPermission:createOrder');
-        // Route::post("store", [OrderController::class, "store"])->name("admin.orders.store")->middleware('checkPermission:storeOrder');
-        // Route::get("{id}/edit", [OrderController::class, "editPost"])->name("admin.orders.edit")->middleware('checkPermission:editOrder');
         Route::put("update-order-status", [OrderController::class, "update"])->name("admin.orders.update")->middleware('checkPermission:updateOrder');
         Route::delete("/delete/{id}", [OrderController::class, "destroy"])->name("admin.orders.delete")->middleware('checkPermission:deleteOrder');
         Route::get("details/{id}", [OrderController::class, "show"])->name("admin.orders.details")->middleware('checkPermission:viewOrderDetails');
@@ -152,14 +148,6 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::get("{id}/edit", [AttributeValueController::class, "edit"])->name("admin.variant.edit")->middleware('checkPermission:editAttributeValue');
         Route::put("{id}/update", [AttributeValueController::class, "update"])->name("admin.variant.update")->middleware('checkPermission:updateAttributeValue');
         Route::delete("/delete", [AttributeValueController::class, "destroy"])->name("admin.variant.delete")->middleware('checkPermission:deleteAttributeValue');
-    });
-    Route::prefix("payment_method")->group(function () {
-        Route::get("list", [PaymentMethodsController::class, "index"])->name("admin.payment_methods")->middleware('checkPermission:viewPaymentMethod');
-        Route::get("create", [PaymentMethodsController::class, "create"])->name("admin.payment_methods.create")->middleware('checkPermission:createPaymentMethod');
-        Route::post("postStore", [PaymentMethodsController::class, "store"])->name("admin.payment_methods.store")->middleware('checkPermission:storePaymentMethod');
-        Route::get("{id}/edit", [PaymentMethodsController::class, "edit"])->name("admin.payment_methods.edit")->middleware('checkPermission:editPaymentMethod');
-        Route::put("{id}/update", [PaymentMethodsController::class, "update"])->name("admin.payment_methods.update")->middleware('checkPermission:updatePaymentMethod');
-        Route::delete('{id}', [PaymentMethodsController::class, 'destroy'])->name('admin.payment_methods.delete')->middleware('checkPermission:deletePaymentMethod');
     });
     Route::prefix('promotions')->group(function () {
         Route::get('/', [PromotionController::class, 'listPromotions'])->name('admin.promotions')->middleware('checkPermission:viewPromotion');
@@ -237,8 +225,6 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
     });
     Route::prefix("customer")->group(function () {
         Route::get("list", [CustomerController::class, "index"])->name("admin.customer")->middleware('checkPermission:viewCustomer');
-        Route::get("create", [CustomerController::class, "create"])->name("admin.customer.create")->middleware('checkPermission:createCustomer');
-        Route::post("postStore", [CustomerController::class, "store"])->name("admin.customer.store")->middleware('checkPermission:storeCustomer');
         // Route::get("{id}/show", [CustomerController::class, "show"])->name("admin.customer.show")->middleware('checkPermission:viewCustomerDetail');
         Route::get("{id}/edit", [CustomerController::class, "edit"])->name("admin.customer.edit")->middleware('checkPermission:editCustomer');
         Route::put("{id}/update", [CustomerController::class, "update"])->name("admin.customer.update")->middleware('checkPermission:updateCustomer');
@@ -291,9 +277,9 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
     });
     Route::prefix("/dashboard")->group(function () {
         // Route::get("list", [DashBoardController::class, "Orderindex"])->name("admin.dashboard_order")->middleware('checkPermission:viewDashboardOrder');
-        Route::get('/orders/filter', [DashBoardController::class, 'filterSalesData'])->name('orders.filter')->middleware('checkPermission:filterSalesData');
-        Route::get('/orders/select', [DashBoardController::class, 'selectSalesData'])->name('orders.select')->middleware('checkPermission:selectSalesData');
-        Route::get('/orders/status/select', [DashBoardController::class, 'selectOrderStatusData'])->name('orders_status.select')->middleware('checkPermission:selectOrderStatusData');
+        Route::get('/orders/filter', [DashBoardController::class, 'filterSalesData'])->name('orders.filter');
+        Route::get('/orders/select', [DashBoardController::class, 'selectSalesData'])->name('orders.select');
+        Route::get('/orders/status/select', [DashBoardController::class, 'selectOrderStatusData'])->name('orders_status.select');
     });
     Route::get('/permission-denied', [ErrorController::class, 'permissionDenied'])->name('permission.denied');
 });
