@@ -72,6 +72,18 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
 }
 
 @endphp
+<style>
+    .loading {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+
+    .spinner-border {
+        width: 1rem;
+        height: 1rem;
+        border-width: 0.2em;
+    }
+</style>
 <table class="table table-striped table-bordered ">
     <thead>
         <tr>
@@ -221,7 +233,9 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
             alert('Vui lòng nhập lý do hủy đơn hàng.');
             return;
         }
-
+        const confirmButton = document.querySelector('#cancelOrderModal .btn-primary');
+        confirmButton.classList.add('loading');
+        confirmButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang xử lý...';
         // Gửi yêu cầu hủy đơn hàng với lý do
         $.ajax({
             url: '/admin/orders/update-order-status', // Đường dẫn API hủy đơn hàng
@@ -252,7 +266,12 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
             },
             error: function(error) {
                 alert('Có lỗi xảy ra khi hủy đơn hàng.');
-            }
+            },
+            complete: function() {
+            confirmButton.classList.remove('loading');
+            confirmButton.innerHTML = 'Xác nhận hủy';
+         }
+            
         });
 
       

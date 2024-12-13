@@ -230,10 +230,10 @@ class OrderController extends Controller
 
         if ($order) {
         
-            $order->orderItems()->delete();
+            $order->orderItems()->forceDelete();
     
          
-            $order->delete();
+            $order->forceDelete();
     
             return response()->json(['success' => true]);
         }
