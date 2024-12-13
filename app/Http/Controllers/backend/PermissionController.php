@@ -32,7 +32,7 @@ class PermissionController extends Controller
 
 
         if ($request->input('seach_text')) {
-            $query->where('description', 'LIKE', '%' . $request->input('seach_text') . '%');
+            $query->where('display_name', 'LIKE', '%' . $request->input('seach_text') . '%');
         }
 
         if ($request->input('group_permission_id')) {
@@ -169,7 +169,7 @@ class PermissionController extends Controller
             "description" => "required",
             'group_permission_id' => 'required|exists:group_permission,id',
         ], [
-            
+
             'display_name.required' => 'Tên quyền không được để trống',
             'description.required' => 'Mô tả không được để trống',
             'group_permission_id.required' => 'Bạn phải chọn nhóm quyền',
