@@ -17,6 +17,7 @@ class StorePostRequest extends FormRequest
             "meta_description" => ["required"],
             "meta_keywords" => ["required"],
             "content"=>["required"],
+            "post_catelogue_id"=>["required"],
 
         ];
     }
@@ -25,7 +26,7 @@ class StorePostRequest extends FormRequest
         return [
             "required" => ":attribute không được để trống",
             "unique" => "Có vẻ đường dẫn này đã tồn tại",
-
+            "post_catelogue_id.required" => "Vui lòng chọn nhóm bài viết",
 
         ];
     }
@@ -33,6 +34,7 @@ class StorePostRequest extends FormRequest
         return [
             "title" => "Tiêu đề bài viết",
             "slug"=> "Đường dẫn",
+            "post_catelogue_id" => "Nhóm bài viết",
         ];
     }
 }

@@ -117,7 +117,7 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                 <td class="text-start">
                     <b>PTT: </b> {{$order->paymentMethod->name}}
                     <br>
-                    <b>Trạng thái tanh toán :</b> <span class="payment_status"> {{getOrderPaymentStatusLabel($order->payment_status)}}</span>
+                    <b>Trạng thái tanh toán :</b> <span class="payment_status-{{$order->id}}"> {{getOrderPaymentStatusLabel($order->payment_status)}}</span>
                 </td>
                 <td class="text-center">
                     <b>Địa chỉ : </b> {{$order->shipping_address}}
@@ -196,8 +196,10 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                         statusCell.innerText = getOrderStatusLabel(status);
                         statusCell.style.color = getStatusColor(status);
 
-                        const payment_status = document.querySelector('.payment_status');
-                        payment_status.innerText = getOrderPaymentStatusLabel(response.newPayment_status);
+                        const payment_status = document.querySelector('.payment_status-'+orderId);
+                     
+                        
+                        payment_status.innerText = getOrderPaymentStatusLabel(response.newPaymebnt_status);
                         if(response.newStatus)
                         updateDropdown(actionDropdown, status, orderId);
                         alert('Cập nhật trạng thái thành công!');
@@ -213,6 +215,7 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
         }
     }
     function confirmCancelOrder() {
+        
         const reason = document.getElementById('cancelReason').value;
         if (!reason) {
             alert('Vui lòng nhập lý do hủy đơn hàng.');
@@ -230,24 +233,29 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                 status: 7
             },
             success: function(response) {
+              
                 const statusCell = document.getElementById('order-status-' + currentOrderId);
-                alert('Hủy đơn hàng thành công!');
+              
                         const actionDropdown = document.getElementById('action-dropdown-' + currentOrderId);
-                      
+                     
+                        
                         statusCell.innerText = getOrderStatusLabel(7);
                         statusCell.style.color = getStatusColor(7);
-                        const payment_status = document.querySelector('.payment_status');
-                        payment_status.innerText = getOrderPaymentStatusLabel(response.newPayment_status);
+                        const payment_status = document.querySelector('.payment_status-'+currentOrderId);
+                      
+                        
+                        payment_status.innerText = getOrderPaymentStatusLabel(response.newPaymebnt_status);
                         if(response.newStatus)
                         updateDropdown(actionDropdown, 7, currentOrderId);
-                   
+                        alert('Hủy đơn hàng thành công!');
+                        $('#cancelOrderModal').modal('hide');
             },
             error: function(error) {
                 alert('Có lỗi xảy ra khi hủy đơn hàng.');
             }
         });
 
-        $('#cancelOrderModal').modal('hide');
+      
     }
     // Hàm cập nhật dropdown dựa trên trạng thái đơn hàng
     function updateDropdown(actionDropdown, currentStatus, orderId) {
@@ -286,7 +294,7 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
     else if (currentStatus === 5) {
         options = []
     }
-  console.log(currentStatus)
+
   let html = '';
     // Thêm các tùy chọn vào dropdown
     options.forEach(function(option) {

@@ -36,26 +36,39 @@
             },
             error : function(error){
             let errors =  error.responseJSON.errors;
-          
+                document.querySelectorAll(".text-danger").forEach(function(message){
+                    message.innerText = ""
+                })
                 Object.keys(errors).forEach(function(error){
                     const input = document.querySelector(`input[name="${error}"]`);
                     const select = document.querySelector(`select[name="${error}"]`)
                     const textarea = document.querySelector(`textarea[name="${error}"]`)
-                   
+              
+                    
+                    
                     if(input){
+                        if(input.type == "text"){
                     const message = input.parentElement.querySelector("span");
-                        message.innerText = errors[error]
-
+                    message.innerText = errors[error]
+                        }
+                        if(input.type == "checkbox"){
+                            const message = document.querySelector(".collapse_catelogue").parentElement.querySelector(".text-danger");    
+                         
+                            message.innerText = errors[error]
+                                                    
+                        }
+                    
+                       
                     }
                     if(select){
                         const message = select.parentElement.querySelector(".message-error");
 
-                        message.innerText = errors[error]
+                        message.innerText = errors[error][0]
                        
                     }
                     if(textarea){
                         const message = textarea.parentElement.querySelector(".text-danger");
-                        console.log(message);
+                    
                         message.innerText = errors[error]
                     }
                 })

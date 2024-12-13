@@ -228,44 +228,53 @@ class ProductController extends Controller
         if(isset($data["variants"])){
            $variants = json_decode($data["variants"]);
         
-           foreach($variants as $item){
-            $skuExists = ProductVariant::where('sku', $item->sku_variant)->exists();
-            
-            if ($skuExists) {
-                // Nếu SKU đã tồn tại, trả về lỗi và rollback lại transaction
-                DB::rollBack();
+           foreach($variants  as $index => $item){
+            $key = $index + 1;
+            if($item->sku_variant == null){
                 return response()->json([
-                    'error_variant' => "Mã sản phẩm với tên:  {$item->sku_variant} đã tồn tại"
+                    'error_variant' => "Mã sản phẩm không được để trống biến thể số $key"
                 ], 400);
             }
-            if (!is_numeric($item->price_variant)) {
+            if($item->price_variant == null){
                 return response()->json([
-                    'error_variant' => "Giá của sản phẩm phải là số. Giá được nhập: {$item->price_variant}"
+                    'error_variant' => "Giá của sản phẩm không được để trống biến thể số $key"
                 ], 400);
             }
-            
-            if ( $item->stock_variant != null &&!is_numeric($item->stock_variant)) {
+            if($item->stock_variant == null){
                 return response()->json([
-                    'error_variant' => "Số lượng của sản phẩm phải là số. Số lượng được nhập: {$item->stock_variant}"
+                    'error_variant' => "Số lượng của sản phẩm không được để trống biến thể số $key"
                 ], 400);
             }
-             $product_variant= ProductVariant::create([
-                "product_id" => $product->id,
-                 "price" => $item->price_variant ? $item->price_variant : 0,
-                 "price" => $item->price_variant ? $item->price_variant : 0,
-                 "image_url" =>$item->variant_image,
-                 "discount_price" => $item->discount_price_variant ? $item->discount_price_variant : 0,
-                 "stock" => $item->stock_variant ? $item->stock_variant : 0,
-                 "sku" => $item->sku_variant ? $item->sku_variant : null,
-             ]);
-             $attributes = explode(",",$item->attribute);
+                if (!is_numeric($item->price_variant)) {
+                    return response()->json([
+                        'error_variant' => "Giá của sản phẩm phải là số. Giá được nhập: {$item->price_variant} biến thể số $key "
+                    ], 400);
+                }
+                
+                if ( $item->stock_variant != null &&!is_numeric($item->stock_variant)) {
+                    return response()->json([
+                        'error_variant' => "Số lượng của sản phẩm phải là số. Số lượng được nhập: {$item->stock_variant} biến thể số $key "
+                    ], 400);
+                }
+                 $product_variant= ProductVariant::create([
+                    "product_id" => $product->id,
+                     "price" => $item->price_variant ? $item->price_variant : 0,
+                     "price" => $item->price_variant ? $item->price_variant : 0,
+                     "image_url" =>$item->variant_image,
+                     "discount_price" => $item->discount_price_variant ? $item->discount_price_variant : 0,
+                     "stock" => $item->stock_variant ? $item->stock_variant : 0,
+                     "sku" => $item->sku_variant ? $item->sku_variant : null,
+                 ]);
+                 $attributes = explode(",",$item->attribute);
+                
+                foreach($attributes as $item){
+                    DB::table("variant_attribute_values")->insert([
+                        "product_variant_id" => $product_variant->id,
+                        "attribute_value_id" => $item
+                    ]);
+                }
             
-            foreach($attributes as $item){
-                DB::table("variant_attribute_values")->insert([
-                    "product_variant_id" => $product_variant->id,
-                    "attribute_value_id" => $item
-                ]);
-            }
+           
            }
         }   
       
@@ -342,11 +351,7 @@ class ProductController extends Controller
                 'discount_percentage' => round($discountPercentage, 2), 
                 'status' => trim($data['status']),
             ];
-    
-            // Cập nhật sản phẩm
             $product->update($dataProduct);
-    
-            // Xóa catalogue hiện tại của sản phẩm và thêm mới lại
             DB::table("product_product_catalogue")->where('product_id', $product->id)->delete();
             if (isset($data["catelogues"])) {
                 $catelogues = explode(",", $data["catelogues"]);
@@ -357,8 +362,6 @@ class ProductController extends Controller
                     ]);
                 }
             }
-    
-            // Xóa gallery hiện tại và thêm mới lại
             DB::table("galleries")->where('product_id', $product->id)->delete();
             if (isset($data["gallery"])) {
                 $galleries = explode(",", $data["gallery"]);
@@ -371,18 +374,29 @@ class ProductController extends Controller
                     ]);
                 }
             }
-    
-            // Xóa và thêm lại các variants
             if (isset($data["variants"])) {
-                // Xóa các variants hiện tại
                 ProductVariant::where('product_id', $product->id)->delete();
-    
                 $variants = json_decode($data["variants"]);
-              
-                foreach ($variants as $item) {
+                foreach ($variants  as $index => $item) {
+                   
                     $skuExists = ProductVariant::where('sku', $item->sku_variant)->exists();
-    
-                  
+                    $key = $index + 1;
+                    if($item->sku_variant == null){
+                        return response()->json([
+                            'error_variant' => "Mã sản phẩm không được để trống biến thể số $key"
+                        ], 400);
+                    }
+                    if($item->price_variant == null){
+                        return response()->json([
+                            'error_variant' => "Giá của sản phẩm không được để trống biến thể số $key"
+                        ], 400);
+                    }
+                   if($item->stock_variant == null){
+                    return response()->json([
+                        'error_variant' => "Số lượng của sản phẩm không được để trống biến thể số $key"
+                    ], 400);
+                   }
+
                     if (!is_numeric($item->price_variant)) {
                         return response()->json([
                             'error_variant' => "Giá của sản phẩm phải là số. Giá được nhập: {$item->price_variant}"
@@ -398,6 +412,7 @@ class ProductController extends Controller
                             'error_variant' => "Số lượng của sản phẩm phải là số. Số lượng được nhập: {$item->stock_variant}"
                         ], 400);
                     }
+                
               
                     $product_variant = ProductVariant::create([
                         "product_id" => $product->id,

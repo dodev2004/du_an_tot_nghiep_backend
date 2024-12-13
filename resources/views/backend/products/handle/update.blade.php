@@ -75,6 +75,7 @@
                 },
                 error: function(error) {
                     let errors = error.responseJSON.errors;
+                    if(errors){
                     Object.keys(errors).forEach(function(error) {
                         const input = document.querySelector(
                             `input[name="${error}"]`);
@@ -94,6 +95,11 @@
                         }
                     })
                 }
+                else {
+                    const error_variant = error.responseJSON.error_variant;
+                    document.querySelector(".error_variant").innerText = error_variant
+                }
+            }
             })
         })
     })

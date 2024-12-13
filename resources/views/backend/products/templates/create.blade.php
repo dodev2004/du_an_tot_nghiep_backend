@@ -319,7 +319,7 @@
                                 <p style="margin: 0 4px;">Sản phẩm có nhiều thể loại, nhiều mức giá</p>
 
                             </div>
-                            <span class="error_variant text-center"></span>
+                            <span class="error_variant text-danger text-center"></span>
                             <div class="attribute_add" style="display:none">
                                 <div class="attribute">
                                     <div class="row">

@@ -136,6 +136,7 @@ class OrderController extends Controller
     {
         // Tìm đơn hàng theo ID
         $order = Order::find($request->order_id);
+
         $mesage = "";
         if($request->has("reason")){
             $mesage = $request->reason;
@@ -150,10 +151,9 @@ class OrderController extends Controller
                     if ($order->payment_status === 2) {
                         $order->payment_status = 3;
                         Mail::to($order->email)->send(new CancelOrderAdmin($order, $mesage)); 
-    
+                        $order->save();
                     }
                     foreach ($order->orderItems as $item) {
-                    
                         if ($item->product_variants_id) {
                             $variant = ProductVariant::find($item->product_variants_id);
                             if ($variant) {
@@ -179,6 +179,7 @@ class OrderController extends Controller
                 return response()->json(['success' => false]);
             }
             else {
+                
                 if ($request->status == 5) {
                     if ($order->payment_status == 1) {
                         $order->payment_status = 2;
@@ -189,9 +190,6 @@ class OrderController extends Controller
                 $order->save();
                 return response()->json(['success' => true, 'newStatus' => $order->status, "newPaymebnt_status" => $order->payment_status]);
             }
-            
-
-            
         }
 
         return response()->json(['success' => false]);
