@@ -41,18 +41,14 @@
             function getStatusColor($status)
             {
                 switch ($status) {
-                    case 1:
-                        return '#FFC107'; // Đang chờ xử lý
-                    case 2:
-                        return '#28A745'; // Đã xác nhận
-                    case 3:
-                        return '#007BFF'; // Đang xử lý
-                    case 4:
-                        return '#17A2B8'; // Xác nhận giao hàng
-                    case 5:
-                        return '#28A745'; // Đã giao hàng
-                    case 6:
-                        return '#DC3545'; // Hủy đơn
+                    case 1: return '#FFC107'; // Đang chờ xử lý
+                    case 2: return '#28A745'; // Đã xác nhận
+                    case 3: return '#007BFF'; // Đang xử lý
+                    case 4: return '#17A2B8'; // Đang giao hàng
+                    case 5: return '#28A745'; // Đã giao hàng
+                    case 6: return 'green'; // Hoàn tất
+                    case 7: return '#DC3545'; // Hủy đơn
+                    case 8: return '#FF5733'; // New color for 'Hoàn đơn'
                     default:
                         return '#000000'; // Mặc định
                 }
