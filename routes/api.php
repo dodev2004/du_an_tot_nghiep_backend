@@ -50,7 +50,7 @@ Route::group(['middleware' => ['api'], 'prefix' => 'auth'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('forgot-password', [AuthController::class, 'forgotPassword']); // Thêm route cho quên mật khẩu
 });
-Route::post('/vnpay/return', [PaymentController::class, 'vnpay_return'])->name('vnpay.return');
+Route::get('/vnpay/return', [PaymentController::class, 'vnpay_return'])->name('vnpay.return');
 Route::middleware(['api', 'jwt.auth'])->group(function () {
     // Các route yêu cầu đăng nhập
     Route::get('auth/profile', [AuthController::class, 'profile']);
