@@ -13,6 +13,7 @@ use App\Models\ProductVariant;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Mail\HuyhangClient;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -401,6 +402,7 @@ class OrderController extends Controller
         // Tìm đơn hàng theo ID
         $order = Order::find($id);
         if(!($order->status == 1)){
+            Mail::to($order->email)->send(new HuyhangClient($order));
             return response()->json([
                 'message' => 'Không thể huỷ đơn hàng',
             ], 400);

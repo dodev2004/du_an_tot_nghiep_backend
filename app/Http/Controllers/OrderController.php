@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Mail\CancelOrder;
 use App\Mail\CancelOrderAdmin;
+use App\Mail\Huyhang;
 use Illuminate\Http\Request;
 use App\Models\ProductVariant;
 use Barryvdh\DomPDF\Facade\Pdf;
