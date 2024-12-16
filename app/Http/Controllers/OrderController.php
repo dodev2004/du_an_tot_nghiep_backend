@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Mail\CancelOrder;
 use App\Mail\CancelOrderAdmin;
+use App\Mail\HoantienAdmin;
 use App\Mail\Huyhang;
 use Illuminate\Http\Request;
 use App\Models\ProductVariant;
@@ -164,13 +165,13 @@ class OrderController extends Controller
                     else if($order->payment_status === 1 && $request->status == 7){
                         // Hủy đơn thanh toán off
                         $order->payment_status = 1;
-                        Mail::to($order->email)->send(new CancelOrderAdmin($order, $mesage)); 
+                        Mail::to($order->email)->send(new Huyhang($order, $mesage)); 
                         $order->save();
                     }
                     else if($order->payment_status === 1 && $request->status == 8){
                         // Hoàn đơn thanh toán off
                         $order->payment_status = 1;
-                        Mail::to($order->email)->send(new CancelOrderAdmin($order, $mesage)); 
+                        Mail::to($order->email)->send(new HoantienAdmin($order, $mesage)); 
                         $order->save();
                     }
                     foreach ($order->orderItems as $item) {

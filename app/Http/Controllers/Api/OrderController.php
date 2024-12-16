@@ -402,7 +402,6 @@ class OrderController extends Controller
         // Tìm đơn hàng theo ID
         $order = Order::find($id);
         if(!($order->status == 1)){
-            Mail::to($order->email)->send(new HuyhangClient($order));
             return response()->json([
                 'message' => 'Không thể huỷ đơn hàng',
             ], 400);
@@ -434,7 +433,9 @@ class OrderController extends Controller
             ]);
             if ($order->payment_status == Order::PAYMENT_STATUS_PAID) {
                 Mail::to($order->email)->send(new CancelOrder($order));
-            }            // Trả về phản hồi thành công
+            } else {
+                Mail::to($order->email)->send(new HuyhangClient($order));
+            }             // Trả về phản hồi thành công
             return response()->json([
                 'status' => 'success',
                 'message' => 'Huỷ đơn hàng thành công!',
