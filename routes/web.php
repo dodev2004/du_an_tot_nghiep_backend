@@ -235,25 +235,25 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
     });
     Route::prefix("group-permission")->group(function () {
         Route::get("list", [GroupPermissionController::class, "index"])->name("admin.group_permission")->middleware('checkPermission:viewGroupPermission');
-        Route::get("create", [GroupPermissionController::class, "create"])->name("admin.group_permission.create")->middleware('checkPermission:createGroupPermission');
-        Route::post("postStore", [GroupPermissionController::class, "store"])->name("admin.group_permission.store")->middleware('checkPermission:storeGroupPermission');
+        // Route::get("create", [GroupPermissionController::class, "create"])->name("admin.group_permission.create")->middleware('checkPermission:createGroupPermission');
+        // Route::post("postStore", [GroupPermissionController::class, "store"])->name("admin.group_permission.store")->middleware('checkPermission:storeGroupPermission');
         Route::get("{id}/edit", [GroupPermissionController::class, "edit"])->name("admin.group_permission.edit")->middleware('checkPermission:editGroupPermission');
         Route::put("{id}/update", [GroupPermissionController::class, "update"])->name("admin.group_permission.update")->middleware('checkPermission:updateGroupPermission');
-        Route::delete("/delete", [GroupPermissionController::class, "destroy"])->name("admin.group_permission.delete")->middleware('checkPermission:deleteGroupPermission');
-        Route::delete("/force-delete", [GroupPermissionController::class, "force_destroy"])->name("admin.group_permission.force_delete")->middleware('checkPermission:forceDeleteGroupPermission');
-        Route::post("{id}/restore", [GroupPermissionController::class, "restore"])->name("admin.group_permission.restore")->middleware('checkPermission:restoreGroupPermission'); //khôi phục
-        Route::get("/trash", [GroupPermissionController::class, "trash"])->name("admin.group_permission.trash")->middleware('checkPermission:viewGroupPermissionTrash'); // Trang thùng rác
+        // Route::delete("/delete", [GroupPermissionController::class, "destroy"])->name("admin.group_permission.delete")->middleware('checkPermission:deleteGroupPermission');
+        // Route::delete("/force-delete", [GroupPermissionController::class, "force_destroy"])->name("admin.group_permission.force_delete")->middleware('checkPermission:forceDeleteGroupPermission');
+        // Route::post("{id}/restore", [GroupPermissionController::class, "restore"])->name("admin.group_permission.restore")->middleware('checkPermission:restoreGroupPermission'); //khôi phục
+        // Route::get("/trash", [GroupPermissionController::class, "trash"])->name("admin.group_permission.trash")->middleware('checkPermission:viewGroupPermissionTrash'); // Trang thùng rác
     });
     Route::prefix("permission")->group(function () {
         Route::get("list", [PermissionController::class, "index"])->name("admin.permission")->middleware('checkPermission:viewPermission');
-        Route::get("create", [PermissionController::class, "create"])->name("admin.permission.create")->middleware('checkPermission:createPermission');
-        Route::post("postStore", [PermissionController::class, "store"])->name("admin.permission.store")->middleware('checkPermission:storePermission');
+        // Route::get("create", [PermissionController::class, "create"])->name("admin.permission.create")->middleware('checkPermission:createPermission');
+        // Route::post("postStore", [PermissionController::class, "store"])->name("admin.permission.store")->middleware('checkPermission:storePermission');
         Route::get("{id}/edit", [PermissionController::class, "edit"])->name("admin.permission.edit")->middleware('checkPermission:editPermission');
         Route::put("{id}/update", [PermissionController::class, "update"])->name("admin.permission.update")->middleware('checkPermission:updatePermission');
-        Route::delete("/delete", [PermissionController::class, "destroy"])->name("admin.permission.delete")->middleware('checkPermission:deletePermission');
-        Route::delete("/force-delete", [PermissionController::class, "force_destroy"])->name("admin.permission.force_delete")->middleware('checkPermission:forceDeletePermission');
-        Route::post("{id}/restore", [PermissionController::class, "restore"])->name("admin.permission.restore")->middleware('checkPermission:restorePermission'); //khôi phục
-        Route::get("/trash", [PermissionController::class, "trash"])->name("admin.permission.trash")->middleware('checkPermission:viewPermissionTrash'); // Trang thùng rác
+        // Route::delete("/delete", [PermissionController::class, "destroy"])->name("admin.permission.delete")->middleware('checkPermission:deletePermission');
+        // Route::delete("/force-delete", [PermissionController::class, "force_destroy"])->name("admin.permission.force_delete")->middleware('checkPermission:forceDeletePermission');
+        // Route::post("{id}/restore", [PermissionController::class, "restore"])->name("admin.permission.restore")->middleware('checkPermission:restorePermission'); //khôi phục
+        // Route::get("/trash", [PermissionController::class, "trash"])->name("admin.permission.trash")->middleware('checkPermission:viewPermissionTrash'); // Trang thùng rác
     });
     Route::prefix("role")->group(function () {
         Route::get("list", [RoleController::class, "index"])->name("admin.role")->middleware('checkPermission:viewRole');

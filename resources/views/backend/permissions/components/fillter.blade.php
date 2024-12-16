@@ -1,6 +1,6 @@
 <div class="ibox-content_top">
 
-    <form action="" method="GET" class="form_seach" style="width: 60%;">
+    <form action="" method="GET" class="form_seach" style="width: 100%;">
         <div class="form-group d-flex align-items-center">
             <div>
                 <label for="seach" class="me-2">Tìm kiếm theo tên quyền:</label>
@@ -51,12 +51,12 @@
     </form>
 
     <div class="total_record">
-        <div style="margin-top: 70px; display: flex; ">
+        {{-- <div style="margin-top: 70px; display: flex; ">
         <a href="{{ route('admin.permission.create') }}" class="btn btn-success"><i
                         class="fa-solid fa-plus"></i> Thêm
                     mới</a>
             <a href="{{ route('admin.permission.trash') }}" class="btn btn-danger" style="margin-left: 10px" data-toggle="tooltip"
                 data-placement="top" title="Thùng rác"><i class="fa fa-trash-o"></i></a>
-        </div>
+        </div> --}}
     </div>
 </div>
