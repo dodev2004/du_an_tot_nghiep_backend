@@ -8,9 +8,9 @@
 
 <div class="total_record">
 
-    <div style="margin-top: 15px;">
+    {{-- <div style="margin-top: 15px;">
     <a href="{{route("admin.group_permission.create")}}"  class="btn btn-success"><i class="fa-solid fa-plus"></i> Thêm mới</a>
         <a href="{{ route('admin.group_permission.trash') }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Thùng rác"><i class="fa fa-trash-o"></i></a>
-    </div>
+    </div> --}}
 </div>
 </div>
