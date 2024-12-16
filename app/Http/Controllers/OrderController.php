@@ -148,7 +148,26 @@ class OrderController extends Controller
         if ($order) {
             if ($request->status == 7 || $request->status == 8) {
                 if($order->status == 1 || $order->status == 4 ){
-                    if ($order->payment_status === 2) {
+                    if ($order->payment_status === 2 && $request->status == 8 ) {
+                        // Hoàn đơn chuyển khoản
+                        $order->payment_status = 3;
+                        Mail::to($order->email)->send(new CancelOrderAdmin($order, $mesage)); 
+                        $order->save();
+                    }
+                    else if ($order->payment_status === 2 && $request->status == 7) {
+                        // Hủy đơn chuyển khoản
+                        $order->payment_status = 1;
+                        Mail::to($order->email)->send(new CancelOrderAdmin($order, $mesage)); 
+                        $order->save();
+                    }
+                    else if($order->payment_status === 1 && $request->status == 7){
+                        // Hủy đơn thanh toán off
+                        $order->payment_status = 2;
+                        Mail::to($order->email)->send(new CancelOrderAdmin($order, $mesage)); 
+                        $order->save();
+                    }
+                    else if($order->payment_status === 1 && $request->status == 8){
+                        // Hoàn đơn thanh toán off
                         $order->payment_status = 3;
                         Mail::to($order->email)->send(new CancelOrderAdmin($order, $mesage)); 
                         $order->save();
