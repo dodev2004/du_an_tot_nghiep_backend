@@ -97,23 +97,19 @@
 
 <body>
     <div class="container">
-        <div class="logo">
-            <img src="{{ asset('path/to/your/logo.png') }}" alt="Logo của bạn">
-        </div>
         <h1>Hóa Đơn Đơn Hàng</h1>
 
         <h3>Thông Tin Khách Hàng</h3>
         <p><strong>Họ Tên:</strong> {{$orders->customer_name}}</p>
         <p><strong>Địa Chỉ:</strong> {{$orders->shipping_address}}</p>
         <p><strong>Email:</strong> {{$orders->customer->email}}</p>
-        <p><strong>Số Điện Thoại:</strong> 0123456789</p>
+        <p><strong>Số Điện Thoại:</strong> {{$orders->phone_number}}</p>
 
         <h3>Chi Tiết Đơn Hàng</h3>
         <table>
             <thead>
                 <tr>
                     <th class="text-center">STT</th>
-                    <th class="text-left">Hình Ảnh</th>
                     <th class="text-left">Thông Tin Sản Phẩm</th>
                     <th class="text-right">Giá</th>
                     <th class="text-right">Số Lượng</th>
@@ -125,11 +121,10 @@
                 <tr>
                     <td class="text-center">{{$index + 1}}</td>
                     <td class="text-left">
-                        <img  src="{{$item->product->image_url}}" width="100" height="100" alt="Hình ảnh sản phẩm">
-                    </td>
-                    <td class="text-left">
                         <strong>Tên Sản Phẩm:</strong>  {{$item->product->name}} <br>
-                        <strong>Lựa Chọn:</strong> {{implode("x",json_decode($item->variant, true))}}
+                        @if($item->variant)
+                        <strong>Loại:</strong> {{implode("x",json_decode($item->variant, true))}}
+                        @endif
                     </td>
                     <td class="text-right">{{number_format($item->price,0)}} đ</td>
                     <td class="text-right">{{$item->quantity}}</td>
@@ -148,8 +143,8 @@
 
         <div class="footer">
             <p>Cảm ơn bạn đã mua sắm tại cửa hàng của chúng tôi!</p>
-            <p>Địa chỉ cửa hàng: [Địa chỉ cửa hàng]</p>
-            <p>Điện thoại: [Số điện thoại]</p>
+            <p>Địa chỉ cửa hàng: Phụng Châu, Chương Mỹ, Hà Nội</p>
+            <p>Điện thoại: 0987654321</p>
         </div>
     </div>
 </body>

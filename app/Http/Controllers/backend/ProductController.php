@@ -374,6 +374,7 @@ class ProductController extends Controller
                     ]);
                 }
             }
+           
             if (isset($data["variants"])) {
                 ProductVariant::where('product_id', $product->id)->delete();
                 $variants = json_decode($data["variants"]);
@@ -438,7 +439,7 @@ class ProductController extends Controller
             return response()->json(["success", "Cập nhật sản phẩm thành công"]);
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e);
+           
             return response()->json(["error", "Cập nhật sản phẩm không thành công"], 500);
         }
     }
