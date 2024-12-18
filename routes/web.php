@@ -121,8 +121,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
     Route::prefix("orders")->group(function () {
         Route::get("list", [OrderController::class, "index"])->name("admin.orders")->middleware('checkPermission:viewOrder');
         Route::put("update-order-status", [OrderController::class, "update"])->name("admin.orders.update")->middleware('checkPermission:updateOrder');
-        //check xem có xóa không
-        Route::delete("/delete/{id}", [OrderController::class, "destroy"])->name("admin.orders.delete");
+        Route::delete("/delete/{id}", [OrderController::class, "destroy"])->name("admin.orders.delete")->middleware('deleteOrder');
         Route::get("details/{id}", [OrderController::class, "show"])->name("admin.orders.details")->middleware('checkPermission:viewOrderDetails');
         Route::get('{id}/export-pdf', [OrderController::class, 'exportPdf'])->name("admin.orders.exportPdf")->middleware('checkPermission:exportOrderPdf');
     });
