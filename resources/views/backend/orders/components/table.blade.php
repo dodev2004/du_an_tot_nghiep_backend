@@ -201,7 +201,7 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                 },
                 success: function(response) {
                     if (response.success) {
-                      
+
                         const statusCell = document.getElementById('order-status-' + orderId);
                         const actionDropdown = document.getElementById('action-dropdown-' + orderId);
 
@@ -209,8 +209,8 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                         statusCell.style.color = getStatusColor(status);
 
                         const payment_status = document.querySelector('.payment_status-'+orderId);
-                     
-                        
+
+
                         payment_status.innerText = getOrderPaymentStatusLabel(response.newPaymebnt_status);
                         if(response.newStatus)
                         updateDropdown(actionDropdown, status, orderId);
@@ -227,7 +227,7 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
         }
     }
     function confirmCancelOrder() {
-        
+
         const reason = document.getElementById('cancelReason').value;
         if (!reason) {
             alert('Vui lòng nhập lý do hủy đơn hàng.');
@@ -247,17 +247,17 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                 status: 7
             },
             success: function(response) {
-              
+
                 const statusCell = document.getElementById('order-status-' + currentOrderId);
-              
+
                         const actionDropdown = document.getElementById('action-dropdown-' + currentOrderId);
-                     
-                        
+
+
                         statusCell.innerText = getOrderStatusLabel(7);
                         statusCell.style.color = getStatusColor(7);
                         const payment_status = document.querySelector('.payment_status-'+currentOrderId);
-                      
-                        
+
+
                         payment_status.innerText = getOrderPaymentStatusLabel(response.newPaymebnt_status);
                         if(response.newStatus)
                         updateDropdown(actionDropdown, 7, currentOrderId);
@@ -271,10 +271,10 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
             confirmButton.classList.remove('loading');
             confirmButton.innerHTML = 'Xác nhận hủy';
          }
-            
+
         });
 
-      
+
     }
     // Hàm cập nhật dropdown dựa trên trạng thái đơn hàng
     function updateDropdown(actionDropdown, currentStatus, orderId) {
@@ -318,18 +318,18 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
     // Thêm các tùy chọn vào dropdown
     options.forEach(function(option) {
          html += `<li><a href="#" onclick="updateOrderStatus(${option.status}, ${orderId})">${option.label}</a></li>`;
-        
-      
+
+
     });
     if(currentStatus == 8 || currentStatus == 7){
             html += `    <li><a href="#" onclick="deleteOrder(${orderId})">Xóa đơn hàng</a></li>`
         }
     console.log(html);
-    
+
     actionDropdown.innerHTML += html;
     // Luôn thêm tùy chọn xóa đơn hàng
- 
-        
+
+
 }
     function getStatusColor(status) {
     switch (status) {
