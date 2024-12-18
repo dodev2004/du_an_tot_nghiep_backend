@@ -145,7 +145,9 @@
                                     <td style="width: 442px;" class="text-left">
                                         <b>Tên sản phẩm : </b> {{$item->product->name}}
                                         <br>
-                                      <b>Lựa chọn : </b> {{implode("x",json_decode($item->variant, true))}}
+                                        @if( $item->variant)
+                                      <b>Lựa chọn : </b>  {{ $item->variant ? implode("x",json_decode($item->variant, true)) : ""}}
+                                      @endif
                                     </td>
                                     <td class="text-right">{{number_format($item->price,0)}} đ</td>
                                     <td class="text-right">{{$item->quantity}}</td>
