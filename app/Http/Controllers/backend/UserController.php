@@ -55,7 +55,7 @@ class UserController extends Controller
             "url" => route("admin.users.create"),
             "name" => "Thêm thành viên"
         ]);
-        $roles = Role::all();
+        $roles = Role::where('name', '!=', 'admin')->get();
         $provinces = $this->provinces->all();
         $title = "Quản lý thành viên";
         $breadcrumbs = $this->breadcrumbs;
@@ -85,7 +85,7 @@ class UserController extends Controller
             "name" => "Sửa thành viên"
         ]);
         $data = $this->users->getUserId($id);
-        $roles = Role::all();
+        $roles = Role::where('name', '!=', 'admin')->get();
         $breadcrumbs = $this->breadcrumbs;
         $provinces = $this->provinces->all();
         $districts = $this->provinces->findDistrictByIdProvince($data->province_id);

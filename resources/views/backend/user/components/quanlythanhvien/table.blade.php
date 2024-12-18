@@ -29,6 +29,8 @@
                     @endif
                 </td>
                 <td>
+                @if(!$user->hasRole('admin'))
+
                     <form name="form_status" action="">
                         @csrf
                         <input type="hidden" name="attribute" value="status">
@@ -37,7 +39,7 @@
                             data-id="{{ $user->id }}" class="js-switch js-switch_{{ $user->id }}"
                             style="display: none;" data-switchery="true">
                     </form>
-
+                @endif
                 </td>
                 <td>
                     <div class="" style="display:flex;justify-content: center;column-gap: 12px">
@@ -54,10 +56,16 @@
                             data-created_at="{{ $user->created_at ?? null }}" style="cursor: pointer;">
                             <i class="fa fa-eye"></i>
                         </a>
+                        @if(!$user->hasRole('admin'))
 
                         <a class="btn btn-sm btn-info" href="{{ route('admin.users.edit', $user->id) }}"
                             title="Chỉnh sửa"><i class="fa fa-pencil"></i></a>
-                        @if(auth()->user()->hasPermission('deleteUser'))
+                        @else
+                        <a href="{{ route('permission.denied') }}" class="btn btn-sm btn-info" title="Không có quyền">
+                        <i class="fa fa-pencil"></i>
+                        </a> {{-- Hiển thị nút xóa nhưng không cho phép --}}
+                        @endif
+                        @if(auth()->user()->hasPermission('deleteUser')&& $user->id != auth()->id()&&!$user->hasRole('admin'))
 
                         <form action="" method="POST" data-url="users" class="form-delete">
                             @method('DELETE')

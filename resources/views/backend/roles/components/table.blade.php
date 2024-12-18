@@ -29,6 +29,7 @@
                 </td>
 
                 <td class="text-center">
+                @if($role->name != 'Admin')
                     <form name="form_status" action="">
                         @csrf
                         <input type="hidden" name="attribute" value="status">
@@ -38,10 +39,13 @@
                             class="js-switch js-switch_{{ $role->id }}" style="display: none;"
                             data-switchery="true">
                     </form>
-
+                @endif
+                
                 </td>
 
                 <th class="text-center">
+                @if($role->name != 'Admin')
+
                     <div style="display: flex; justify-content: center;column-gap: 5px;">
                         <a class="btn btn-sm btn-info" href="{{ route('admin.role.edit', $role->id) }}" data-toggle="tooltip" data-placement="top" title="Sửa thông tin"><i class="fa fa-pencil"></i></a>
                         {{-- <a class="btn btn-sm btn-info" href="{{ route('admin.role.show', $role->id) }}"><i
@@ -60,6 +64,8 @@
                         </a> {{-- Hiển thị nút xóa nhưng không cho phép --}}
                         @endif
                     </div>
+                @endif
+                
                 </th>
             </tr>
         @endforeach

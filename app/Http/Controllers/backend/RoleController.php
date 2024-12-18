@@ -22,7 +22,7 @@ class RoleController extends Controller
             "url" => route("admin.role"),
             "name" => "Quản lý vai trò"
         ];
-        $query = Role::with('permissions')->orderBy('created_at', 'desc');
+        $query = Role::with('permissions')->orderBy('created_at', 'asc');
 
         // Kiểm tra nếu người dùng muốn xem các bản ghi đã bị xóa mềm
         if ($request->input('seach_text')) {
