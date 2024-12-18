@@ -29,6 +29,8 @@
                     @endif
                 </td>
                 <td>
+                @if(!$user->hasRole('admin'))
+
                     <form name="form_status" action="">
                         @csrf
                         <input type="hidden" name="attribute" value="status">
@@ -37,7 +39,7 @@
                             data-id="{{ $user->id }}" class="js-switch js-switch_{{ $user->id }}"
                             style="display: none;" data-switchery="true">
                     </form>
-
+                @endif
                 </td>
                 <td>
                     <div class="" style="display:flex;justify-content: center;column-gap: 12px">
