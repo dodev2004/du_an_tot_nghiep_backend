@@ -23,7 +23,7 @@ class LastDeletePermissionSeeder extends Seeder
 'storeComment', 'storeBrand', 'updateBrand', 'createContact', 'storeContact', 
 'updateContact', 'storeInformation', 'updateInformation', 'storeShippingFee', 
 'updateShippingFee', 'updateCustomer', 'updateGroupPermission', 'updatePermission', 
-'storeRole', 'updateRole', 'storeBanner', 'updateBanner',"updateUserStatus","deleteOrder"
+'storeRole', 'updateRole', 'storeBanner', 'updateBanner',"updateUserStatus"
 
         ];
         // Delete records in the permissions table where name is in the list
