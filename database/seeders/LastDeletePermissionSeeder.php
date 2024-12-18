@@ -15,9 +15,20 @@ class LastDeletePermissionSeeder extends Seeder
     {
         // List of names to delete
         $namesToDelete = [
-            "storeUser,updateUser,storeUserCatelogue,updateUserCatelogue,storePostCatelogue,updatePostCatelogue,storePost,updatePost,storeProduct,updateProduct,storeProductCatelogue,updateProductCatelogue,storeVariantCatelogue,updateVariantCatelogue,storeAttributeValue,updateAttributeValue,storePromotion,updatePromotion,storePromotion,updatePromotion,storeAboutPage,updateAboutPage,storeComment,storeBrand,updateBrand,createContact,storeContact,updateContact,storeInformation,updateInformation,storeShippingFee,updateShippingFee,updateCustomer,updateGroupPermission,updatePermission,storeRole,updateRole,storeBanner,updateBanner,"
+            'storeUser', 'updateUser', 'storeUserCatelogue', 'updateUserCatelogue', 
+'storePostCatelogue', 'updatePostCatelogue', 'storePost', 'updatePost', 
+'storeProduct', 'updateProduct', 'storeProductCatelogue', 'updateProductCatelogue', 
+'storeVariantCatelogue', 'updateVariantCatelogue', 'storeAttributeValue', 'updateAttributeValue', 
+'storePromotion', 'updatePromotion', 'storeAboutPage', 'updateAboutPage', 
+'storeComment', 'storeBrand', 'updateBrand', 'createContact', 'storeContact', 
+'updateContact', 'storeInformation', 'updateInformation', 'storeShippingFee', 
+'updateShippingFee', 'updateCustomer', 'updateGroupPermission', 'updatePermission', 
+'storeRole', 'updateRole', 'storeBanner', 'updateBanner',"updateUserStatus","deleteOrder"
+
         ];
         // Delete records in the permissions table where name is in the list
         DB::table('permissions')->whereIn('name', $namesToDelete)->delete();
+        $this->command->info('Success');
+
     }
 }

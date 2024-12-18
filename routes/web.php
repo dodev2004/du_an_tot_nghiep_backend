@@ -74,7 +74,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
     })->name("showMessage");
     Route::prefix('users')->group(function () {
         Route::get("list", [UserController::class, "listGroupMember"])->name("admin.users")->middleware('checkPermission:viewUser');
-        Route::put("list/change_status", [UserController::class, "updateUserStatus"])->name("admin.users.user_status")->middleware('checkPermission:updateUserStatus');
+        Route::put("list/change_status", [UserController::class, "updateUserStatus"])->name("admin.users.user_status");
         Route::get("create", [UserController::class, "create"])->name("admin.users.create")->middleware('checkPermission:createUser');
         Route::post("store", [UserController::class, "store"])->name("admin.users.store")->middleware('checkPermission:createUser');
         Route::get("edit/{id}", [UserController::class, "editUser"])->name("admin.users.edit")->middleware('checkPermission:editUser');
@@ -121,7 +121,8 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
     Route::prefix("orders")->group(function () {
         Route::get("list", [OrderController::class, "index"])->name("admin.orders")->middleware('checkPermission:viewOrder');
         Route::put("update-order-status", [OrderController::class, "update"])->name("admin.orders.update")->middleware('checkPermission:updateOrder');
-        Route::delete("/delete/{id}", [OrderController::class, "destroy"])->name("admin.orders.delete")->middleware('checkPermission:deleteOrder');
+        //check xem có xóa không
+        Route::delete("/delete/{id}", [OrderController::class, "destroy"])->name("admin.orders.delete");
         Route::get("details/{id}", [OrderController::class, "show"])->name("admin.orders.details")->middleware('checkPermission:viewOrderDetails');
         Route::get('{id}/export-pdf', [OrderController::class, 'exportPdf'])->name("admin.orders.exportPdf")->middleware('checkPermission:exportOrderPdf');
     });
