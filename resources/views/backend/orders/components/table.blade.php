@@ -113,7 +113,7 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
                     <br>
                     <b>SDT: {{$order->phone_number}}</b>
                     <br>
-                    <b>Ngày lên đơn: </b> {{date_format($order->created_at,"d-m-Y")}}
+                     <span style="white-space: nowrap"><b>Ngày lên đơn: </b> {{date_format($order->created_at,"d-m-Y H:i:s")}}</span>
                 </td>
                 <td class="text-end">
                     {{number_format($order->total_amount)}} đ
