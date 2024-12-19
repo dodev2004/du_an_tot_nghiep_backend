@@ -157,7 +157,9 @@ class PromotionController extends Controller
             "status",
             "start_date",
             "end_date",
-            "max_uses"
+            "max_uses",
+            'gt_don_hang_toi_thieu',
+            'gia_tri_giam_toi_da',
         ]);
         $promotion->update($data);
         return redirect()->route('admin.promotions')->with('success', 'Cập nhật khuyến mãi thành công');
