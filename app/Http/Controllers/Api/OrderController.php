@@ -279,7 +279,23 @@ class OrderController extends Controller
                     // Xóa mục giỏ hàng
                     $cart->delete();
                 }
+            }  
+             if ($validatedData['payment_method_id'] == 3){
+                if (!empty($validatedData['discount_code'])) {
+                    $promotion = Promotion::where('code', $validatedData['discount_code'])->first();
+                    if ($promotion && $promotion->max_uses > $promotion->quantity) {
+                    $order->discount_amount = $promotion->discount_value;
+                        $order->final_amount = $order->total_amount - $order->discount_amount;
+                        $order->save();
+                        $promotion->quantity += 1;
+                        $promotion->used_count += 1;
+                        $promotion->save();
+                    } else {
+                        throw new \Exception('Mã giảm giá không hợp lệ.');
+                    }
+                }
             }
+            
             $order->final_amount = $order->total_amount - $order->discount_amount + $order->shipping_fee;
             $order->save();
             DB::commit();
