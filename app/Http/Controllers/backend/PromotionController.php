@@ -73,6 +73,8 @@ class PromotionController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'max_uses' => 'required|integer|min:1',
             'used_count' => 'integer|min:0',
+            'gt_don_hang_toi_thieu' => 'required|numeric|min:0', // Thêm validate cho giá trị đơn hàng tối thiểu
+            'gia_tri_giam_toi_da' => 'required|numeric|min:0', // Thêm validate cho giá trị giảm tối đa
         ], [
             "code.required" => "Mã khuyến mãi không được để trống ",
             "code.unique" => "Mã khuyến mãi này đã tồn tại ",
@@ -85,7 +87,13 @@ class PromotionController extends Controller
             "end_date.required" => "Vui lòng chọn ngày kết thúc",
             "end_date.after_or_equal" => "Ngày kết thúc phải sau hoặc bằng ngày bắt đầu",
             "max_uses.required" => "Vui lòng nhập số lượt sử dụng tối đa",
-            "max_uses.min" => "Số lượt sử dụng tối đa phải lớn hơn 0"
+            "max_uses.min" => "Số lượt sử dụng tối đa phải lớn hơn 0",
+            "gt_don_hang_toi_thieu.required" => "Giá trị đơn hàng tối thiểu không được để trống",
+            "gt_don_hang_toi_thieu.numeric" => "Giá trị đơn hàng tối thiểu phải là số",
+            "gt_don_hang_toi_thieu.min" => "Giá trị đơn hàng tối thiểu phải lớn hơn hoặc bằng 0",
+            "gia_tri_giam_toi_da.required" => "Giá trị giảm tối đa không được để trống",
+            "gia_tri_giam_toi_da.numeric" => "Giá trị giảm tối đa phải là số",
+            "gia_tri_giam_toi_da.min" => "Giá trị giảm tối đa phải lớn hơn hoặc bằng 0"
         ]);
         Promotion::create($validatedData);
         return redirect()->route('admin.promotions')->with('success', 'Promotion added successfully.');
@@ -120,6 +128,8 @@ class PromotionController extends Controller
             'start_date' => 'required|date',
             "end_date" => ["required", "date", "after_or_equal:start_date"],
             "max_uses" => ["required", "integer", "min:1"],
+            'gt_don_hang_toi_thieu' => 'required|numeric|min:0', // Thêm validate cho giá trị đơn hàng tối thiểu
+            'gia_tri_giam_toi_da' => 'required|numeric|min:0',
         ], [
             "code.required" => "Mã khuyến mãi không được để trống",
             "code.unique" => "Mã khuyến mãi này đã tồn tại",
@@ -131,7 +141,13 @@ class PromotionController extends Controller
             "end_date.required" => "Vui lòng chọn ngày kết thúc",
             "end_date.after_or_equal" => "Ngày kết thúc phải sau hoặc bằng ngày bắt đầu",
             "max_uses.required" => "Vui lòng nhập số lượt sử dụng tối đa",
-            "max_uses.min" => "Số lượt sử dụng tối đa phải lớn hơn 0"
+            "max_uses.min" => "Số lượt sử dụng tối đa phải lớn hơn 0",
+            "gt_don_hang_toi_thieu.required" => "Giá trị đơn hàng tối thiểu không được để trống",
+    "gt_don_hang_toi_thieu.numeric" => "Giá trị đơn hàng tối thiểu phải là số",
+    "gt_don_hang_toi_thieu.min" => "Giá trị đơn hàng tối thiểu phải lớn hơn hoặc bằng 0",
+    "gia_tri_giam_toi_da.required" => "Giá trị giảm tối đa không được để trống",
+    "gia_tri_giam_toi_da.numeric" => "Giá trị giảm tối đa phải là số",
+    "gia_tri_giam_toi_da.min" => "Giá trị giảm tối đa phải lớn hơn hoặc bằng 0"
         ]);
         $promotion = $this->promotions->getPromotionById($id);
         $data = $request->only([

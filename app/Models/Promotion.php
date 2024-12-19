@@ -18,7 +18,9 @@ class Promotion extends Model
         'end_date', 
         'max_uses',
         'quantity',
-        'used_count'
+        'used_count',
+        "gt_don_hang_toi_thieu",
+        "gia_tri_giam_toi_da"
     ];
     protected $table = "promotions";
     protected $casts = [

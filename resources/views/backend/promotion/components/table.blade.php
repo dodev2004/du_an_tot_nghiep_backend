@@ -5,6 +5,8 @@
             <th>Mã</th>
             <th>Loại giảm giá</th>
             <th>Giá trị giảm</th>
+            <th>Giá trị giảm tối đa</th>
+            <th>Giá trị đơn hàng tối thiểu</th>
             <th>Trạng thái</th>
             <th>Ngày bắt đầu</th>
             <th>Ngày kết thúc</th>
@@ -19,7 +21,9 @@
             <!-- <td>{{ $index + 1 + ($data->currentPage() - 1) * $data->perPage() }}</td> -->
             <td>{{ $promotion->code }}</td>
             <td>{{ $promotion->discount_type == 'fixed' ? 'Cố định' : 'Phần trăm' }}</td>
-            <td>{{ $promotion->discount_value }}</td>
+            <td>{{ $promotion->discount_value ? number_format($promotion->discount_value) : 0 }}</td>
+            <td>{{ $promotion->gia_tri_giam_toi_da ?  number_format($promotion->gia_tri_giam_toi_da ): 0 }}</td>
+            <td>{{ $promotion->gt_don_hang_toi_thieu  ? number_format($promotion->gt_don_hang_toi_thieu) : 0}}</td>
             <td>
                 <span class="badge {{ $promotion->status == 'active' ? 'badge-success' : 'badge-warning' }}">
                     {{ $promotion->status == 'active' ? 'Hoạt động' : 'Không hoạt động' }}

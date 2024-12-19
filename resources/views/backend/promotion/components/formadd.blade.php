@@ -38,6 +38,22 @@
                     <p class="text-danger">{{ $errors->first('discount_value') }}</p>
                     @endif
                 </div>
+                <div class="form-group col-md-6">
+                    <label for="gia_tri_giam_toi_da">Giá trị giảm tối đa <span style="color: red;">*</span></label>
+                    <input type="number" class="form-control" id="gia_tri_giam_toi_da" name="gia_tri_giam_toi_da"
+                        value="{{ old('gia_tri_giam_toi_da') }}" required>
+                    @if ($errors->has('gia_tri_giam_toi_da'))
+                    <p class="text-danger">{{ $errors->first('gia_tri_giam_toi_da') }}</p>
+                    @endif
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="gt_don_hang_toi_thieu">Giá trị đơn hàng tối thiểu <span style="color: red;">*</span></label>
+                    <input type="number" class="form-control" id="gt_don_hang_toi_thieu" name="gt_don_hang_toi_thieu"
+                        value="{{ old('gt_don_hang_toi_thieu') }}" required>
+                    @if ($errors->has('gt_don_hang_toi_thieu'))
+                    <p class="text-danger">{{ $errors->first('gt_don_hang_toi_thieu') }}</p>
+                    @endif
+                </div>
 
                 <div class="form-group col-md-6">
                     <label for="status">Trạng thái <span style="color: red;">*</span></label>
