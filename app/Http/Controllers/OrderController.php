@@ -138,7 +138,8 @@ class OrderController extends Controller
     {
         // Tìm đơn hàng theo ID
         $order = Order::find($request->order_id);
-
+        $type_cancel = $request->type ? $request->type : "";
+        
         $mesage = "";
         if($request->has("reason")){
             $mesage = $request->reason;
@@ -175,20 +176,42 @@ class OrderController extends Controller
                         $order->save();
                     }
                     foreach ($order->orderItems as $item) {
-                        if ($item->product_variants_id) {
-                            $variant = ProductVariant::find($item->product_variants_id);
-                            if ($variant) {
-                               
-                                $variant->stock += $item->quantity;
-                                $variant->save();
+                        if($type_cancel){
+                            if($type_cancel != 1 ){
+                                if ($item->product_variants_id) {
+                                    $variant = ProductVariant::find($item->product_variants_id);
+                                    if ($variant) {
+                                       
+                                        $variant->stock += $item->quantity;
+                                        $variant->save();
+                                    }
+                                } else {
+                                    $product = Product::find($item->product_id);
+                                    if ($product) {
+                                        $product->stock += $item->quantity;
+                                        $product->save();
+                                    }
+                                }
                             }
-                        } else {
-                            $product = Product::find($item->product_id);
-                            if ($product) {
-                                $product->stock += $item->quantity;
-                                $product->save();
+                            
+                        }
+                        else {
+                            if ($item->product_variants_id) {
+                                $variant = ProductVariant::find($item->product_variants_id);
+                                if ($variant) {
+                                   
+                                    $variant->stock += $item->quantity;
+                                    $variant->save();
+                                }
+                            } else {
+                                $product = Product::find($item->product_id);
+                                if ($product) {
+                                    $product->stock += $item->quantity;
+                                    $product->save();
+                                }
                             }
                         }
+                       
                     }
                 }
                 else {
