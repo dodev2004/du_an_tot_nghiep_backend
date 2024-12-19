@@ -261,7 +261,6 @@ class OrderController extends Controller
             foreach ($carts as $cartId) {
                 $cart = Cart::find($cartId);
                 if ($cart) {
-                    dd($cart);
                     if ($cart->product_variants_id) {
                        
                         $variant = $cart->productVariant;
