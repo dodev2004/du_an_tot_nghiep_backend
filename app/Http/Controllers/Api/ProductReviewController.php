@@ -23,6 +23,7 @@ class ProductReviewController extends Controller
 
         // Kiểm tra xem có tham số rating trong request hay không
         $query = ProductReview::where('product_id', $id)
+            ->where('status', 1)
             ->with([
                 'user:id,username,avatar', 
                 'comments:id,comment,created_at,review_id',
@@ -99,6 +100,7 @@ class ProductReviewController extends Controller
             'user_id' => Auth::id(),
             'rating' => $request->rating,
             'review' => $request->review,
+            'status' => 1,
         ]);
 
         DB::transaction(function () use ($product) {

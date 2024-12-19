@@ -53,7 +53,7 @@ class ProductReviewController extends Controller
         
         $breadcrumbs = $this->breadcrumbs;
         $query = ProductReview::with(['orderItem.order.user'])->where('product_id', $id);
-
+        $table="product_reviews";
 
         $searchText = $request->get('search_text');
         if (!empty($searchText)) {
@@ -89,6 +89,6 @@ class ProductReviewController extends Controller
    
         $data = $query->orderBy('created_at', 'desc')->paginate(10); 
            
-        return view("backend.product_review.templates.review", compact( 'products','title', 'breadcrumbs', 'data'));
+        return view("backend.product_review.templates.review", compact( 'products','title', 'breadcrumbs','table', 'data'));
     }
 }
