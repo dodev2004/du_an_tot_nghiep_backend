@@ -59,10 +59,26 @@
     @include('backend.promotion.handles.update');
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $(".attribute_id").select2({
-
-            });
-        })
-    </script>
+        function handleDiscountTypeChange() {
+            const discountType = document.getElementById('discount_type').value;
+            const discountValue = document.getElementById('discount_value');
+            const giaTriGiamToiDa = document.getElementById('gia_tri_giam_toi_da');
+        
+            if (discountType === 'percentage') {
+                discountValue.placeholder = 'Nhập phần trăm giảm giá';
+                giaTriGiamToiDa.disabled = false;
+                discountValue.max = 100;
+            } else {
+                discountValue.placeholder = 'Nhập giá tiền';
+                giaTriGiamToiDa.disabled = true;
+                giaTriGiamToiDa.value = '';
+                discountValue.removeAttribute('max');
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            handleDiscountTypeChange();
+        });
+        </script>
 @endpush

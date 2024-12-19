@@ -28,30 +28,34 @@
                 <!-- Loại giảm giá -->
                 <div class="form-group col-md-6">
                     <label for="discount_type">Loại giảm giá <span style="color: red;">*</span></label>
-                    <select name="discount_type" class="form-control" required>
-                        <option value="fixed"
+                    <select id="discount_type" name="discount_type" class="form-control" required onchange="handleDiscountTypeChange()">
+                        <option value="fixed" 
                             {{ old('discount_type', isset($promotion) && $promotion->discount_type == 'fixed' ? 'selected' : '') }}>
                             Cố định</option>
+                        <option value="percentage"
+                            {{ old('discount_type', isset($promotion) && $promotion->discount_type == 'percentage' ? 'selected' : '') }}>
+                            Phần trăm</option>
                     </select>
                     @if($errors->has('discount_type'))
                     <p class="text-danger">{{ $errors->first('discount_type') }}</p>
                     @endif
                 </div>
-
-                <!-- Giá trị giảm -->
+                
                 <div class="form-group col-md-6">
                     <label for="discount_value">Giá trị giảm <span style="color: red;">*</span></label>
-                    <input type="number" name="discount_value" class="form-control"
+                    <input type="number" id="discount_value" name="discount_value" class="form-control"
                         value="{{ old('discount_value', isset($promotion) ? (int)$promotion->discount_value : '') }}"
                         required>
                     @if($errors->has('discount_value'))
                     <p class="text-danger">{{ $errors->first('discount_value') }}</p>
                     @endif
                 </div>
+                
                 <div class="form-group col-md-6">
                     <label for="gia_tri_giam_toi_da">Giá trị giảm tối đa <span style="color: red;">*</span></label>
                     <input type="number" class="form-control" id="gia_tri_giam_toi_da" name="gia_tri_giam_toi_da"
-                        value="{{ old('gia_tri_giam_toi_da', isset($promotion) ? $promotion->gia_tri_giam_toi_da : '') }}" required>
+                        value="{{ old('gia_tri_giam_toi_da', isset($promotion) ? $promotion->gia_tri_giam_toi_da : '') }}" 
+                        required>
                     @if ($errors->has('gia_tri_giam_toi_da'))
                     <p class="text-danger">{{ $errors->first('gia_tri_giam_toi_da') }}</p>
                     @endif

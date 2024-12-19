@@ -1,7 +1,7 @@
 @extends('backend.index')
 @section('style')
-    @include('backend.components.head')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" href="{{ asset('backend/css/upload.css') }}">
+@include('backend.components.head')
+   
     <style>
         .form-user_create .row .col-md-6 {
             flex: 0 0 auto !important;
@@ -54,12 +54,27 @@
 @endsection
 @push("scripts")
 @include('backend.components.scripts');
-@include("backend.promotion.handles.add");
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-   $(document).ready(function(){
-    $(".attribute_id").select2({
-       
-    });
-   })
+    function handleDiscountTypeChange() {
+    const discountType = document.getElementById('discount_type').value;
+    const discountValue = document.getElementById('discount_value');
+    const giaTriGiamToiDa = document.getElementById('gia_tri_giam_toi_da');
+
+    if (discountType === 'percentage') {
+        discountValue.placeholder = 'Nhập phần trăm giảm giá';
+        giaTriGiamToiDa.disabled = false;
+        discountValue.max = 100;
+    } else {
+        discountValue.placeholder = 'Nhập giá tiền';
+        giaTriGiamToiDa.disabled = true;
+        giaTriGiamToiDa.value = '';
+        discountValue.removeAttribute('max');
+    }
+}
+
+// Gọi hàm khi trang được tải để set giá trị ban đầu
+document.addEventListener('DOMContentLoaded', function() {
+    handleDiscountTypeChange();
+});
 </script>
+@endpush

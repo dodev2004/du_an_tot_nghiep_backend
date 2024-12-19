@@ -374,9 +374,9 @@ class ProductController extends Controller
                     ]);
                 }
             }
-            ProductVariant::where('product_id', $product->id)->delete();
+           
             if (isset($data["variants"])) {
-                
+                ProductVariant::where('product_id', $product->id)->delete();
                
                 $variants = json_decode($data["variants"]);
                 foreach ($variants  as $index => $item) {

@@ -21,27 +21,29 @@
 
                 <div class="form-group col-md-6">
                     <label for="discount_type">Loại giảm giá <span style="color: red;">*</span></label>
-                    <select id="discount_type" class="form-control" name="discount_type" required>
+                    <select id="discount_type" class="form-control" name="discount_type" required onchange="handleDiscountTypeChange()">
                         <option value="fixed" {{ old('discount_type') == 'fixed' ? 'selected' : '' }}>Cố định</option>
+                        <option value="percentage" {{ old('discount_type') == 'percentage' ? 'selected' : '' }}>Phần trăm</option>
                     </select>
                     @if ($errors->has('discount_type'))
                     <p class="text-danger">{{ $errors->first('discount_type') }}</p>
                     @endif
                 </div>
                 
-
                 <div class="form-group col-md-6">
                     <label for="discount_value">Giá trị giảm <span style="color: red;">*</span></label>
                     <input type="number" class="form-control" id="discount_value" name="discount_value"
-                        value="{{ old('discount_value') }}" required>
+                        value="{{ old('discount_value') }}" required
+                        placeholder="Nhập giá tiền">
                     @if ($errors->has('discount_value'))
                     <p class="text-danger">{{ $errors->first('discount_value') }}</p>
                     @endif
                 </div>
+                
                 <div class="form-group col-md-6">
                     <label for="gia_tri_giam_toi_da">Giá trị giảm tối đa <span style="color: red;">*</span></label>
                     <input type="number" class="form-control" id="gia_tri_giam_toi_da" name="gia_tri_giam_toi_da"
-                        value="{{ old('gia_tri_giam_toi_da') }}" required>
+                        value="{{ old('gia_tri_giam_toi_da') }}" required disabled>
                     @if ($errors->has('gia_tri_giam_toi_da'))
                     <p class="text-danger">{{ $errors->first('gia_tri_giam_toi_da') }}</p>
                     @endif
