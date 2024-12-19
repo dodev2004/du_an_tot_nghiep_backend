@@ -374,9 +374,10 @@ class ProductController extends Controller
                     ]);
                 }
             }
-           
+            ProductVariant::where('product_id', $product->id)->delete();
             if (isset($data["variants"])) {
-                ProductVariant::where('product_id', $product->id)->delete();
+                
+               
                 $variants = json_decode($data["variants"]);
                 foreach ($variants  as $index => $item) {
                    
@@ -397,7 +398,6 @@ class ProductController extends Controller
                         'error_variant' => "Số lượng của sản phẩm không được để trống biến thể số $key"
                     ], 400);
                    }
-
                     if (!is_numeric($item->price_variant)) {
                         return response()->json([
                             'error_variant' => "Giá của sản phẩm phải là số. Giá được nhập: {$item->price_variant}"
@@ -413,8 +413,6 @@ class ProductController extends Controller
                             'error_variant' => "Số lượng của sản phẩm phải là số. Số lượng được nhập: {$item->stock_variant}"
                         ], 400);
                     }
-                
-              
                     $product_variant = ProductVariant::create([
                         "product_id" => $product->id,
                         "price" => $item->price_variant ? $item->price_variant : 0,
@@ -439,7 +437,7 @@ class ProductController extends Controller
             return response()->json(["success", "Cập nhật sản phẩm thành công"]);
         } catch (\Exception $e) {
             DB::rollBack();
-           
+           dd($e);
             return response()->json(["error", "Cập nhật sản phẩm không thành công"], 500);
         }
     }
