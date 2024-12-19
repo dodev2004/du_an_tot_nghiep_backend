@@ -250,7 +250,7 @@ class OrderController extends Controller
                 }
             }
         }
-        dd($validatedData);
+
         DB::beginTransaction();
         try {
             // Tạo đơn hàng mới
