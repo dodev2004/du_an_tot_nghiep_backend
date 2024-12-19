@@ -15,6 +15,7 @@ class LastDeleteGroupPermissionSeeder extends Seeder
     {
         // Xóa các bản ghi trong bảng permissions có group_permission_id = 2
         DB::table('permissions')->where('group_permission_id', 2)->delete();
+        DB::table('permissions')->where('name', 'showRole')->delete();
 
         // Xóa bản ghi có id = 2 trong bảng group_permission
         DB::table('group_permission')->where('id', 2)->delete();

@@ -257,7 +257,7 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::get("list", [RoleController::class, "index"])->name("admin.role")->middleware('checkPermission:viewRole');
         Route::get("create", [RoleController::class, "create"])->name("admin.role.create")->middleware('checkPermission:createRole');
         Route::post("postStore", [RoleController::class, "store"])->name("admin.role.store")->middleware('checkPermission:createRole');
-        Route::get("{id}/show", [RoleController::class, "show"])->name("admin.role.show")->middleware('checkPermission:showRole');
+        // Route::get("{id}/show", [RoleController::class, "show"])->name("admin.role.show")->middleware('checkPermission:showRole');
         Route::get("{id}/edit", [RoleController::class, "edit"])->name("admin.role.edit")->middleware('checkPermission:editRole');
         Route::put("{id}/update", [RoleController::class, "update"])->name("admin.role.update")->middleware('checkPermission:editRole');
         Route::delete("/delete", [RoleController::class, "destroy"])->name("admin.role.delete")->middleware('checkPermission:deleteRole');
