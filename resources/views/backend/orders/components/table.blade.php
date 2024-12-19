@@ -475,8 +475,8 @@ $(document).ready(function() {
                 <br>
                 <label for="cancelType">Loại hủy:</label>
                 <select id="cancelType" class="form-control">
-                    <option value="1">Hủy hết hàng trong kho</option>
                     <option value="2">Lý do khác</option>
+                    <option value="1">Hủy hết hàng trong kho</option>
                 </select>
             </div>
             <div class="modal-footer">
