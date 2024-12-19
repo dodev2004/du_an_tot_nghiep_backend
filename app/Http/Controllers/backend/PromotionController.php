@@ -74,7 +74,7 @@ class PromotionController extends Controller
             'max_uses' => 'required|integer|min:1',
             'used_count' => 'integer|min:0',
             'gt_don_hang_toi_thieu' => 'required|numeric|min:0', // Thêm validate cho giá trị đơn hàng tối thiểu
-            'gia_tri_giam_toi_da' => 'required|numeric|min:0', // Thêm validate cho giá trị giảm tối đa
+            'gia_tri_giam_toi_da' => 'required_if:discount_type,percentage|numeric|min:0', // Thêm validate cho giá trị giảm tối đa
         ], [
             "code.required" => "Mã khuyến mãi không được để trống ",
             "code.unique" => "Mã khuyến mãi này đã tồn tại ",
@@ -132,7 +132,7 @@ class PromotionController extends Controller
             "end_date" => ["required", "date", "after_or_equal:start_date"],
             "max_uses" => ["required", "integer", "min:1"],
             'gt_don_hang_toi_thieu' => 'required|numeric|min:0', // Thêm validate cho giá trị đơn hàng tối thiểu
-            'gia_tri_giam_toi_da' => 'required|numeric|min:0',
+            'gia_tri_giam_toi_da' => 'required_if:discount_type,percentage|numeric|min:0',
         ], [
             "code.required" => "Mã khuyến mãi không được để trống",
             "code.unique" => "Mã khuyến mãi này đã tồn tại",
