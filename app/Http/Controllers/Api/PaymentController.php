@@ -96,7 +96,8 @@ class PaymentController extends Controller
 
         return response()->json([
             'success' => true,
-            'payment_url' => $vnp_Url
+            'payment_url' => $vnp_Url,
+            
         ]);
 }
 
