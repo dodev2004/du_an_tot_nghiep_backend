@@ -229,6 +229,7 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
     function confirmCancelOrder() {
 
         const reason = document.getElementById('cancelReason').value;
+        var cancelType = document.getElementById('cancelType').value;
         if (!reason) {
             alert('Vui lòng nhập lý do hủy đơn hàng.');
             return;
@@ -243,6 +244,7 @@ if (!function_exists('getOrderPaymentStatusLabel')) {
             data: {
                 order_id: currentOrderId,
                 reason: reason,
+                type: cancelType,
                 _token: '{{ csrf_token() }}',
                 status: 7
             },
@@ -470,6 +472,12 @@ $(document).ready(function() {
             </div>
             <div class="modal-body">
                 <textarea id="cancelReason" class="form-control" rows="4" placeholder="Nhập lý do hủy đơn hàng..."></textarea>
+                <br>
+                <label for="cancelType">Loại hủy:</label>
+                <select id="cancelType" class="form-control">
+                    <option value="1">Hủy hết hàng trong kho</option>
+                    <option value="2">Lý do khác</option>
+                </select>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
