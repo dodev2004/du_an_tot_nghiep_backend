@@ -280,7 +280,6 @@ class OrderController extends Controller
                     $cart->delete();
                 }
             }
-        
             $order->final_amount = $order->total_amount - $order->discount_amount + $order->shipping_fee;
             $order->save();
             DB::commit();
