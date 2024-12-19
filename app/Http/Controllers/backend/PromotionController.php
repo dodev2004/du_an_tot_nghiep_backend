@@ -95,6 +95,9 @@ class PromotionController extends Controller
             "gia_tri_giam_toi_da.numeric" => "Giá trị giảm tối đa phải là số",
             "gia_tri_giam_toi_da.min" => "Giá trị giảm tối đa phải lớn hơn hoặc bằng 0"
         ]);
+        if ($validatedData['discount_type'] == 'percentage' && $validatedData['discount_value'] > 100) {
+            return redirect()->back()->withErrors(['discount_value' => 'Giá trị giảm giá không được vượt quá 100% khi loại giảm giá là phần trăm.'])->withInput();
+        }
         Promotion::create($validatedData);
         return redirect()->route('admin.promotions')->with('success', 'Promotion added successfully.');
     }
@@ -120,7 +123,7 @@ class PromotionController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $request->validate([
+       $validatedData = $request->validate([
             "code" => ["required", Rule::unique("promotions")->ignore($id)],
             "discount_value" => ["required", "numeric"],
             'discount_type' => 'required|in:percentage,fixed',
@@ -149,6 +152,9 @@ class PromotionController extends Controller
     "gia_tri_giam_toi_da.numeric" => "Giá trị giảm tối đa phải là số",
     "gia_tri_giam_toi_da.min" => "Giá trị giảm tối đa phải lớn hơn hoặc bằng 0"
         ]);
+        if ($validatedData['discount_type'] == 'percentage' && $validatedData['discount_value'] > 100) {
+            return redirect()->back()->withErrors(['discount_value' => 'Giá trị giảm giá không được vượt quá 100% khi loại giảm giá là phần trăm.'])->withInput();
+        }
         $promotion = $this->promotions->getPromotionById($id);
         $data = $request->only([
             "code",

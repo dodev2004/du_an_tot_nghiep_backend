@@ -30,11 +30,13 @@
                     <label for="discount_type">Loại giảm giá <span style="color: red;">*</span></label>
                     <select id="discount_type" name="discount_type" class="form-control" required onchange="handleDiscountTypeChange()">
                         <option value="fixed" 
-                            {{ old('discount_type', isset($promotion) && $promotion->discount_type == 'fixed' ? 'selected' : '') }}>
-                            Cố định</option>
+                            {{ old('discount_type', isset($promotion) ? $promotion->discount_type : '') == 'fixed' ? 'selected' : '' }}>
+                            Cố định
+                        </option>
                         <option value="percentage"
-                            {{ old('discount_type', isset($promotion) && $promotion->discount_type == 'percentage' ? 'selected' : '') }}>
-                            Phần trăm</option>
+                            {{ old('discount_type', isset($promotion) ? $promotion->discount_type : '') == 'percentage' ? 'selected' : '' }}>
+                            Phần trăm
+                        </option>
                     </select>
                     @if($errors->has('discount_type'))
                     <p class="text-danger">{{ $errors->first('discount_type') }}</p>
@@ -44,7 +46,7 @@
                 <div class="form-group col-md-6">
                     <label for="discount_value">Giá trị giảm <span style="color: red;">*</span></label>
                     <input type="number" id="discount_value" name="discount_value" class="form-control"
-                        value="{{ old('discount_value', isset($promotion) ? (int)$promotion->discount_value : '') }}"
+                        value="{{ (int)old('discount_value', isset($promotion) ? $promotion->discount_value : '') }}"
                         required>
                     @if($errors->has('discount_value'))
                     <p class="text-danger">{{ $errors->first('discount_value') }}</p>
