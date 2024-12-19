@@ -8,6 +8,7 @@
                 <th>Loại hàng</th>
                 <th>Ngày</th>
                 <th>Phản hồi khách hàng</th>
+                <th>Trạng thái</th>
                 <th>Hoạt động</th>
             </tr>
         </thead>
@@ -51,6 +52,16 @@
                     @else
                         <p>Chưa có phản hồi nào.</p>
                     @endif
+                </td>
+                <td class="text-center">
+                    <form name="form_status" action="">
+                        @csrf
+                        <input type="hidden" name="attribute" value="status">
+                        <input type="hidden" name="table" value="{{$table}}">
+                        <input type="checkbox" data-id="{{ $review->id }}" @if ($review['status']==1) checked @endif
+                            class="js-switch js-switch_{{ $review->id }}" style="display: none;" data-switchery="true">
+                    </form>
+
                 </td>
                 <td>
                     <center><a href="{{ route('product_comment.create', ['id' => $review->id]) }}" class="btn btn-sm btn-info"><i class="fa-solid fa-comment-dots"></i></a></center>
