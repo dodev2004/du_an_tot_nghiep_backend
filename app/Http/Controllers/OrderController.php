@@ -177,7 +177,7 @@ class OrderController extends Controller
                     }
                     foreach ($order->orderItems as $item) {
                         if($type_cancel){
-                            if($type_cancel != 1){
+                            if($type_cancel != 1 ){
                                 if ($item->product_variants_id) {
                                     $variant = ProductVariant::find($item->product_variants_id);
                                     if ($variant) {
@@ -194,6 +194,22 @@ class OrderController extends Controller
                                 }
                             }
                             
+                        }
+                        else {
+                            if ($item->product_variants_id) {
+                                $variant = ProductVariant::find($item->product_variants_id);
+                                if ($variant) {
+                                   
+                                    $variant->stock += $item->quantity;
+                                    $variant->save();
+                                }
+                            } else {
+                                $product = Product::find($item->product_id);
+                                if ($product) {
+                                    $product->stock += $item->quantity;
+                                    $product->save();
+                                }
+                            }
                         }
                        
                     }
