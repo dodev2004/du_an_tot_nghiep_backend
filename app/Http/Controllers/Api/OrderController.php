@@ -292,9 +292,9 @@ class OrderController extends Controller
                         $promotion->save();
                     } else {
                         return response()->json([
-                            'success' => false,
-                            'message' => 'Mã giảm giá không hợp lệ.'
+                            'error' => 'Mã giảm giá không hợp lệ hoặc đã hết lượt sử dụng.',
                         ], 400);
+                       
                     }
                 }
             }
