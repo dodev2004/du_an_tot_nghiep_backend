@@ -267,56 +267,20 @@ class OrderController extends Controller
                         if ($variant && $variant->stock >= $cart->quantity) {
                             $variant->stock -= $cart->quantity;
                             $variant->save();
-                        } else {
-                            throw new \Exception('Không đủ tồn kho cho biến thể sản phẩm.');
-                        }
+                        } 
                     } else {
                         // Trừ tồn kho của sản phẩm
                         $product = $cart->product;
                         if ($product && $product->stock >= $cart->quantity) {
                             $product->stock -= $cart->quantity;
                             $product->save();
-                        } else {
-                            throw new \Exception('Không đủ tồn kho cho sản phẩm.');
                         }
                     }
                     // Xóa mục giỏ hàng
                     $cart->delete();
                 }
             }
-            if ($validatedData['total_amount'] < 1000000) {
-                return response()->json([
-                    'error' => 'Đơn hàng chưa đủ điều kiện để sử dụng mã giảm giá.',
-                ], 400);
-            } elseif ($validatedData['total_amount'] >= 1000000 && $validatedData['total_amount'] < 5000000) {
-                if (!empty($validatedData['discount_amount']) && $validatedData['discount_amount'] > 100000) {
-                    return response()->json([
-                        'error' => 'Đơn hàng chưa đủ điều kiện để sử dụng mã giảm giá.',
-                    ], 400);
-                }
-            } elseif ($validatedData['total_amount'] >= 5000000) {
-                if (!empty($validatedData['discount_code'])) {
-                    $promotion = Promotion::where('code', $validatedData['discount_code'])->first();
-                    if (!$promotion) {
-                        return response()->json([
-                            'error' => 'Mã giảm giá không hợp lệ.',
-                        ], 400);
-                    }
-                }
-            }
-            if (!empty($validatedData['discount_code'])) {
-                $promotion = Promotion::where('code', $validatedData['discount_code'])->first();
-                if ($promotion && $promotion->max_uses > $promotion->quantity) {
-                $order->discount_amount = $promotion->discount_value;
-                    $order->final_amount = $order->total_amount - $order->discount_amount;
-                    $order->save();
-                    $promotion->quantity += 1;
-                    $promotion->used_count += 1;
-                    $promotion->save();
-                } else {
-                    throw new \Exception('Mã giảm giá không hợp lệ.');
-                }
-            }
+        
             $order->final_amount = $order->total_amount - $order->discount_amount + $order->shipping_fee;
             $order->save();
             DB::commit();
