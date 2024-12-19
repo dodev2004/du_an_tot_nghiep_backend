@@ -250,6 +250,7 @@ class OrderController extends Controller
                 }
             }
         }
+        dd($validatedData);
         DB::beginTransaction();
         try {
             // Tạo đơn hàng mới
@@ -284,9 +285,6 @@ class OrderController extends Controller
                 if (!empty($validatedData['discount_code'])) {
                     $promotion = Promotion::where('code', $validatedData['discount_code'])->first();
                     if ($promotion && $promotion->max_uses > $promotion->quantity) {
-                    $order->discount_amount = $promotion->discount_value;
-                        $order->final_amount = $order->total_amount - $order->discount_amount;
-                        $order->save();
                         $promotion->quantity += 1;
                         $promotion->used_count += 1;
                         $promotion->save();
