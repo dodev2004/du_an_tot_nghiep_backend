@@ -291,7 +291,10 @@ class OrderController extends Controller
                         $promotion->used_count += 1;
                         $promotion->save();
                     } else {
-                        throw new \Exception('Mã giảm giá không hợp lệ.');
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Mã giảm giá không hợp lệ.'
+                        ], 400);
                     }
                 }
             }
