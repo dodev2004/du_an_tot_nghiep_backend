@@ -84,14 +84,14 @@ Route::middleware("auth")->prefix("/admin")->group(function () {
         Route::post("{id}/restore", [UserController::class, "restore"])->name("admin.users.restore")->middleware('checkPermission:restoreUser'); //khôi phục
         Route::get("/trash", [UserController::class, "trash"])->name("admin.users.trash")->middleware('checkPermission:viewTrashUser'); // Trang thùng rác
     });
-    Route::prefix("user_catelogue")->group(function () {
-        Route::get("list", [UserCatelogueController::class, "listGroupMember"])->name("admin.user_catelogue")->middleware('checkPermission:viewUserCatelogue');
-        Route::get("create", [UserCatelogueController::class, "create"])->name("admin.user_catelogue.create")->middleware('checkPermission:createUserCatelogue');
-        Route::post("user_catelogueStore", [UserCatelogueController::class, "store"])->name("admin.user_catelogue.store")->middleware('checkPermission:createUserCatelogue');
-        Route::get("{id}/edit", [UserCatelogueController::class, "edit"])->name("admin.user_catelogue.edit")->middleware('checkPermission:editUserCatelogue');
-        Route::put("{id}/update", [UserCatelogueController::class, "UserCatelogueUpdate"])->name("admin.user_catelogue.update")->middleware('checkPermission:editUserCatelogue');
-        Route::delete("/delete", [UserCatelogueController::class, "UserCatelogueDelete"])->name("admin.user_catelogue.delete")->middleware('checkPermission:deleteUserCatelogue');
-    });
+    // Route::prefix("user_catelogue")->group(function () {
+    //     Route::get("list", [UserCatelogueController::class, "listGroupMember"])->name("admin.user_catelogue")->middleware('checkPermission:viewUserCatelogue');
+    //     Route::get("create", [UserCatelogueController::class, "create"])->name("admin.user_catelogue.create")->middleware('checkPermission:createUserCatelogue');
+    //     Route::post("user_catelogueStore", [UserCatelogueController::class, "store"])->name("admin.user_catelogue.store")->middleware('checkPermission:createUserCatelogue');
+    //     Route::get("{id}/edit", [UserCatelogueController::class, "edit"])->name("admin.user_catelogue.edit")->middleware('checkPermission:editUserCatelogue');
+    //     Route::put("{id}/update", [UserCatelogueController::class, "UserCatelogueUpdate"])->name("admin.user_catelogue.update")->middleware('checkPermission:editUserCatelogue');
+    //     Route::delete("/delete", [UserCatelogueController::class, "UserCatelogueDelete"])->name("admin.user_catelogue.delete")->middleware('checkPermission:deleteUserCatelogue');
+    // });
     Route::prefix("post-catelogue")->group(function () {
         Route::get("list", [PostCatelogueController::class, "index"])->name("admin.post-catelogue")->middleware('checkPermission:viewPostCatelogue');
         Route::get("create", [PostCatelogueController::class, "create"])->name("admin.post-catelogue.create")->middleware('checkPermission:createPostCatelogue');
