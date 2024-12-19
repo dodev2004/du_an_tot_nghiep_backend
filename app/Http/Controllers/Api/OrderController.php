@@ -233,7 +233,7 @@ class OrderController extends Controller
             'order_items.*.variant' => 'nullable|json',
         ]);
        
-        if ($validatedData['payment_method_id'] !==3) {
+        if ($validatedData['payment_method_id'] ==3) {
         
             foreach ($validatedData['order_items'] as $item) {
                 $stock = null;
