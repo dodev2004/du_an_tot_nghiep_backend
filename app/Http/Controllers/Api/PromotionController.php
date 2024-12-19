@@ -13,7 +13,7 @@ class PromotionController extends Controller
     public function index()
     {
         // Lấy danh sách tất cả sản phẩm
-        $promotion = Promotion::all();
+        $promotion = Promotion::query()->where("status","active")->get();
         return response()->json($promotion);
     }
     public function show($id)
